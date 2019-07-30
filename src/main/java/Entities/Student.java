@@ -4,8 +4,12 @@ package Entities;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @Entity
 @DynamicUpdate
@@ -37,7 +41,7 @@ public class Student {
     private Date subscriptionDate;
 
     @Column(name="discount")
-    private long discount;
+    private long discount=0;
 
     @Column(name="picture")
     @Lob
@@ -46,16 +50,31 @@ public class Student {
     public Student() {
     }
 
+    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long disocunt,  byte[] picture) {
+        this.name = name;
+        this.familyname = familyname;
+        this.phoneNumber1 = phoneNumber1;
+        this.phoneNumber2 = phoneNumber2;
+        this.type = type;
+        /*SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        Date parsedSubscriptionDate=null;
+        try{ parsedSubscriptionDate = format.parse(subscriptionDate);}catch(Exception e){ this.formatDate(); e.printStackTrace(); }*/
+
+        this.subscriptionDate = subscriptionDate(subscriptionDate);
+        if(disocunt!=0) this.discount=disocunt;
+        this.picture = picture;
+    }
     public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate,  byte[] picture) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber1 = phoneNumber1;
         this.phoneNumber2 = phoneNumber2;
         this.type = type;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        /*SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         Date parsedSubscriptionDate=null;
-        try{ parsedSubscriptionDate = format.parse(subscriptionDate);}catch(Exception e){ this.formatDate(); e.printStackTrace(); }
-        this.subscriptionDate = parsedSubscriptionDate;
+        try{ parsedSubscriptionDate = format.parse(subscriptionDate);}catch(Exception e){ this.formatDate(); e.printStackTrace(); }*/
+
+        this.subscriptionDate = subscriptionDate(subscriptionDate);
 
         this.picture = picture;
     }
@@ -67,6 +86,7 @@ public class Student {
         this.phoneNumber2 = newStudent.getPhoneNumber2();
         this.type = newStudent.getType();
         this.subscriptionDate = newStudent.getSubscriptionDate();
+        this.discount=newStudent.getDiscount();
         this.picture = newStudent.getPicture();
     }
 
@@ -153,7 +173,42 @@ public class Student {
             e.printStackTrace();
         }
 
+    }
 
+    public Date subscriptionDate(String date){
+        Map<Pattern, DateFormat> dateFormatPatterns = new HashMap<Pattern, DateFormat>();
+        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})-((0|1|2)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("MM-dd-yyyy"));
+        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})/((0|1|2)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("MM/dd/yyyy"));
+
+        dateFormatPatterns.put(Pattern.compile("^((0|1|2)\\d{1})-((0|1)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("dd-MM-yyyy"));
+        dateFormatPatterns.put(Pattern.compile("^((0|1|2)\\d{1})/((0|1)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("dd/MM/yyyy"));
+
+        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy-MM-dd"));
+        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})/((0|1)\\d{1})/((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy/MM/dd"));
+
+        Date finalDate=null;
+        try{
+            DateFormat finalFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+            for (Pattern pattern : dateFormatPatterns.keySet()) {
+                if (pattern.matcher(date).matches()) {
+                    Date dateFormatted = dateFormatPatterns.get(pattern).parse(date);
+
+                    finalDate  = finalFormat.parse(finalFormat.format(dateFormatted));
+                    System.out.println(dateFormatted);
+
+
+                }
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+
+        return finalDate;
 
     }
+
 }

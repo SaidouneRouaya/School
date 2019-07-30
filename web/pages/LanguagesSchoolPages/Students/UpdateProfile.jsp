@@ -150,26 +150,33 @@
                                 <div class="form-group">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="payee" x
-                                            <c:if test="${studentProfile.type='payee'}">
+                                            <input type="radio" name="r3" value="payee"  onclick="enable()"
+                                            <c:if test="${studentProfile.type eq 'payee'}">
                                                    checked
-                                                   ONCLICK="enable()"
+
                                             </c:if> >Payee
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="payee"
-                                            <c:if test="${studentProfile.type='free'}">
-                                                   checked ONCLICK="disable()"
-                                            </c:if>>Free
+                                            <input type="radio" name="r3" value="free" onclick="disable()"
+                                            <c:if test="${studentProfile.type eq 'free'}">
+                                                   checked
+
+
+                                            </c:if> >Free
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Discount</label>
-                                    <input type="text" name="discount" class="form-control" disabled placeholder="<c:out value ="${studentProfile.discount}"/>">
+                                    <input type="text" id="discount" name="discount"
+                                           class="form-control"  placeholder=""
+                                           value="<c:out value ="${studentProfile.discount}"/>"
+                                    <c:if test="${studentProfile.type eq 'free'}">disabled</c:if>
+                                    >
+
                                 </div>
 
 

@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,18 +81,28 @@ public class StudentsController {
         System.out.println(param.get("name"));
         System.out.println(param.get("familyName"));
         System.out.println(Integer.parseInt(param.get("phoneNumber1")));
-        System.out.println(param.get("phoneNumber1"));
+
         System.out.println(Integer.parseInt(param.get("phoneNumber2")));
-        System.out.println(param.get("phoneNumber2"));
+
+        System.out.println(param.get("discount"));
         System.out.println(param.get("r3"));
         System.out.println(param.get("subscriptionDate"));
 
         try{
-           student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
-                    Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
+
+            if(param.get("discount")!=null){
+                student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
+                        Long.parseLong(param.get("discount")), param.get("picture").getBytes());
+
+            }else
+            {
+                student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
+            }
 
 
-            studentDAO.updateStudent(Integer.parseInt(query), student);
+           studentDAO.updateStudent(Integer.parseInt(query), student);
 
 
         }catch(Exception ex){
@@ -111,8 +123,16 @@ public class StudentsController {
 
 
         try{
-            student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
-                    Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
+            if(param.get("discount")!=null){
+                student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
+                        Long.parseLong(param.get("discount")), param.get("picture").getBytes());
+
+            }else
+            {
+                student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
+            }
 
             studentDAO.addStudent(student);
 

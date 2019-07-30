@@ -165,7 +165,7 @@
                                     </tr>
                                     <tr>
                                         <td>Discount</td>
-                                        <td><span class="badge bg-green">
+                                        <td><span >
                                           <c:choose>
                                               <c:when test="${empty studentProfile.discount}">
                                                   No discount
