@@ -1,13 +1,14 @@
 package Entities;
 
 import javax.persistence.*;
-
+import java.io.Serializable;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "module")
 
-public class Module {
+public class Module implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_module")
@@ -18,6 +19,19 @@ public class Module {
 
     @Column(name = "fees")
     private long fees;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "module")
+    private Set<Group> groupsSet;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "module_session",
+            joinColumns = {@JoinColumn(name = "id_module") },
+            inverseJoinColumns = { @JoinColumn(name = "id_session") })
+    private Set<Session> sessionsSet;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "modulesSet")
+    private Set<Student>  studentsSet ;
 
     public Module() {
     }

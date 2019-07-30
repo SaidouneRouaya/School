@@ -2,13 +2,15 @@ package Entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Table(name = "group")
+@Table(name = "teachers")
 
-public class Teacher {
+public class Teacher  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_teacher")
@@ -33,6 +35,16 @@ public class Teacher {
     @Column(name="picture")
     @Lob
     private byte[] picture;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    private Set<Group> groupsSet;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "teacher_payment",
+            joinColumns = {@JoinColumn(name = "id_teacher") },
+            inverseJoinColumns = { @JoinColumn(name = "id_payment") })
+    private Set<PaymentTeacher> paymentsSet;
+
 
     public Teacher() {
     }

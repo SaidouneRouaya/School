@@ -2,12 +2,15 @@ package Entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "group")
-public class Group {
+public class Group implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +23,22 @@ public class Group {
     @Column(name="start_date")
     @Temporal(TemporalType.DATE)
     private Date startDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_module", nullable=false)
+    private Module module;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_teacher", nullable=false)
+    private Teacher teacher;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+    private Set<Session> sessionsList;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupsSet")
+    private Set<Student>  studentsSet ;
+
 
     public Group() {
     }

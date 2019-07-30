@@ -2,13 +2,14 @@ package Entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @Table(name = "staff")
 
-public class Staff {
+public class Staff  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_staff")

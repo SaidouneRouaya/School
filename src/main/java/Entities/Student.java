@@ -4,18 +4,20 @@ package Entities;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @Entity
 @DynamicUpdate
 @Table(name = "student")
 
-public class Student {
+public class Student  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_student")
@@ -46,6 +48,24 @@ public class Student {
     @Column(name="picture")
     @Lob
     private byte[] picture;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "student_group",
+            joinColumns = {@JoinColumn(name = "id_student") },
+            inverseJoinColumns = { @JoinColumn(name = "id_group") })
+    private Set<Group> groupsSet;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "student_module",
+            joinColumns = {@JoinColumn(name = "id_student") },
+            inverseJoinColumns = { @JoinColumn(name = "id_module") })
+    private Set<Module> modulesSet;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentPay")
+    private Set<PaymentStudent> paymentSet;
+
 
     public Student() {
     }
