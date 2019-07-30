@@ -78,16 +78,6 @@ public class StudentsController {
         String error = "";
         Student student=new Student();
 
-        System.out.println(param.get("name"));
-        System.out.println(param.get("familyName"));
-        System.out.println(Integer.parseInt(param.get("phoneNumber1")));
-
-        System.out.println(Integer.parseInt(param.get("phoneNumber2")));
-
-        System.out.println(param.get("discount"));
-        System.out.println(param.get("r3"));
-        System.out.println(param.get("subscriptionDate"));
-
         try{
 
             if(param.get("discount")!=null){
@@ -113,6 +103,16 @@ public class StudentsController {
 
         model.addAttribute("error", error);
         return "redirect:Profile.j?query="+query+"";
+    }
+    @RequestMapping("/deleteStudent")
+    public String deleteStudent(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+
+        String error = "";
+
+           studentDAO.deleteStudent(Integer.parseInt(query));
+
+        model.addAttribute("error", error);
+        return "redirect:Students.j";
     }
 
     /** Operation on student **/

@@ -135,7 +135,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
 
-                            <form>
+
                                 <table class="table table-striped">
                                     <tbody>
 
@@ -183,12 +183,13 @@
                                 </table>
 
                                 <div>
-                                    <a href="#" class="btn  bg-red-gradient pull-left">Delete</a>
+                                 <!--   <button type="submit" class="btn  bg-red-gradient pull-left">Delete</button>-->
+                                    <button type="submit" class="btn bg-danger-gradient pull-right"
+                                            data-toggle="modal" data-target="#modal-default" >Delete</button>
 
                                 </div>
 
 
-                            </form>
                         </div>
                         <!-- /.box-body -->
 
@@ -207,8 +208,6 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-
-                            <form>
                                 <table class="table table-striped">
                                     <tbody>
 
@@ -252,7 +251,7 @@
                                     </tbody>
                                 </table>
 
-                            </form>
+
                         </div>
                         <!-- /.box-body -->
 
@@ -262,8 +261,29 @@
             </div>
             <!-- /.row -->
             <!-- The Modal -->
-
-
+            <form role="form" method="post" action="deleteStudent.j?query=${studentProfile.id}">
+                <div class="modal fade" id="modal-default">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Warning </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you really want to delete this student ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-danger  pull-right">Delete anyway</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </form>
 
 
         </section>
