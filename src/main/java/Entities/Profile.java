@@ -2,9 +2,11 @@ package Entities;
 
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 
 @Entity
+@Transactional
 @Table(name = "profile")
 public class Profile  implements Serializable {
 

@@ -3,6 +3,7 @@ package DAO;
 import Entities.Student;
 
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -32,7 +33,7 @@ public class StudentImpl implements StudentDAO {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
     }
 
@@ -44,18 +45,23 @@ public class StudentImpl implements StudentDAO {
         try {
             tx = session.beginTransaction();
             students = session.createQuery("from Student ").list();
+            for (Student student: students){
+
+                Hibernate.initialize(student.getGroupsSet());
+                Hibernate.initialize(student.getModulesSet());
+                Hibernate.initialize(student.getPaymentSet());
+
+            }
+
 
             tx.commit();
 
-          /*  for (Student student:students){
-                student.formatDate();
-            }*/
 
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+          session.close();
         }
         return students;
     }
@@ -98,7 +104,7 @@ public class StudentImpl implements StudentDAO {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+         session.close();
         }
 
     }

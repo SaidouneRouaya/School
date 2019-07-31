@@ -1,7 +1,9 @@
 package DAO;
 
+import Entities.Module;
 import Entities.Profile;
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,14 +41,13 @@ public class ProfileImpl implements ProfileDAO {
         try {
             tx= session.beginTransaction();
             profiles= session.createQuery("from Profile ").list();
-
             tx.commit();
 
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
         return profiles;
     }
@@ -66,7 +67,7 @@ public class ProfileImpl implements ProfileDAO {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
     }
 
@@ -87,7 +88,7 @@ public class ProfileImpl implements ProfileDAO {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
 
     }

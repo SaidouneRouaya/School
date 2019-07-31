@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -92,38 +94,30 @@
                                 <th>Teacher</th>
                                 <th>Number of lessons</th>
                                 <th>Fees</th>
-                                <th>??</th>
+
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>English</td>
-                                <td>X</td>
-                                <td>9</td>
-                                <td>2000</td>
-                                <td>_</td>
-                            </tr>
-                            <tr>
-                                <td>French</td>
-                                <td>Y</td>
-                                <td>10</td>
-                                <td>2000</td>
-                                <td>_</td>
-                            </tr>
-                            <tr>
-                                <td>Arabic</td>
-                                <td>W</td>
-                                <td>8</td>
-                                <td>2000</td>
-                                <td>_</td>
-                            </tr>
-                            <tr>
-                                <td>Spanish</td>
-                                <td>Z</td>
-                                <td>8</td>
-                                <td>2000</td>
-                                <td>_</td>
-                            </tr>
+
+                            <tg:forEach items="${modulesList}" var="item">
+                                <tr>
+
+                                    <!-- nom du type de la stat  -->
+                                    <td><c:out value="${item.name}"/></td>
+
+                                    <td><tg:forEach items="${teachersList}" var="teachers">
+                                        <tg:forEach items="${teachers}" var="teacher">
+                                            <c:out value="${teacher.name}"/>, <c:out value="${teacher.familyname}"/>
+                                        </tg:forEach>
+                                    </tg:forEach></td>
+                                    <td><c:out value="${item.numberSessions}"/></td>
+                                    <td><c:out value="${item.fees}"/></td>
+
+                                </tr>
+
+                            </tg:forEach>
+
+
 
                             </tbody>
                             <tfoot>
@@ -132,7 +126,7 @@
                                 <th>Teacher</th>
                                 <th>Number of lessons</th>
                                 <th>Fees</th>
-                                <th>??</th>
+
                             </tr>
                             </tfoot>
                         </table>

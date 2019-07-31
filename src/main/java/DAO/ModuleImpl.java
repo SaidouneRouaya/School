@@ -1,6 +1,7 @@
 package DAO;
 
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import Entities.Module;
 import org.hibernate.Session;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ModuleImpl {
+public class ModuleImpl implements  ModuleDAO{
+
+    public void init() {
+    }
 
     public void addModule(Module module) {
 
@@ -38,6 +42,16 @@ public class ModuleImpl {
         try {
             tx = session.beginTransaction();
             modules = session.createQuery("from Module ").list();
+
+            for (Module module:modules){
+
+                Hibernate.initialize(module.getModuleTeachersSet());
+                Hibernate.initialize(module.getSessionsSet());
+                Hibernate.initialize(module.getStudentsSet());
+                // Hibernate.initialize(module.getGroupsSet());
+
+            }
+
 
             tx.commit();
 

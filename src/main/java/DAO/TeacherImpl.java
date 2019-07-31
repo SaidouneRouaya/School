@@ -2,6 +2,7 @@ package DAO;
 
 import Entities.Teacher;
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -10,7 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class TeacherImpl {
+public class TeacherImpl implements TeacherDAO{
+
+    public void init(){
+
+    }
+
     public void addTeacher(Teacher teacher) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -25,7 +31,7 @@ public class TeacherImpl {
             e.printStackTrace();
 
         } finally {
-            session.close();
+            //session.close();
         }
     }
 
@@ -37,6 +43,12 @@ public class TeacherImpl {
         try {
             tx = session.beginTransaction();
             teachers = session.createQuery("from Teacher ").list();
+            for (Teacher teacher: teachers){
+
+                Hibernate.initialize(teacher.getGroupsSet());
+                Hibernate.initialize(teacher.getPaymentsSet());
+                Hibernate.initialize(teacher.getTeacherModulesSet());
+            }
 
             tx.commit();
 
@@ -44,7 +56,7 @@ public class TeacherImpl {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
         return teachers;
     }
@@ -64,7 +76,7 @@ public class TeacherImpl {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
     }
 
@@ -86,7 +98,7 @@ public class TeacherImpl {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            session.close();
+            //session.close();
         }
 
     }

@@ -10,4 +10,14 @@
    <!-- <bean class="DAO.PatientImplem" id="iPatient" init-method="init" ></bean>
 -->
     <bean class="DAO.StudentImpl" id="iStudent" init-method="init" />
+    <bean class="DAO.ModuleImpl" id="iModule" init-method="init" />
+    <bean class="DAO.PaymentTeacherImpl" id="iPaymentTeacher" init-method="init" />
+    <bean class="DAO.PaymentStaffImpl" id="iPaymentStaff" init-method="init" />
+    <bean class="DAO.PaymentStudentImpl" id="iPaymentSt" init-method="init" />
+    <bean class="DAO.GroupImpl" id="iGroup" init-method="init" />
+    <bean class="DAO.SessionImpl" id="iSession" init-method="init" />
+    <bean class="DAO.StaffImpl" id="iStaff" init-method="init" />
+    <bean class="DAO.TeacherImpl" id="iTeacher" init-method="init" />
+    <bean class="DAO.ProfileImpl" id="iProfile" init-method="init" />
+
 </beans>

@@ -4,6 +4,7 @@ package Entities;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Entity
 @DynamicUpdate
+@Transactional
 @Table(name = "student")
 
 public class Student  implements Serializable {
@@ -108,6 +110,30 @@ public class Student  implements Serializable {
         this.subscriptionDate = newStudent.getSubscriptionDate();
         this.discount=newStudent.getDiscount();
         this.picture = newStudent.getPicture();
+    }
+
+    public Set<Group> getGroupsSet() {
+        return groupsSet;
+    }
+
+    public void setGroupsSet(Set<Group> groupsSet) {
+        this.groupsSet = groupsSet;
+    }
+
+    public Set<Module> getModulesSet() {
+        return modulesSet;
+    }
+
+    public void setModulesSet(Set<Module> modulesSet) {
+        this.modulesSet = modulesSet;
+    }
+
+    public Set<PaymentStudent> getPaymentSet() {
+        return paymentSet;
+    }
+
+    public void setPaymentSet(Set<PaymentStudent> paymentSet) {
+        this.paymentSet = paymentSet;
     }
 
     public int getId() {

@@ -1,11 +1,13 @@
 package Entities;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Transactional
 @Table(name = "payment_teacher")
 public class PaymentTeacher implements Serializable {
 

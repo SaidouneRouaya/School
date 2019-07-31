@@ -2,6 +2,7 @@ package DAO;
 
 import Entities.Staff;
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -10,7 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class StaffImpl {
+public class StaffImpl implements StaffDAO {
+
+    public void init(){
+
+    }
     public void addStaff(Staff staff) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -26,7 +31,7 @@ public class StaffImpl {
 
         } finally {
             session.close();
-        }
+            }
     }
 
     public List<Staff> getAllStaffs() {
@@ -45,7 +50,8 @@ public class StaffImpl {
             e.printStackTrace();
         } finally {
             session.close();
-        }
+             }
+
         return staffs;
     }
 

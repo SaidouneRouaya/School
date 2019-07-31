@@ -2,6 +2,7 @@ package Entities;
 
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Transactional
 @Table(name = "session")
 
 public class Session  implements Serializable {
@@ -52,6 +54,22 @@ public class Session  implements Serializable {
 
         this.timing = parsedTime;
         this.date = parsedDate;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Set<Module> getModulesSet() {
+        return modulesSet;
+    }
+
+    public void setModulesSet(Set<Module> modulesSet) {
+        this.modulesSet = modulesSet;
     }
 
     public int getId() {

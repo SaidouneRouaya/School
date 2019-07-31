@@ -2,6 +2,7 @@ package Entities;
 
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+
 @Table(name = "group")
 public class Group implements Serializable {
 
@@ -74,5 +76,37 @@ public class Group implements Serializable {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Set<Session> getSessionsList() {
+        return sessionsList;
+    }
+
+    public void setSessionsList(Set<Session> sessionsList) {
+        this.sessionsList = sessionsList;
+    }
+
+    public Set<Student> getStudentsSet() {
+        return studentsSet;
+    }
+
+    public void setStudentsSet(Set<Student> studentsSet) {
+        this.studentsSet = studentsSet;
     }
 }

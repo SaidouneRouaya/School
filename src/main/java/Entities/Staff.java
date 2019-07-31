@@ -2,11 +2,13 @@ package Entities;
 
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
+@Transactional
 @Table(name = "staff")
 
 public class Staff  implements Serializable {

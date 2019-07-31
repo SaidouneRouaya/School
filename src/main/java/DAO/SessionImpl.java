@@ -1,7 +1,9 @@
 package DAO;
 
+import Entities.Module;
 import Entities.Session;
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import org.hibernate.Transaction;
@@ -10,7 +12,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class SessionImpl {
+public class SessionImpl implements SessionDAO{
+
+    public void init(){
+
+    }
+
     public void addSession(Session sessionn) {
 
         org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -18,6 +25,7 @@ public class SessionImpl {
         try {
             tx = session.beginTransaction();
             session.save(sessionn);
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -37,6 +45,10 @@ public class SessionImpl {
         try {
             tx = session.beginTransaction();
             sessions = session.createQuery("from Session ").list();
+            for (Session session1:sessions){
+
+                Hibernate.initialize(session1.getModulesSet());
+            }
 
             tx.commit();
 

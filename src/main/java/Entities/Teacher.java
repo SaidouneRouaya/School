@@ -1,13 +1,17 @@
 package Entities;
 
 
+import Util.utilities;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Transactional
 @Table(name = "teachers")
 
 public class Teacher  implements Serializable {
@@ -45,6 +49,12 @@ public class Teacher  implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "id_payment") })
     private Set<PaymentTeacher> paymentsSet;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "teacher_module",
+            joinColumns = {@JoinColumn(name = "id_teacher") },
+            inverseJoinColumns = { @JoinColumn(name = "id_module") })
+    private Set<Module> teacherModulesSet;
+
 
     public Teacher() {
     }
@@ -54,13 +64,47 @@ public class Teacher  implements Serializable {
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
 
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        Date parsedEmploymentDate=null;
-        try{ parsedEmploymentDate = format.parse(employmentDate);}catch(Exception e){ e.printStackTrace();}
-        this.employmentDate = parsedEmploymentDate;
+
+        this.employmentDate = utilities.formatDate(employmentDate);
 
         this.salary = salary;
         this.picture = picture;
+    }
+
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, long salary, byte[] picture, Set<Group> groupsSet, Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
+        this.name = name;
+        this.familyname = familyname;
+        this.phoneNumber = phoneNumber;
+        this.employmentDate = utilities.formatDate(employmentDate);
+        this.salary = salary;
+        this.picture = picture;
+        this.groupsSet = groupsSet;
+        this.paymentsSet = paymentsSet;
+        this.teacherModulesSet = teacherModulesSet;
+    }
+
+    public Set<Group> getGroupsSet() {
+        return groupsSet;
+    }
+
+    public void setGroupsSet(Set<Group> groupsSet) {
+        this.groupsSet = groupsSet;
+    }
+
+    public Set<PaymentTeacher> getPaymentsSet() {
+        return paymentsSet;
+    }
+
+    public void setPaymentsSet(Set<PaymentTeacher> paymentsSet) {
+        this.paymentsSet = paymentsSet;
+    }
+
+    public Set<Module> getTeacherModulesSet() {
+        return teacherModulesSet;
+    }
+
+    public void setTeacherModulesSet(Set<Module> teacherModulesSet) {
+        this.teacherModulesSet = teacherModulesSet;
     }
 
     public int getId() {

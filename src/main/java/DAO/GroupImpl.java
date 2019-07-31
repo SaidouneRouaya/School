@@ -3,6 +3,7 @@ package DAO;
 import Entities.Group;
 import Entities.Student;
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GroupImpl {
+public class GroupImpl implements GroupDAO{
+    public void init(){
+
+    }
 
     public void addGroup(Group group) {
 
@@ -39,6 +43,12 @@ public class GroupImpl {
         try {
             tx = session.beginTransaction();
             groups = session.createQuery("from Group ").list();
+            for (Group group:groups){
+
+                Hibernate.initialize(group.getSessionsList());
+                Hibernate.initialize(group.getStudentsSet());
+
+            }
 
             tx.commit();
 
