@@ -1,7 +1,10 @@
 package Entities;
 
 
+import Util.utilities;
+
 import javax.persistence.*;
+import javax.swing.text.Utilities;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -48,12 +51,18 @@ public class Staff  implements Serializable {
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.job = job;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        Date parsedEmploymentDate=null;
-        try{ parsedEmploymentDate = format.parse(employmentDate);}catch(Exception e){ e.printStackTrace();}
-        this.employmentDate = parsedEmploymentDate;
+        this.employmentDate = utilities.formatDate(employmentDate);
         this.salary = salary;
         this.picture = picture;
+    }
+    public void updateStaff(Staff newStaff ) {
+        this.name = newStaff.getName();
+        this.familyname = newStaff.getFamilyname();
+        this.employmentDate= newStaff.getEmploymentDate();
+        this.phoneNumber= newStaff.getPhoneNumber();
+        this.salary= newStaff.getSalary();
+        this.job= newStaff.getJob();
+        this.picture = newStaff.getPicture();
     }
 
     public int getId() {

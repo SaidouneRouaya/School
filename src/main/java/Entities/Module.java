@@ -49,7 +49,7 @@ public class Module implements Serializable {
         this.fees = fees;
     }
 
-    public Module(String name, long fees, Set<Group> groupsSet, Set<Session> sessionsSet, Set<Student> studentsSet) {
+    public Module(String name, long fees, Set<Session> sessionsSet, Set<Student> studentsSet) {
         this.name = name;
         this.fees = fees;
        // this.groupsSet = groupsSet;
@@ -57,7 +57,7 @@ public class Module implements Serializable {
         this.studentsSet = studentsSet;
     }
 
-    public Module(String name, int numberSessions, long fees, Set<Group> groupsSet, Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
+    public Module(String name, int numberSessions, long fees,  Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
         this.name = name;
         this.numberSessions = numberSessions;
         this.fees = fees;

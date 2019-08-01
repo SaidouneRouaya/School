@@ -35,6 +35,59 @@ public class PaymentTeacher implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "paymentsSet")
     private Set<Teacher> teachersSet ;
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public Set<Teacher> getTeachersSet() {
+        return teachersSet;
+    }
+
+    public void setTeachersSet(Set<Teacher> teachersSet) {
+        this.teachersSet = teachersSet;
+    }
 }

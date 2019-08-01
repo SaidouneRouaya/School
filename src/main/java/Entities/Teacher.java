@@ -40,8 +40,8 @@ public class Teacher  implements Serializable {
     @Lob
     private byte[] picture;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
-    private Set<Group> groupsSet;
+   /* @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    private Set<Group> groupsSet;*/
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "teacher_payment",
@@ -64,32 +64,34 @@ public class Teacher  implements Serializable {
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
 
-
         this.employmentDate = utilities.formatDate(employmentDate);
 
         this.salary = salary;
         this.picture = picture;
     }
 
-    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, long salary, byte[] picture, Set<Group> groupsSet, Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, long salary, byte[] picture,  Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.employmentDate = utilities.formatDate(employmentDate);
         this.salary = salary;
         this.picture = picture;
-        this.groupsSet = groupsSet;
+
         this.paymentsSet = paymentsSet;
         this.teacherModulesSet = teacherModulesSet;
     }
 
-    public Set<Group> getGroupsSet() {
-        return groupsSet;
+    public void updateTeacher(Teacher newTeacher ) {
+        this.name = newTeacher.getName();
+        this.familyname = newTeacher.getFamilyname();
+        this.employmentDate= newTeacher.getEmploymentDate();
+        this.phoneNumber= newTeacher.getPhoneNumber();
+        this.salary= newTeacher.getSalary();
+        this.picture = newTeacher.getPicture();
     }
 
-    public void setGroupsSet(Set<Group> groupsSet) {
-        this.groupsSet = groupsSet;
-    }
+
 
     public Set<PaymentTeacher> getPaymentsSet() {
         return paymentsSet;

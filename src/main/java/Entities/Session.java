@@ -28,10 +28,10 @@ public class Session  implements Serializable {
     private Date date;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+  /*  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_group", nullable=false)
     private Group group;
-
+*/
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
     private Set<Module> modulesSet ;
 
@@ -54,14 +54,6 @@ public class Session  implements Serializable {
 
         this.timing = parsedTime;
         this.date = parsedDate;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
     }
 
     public Set<Module> getModulesSet() {

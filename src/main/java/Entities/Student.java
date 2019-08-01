@@ -5,7 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.io.Serializable;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,12 +52,12 @@ public class Student  implements Serializable {
     private byte[] picture;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  /*  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "student_group",
             joinColumns = {@JoinColumn(name = "id_student") },
             inverseJoinColumns = { @JoinColumn(name = "id_group") })
     private Set<Group> groupsSet;
-
+*/
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "student_module",
@@ -84,20 +84,17 @@ public class Student  implements Serializable {
 
         this.subscriptionDate = subscriptionDate(subscriptionDate);
         if(disocunt!=0) this.discount=disocunt;
+       // this.picture = uploadImage(picture);
         this.picture = picture;
     }
-    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate,  byte[] picture) {
+    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber1 = phoneNumber1;
         this.phoneNumber2 = phoneNumber2;
         this.type = type;
-        /*SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        Date parsedSubscriptionDate=null;
-        try{ parsedSubscriptionDate = format.parse(subscriptionDate);}catch(Exception e){ this.formatDate(); e.printStackTrace(); }*/
-
         this.subscriptionDate = subscriptionDate(subscriptionDate);
-
+        //this.picture = uploadImage(picture);
         this.picture = picture;
     }
 
@@ -112,13 +109,7 @@ public class Student  implements Serializable {
         this.picture = newStudent.getPicture();
     }
 
-    public Set<Group> getGroupsSet() {
-        return groupsSet;
-    }
 
-    public void setGroupsSet(Set<Group> groupsSet) {
-        this.groupsSet = groupsSet;
-    }
 
     public Set<Module> getModulesSet() {
         return modulesSet;
@@ -242,19 +233,49 @@ public class Student  implements Serializable {
 
                     finalDate  = finalFormat.parse(finalFormat.format(dateFormatted));
                     System.out.println(dateFormatted);
-
-
                 }
             }
 
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
-
         return finalDate;
+    }
 
+    public byte[] uploadImage(String picture){
+
+        byte[] imageInBytes=null;
+
+        try {
+            File imagePath = new File(picture); //here we given fully specified image path.
+
+            imageInBytes = new byte[(int)imagePath.length()]; //image convert in byte form
+
+            FileInputStream inputStream = new FileInputStream(imagePath);  //input stream object create to read the file
+
+            inputStream.read(imageInBytes); // here inputstream object read the file
+            inputStream.close();
+
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+        return imageInBytes;
+    }
+
+    public void loadImage(){
+
+
+
+        try{
+
+            File imageFile = new File("profilePicture"); // we can put any name of file (just name of new file created).
+            FileOutputStream outputStream = new FileOutputStream(imageFile); // it will create new file (same location of class)
+            outputStream.write(this.picture); // image write in "myImage.jpg" file
+            outputStream.close(); // close the output stream
+
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
     }
 
 }

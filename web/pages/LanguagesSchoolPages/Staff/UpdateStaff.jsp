@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -85,11 +86,11 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form">
+                            <form role="form" method="post" action="PersistUpdateStaff.j?query=${staffProfile.id}">
 
                                 <div>
-                                    <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
-                                    <input type="file" class="pull-right">
+                                    <img class="profile-user-img img-responsive img-circle" src="${staffProfile.picture}" alt="User profile picture">
+                                    <input type="file" name= "picture" class="pull-right">
 
                                 </div>
 
@@ -97,12 +98,12 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" placeholder="Flan">
+                                    <input type="text" name="name" class="form-control" placeholder="" value="<c:out value ="${staffProfile.name}"/>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text" class="form-control" placeholder="ben Flan">
+                                    <input type="text" name="familyName" class="form-control" placeholder="" value="<c:out value ="${staffProfile.familyname}"/>">
                                 </div>
 
                                 <!-- Phone number -->
@@ -114,14 +115,13 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
-                                        <input type="text" class="form-control"
-                                               data-inputmask='"mask": "(999) 99-99-99-99"'
-                                               data-mask placeholder="099999999">
+                                        <input type="text" class="form-control" name="phoneNumber"
+                                               placeholder="" value="<c:out value ="${staffProfile.phoneNumber}"/>">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
 
-                                <!-- Subscritption date -->
+                                <!-- Employment date -->
                                 <div class="form-group">
                                     <label>Employment date:</label>
 
@@ -129,18 +129,44 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="datepicker" placeholder="23/09/2016">
+                                        <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker" placeholder="" value="<c:out value ="${staffProfile.employmentDate}"/>">
                                     </div>
                                 </div>
 
-                                <!-- select Module -->
+                                <!-- select Module
                                 <div class="form-group">
                                     <label>Job</label>
                                     <select class="form-control">
 
-                                        <option selected>Administration</option>
-                                        <option>Other ?? </option>
+                                        <option name="job" value="administration" <c:if test="${staffProfile.job eq 'administration'}">
+                                            selected
+                                        </c:if> >Administration</option>
+
+                                        <option name="job" value="cleaner" <c:if test="${staffProfile.job eq 'cleaner'}">
+                                            selected
+                                        </c:if> >Cleaner</option>
+
                                     </select>
+                                </div>-->
+
+                                <!-- radio -->
+                                <div class="form-group">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="r3" value="administration"
+                                            <c:if test="${staffProfile.job eq 'administration'}">
+                                                   checked
+                                            </c:if> >Administration
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="r3" value="cleaner"
+                                            <c:if test="${staffProfile.job eq 'cleaner'}">
+                                                   checked
+                                            </c:if> >Cleaner
+                                        </label>
+                                    </div>
                                 </div>
 
                                 <!-- Salary -->
@@ -148,31 +174,13 @@
                                     <label>Salary</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">DZD</span>
-                                        <input type="text" class="form-control" placeholder="24000">
+                                        <input name="salary" type="text" class="form-control" placeholder="" value="<c:out value ="${staffProfile.salary}"/>">
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                 </div>
-                                <!-- radio
-                                <div class="form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" class="flat-red" checked>Payee
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" class="flat-red">Free
-                                        </label>
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label>Discout</label>
-                                    <input type="text" class="form-control" placeholder="Enter ...">
-                                </div>
--->
                                 <div>
-                                    <a href="StaffProfile" class="btn  bg-green-gradient pull-right">update</a>
+                                    <button type="submit" class="btn  bg-green-gradient pull-right" >Update</button>
                                 </div>
 
 

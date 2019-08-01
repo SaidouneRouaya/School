@@ -1,5 +1,6 @@
 package DAO;
 
+import Entities.Student;
 import Entities.Teacher;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
@@ -31,7 +32,7 @@ public class TeacherImpl implements TeacherDAO{
             e.printStackTrace();
 
         } finally {
-            //session.close();
+            session.close();
         }
     }
 
@@ -45,7 +46,7 @@ public class TeacherImpl implements TeacherDAO{
             teachers = session.createQuery("from Teacher ").list();
             for (Teacher teacher: teachers){
 
-                Hibernate.initialize(teacher.getGroupsSet());
+                //Hibernate.initialize(teacher.getGroupsSet());
                 Hibernate.initialize(teacher.getPaymentsSet());
                 Hibernate.initialize(teacher.getTeacherModulesSet());
             }
@@ -56,7 +57,7 @@ public class TeacherImpl implements TeacherDAO{
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            //session.close();
+            session.close();
         }
         return teachers;
     }
@@ -76,11 +77,11 @@ public class TeacherImpl implements TeacherDAO{
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            //session.close();
+            session.close();
         }
     }
 
-    public void updateTeacher(int id, String type) {
+    public void updateTeacher(int id, Teacher teacherIn) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -88,18 +89,43 @@ public class TeacherImpl implements TeacherDAO{
         try {
             tx = session.beginTransaction();
             Teacher teacher = session.get(Teacher.class, id);
-
-            //TODO
-
+            teacher.updateTeacher(teacherIn);
             session.update(teacher);
+
             tx.commit();
 
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            //session.close();
+            session.close();
         }
 
     }
+
+    @Override
+    public Teacher getTeacherByID(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Teacher teacher = null;
+
+        try {
+            tx = session.beginTransaction();
+            teacher =  session.get(Teacher.class, id);
+
+             Hibernate.initialize(teacher.getTeacherModulesSet());
+             Hibernate.initialize(teacher.getPaymentsSet());
+          //  Hibernate.initialize(teacher.getGroupsSet());
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return teacher;
+    }
+
 }

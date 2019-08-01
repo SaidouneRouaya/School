@@ -115,7 +115,7 @@
 
                                          <!-- nom du type de la stat  -->
                                     <td><a href="Profile.j?query=${studentsList[i].id}" >
-                                         <c:out value="${studentsList[i].name}"/>
+                                         <c:out value="${studentsList[i].name}"/>  <c:out value="${studentsList[i].familyname}"/>
                                      </a></td>
 
                                     <td><c:out value ="${studentsList[i].phoneNumber1}"/></td>

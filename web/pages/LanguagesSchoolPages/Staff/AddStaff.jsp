@@ -115,8 +115,7 @@
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="number" class="form-control"
-                                               data-inputmask='"mask": "(999) 99-99-99-99"'
-                                               data-mask  name="phoneNumber">
+                                                name="phoneNumber">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -153,7 +152,7 @@
 
 
                                 <div>
-                                    <button type="submit" class="btn bg-green-gradient pull-right"   data-toggle="modal" data-target="#modal-default" >Add</button>
+                                    <button type="submit" class="btn bg-green-gradient pull-right"  >Add</button>
 
                                 </div>
 

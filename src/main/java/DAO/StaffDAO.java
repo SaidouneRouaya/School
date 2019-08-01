@@ -10,5 +10,6 @@ public interface StaffDAO {
     public void addStaff(Staff staff);
     public List<Staff> getAllStaffs();
     public void deleteStaff(int id);
-    public void updateStaff(int id, String type);
+    public void updateStaff(int id, Staff staff);
+    public Staff getStaffByID(int id);
 }

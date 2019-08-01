@@ -9,6 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class StudentImpl implements StudentDAO {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         } finally {
-            //session.close();
+            session.close();
         }
     }
 
@@ -47,16 +50,12 @@ public class StudentImpl implements StudentDAO {
             students = session.createQuery("from Student ").list();
             for (Student student: students){
 
-                Hibernate.initialize(student.getGroupsSet());
+              //  Hibernate.initialize(student.getGroupsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
 
             }
-
-
             tx.commit();
-
-
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
@@ -97,7 +96,6 @@ public class StudentImpl implements StudentDAO {
             session.update(student);
             System.out.println("student update date: "+student.getSubscriptionDate());
 
-            System.out.println("add done");
             tx.commit();
 
         } catch (HibernateException e) {
@@ -118,9 +116,14 @@ public class StudentImpl implements StudentDAO {
         try {
             tx = session.beginTransaction();
             student =  session.get(Student.class, id);
+            //Hibernate.initialize(student.getGroupsSet());
+            Hibernate.initialize(student.getModulesSet());
+            Hibernate.initialize(student.getPaymentSet());
 
             System.out.println("student get by id date: "+student.getSubscriptionDate());
             tx.commit();
+           // student.loadImage();
+
 
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();

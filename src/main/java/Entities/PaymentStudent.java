@@ -30,7 +30,7 @@ public class PaymentStudent implements Serializable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_student", nullable=false)
+    @JoinColumn(name="id_student")
     private Student studentPay;
 
     public PaymentStudent() {

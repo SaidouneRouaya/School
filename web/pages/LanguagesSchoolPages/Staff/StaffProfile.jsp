@@ -69,43 +69,35 @@
                         <!-- Add the bg color to the header using any of the bg-* classes -->
                         <div class="widget-user-header bg-aqua-active">
                             <div class="col-md-8">
-                                <h3 class="widget-user-username">Alexander Pierce</h3>
+                                <h3 class="widget-user-username">${staffProfile.name} ${staffProfile.familyname}</h3>
                                 <h5 class="widget-user-desc">Staff</h5>
                             </div>
 
                             <div class="col-md-4">
 
-                            <a href="updateStaff.j" class="btn btn-app btn-default pull-right" >
+                            <a href="updateStaff.j?query=${staffProfile.id}" class="btn btn-app btn-default pull-right" >
                                 <i class=" fa fa-edit"></i>
                                 Update profile
                             </a>
                             </div>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
+                            <img class="img-circle"  src="${staffProfile.picture}"  alt="User Avatar">
                         </div>
                         <div class="box-footer">
                             <div class="row">
-                                <div class="col-sm-4 border-right">
+                                <div class="col-sm-6 border-right">
                                     <div class="description-block">
-                                        <h5 class="description-header">3,200</h5>
-                                        <span class="description-text">information</span>
+                                        <h5 class="description-header">Employment Date</h5>
+                                        <span class="description-text">${staffProfile.employmentDate}</span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
                                 <!-- /.col -->
-                                <div class="col-sm-4 border-right">
+                                <div class="col-sm-6 border-right">
                                     <div class="description-block">
-                                        <h5 class="description-header">13,000</h5>
-                                        <span class="description-text">information</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-4">
-                                    <div class="description-block">
-                                        <h5 class="description-header">35</h5>
-                                        <span class="description-text">information</span>
+                                        <h5 class="description-header">Salary</h5>
+                                        <span class="description-text">${staffProfile.salary}</span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -135,37 +127,28 @@
 
                                     <tr>
                                         <td>Full name</td>
-                                        <td>Alexander Pierce</td>
+                                        <td>${staffProfile.name} ${staffProfile.familyname}</td>
                                     </tr>
                                     <tr>
                                         <td>Phone number</td>
-                                        <td>0987647878</td>
+                                        <td>${staffProfile.phoneNumber}</td>
                                     </tr>
 
                                     <tr>
                                         <td>Employment day</td>
-                                        <td>24/06/2017</td>
+                                        <td>${staffProfile.employmentDate}</td>
                                     </tr>
                                     <tr>
                                         <td>Job</td>
-                                        <td>Administration</td>
+                                        <td>${staffProfile.job}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Salary </td>
-                                        <td>23000 DZD</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Voucher</td>
-                                        <td>Passport</td>
-                                    </tr>
-
 
                                     </tbody>
                                 </table>
 
                                 <div>
-                                    <a href="#" class="btn  bg-red-gradient pull-right">Delete</a>
+                                    <a href="deleteStaff.j" class="btn  bg-red-gradient pull-right"
+                                       data-toggle="modal" data-target="#modal-default" >Delete</a>
                                 </div>
 
 
@@ -242,6 +225,30 @@
                 </div>
             </div>
             <!-- /.row -->
+            <!-- The Modal -->
+            <form role="form" method="post" action="deleteStaff.j?query=${staffProfile.id}">
+                <div class="modal fade" id="modal-default">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Warning </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you really want to delete this student ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-danger  pull-right">Delete anyway</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </form>
 
         </section>
         <!-- /.content -->
@@ -258,14 +265,14 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
-<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
-<script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+<script src="../../../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="../../../dist/js/demo.js"></script>
 </body>
 </html>

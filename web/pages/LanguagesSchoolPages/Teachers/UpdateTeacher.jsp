@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -85,24 +86,23 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form">
+                            <form role="form" method="post" action="PersistUpdateTeacher.j?query=${teacherProfile.id}">
 
                                 <div>
-                                    <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
-                                    <input type="file" class="pull-right">
+                                    <img class="profile-user-img img-responsive img-circle" src="${teacherProfile.picture}" alt="User profile picture">
+                                    <input type="file" name="picture" class="pull-right">
 
                                 </div>
-
 
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" placeholder="Saidoune">
+                                    <input type="text" name="name" class="form-control" placeholder="" value="<c:out value ="${teacherProfile.name}"/>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text" class="form-control" placeholder="Raid">
+                                    <input type="text" name="familyName" class="form-control" placeholder="" value="<c:out value ="${teacherProfile.familyname}"/>">
                                 </div>
 
                                 <!-- Phone number -->
@@ -114,9 +114,8 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
-                                        <input type="text" class="form-control"
-                                               data-inputmask='"mask": "(999) 99-99-99-99"'
-                                               data-mask placeholder="+213 4567667">
+                                        <input type="text" class="form-control" name="phoneNumber"
+                                               placeholder="" value="<c:out value ="${teacherProfile.phoneNumber}"/>">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -129,51 +128,23 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="datepicker" placeholder="13/06/2019">
+                                        <input  type="text" name="employmentDate" class="form-control pull-right" id="datepicker" placeholder="" value="<c:out value ="${teacherProfile.employmentDate}"/>">
                                     </div>
                                 </div>
 
-                                <!-- select Module -->
-                                <div class="form-group">
-                                    <label>Module</label>
-                                    <select class="form-control">
-                                        <option selected>English</option>
-                                        <option>French</option>
-                                        <option>etc...</option>
-                                    </select>
-                                </div>
 
                                 <!-- Salary -->
                                 <div class="form-group">
                                     <label>Salary</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">DZD</span>
-                                        <input type="text" class="form-control" placeholder="20000">
+                                        <input name="salary" type="text" class="form-control" placeholder="" value="<c:out value ="${teacherProfile.salary}"/>">
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                 </div>
 
-                                <!-- radio
-                                <div class="form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" class="flat-red" checked>Payee
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" class="flat-red">Free
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Discout</label>
-                                    <input type="text" class="form-control" placeholder="Enter ...">
-                                </div>
--->
                                 <div>
-                                    <a href="TeacherProfile" class="btn  bg-green-gradient pull-right">Update</a>
+                                    <button type="submit" class="btn  bg-green-gradient pull-right" >Update</button>
                                 </div>
 
 

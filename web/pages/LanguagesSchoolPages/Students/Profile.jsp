@@ -88,7 +88,7 @@
                                 </div>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle" src="<c:out value ="${studentProfile.picture}"/>"  alt="User Avatar">
+                            <img class="img-circle"  src="${studentProfile.picture}"  alt="User Avatar">
                         </div>
                         <div class="box-footer">
                             <div class="row">

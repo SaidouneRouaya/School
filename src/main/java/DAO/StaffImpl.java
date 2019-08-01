@@ -1,6 +1,7 @@
 package DAO;
 
 import Entities.Staff;
+import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -74,7 +75,7 @@ public class StaffImpl implements StaffDAO {
         }
     }
 
-    public void updateStaff(int id, String type) {
+    public void updateStaff(int id, Staff staffIn) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -83,9 +84,9 @@ public class StaffImpl implements StaffDAO {
             tx = session.beginTransaction();
             Staff staff = session.get(Staff.class, id);
 
-            //TODO
-
+            staff.updateStaff(staffIn);
             session.update(staff);
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -96,4 +97,27 @@ public class StaffImpl implements StaffDAO {
         }
 
     }
+
+    @Override
+    public Staff getStaffByID(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Staff staff = null;
+
+        try {
+            tx = session.beginTransaction();
+            staff =  session.get(Staff.class, id);
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return staff;
+    }
+
+
 }

@@ -106,8 +106,9 @@
                             <form role="form" method="post" action="addNewStudent.j" >
 
                                 <div>
-                                    <img class="profile-user-img img-responsive img-circle" src="../../../dist/img/user4-128x128.jpg" alt="User profile picture">
-                                    <input type="file" name="picture" class="pull-right">
+                                   <!-- <img class="profile-user-img img-responsive img-circle" src="../../../dist/img/user4-128x128.jpg" alt="User profile picture">-->
+                                    <img class="profile-user-img img-responsive img-circle" src="#" alt="User profile picture">
+                                    <input type="file" id="picture" name="picture" class="pull-right">
 
                                 </div>
 
@@ -254,7 +255,18 @@
 <script>
     function enable(){ document.getElementById("discount").disabled = false;}
     function disable(){ document.getElementById("discount").disabled = true;}
+   /*function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            document.getElementById("picture").value= reader.readAsDataURL(input.files[0]);
+
+        }
+    }
+
+    $("#picture").change(function() {
+        readURL(this);
+    });*/
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2();

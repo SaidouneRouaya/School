@@ -30,13 +30,11 @@
         <mapping class="Entities.Student"/>
         <mapping class="Entities.Session"/>
         <mapping class="Entities.Module"/>
-        <mapping class="Entities.Group"/>
         <mapping class="Entities.Staff"/>
         <mapping class="Entities.Teacher"/>
         <mapping class="Entities.PaymentStaff"/>
         <mapping class="Entities.PaymentStudent"/>
         <mapping class="Entities.PaymentTeacher"/>
-
 
     </session-factory>
 
