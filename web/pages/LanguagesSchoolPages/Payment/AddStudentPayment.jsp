@@ -111,7 +111,7 @@
 
 
                                     <div>
-                                        <p id="date"></p>
+                                        <h3 id="date"></h3>
                                     </div>
 
                                     <!-- List of students -->
@@ -266,10 +266,25 @@
 
 <!-- Page script -->
 <script>
-    document.getElementById("date").innerHTML = Date();
+    document.getElementById("date").innerHTML = formatDate();
     var total=0 ;
     var payed=0 ;
     var id_discount_i;
+
+    function  formatDate() {
+         var date=new Date();
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        return dd + '/' + mm + '/' + yyyy;
+    }
 
     function changeModules() {
         id_discount_i = document.getElementById("students").value.split(" ", 3);
@@ -279,9 +294,6 @@
         document.getElementById("listModules").innerHTML= document.getElementById("modules" + id_discount_i[2]).innerHTML;
 
         document.getElementById("discount").value = id_discount_i[1];
-
-
-
     }
 
     function calculatePayed() {

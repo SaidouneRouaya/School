@@ -110,7 +110,7 @@
                                 <div id="printableArea">
 
                                     <div>
-                                        <p id="date"></p>
+                                        <h3 id="date"></h3>
                                     </div>
 
                                     <div id="teacher" class="form-group">
@@ -227,7 +227,24 @@
 
 <!-- Page script -->
 <script>
-    document.getElementById("date").innerHTML = Date();
+    document.getElementById("date").innerHTML =  formatDate();
+
+
+
+    function  formatDate() {
+        var date=new Date();
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        return dd + '/' + mm + '/' + yyyy;
+    }
 
     function isChecked(event){
         if(event.getAttribute('checked') === null){
