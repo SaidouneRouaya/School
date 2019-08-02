@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -103,32 +105,40 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="addNewStaffPayment.j">
+                            <form role="form" method="post" action="addNewStaffPayment.j?id_staff=${staffList[0].id}">
 
                                 <div id="printableArea">
+                                    <div>
+                                        <p id="date"></p>
+                                    </div>
+
 
                                     <div id="student" class="form-group">
                                         <label>Staff</label>
-                                        <select name="staff" class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">Flan 1</option>
-                                            <option>Flan2</option>
-                                            <option>Flan3</option>
-                                            <option>Flan4</option>
-                                            <option>Flan5</option>
-                                            <option>Flan6</option>
-                                            <option>Flan7</option>
+                                        <select class="form-control select2" name="staffs"  onchange="changeSalary()"
+                                                id="staffs" style="width: 100%;">
+
+                                            <option name="staff" value="${staffList[0].salary}"><c:out value="${staffList[0].name}"/>
+                                                    <c:out value="${staffList[0].familyname}"/></option>
+
+                                            <tg:forEach begin="1" end="${staffList.size() -1}" var="i">
+
+                                                <option name="staff" value="${staffList[i].salary}"><c:out value="${staffList[i].name}"/>
+                                                    <c:out value="${staffList[i].familyname}"/></option>
+
+                                            </tg:forEach>
+
                                         </select>
                                     </div>
 
-                                    <div>
-                                        <h4 class="pull-left">Salary : 55 500 $</h4>
-                                    </div>
-
+                                        <div id="salary">
+                                            <p class="pull-left">Salary : <c:out value="${staffList[0].salary}"/>.00 DZD</p>
+                                        </div>
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn btn-default pull-right" onclick="printDiv('printableArea')" ><i class="fa fa-print"></i> Submit</button>
-
+                                    <button type="submit" class="btn btn-default pull-right" >
+                                        <i class="fa fa-print"></i>Submit</button>
                                 </div>
 
                             </form>
@@ -201,14 +211,15 @@
 
 <!-- Page script -->
 <script>
-    function isChecked(event){
-        if(event.getAttribute('checked') === null){
-            event.setAttribute('checked','');
-        }
-        else{
-            event.removeAttribute('checked');
-        }
+    document.getElementById("date").innerHTML = Date();
+
+    function changeSalary() {
+        var x = document.getElementById("staffs").value;
+        console.log(x);
+        document.getElementById("salary").innerHTML = "Salary : " + x + ".00 DZD";
     }
+
+
 
 
     $(function () {

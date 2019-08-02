@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Transactional
@@ -42,6 +43,10 @@ public class Staff  implements Serializable {
     @Column(name="picture")
     @Lob
     private byte[] picture;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
+    private Set<PaymentStaff> paymentStaffSet;
+
 
     public Staff() {
     }
