@@ -47,7 +47,7 @@ public class TeacherImpl implements TeacherDAO{
             for (Teacher teacher: teachers){
 
                 //Hibernate.initialize(teacher.getGroupsSet());
-                Hibernate.initialize(teacher.getPaymentsSet());
+                Hibernate.initialize(teacher.getPaymentTeacherSet());
                 Hibernate.initialize(teacher.getTeacherModulesSet());
             }
 
@@ -114,7 +114,7 @@ public class TeacherImpl implements TeacherDAO{
             teacher =  session.get(Teacher.class, id);
 
              Hibernate.initialize(teacher.getTeacherModulesSet());
-             Hibernate.initialize(teacher.getPaymentsSet());
+             Hibernate.initialize(teacher.getPaymentTeacherSet());
           //  Hibernate.initialize(teacher.getGroupsSet());
 
             tx.commit();

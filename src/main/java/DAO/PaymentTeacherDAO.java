@@ -1,5 +1,6 @@
 package DAO;
 
+import Entities.PaymentStaff;
 import Entities.PaymentStudent;
 import Entities.PaymentTeacher;
 
@@ -10,5 +11,6 @@ public interface PaymentTeacherDAO {
     public void addPaymentTeacher(PaymentTeacher paymentTeacher);
     public List<PaymentTeacher> getAllPaymentTeachers();
     public void deletePaymentTeacher(int id);
-    public void updatePaymentTeacher(int id);
+    public void updatePaymentTeacher(int id, PaymentTeacher paymentTeacher);
+    public PaymentTeacher getPayementTeacherByID(int id);
 }

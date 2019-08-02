@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 
+import static java.lang.Thread.sleep;
+
 @org.springframework.stereotype.Controller
 
 public class PaymentController {
@@ -96,9 +98,21 @@ public class PaymentController {
          paymentStaffDAO.addPaymentStaff(paymentStaff);
 
         model.addAttribute("error", error);
-        return "redirect:staffSalaries.j";
+
+
+         return "redirect:staffSalaries.j";
+
     }
 
+    @RequestMapping("/redirect")
+    public String redirect(Model model) {
+
+        String error = "";
+
+
+        model.addAttribute("error", error);
+        return "redirect:staffSalaries.j";
+    }
 
 
 

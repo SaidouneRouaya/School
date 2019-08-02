@@ -32,11 +32,34 @@ public class PaymentTeacher implements Serializable {
     @Column(name = "payment_type")
     private String paymentType;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "paymentsSet")
-    private Set<Teacher> teachersSet ;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_teacher", nullable=false)
+    private Teacher teacherPayed;
 
     public int getId() {
         return id;
+    }
+
+    public PaymentTeacher() {
+    }
+
+    public PaymentTeacher(Date date, Long amount, String receiver, String module, String paymentType, Teacher teacher) {
+        this.date = date;
+        this.amount = amount;
+        this.receiver = receiver;
+        this.module = module;
+        this.paymentType = paymentType;
+        this.teacherPayed = teacher;
+    }
+
+    public void updatePaymentTeacher(PaymentTeacher paymentTeacher) {
+        this.date = paymentTeacher.getDate();
+        this.amount = paymentTeacher.getAmount();
+        this.receiver = paymentTeacher.getReceiver();
+        this.module= paymentTeacher.getModule();
+        this.paymentType= paymentTeacher.getPaymentType();
+        this.teacherPayed=paymentTeacher.getTeacher();
+
     }
 
     public void setId(int id) {
@@ -83,11 +106,15 @@ public class PaymentTeacher implements Serializable {
         this.paymentType = paymentType;
     }
 
-    public Set<Teacher> getTeachersSet() {
-        return teachersSet;
+    public Teacher getTeacher() {
+        return teacherPayed;
     }
 
-    public void setTeachersSet(Set<Teacher> teachersSet) {
-        this.teachersSet = teachersSet;
+    public void setTeacher(Teacher teacher) {
+        this.teacherPayed = teacher;
     }
+
+
+
+
 }

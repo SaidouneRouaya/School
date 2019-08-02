@@ -43,11 +43,8 @@ public class Teacher  implements Serializable {
    /* @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
     private Set<Group> groupsSet;*/
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "teacher_payment",
-            joinColumns = {@JoinColumn(name = "id_teacher") },
-            inverseJoinColumns = { @JoinColumn(name = "id_payment") })
-    private Set<PaymentTeacher> paymentsSet;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherPayed")
+    private Set<PaymentTeacher> paymentTeacherSet;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "teacher_module",
@@ -78,7 +75,7 @@ public class Teacher  implements Serializable {
         this.salary = salary;
         this.picture = picture;
 
-        this.paymentsSet = paymentsSet;
+        this.paymentTeacherSet= paymentsSet;
         this.teacherModulesSet = teacherModulesSet;
     }
 
@@ -93,13 +90,6 @@ public class Teacher  implements Serializable {
 
 
 
-    public Set<PaymentTeacher> getPaymentsSet() {
-        return paymentsSet;
-    }
-
-    public void setPaymentsSet(Set<PaymentTeacher> paymentsSet) {
-        this.paymentsSet = paymentsSet;
-    }
 
     public Set<Module> getTeacherModulesSet() {
         return teacherModulesSet;
@@ -163,5 +153,13 @@ public class Teacher  implements Serializable {
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
+    }
+
+    public Set<PaymentTeacher> getPaymentTeacherSet() {
+        return paymentTeacherSet;
+    }
+
+    public void setPaymentTeacherSet(Set<PaymentTeacher> paymentTeacherSet) {
+        this.paymentTeacherSet = paymentTeacherSet;
     }
 }

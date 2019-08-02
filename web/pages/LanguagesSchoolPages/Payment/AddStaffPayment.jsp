@@ -105,7 +105,8 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="addNewStaffPayment.j?id_staff=${staffList[0].id}">
+
+                            <form role="form" method="post" id="form" >
 
                                 <div id="printableArea">
                                     <div>
@@ -118,12 +119,12 @@
                                         <select class="form-control select2" name="staffs"  onchange="changeSalary()"
                                                 id="staffs" style="width: 100%;">
 
-                                            <option name="staff" value="${staffList[0].salary}"><c:out value="${staffList[0].name}"/>
-                                                    <c:out value="${staffList[0].familyname}"/></option>
 
-                                            <tg:forEach begin="1" end="${staffList.size() -1}" var="i">
 
-                                                <option name="staff" value="${staffList[i].salary}"><c:out value="${staffList[i].name}"/>
+                                            <tg:forEach begin="0" end="${staffList.size() -1}" var="i">
+
+                                                <option name="staff" value="${staffList[i].id} ${staffList[i].salary}">
+                                                    <c:out value="${staffList[i].name}"/>
                                                     <c:out value="${staffList[i].familyname}"/></option>
 
                                             </tg:forEach>
@@ -137,8 +138,8 @@
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn btn-default pull-right" >
-                                        <i class="fa fa-print"></i>Submit</button>
+                                    <button type="submit" class="btn btn-default pull-right"   onclick="printDiv('printableArea')">
+                                        <i class="fa fa-print"></i>   Submit</button>
                                 </div>
 
                             </form>
@@ -148,6 +149,7 @@
                 </div>
                 <div class="col-xs-3"></div>
             </div>
+
             <div class="modal fade" id="modal-default">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -157,7 +159,7 @@
                             <h4 class="modal-title">Attention </h4>
                         </div>
                         <div class="modal-body">
-                            <p>Would you save changes ?</p>
+                            <p>Would you to print ?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -168,6 +170,7 @@
                 </div>
                 <!-- /.modal-dialog -->
             </div>
+
         </section>
 
     </div>
@@ -214,12 +217,38 @@
     document.getElementById("date").innerHTML = Date();
 
     function changeSalary() {
-        var x = document.getElementById("staffs").value;
-        console.log(x);
-        document.getElementById("salary").innerHTML = "Salary : " + x + ".00 DZD";
+
+        var id_salary = document.getElementById("staffs").value.split(" ",2);
+
+
+        document.getElementById("salary").innerHTML = "Salary : "+ id_salary[1] + " .00 DZD";
+
+        document.getElementById("form").setAttribute("action", "addNewStaffPayment.j?id_staff="+id_salary[0]) ;
+
     }
 
+    function printDiv(divName) {
 
+
+
+        var printContents = document.getElementById(divName).innerHTML;
+        var form = document.getElementById("form");
+
+        var originalContents = document.body.innerHTML;
+
+
+        console.log("im in print");
+        document.body.innerHTML = printContents;
+
+        window.print();
+        document.body.appendChild(form);
+        form.submit();
+
+
+        document.body.innerHTML = originalContents;
+
+
+    }
 
 
     $(function () {
@@ -280,32 +309,7 @@
 
     });
 
-    function printDiv(divName) {
-/*
-        var selectionElements= document.getSelection();
-        var selectedItems="";
 
-        for (var i=0; i<selectionElements.length; i++){
-
-            if(selectionElements[i].type==='checkbox' && selectionElements[i].checked===true)
-
-                selectedItems+=selectionElements[i].value+"\n";
-        }
-*/
-
-        var printContents = document.getElementById(divName).innerHTML;
-
-        var originalContents = document.body.innerHTML;
-
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-
-
-    }
 </script>
 
 </body>

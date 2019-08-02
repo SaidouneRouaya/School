@@ -103,7 +103,8 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="addNewTeacherPayment.j">
+                            <form role="form" method="post" action="addNewTeacherPayment.j?id_teacher=${teachersList[0].id}">
+                                <form role="form" method="post" action="addNewStaffPayment.j?id_staff=${staffList[0].id}">
 
                                 <div id="printableArea">
 
