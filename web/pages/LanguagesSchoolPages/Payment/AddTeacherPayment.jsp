@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -103,53 +105,55 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="addNewTeacherPayment.j?id_teacher=${teachersList[0].id}">
-                                <form role="form" method="post" action="addNewStaffPayment.j?id_staff=${staffList[0].id}">
+                            <form role="form" id="form" method="post" >
 
                                 <div id="printableArea">
 
+                                    <div>
+                                        <p id="date"></p>
+                                    </div>
+
                                     <div id="teacher" class="form-group">
                                         <label>Teacher</label>
-                                        <select name="teacher" class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">Flan 1</option>
-                                            <option>Flan2</option>
-                                            <option>Flan3</option>
-                                            <option>Flan4</option>
-                                            <option>Flan5</option>
-                                            <option>Flan6</option>
-                                            <option>Flan7</option>
+                                        <select name="teachers" id="teachers"  class="form-control select2" style="width: 100%;"
+                                                onchange="changeSalary()">
+
+                                            <tg:forEach begin="0" end="${teachersList.size() -1}" var="i">
+
+                                                <option name="staff" value="${teachersList[i].id} ${teachersList[i].salary} ${i}">
+                                                    <c:out value="${teachersList[i].name}"/>
+                                                    <c:out value="${teachersList[i].familyname}"/></option>
+
+                                            </tg:forEach>
+
                                         </select>
                                     </div>
 
-                                    <div class="form-group" id ="modules">
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="English"> English
-                                        </label><br>
+                                    <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
 
+                                        <div class="form-group" id="modules${i}" style="display: none">
 
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="French"> French
-                                        </label><br>
+                                            <tg:forEach items="${modulesList.get(i)}" var="module">
 
+                                                <label>
+                                                    <input type="checkbox" onclick="isChecked(this)" name="mod"
+                                                           value="${module.name}"> <c:out value="${module.name}"/>,
+                                                </label><br>
 
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="Math" > Math
-                                        </label><br>
+                                            </tg:forEach>
 
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="Espagnol" > Espagnol
-                                        </label><br>
+                                        </div>
+                                    </tg:forEach>
 
-                                    </div>
-
-                                    <div>
-                                        <h4 class="pull-left">Salary : 55 500 $</h4>
+                                    <div id="salary">
+                                        <p class="pull-left">Salary : <c:out value="${teachersList[0].salary}"/>.00 DZD</p>
                                     </div>
 
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn btn-default pull-right" onclick="printDiv('printableArea')" ><i class="fa fa-print"></i> Submit</button>
+                                    <button type="submit" class="btn btn-default pull-right" onclick="printDiv('printableArea')" >
+                                        <i class="fa fa-print"></i> Submit</button>
 
                                 </div>
 
@@ -173,7 +177,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <a href="Students.j" class="btn bg-green  pull-right">Save changes</a>
+                            <a href="#.j" class="btn bg-green  pull-right">Save changes</a>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -223,6 +227,8 @@
 
 <!-- Page script -->
 <script>
+    document.getElementById("date").innerHTML = Date();
+
     function isChecked(event){
         if(event.getAttribute('checked') === null){
             event.setAttribute('checked','');
@@ -230,6 +236,39 @@
         else{
             event.removeAttribute('checked');
         }
+    }
+
+    function changeSalary() {
+
+        var id_salary = document.getElementById("teachers").value.split(" ",3);
+
+        document.getElementById("modules"+id_salary[2]).style.display = 'block';
+
+        document.getElementById("salary").innerHTML = "Salary : "+ id_salary[1] + " .00 DZD";
+
+        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]) ;
+
+    }
+
+
+    function printDiv(divName) {
+
+
+        var printContents = document.getElementById(divName).innerHTML;
+        var form = document.getElementById("form");
+
+        var originalContents = document.body.innerHTML;
+
+
+        console.log("im in print");
+        document.body.innerHTML = printContents;
+
+        window.print();
+        document.body.appendChild(form);
+        form.submit();
+
+
+        document.body.innerHTML = originalContents;
     }
 
 
@@ -291,32 +330,7 @@
 
     });
 
-    function printDiv(divName) {
-/*
-        var selectionElements= document.getSelection();
-        var selectedItems="";
 
-        for (var i=0; i<selectionElements.length; i++){
-
-            if(selectionElements[i].type==='checkbox' && selectionElements[i].checked===true)
-
-                selectedItems+=selectionElements[i].value+"\n";
-        }
-*/
-
-        var printContents = document.getElementById(divName).innerHTML;
-
-        var originalContents = document.body.innerHTML;
-
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-
-
-    }
 </script>
 
 </body>

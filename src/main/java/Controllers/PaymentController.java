@@ -1,16 +1,23 @@
 package Controllers;
 
 import DAO.PaymentStaffDAO;
+import DAO.PaymentTeacherDAO;
 import DAO.StaffDAO;
 import DAO.TeacherDAO;
+import Entities.Module;
 import Entities.PaymentStaff;
+import Entities.PaymentTeacher;
 import Entities.Staff;
+import Entities.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -22,7 +29,13 @@ public class PaymentController {
     StaffDAO staffDAO;
 
     @Autowired
+    TeacherDAO teacherDAO;
+
+    @Autowired
     PaymentStaffDAO paymentStaffDAO;
+
+    @Autowired
+    PaymentTeacherDAO paymentTeacherDAO;
 
     @RequestMapping("/studentPayment")
     public String studentsPayment(Model model) {
@@ -66,6 +79,21 @@ public class PaymentController {
 
         String error = "";
 
+        List<Teacher> teachersList=  teacherDAO.getAllTeachers();
+        model.addAttribute("teachersList", teacherDAO.getAllTeachers());
+
+        List<HashSet<Module>> modulesList= new ArrayList<>();
+
+        for (Teacher teacher: teachersList){
+
+            HashSet<Module> module=new HashSet<>(teacher.getTeacherModulesSet());
+
+            modulesList.add(module);
+
+        }
+
+        model.addAttribute("modulesList", modulesList );
+
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddTeacherPayment";
     }
@@ -104,15 +132,31 @@ public class PaymentController {
 
     }
 
-    @RequestMapping("/redirect")
-    public String redirect(Model model) {
+
+
+     @RequestMapping("/addNewTeacherPayment")
+    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher) {
 
         String error = "";
 
 
+        Teacher teacher= teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
+
+         System.out.println(id_teacher);
+
+
+         PaymentTeacher paymentTeacher=new PaymentTeacher(new Date(), teacher.getSalary(),  "the one connected",
+                 "module", "payment type", teacher);
+
+         paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
+
         model.addAttribute("error", error);
-        return "redirect:staffSalaries.j";
+
+
+         return "redirect:staffSalaries.j";
+
     }
+
 
 
 
