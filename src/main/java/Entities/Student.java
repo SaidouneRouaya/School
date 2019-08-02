@@ -78,9 +78,6 @@ public class Student  implements Serializable {
         this.phoneNumber1 = phoneNumber1;
         this.phoneNumber2 = phoneNumber2;
         this.type = type;
-        /*SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        Date parsedSubscriptionDate=null;
-        try{ parsedSubscriptionDate = format.parse(subscriptionDate);}catch(Exception e){ this.formatDate(); e.printStackTrace(); }*/
 
         this.subscriptionDate = subscriptionDate(subscriptionDate);
         if(disocunt!=0) this.discount=disocunt;

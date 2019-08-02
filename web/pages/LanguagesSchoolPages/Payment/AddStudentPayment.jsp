@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -26,7 +28,8 @@
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="../../../plugins/iCheck/all.css">
     <!-- Bootstrap Color Picker -->
-    <link rel="stylesheet" href="../../../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet"
+          href="../../../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="../../../plugins/timepicker/bootstrap-timepicker.min.css">
     <!-- Select2 -->
@@ -73,7 +76,6 @@
     <%@ include file="../CommunFiles/menu-side.jsp" %>
 
 
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -103,67 +105,94 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="addNewStudentPayment.j">
+                            <form role="form" method="post" id="form">
 
                                 <div id="printableArea">
 
+
+                                    <div>
+                                        <p id="date"></p>
+                                    </div>
+
+                                    <!-- List of students -->
+
                                     <div id="student" class="form-group">
                                         <label>Student</label>
-                                        <select name="student" class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">Flan 1</option>
-                                            <option>Flan2</option>
-                                            <option>Flan3</option>
-                                            <option>Flan4</option>
-                                            <option>Flan5</option>
-                                            <option>Flan6</option>
-                                            <option>Flan7</option>
+
+                                        <select name="students" id="students" class="form-control select2"
+                                                onchange="changeModules()" style="width: 100%;">
+                                            <tg:forEach begin="0" end="${studentsList.size() -1}" var="i">
+
+                                                <option name="staff"
+                                                        value="${studentsList[i].id} ${studentsList[i].discount} ${i}">
+                                                    <c:out value="${studentsList[i].name}"/>
+                                                    <c:out value="${studentsList[i].familyname}"/></option>
+
+                                            </tg:forEach>
+
                                         </select>
                                     </div>
 
-                                    <div class="form-group" id ="modules">
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="English"> English
-                                        </label><br>
 
 
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="French"> French
-                                        </label><br>
+                                        <!-- List of modules -->
+                                        <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
+                                        <div id="listModules">
+
+                                                <div class="form-group" id="modules${i}" style="display: none">
+
+                                                    <tg:forEach items="${modulesList.get(i)}" var="module">
+
+                                                        <label>
+                                                            <input type="checkbox" onclick="isChecked(this)" name="mod"
+                                                                   id="mod" value="${module.name} ${module.fees}"> <c:out value="${module.name}"/>,
+                                                        </label><br>
+
+                                                    </tg:forEach>
+
+                                                </div>
+
+                                        </div>
+                                        </tg:forEach>
 
 
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="Math" > Math
-                                        </label><br>
 
-                                        <label>
-                                            <input type="checkbox" onclick="isChecked(this)" name ="mod" value="Espagnol" > Espagnol
-                                        </label><br>
-                                    </div>
-
-                                    <ul class="list-group list-group-unbordered">
-                                        <li class="list-group-item">
-                                            <b>Total (without discount) :</b> <span class=" btn bg-purple pull-right"> 55 500.00 $</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div id="discount">
-
-                                                    <b>Discount : </b>
-                                                    <input type="number" name="discount" class="col-xs-2 btn bg-navy pull-right"
-                                                           onchange="this.setAttribute('value', this.value)"  value="">
-
-                                                <!--<a class="pull-right">5 500.00 $</a>-->
+                                <!-- Total to pay -->
+                                        <ul class="list-group list-group-unbordered">
+                                            <div id="totalDiv">
+                                                <li class="list-group-item">
+                                                    <b>Total (without discount) :</b>
+                                                    <span class=" btn bg-purple pull-right" id="total_span"></span>
+                                                </li>
                                             </div>
 
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Payed : </b> <span class="btn bg-teal pull-right">50 000.00 $</span>
-                                        </li>
-                                    </ul>
 
-                                </div>
+                                            <!-- Discount of this student -->
+                                            <div id="discountDiv">
+                                                <li class="list-group-item">
+                                                    <b>Discount : </b>
+                                                    <input id="discount" type="text" name="discount"
+                                                           class="col-xs-4 btn bg-navy pull-right" onchange="calculatePayed()">
+                                                </li>
+                                            </div>
+
+
+                                            <!-- To pay -->
+                                            <div id="payedDiv" >
+                                                <li class="list-group-item">
+                                                    <b>Payed : </b>
+                                                    <span class="btn bg-teal pull-right" id="payed_span"></span>
+                                                </li>
+                                            </div>
+
+                                        </ul>
+
+                                    </div>
 
                                 <div>
-                                    <button type="submit" class="btn btn-default pull-right" onclick="printDiv('printableArea')" ><i class="fa fa-print"></i> Submit</button>
+                                    <button type="submit" class="btn btn-default pull-right"
+                                            onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Submit
+                                    </button>
 
                                 </div>
 
@@ -237,13 +266,87 @@
 
 <!-- Page script -->
 <script>
-    function isChecked(event){
-        if(event.getAttribute('checked') === null){
-            event.setAttribute('checked','');
+    document.getElementById("date").innerHTML = Date();
+    var total=0 ;
+    var payed=0 ;
+    var id_discount_i;
+
+    function changeModules() {
+        id_discount_i = document.getElementById("students").value.split(" ", 3);
+        total=0;
+        payed=0;
+
+        document.getElementById("listModules").innerHTML= document.getElementById("modules" + id_discount_i[2]).innerHTML;
+
+        document.getElementById("discount").value = id_discount_i[1];
+
+
+
+    }
+
+    function calculatePayed() {
+
+        //document.getElementById("discount").innerText=document.getElementById("discount").value;
+        payed= total-parseInt(document.getElementById("discount").value);
+
+        document.getElementById("payed_span").innerText = payed+".00DZD";
+    }
+
+    $('payed_span').keyup(function calculatePayed() {
+
+        payed= total-parseInt(document.getElementById("discount").value);
+
+        document.getElementById("payed_span").innerText = payed+".00DZD";
+    });
+
+
+    function isChecked(event) {
+
+        var name_fees = document.getElementById("mod").value.split(" ", 2);
+
+        if (event.getAttribute('checked') === null) {
+            event.setAttribute('checked', '');
+            total+= parseInt(name_fees[1]) ;
         }
-        else{
+        else {
             event.removeAttribute('checked');
+            total-= parseInt(name_fees[1]) ;
         }
+
+        payed= total-parseInt(document.getElementById("discount").value);
+
+        document.getElementById("total_span").innerText=total+".00DZD";
+
+        document.getElementById("payed_span").innerText = payed+".00DZD";
+
+    }
+
+
+
+    function printDiv(divName) {
+
+        document.getElementById("discountDiv").innerHTML= "   <li class='list-group-item'><b>Discount : </b>" +
+            "<span class='btn bg-navy pull-right'>"+  document.getElementById("discount").value+"</span></li>"
+
+        document.getElementById("form").setAttribute("action", "addNewStudentPayment.j?id_student=" + id_discount_i[0]+"&payed="+payed);
+
+        var printContents = document.getElementById(divName).innerHTML;
+
+
+       var form = document.getElementById("form");
+
+        var originalContents = document.body.innerHTML;
+
+
+        console.log("im in print");
+        document.body.innerHTML = printContents;
+
+        window.print();
+        document.body.appendChild(form);
+        form.submit();
+
+
+        document.body.innerHTML = originalContents;
     }
 
 
@@ -272,16 +375,16 @@
             radioClass: 'iradio_flat-green'
         });
 // ----- On render -----
-        $(function() {
+        $(function () {
 
             $('#profile').addClass('dragging').removeClass('dragging');
         });
 
-        $('#profile').on('dragover', function() {
+        $('#profile').on('dragover', function () {
             $('#profile').addClass('dragging')
-        }).on('dragleave', function() {
+        }).on('dragleave', function () {
             $('#profile').removeClass('dragging')
-        }).on('drop', function(e) {
+        }).on('drop', function (e) {
             $('#profile').removeClass('dragging hasImage');
 
             if (e.originalEvent) {
@@ -293,7 +396,7 @@
                 //attach event handlers here...
 
                 reader.readAsDataURL(file);
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     console.log(reader.result);
                     $('#profile').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
 
@@ -305,21 +408,7 @@
 
     });
 
-    function printDiv(divName) {
 
-
-        var printContents = document.getElementById(divName).innerHTML;
-
-        var originalContents = document.body.innerHTML;
-
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-
-    }
 </script>
 
 </body>

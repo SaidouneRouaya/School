@@ -1,14 +1,8 @@
 package Controllers;
 
-import DAO.PaymentStaffDAO;
-import DAO.PaymentTeacherDAO;
-import DAO.StaffDAO;
-import DAO.TeacherDAO;
+import DAO.*;
+import Entities.*;
 import Entities.Module;
-import Entities.PaymentStaff;
-import Entities.PaymentTeacher;
-import Entities.Staff;
-import Entities.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +26,17 @@ public class PaymentController {
     TeacherDAO teacherDAO;
 
     @Autowired
+    StudentDAO studentDAO;
+
+    @Autowired
     PaymentStaffDAO paymentStaffDAO;
 
     @Autowired
     PaymentTeacherDAO paymentTeacherDAO;
+
+    @Autowired
+    PaymentStudentDAO paymentStudentDAO;
+
 
     @RequestMapping("/studentPayment")
     public String studentsPayment(Model model) {
@@ -70,6 +71,21 @@ public class PaymentController {
 
         String error = "";
 
+        List<Student> studentList = studentDAO.getAllStudents();
+
+        model.addAttribute("studentsList", studentList);
+
+        List<HashSet<Module>> modulesList = new ArrayList<>();
+
+        for (Student student : studentList) {
+
+            HashSet<Module> module = new HashSet<>(student.getModulesSet());
+
+            modulesList.add(module);
+        }
+
+        model.addAttribute("modulesList", modulesList);
+
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddStudentPayment";
     }
@@ -79,26 +95,26 @@ public class PaymentController {
 
         String error = "";
 
-        List<Teacher> teachersList=  teacherDAO.getAllTeachers();
-        model.addAttribute("teachersList", teacherDAO.getAllTeachers());
+        List<Teacher> teachersList = teacherDAO.getAllTeachers();
+        model.addAttribute("teachersList", teachersList);
 
-        List<HashSet<Module>> modulesList= new ArrayList<>();
+        List<HashSet<Module>> modulesList = new ArrayList<>();
 
-        for (Teacher teacher: teachersList){
+        for (Teacher teacher : teachersList) {
 
-            HashSet<Module> module=new HashSet<>(teacher.getTeacherModulesSet());
+            HashSet<Module> module = new HashSet<>(teacher.getTeacherModulesSet());
 
             modulesList.add(module);
 
         }
 
-        model.addAttribute("modulesList", modulesList );
+        model.addAttribute("modulesList", modulesList);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddTeacherPayment";
     }
 
-     @RequestMapping("/addStaffPayment")
+    @RequestMapping("/addStaffPayment")
     public String addStaffPayment(Model model) {
 
         String error = "";
@@ -111,53 +127,73 @@ public class PaymentController {
     }
 
 
-     @RequestMapping("/addNewStaffPayment")
+    @RequestMapping("/addNewStaffPayment")
     public String addNewStaffPayment(Model model, @RequestParam String id_staff) {
 
         String error = "";
 
 
-        Staff staff=staffDAO.getStaffByID(Integer.parseInt(id_staff));
+        Staff staff = staffDAO.getStaffByID(Integer.parseInt(id_staff));
 
-         System.out.println(id_staff);
 
-         PaymentStaff paymentStaff=new PaymentStaff(new Date(), staff.getSalary(), "the one connected", staff);
+        PaymentStaff paymentStaff = new PaymentStaff(new Date(), staff.getSalary(), "the one connected", staff);
 
-         paymentStaffDAO.addPaymentStaff(paymentStaff);
+        paymentStaffDAO.addPaymentStaff(paymentStaff);
 
         model.addAttribute("error", error);
 
 
-         return "redirect:staffSalaries.j";
+        return "redirect:staffSalaries.j";
 
     }
 
 
-
-     @RequestMapping("/addNewTeacherPayment")
+    @RequestMapping("/addNewTeacherPayment")
     public String addNewTeacherPayment(Model model, @RequestParam String id_teacher) {
 
         String error = "";
 
 
-        Teacher teacher= teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
+        Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
 
-         System.out.println(id_teacher);
+        System.out.println(id_teacher);
 
 
-         PaymentTeacher paymentTeacher=new PaymentTeacher(new Date(), teacher.getSalary(),  "the one connected",
-                 "module", "payment type", teacher);
+        PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), teacher.getSalary(), "the one connected",
+                "module", "payment type", teacher);
 
-         paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
+        paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
 
         model.addAttribute("error", error);
 
-
-         return "redirect:staffSalaries.j";
+        return "redirect:teachersSalaries.j";
 
     }
 
 
+    @RequestMapping("/addNewStudentPayment")
+    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String payed, @RequestParam String mod) {
+
+        String error = "";
+
+        Student student = studentDAO.getStudentByID(Integer.parseInt(id_student));
+
+        String[] modules_fees = mod.split(",");
+        StringBuilder modules = new StringBuilder();
+
+        for (String module_fee : modules_fees) {
+            modules.append(module_fee.split(" ", 2)[0]).append(", ");
+        }
+
+        PaymentStudent paymentStudent = new PaymentStudent(new Date(), Long.parseLong(payed), modules.toString(), "the one connected", student);
+
+        paymentStudentDAO.addPaymentStudent(paymentStudent);
+
+        model.addAttribute("error", error);
+
+        return "redirect:studentPayment.j";
+
+    }
 
 
 }

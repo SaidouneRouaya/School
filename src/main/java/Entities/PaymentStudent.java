@@ -44,6 +44,15 @@ public class PaymentStudent implements Serializable {
         this.studentPay = studentPay;
     }
 
+    public void updatePaymentStudent(PaymentStudent paymentStudent) {
+        this.date = paymentStudent.getDate();
+        this.ammount = paymentStudent.getAmmount();
+        this.module = paymentStudent.getModule();
+        this.receiver = paymentStudent.getReceiver();
+        this.studentPay = paymentStudent.getStudentPay();
+    }
+
+
     public int getId() {
         return id;
     }

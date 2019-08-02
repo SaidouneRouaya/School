@@ -9,5 +9,6 @@ public interface PaymentStudentDAO {
     public void addPaymentStudent(PaymentStudent paymentStudent);
     public List<PaymentStudent> getAllPaymentStudents();
     public void deletePaymentStudent(int id);
-    public void updatePaymentStudent(int id);
+    public void updatePaymentStudent(int id, PaymentStudent paymentStudent);
+    public PaymentStudent getPayementStudentByID(int id);
 }
