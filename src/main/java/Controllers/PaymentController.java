@@ -122,12 +122,33 @@ public class PaymentController {
         List<PaymentStaff> staffSalariesList= paymentStaffDAO.getAllPaymentStaffs();
 
         model.addAttribute("staffSalariesList",staffSalariesList );
-        Long total=0l;
+
+        Long total=0L;
+
 
         for (PaymentStaff paymentStaff:staffSalariesList){
             total+=paymentStaff.getAmmount();
         }
+
         model.addAttribute("totalPayStaff", total);
+
+        SortedMap<String, List<PaymentStaff>> results  = paymentStaffDAO.getPaymentStaffSorted();
+
+        int size= results.size()/2;
+
+
+        String firstKey= results.firstKey();
+
+        String middleKey=results.keySet().toArray()[size].toString();
+
+
+        model.addAttribute("staffPaymentListSorted", results);
+        model.addAttribute("staffPaymentListSorted1", results.subMap(firstKey,middleKey));
+        model.addAttribute("staffPaymentListSorted2", results.tailMap(middleKey));
+
+        Map<String,Long>  totalsByDate = paymentStaffDAO.totalsByDate;
+
+        model.addAttribute("totalsByDate", totalsByDate);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/StaffSalariesDataTable";

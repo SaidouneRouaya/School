@@ -69,10 +69,6 @@
             <div class="row">
                 <div class="col-xs-12">
 
-                    <!-- Add new student
-                    <button type="button" class="btn-app .btn-lg"></button>-->
-
-
                     <!-- /.box -->
 
                     <div class="box">
@@ -84,15 +80,15 @@
                             <div id="printableArea">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
-                                <h3>Date : 12/03/2019</h3>
+                                <h3>Payment history</h3>
                                 <br/>
 
                                 <tr>
                                     <th>Full name</th>
-                                    <th>Phone number</th>
                                     <th>Function</th>
                                     <th>Salary</th>
                                     <th>Receiver</th>
+                                    <th>Date</th>
 
                                 </tr>
 
@@ -102,11 +98,12 @@
                                 <tg:forEach items="${staffSalariesList}" var="item">
 
                                     <tr>
-                                        <td><c:out value="${item.staff.name}"/> <c:out value="${item.staff.familyname}"/></td>
-                                        <td><c:out value="${item.staff.phoneNumber}"/></td>
+                                        <td># <c:out value="${item.staff.name}"/> <c:out value="${item.staff.familyname}"/></td>
                                         <td><c:out value="${item.staff.job}"/></td>
                                         <td><c:out value="${item.ammount.toString()}"/></td>
                                         <td><c:out value="${item.receiver}"/></td>
+                                        <td><c:out value="${item.date}"/></td>
+
                                     </tr>
 
                                 </tg:forEach>
@@ -116,10 +113,10 @@
                                 <tfoot>
                                 <tr>
                                     <th>Full name</th>
-                                    <th>Phone number</th>
                                     <th>Function</th>
                                     <th>Salary</th>
                                     <th>Receiver</th>
+                                    <th>Date</th>
 
                                 </tr>
                                 </tfoot>
@@ -141,6 +138,200 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
+        <section class="content">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"> Payment history by date</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+
+                            <div class="col-md-6">
+                                <div class="box-group" id="accordion">
+                                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+
+                                    <c:set var="collapseNumber" value="${0}"/>
+
+                                    <tg:forEach var="entryPayments" items="${staffPaymentListSorted1.entrySet()}">
+
+                                        <c:set var="collapseNumber" value="${collapseNumber+1}"/>
+
+                                        <div class="panel box box-primary">
+                                            <div class="box-header with-border">
+                                                <h4 class="box-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapse${collapseNumber}">
+                                                        Date : <c:out value="${entryPayments.key}"/>
+                                                    </a>
+                                                </h4>
+                                            </div>
+
+                                            <div id="collapse${collapseNumber}" class="panel-collapse collapse">
+
+                                                <div class="box-body">
+
+                                                    <div id="printableArea2">
+                                                        <table id="example11"
+                                                               class="table table-bordered table-striped">
+                                                            <thead>
+                                                            <h3>Date : <c:out value="${entryPayments.key}"/></h3>
+                                                            <br/>
+
+                                                            <tr>
+                                                              
+                                                                <th>Full name</th>
+                                                                <th>Function</th>
+                                                                <th>Salary</th>
+                                                                <th>Receiver</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tg:forEach begin="0" end="${entryPayments.value.size() -1}"
+                                                                        var="k">
+                                                                <tr>
+
+                                                                    <td><c:out value="${entryPayments.value.get(k).getStaff().getName()}"/>
+                                                                        <c:out value="${entryPayments.value.get(k).getStaff().getFamilyname()}"/></td>
+                                                                    <td><c:out value="${entryPayments.value.get(k).getStaff().getJob()}"/></td>
+                                                                    <td><c:out value="${entryPayments.value.get(k).getAmmount()}"/></td>
+                                                                    <td><c:out value="${entryPayments.value.get(k).getReceiver()}"/></td>
+                                                                </tr>
+                                                            </tg:forEach>
+
+
+                                                            </tbody>
+
+                                                            <tfoot>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Full name</th>
+                                                                <th>Function</th>
+                                                                <th>Salary</th>
+                                                                <th>Receiver</th>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                        <h4 class="pull-right">Total
+                                                            :${totalsByDate.get(entryPayments.key)}.00 DZD</h4>
+
+                                                    </div>
+                                                    <div>
+
+                                                        <a target="_blank" class="btn btn-default pull-left"
+                                                           onclick="printDiv('printableArea2')"><i
+                                                                class="fa fa-print"></i>
+                                                            Print</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </tg:forEach>
+                                </div>
+
+                            </div>
+
+
+
+
+                            <div class="col-md-6">
+                                <div class="box-group" id="accordion2">
+                                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+
+                                    <tg:forEach var="entryPayments" items="${staffPaymentListSorted2.entrySet()}">
+
+                                        <c:set var="collapseNumber" value="${collapseNumber+1}"/>
+
+                                        <div class="panel box box-success">
+                                            <div class="box-header with-border">
+                                                <h4 class="box-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion2"
+                                                       href="#collapse${collapseNumber}">
+                                                        Date : <c:out value="${entryPayments.key}"/>
+                                                    </a>
+                                                </h4>
+                                            </div>
+
+                                            <div id="collapse${collapseNumber}" class="panel-collapse collapse">
+
+                                                <div class="box-body">
+
+                                                    <div id="printableArea3">
+                                                        <table id="example12"
+                                                               class="table table-bordered table-striped">
+                                                            <thead>
+                                                            <h3>Date : <c:out value="${entryPayments.key}"/></h3>
+                                                            <br/>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Full name</th>
+                                                                <th>Function</th>
+                                                                <th>Salary</th>
+                                                                <th>Receiver</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            <tg:forEach begin="0" end="${entryPayments.value.size() -1}" var="k">
+                                                                <tr>
+
+                                                                     <td><c:out value="${entryPayments.value.get(k).getStaff().getName()}"/>
+                                                                        <c:out value="${entryPayments.value.get(k).getStaff().getFamilyname()}"/></td>
+                                                                    <td><c:out value="${entryPayments.value.get(k).getStaff().getJob()}"/></td>
+                                                                    <td><c:out value="${entryPayments.value.get(k).getAmmount()}"/></td>
+                                                                    <td><c:out value="${entryPayments.value.get(k).getReceiver()}"/></td>
+                                                                </tr>
+                                                            </tg:forEach>
+
+                                                            </tbody>
+
+                                                            <tfoot>
+                                                            <tr>
+
+                                                                <th>Full name</th>
+                                                                <th>Function</th>
+                                                                <th>Salary</th>
+                                                                <th>Receiver</th>
+                                                            </tr>
+
+                                                            </tfoot>
+                                                        </table>
+                                                        <h4 class="pull-right">Total
+                                                            :${totalsByDate.get(entryPayments.key)}.00 DZD</h4>
+
+                                                    </div>
+                                                    <div>
+
+                                                        <a target="_blank" class="btn btn-default pull-left"
+                                                           onclick="printDiv('printableArea3')"><i
+                                                                class="fa fa-print"></i>
+                                                            Print</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </tg:forEach>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+        </section>
+
+
     </div>
 
     <!-- footer  -->
@@ -170,6 +361,8 @@
 <script>
     $(function () {
         $('#example1').DataTable();
+        $('#example11').DataTable();
+        $('#example12').DataTable();
         $('#example2').DataTable({
             'paging': true,
             'lengthChange': false,

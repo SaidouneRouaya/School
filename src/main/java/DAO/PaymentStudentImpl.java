@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
@@ -147,6 +148,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
             results= session.createCriteria(PaymentStudent.class).
                     setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
+                    .addOrder(Order.desc("date"))
                     .list();
 
 
