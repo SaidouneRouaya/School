@@ -1,12 +1,16 @@
 package DAO;
 
+import Entities.GroupedStudentPayment;
 import Entities.PaymentStaff;
+import Entities.PaymentStudent;
 import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,6 +48,11 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
         try {
             tx = session.beginTransaction();
             paymentStaffs = session.createQuery("from PaymentStaff ").list();
+
+            for (PaymentStaff paymentStaff:paymentStaffs){
+
+                Hibernate.initialize(paymentStaff.getStaff());
+            }
 
             tx.commit();
         } catch (HibernateException e) {
@@ -103,8 +112,8 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
 
         try {
             tx = session.beginTransaction();
-           paymentStaff= session.get(PaymentStaff.class, id);
-
+            paymentStaff= session.get(PaymentStaff.class, id);
+            Hibernate.initialize(paymentStaff.getStaff());
             tx.commit();
 
         } catch (HibernateException e) {
@@ -115,5 +124,9 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
         }
         return paymentStaff;
     }
+
+
+
+
 
 }

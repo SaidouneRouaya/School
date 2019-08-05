@@ -8,11 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 
+import static java.lang.Thread.getAllStackTraces;
 import static java.lang.Thread.sleep;
 
 @org.springframework.stereotype.Controller
@@ -43,7 +42,29 @@ public class PaymentController {
 
         String error = "";
 
+        List<PaymentStudent> studentPaymentList= paymentStudentDAO.getAllPaymentStudents();
+
+        model.addAttribute("studentPaymentList",studentPaymentList );
+
+        Long total=0L;
+
+        for (PaymentStudent paymentStudent:studentPaymentList){
+            total+=paymentStudent.getAmmount();
+        }
+        model.addAttribute("totalPayStudent", total);
+
+        HashMap<String, List<PaymentStudent>> results  = paymentStudentDAO.getPaymentStudentSorted();
+
+
+        Map<String,Long>  totalsByDate = paymentStudentDAO.totalsByDate;
+
+
+
+        model.addAttribute("totalsByDate", totalsByDate);
+
+        model.addAttribute("studentPaymentListSorted", results);
         model.addAttribute("error", error);
+
         return "LanguagesSchoolPages/Payment/StudentsPaymentDataTable";
     }
 
@@ -51,6 +72,42 @@ public class PaymentController {
     public String teachersSalaries(Model model) {
 
         String error = "";
+
+        List<PaymentTeacher> teacherSalariesList= paymentTeacherDAO.getAllPaymentTeachers();
+
+        model.addAttribute("teacherSalariesList",teacherSalariesList );
+
+        Long total=0L;
+
+
+        for (PaymentTeacher paymentTeacher:teacherSalariesList){
+            total+=paymentTeacher.getAmount();
+        }
+
+        model.addAttribute("totalPayTeacher", total);
+
+        SortedMap<String, List<PaymentTeacher>> results  = paymentTeacherDAO.getPaymentTeacherSorted();
+
+        int size= results.size()/2;
+
+        String firstKey= results.firstKey();
+
+
+        String middleKey=results.keySet().toArray()[size].toString();
+
+
+
+        model.addAttribute("teacherPaymentListSorted", results);
+        model.addAttribute("teacherPaymentListSorted1", results.subMap(firstKey,middleKey));
+        model.addAttribute("teacherPaymentListSorted2", results.tailMap(middleKey));
+
+
+        Map<String,Long>  totalsByDate = paymentTeacherDAO.totalsByDate;
+
+        model.addAttribute("totalsByDate", totalsByDate);
+
+
+
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/TeachersSalariesDataTable";
@@ -61,6 +118,16 @@ public class PaymentController {
     public String staffSalaries(Model model) {
 
         String error = "";
+
+        List<PaymentStaff> staffSalariesList= paymentStaffDAO.getAllPaymentStaffs();
+
+        model.addAttribute("staffSalariesList",staffSalariesList );
+        Long total=0l;
+
+        for (PaymentStaff paymentStaff:staffSalariesList){
+            total+=paymentStaff.getAmmount();
+        }
+        model.addAttribute("totalPayStaff", total);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/StaffSalariesDataTable";
@@ -172,7 +239,7 @@ public class PaymentController {
 
 
     @RequestMapping("/addNewStudentPayment")
-    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String payed, @RequestParam String mod) {
+    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String payed, @RequestParam String mod, @RequestParam String date_payment) {
 
         String error = "";
 
@@ -185,7 +252,8 @@ public class PaymentController {
             modules.append(module_fee.split(" ", 2)[0]).append(", ");
         }
 
-        PaymentStudent paymentStudent = new PaymentStudent(new Date(), Long.parseLong(payed), modules.toString(), "the one connected", student);
+
+        PaymentStudent paymentStudent = new PaymentStudent(date_payment, Long.parseLong(payed), modules.toString(), "the one connected", student);
 
         paymentStudentDAO.addPaymentStudent(paymentStudent);
 

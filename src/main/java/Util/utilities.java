@@ -22,15 +22,20 @@ public class utilities {
         dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy-MM-dd"));
         dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})/((0|1)\\d{1})/((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy/MM/dd"));
 
+        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2)\\d{1}) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9]).([0-9])$"),  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"));
+
         Date finalDate=null;
         try{
             DateFormat finalFormat = new SimpleDateFormat("MM/dd/yyyy");
 
             for (Pattern pattern : dateFormatPatterns.keySet()) {
                 if (pattern.matcher(date).matches()) {
+
+
                     Date dateFormatted = dateFormatPatterns.get(pattern).parse(date);
 
                     finalDate  = finalFormat.parse(finalFormat.format(dateFormatted));
+
 
                 }
             }

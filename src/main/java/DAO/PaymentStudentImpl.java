@@ -1,14 +1,20 @@
 package DAO;
 
 
+import Entities.GroupedStudentPayment;
 import Entities.PaymentStudent;
 import Util.HibernateUtil;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 
 
 @Component
@@ -16,6 +22,12 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
     public void init() {
     }
+
+    public Map<String,Long> getTotalsByDate() {
+        return totalsByDate;
+    }
+
+
     @Override
     public void addPaymentStudent(PaymentStudent paymentStudent) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -43,6 +55,11 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
         try {
             tx = session.beginTransaction();
             paymentStudents = session.createQuery("from PaymentStudent ").list();
+
+            for(PaymentStudent paymentStudent:paymentStudents){
+
+                Hibernate.initialize(paymentStudent.getStudentPay());
+            }
 
             tx.commit();
         } catch (HibernateException e) {
@@ -105,7 +122,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
         try {
             tx = session.beginTransaction();
             paymentStudent= session.get(PaymentStudent.class, id);
-
+            Hibernate.initialize(paymentStudent.getStudentPay());
             tx.commit();
 
         } catch (HibernateException e) {
@@ -116,5 +133,91 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
         }
         return paymentStudent;
     }
+
+
+    public List<Timestamp> getPaymentStudentByDate ()
+    {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<Timestamp> results=null;
+      //  List<Timestamp> resultsTemp=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(PaymentStudent.class).
+                    setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
+                    .list();
+
+
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+    public List<PaymentStudent> getPaymentStudentsByDate (Timestamp date)
+    {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<PaymentStudent> results=null;
+      //  List<Timestamp> resultsTemp=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(PaymentStudent.class)
+                    .add(Restrictions.eq("date", date)).list();
+
+
+            Long total=0L;
+            for(PaymentStudent paymentStudent:results){
+
+                total+=paymentStudent.getAmmount();
+
+                Hibernate.initialize(paymentStudent.getStudentPay());
+            }
+
+            tx.commit();
+            String time=date.toString();
+            time= time.substring(0, time.length()-10);
+
+            totalsByDate.put(time, total);
+
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+
+    @Override
+    public HashMap<String, List<PaymentStudent>> getPaymentStudentSorted(){
+
+        List<Timestamp> dates=getPaymentStudentByDate();
+        HashMap<String, List<PaymentStudent>> results =new HashMap<>();
+
+        for (Timestamp timestamp:dates){
+            String time=timestamp.toString();
+            time= time.substring(0, time.length()-10);
+
+            results.put(time, getPaymentStudentsByDate(timestamp));
+        }
+
+        return results;
+    }
+
 
 }

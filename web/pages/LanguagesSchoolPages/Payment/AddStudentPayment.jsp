@@ -112,6 +112,7 @@
 
                                     <div>
                                         <h3 id="date"></h3>
+                                        <input id="date_payment" name="date_payment" value="" hidden/>
                                     </div>
 
                                     <!-- List of students -->
@@ -267,6 +268,7 @@
 <!-- Page script -->
 <script>
     document.getElementById("date").innerHTML = formatDate();
+    document.getElementById("date_payment").value= formatDate();
     var total=0 ;
     var payed=0 ;
     var id_discount_i;

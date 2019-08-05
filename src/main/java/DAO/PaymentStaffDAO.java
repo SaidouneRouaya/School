@@ -1,5 +1,6 @@
 package DAO;
 
+import Entities.GroupedStudentPayment;
 import Entities.Module;
 import Entities.PaymentStaff;
 
@@ -12,4 +13,5 @@ public interface PaymentStaffDAO {
     public void deletePaymentStaff(int id);
     public void updatePaymentStaff(int id, PaymentStaff paymentStaff);
     public PaymentStaff getPayementStaffByID(int id);
+
 }

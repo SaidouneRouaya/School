@@ -1,6 +1,8 @@
 package Entities;
 
 
+import Util.utilities;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -36,13 +38,15 @@ public class PaymentStudent implements Serializable {
     public PaymentStudent() {
     }
 
-    public PaymentStudent(Date date, Long ammount, String module, String receiver, Student studentPay) {
-        this.date = date;
+    public PaymentStudent(String date, Long ammount, String module, String receiver, Student studentPay) {
+        this.date = utilities.formatDate(date);
         this.ammount = ammount;
         this.module = module;
         this.receiver = receiver;
         this.studentPay = studentPay;
     }
+
+
 
     public void updatePaymentStudent(PaymentStudent paymentStudent) {
         this.date = paymentStudent.getDate();
