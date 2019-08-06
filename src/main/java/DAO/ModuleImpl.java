@@ -103,9 +103,9 @@ public class ModuleImpl implements  ModuleDAO{
             tx = session.beginTransaction();
             Module module = session.get(Module.class, id);
 
-            //TODO
-
+            module.updateModule(newModule);
             session.update(module);
+
             tx.commit();
 
         } catch (HibernateException e) {

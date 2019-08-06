@@ -19,8 +19,6 @@ public class Module implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "sessions_number")
-    private int numberSessions;
 
     @Column(name = "fees")
     private long fees;
@@ -52,16 +50,32 @@ public class Module implements Serializable {
     public Module(String name, long fees, Set<Session> sessionsSet, Set<Student> studentsSet) {
         this.name = name;
         this.fees = fees;
-       // this.groupsSet = groupsSet;
+
         this.sessionsSet = sessionsSet;
         this.studentsSet = studentsSet;
     }
 
-    public Module(String name, int numberSessions, long fees,  Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
+    public void updateModule(Module newModule)  {
+
+        this.name=newModule.getName();
+        this.fees=newModule.getFees();
+
+    }
+
+    public Module(String name, long fees, Set<GroupOfStudents> groupsSet, Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
         this.name = name;
-        this.numberSessions = numberSessions;
         this.fees = fees;
-    //    this.groupsSet = groupsSet;
+        this.groupsSet = groupsSet;
+        this.sessionsSet = sessionsSet;
+        this.studentsSet = studentsSet;
+        this.moduleTeachersSet = moduleTeachersSet;
+    }
+
+    public Module(String name, long fees, Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
+        this.name = name;
+
+        this.fees = fees;
+
         this.sessionsSet = sessionsSet;
         this.studentsSet = studentsSet;
         this.moduleTeachersSet = moduleTeachersSet;
@@ -75,13 +89,6 @@ public class Module implements Serializable {
         this.moduleTeachersSet = moduleTeachersSet;
     }
 
-    public int getNumberSessions() {
-        return numberSessions;
-    }
-
-    public void setNumberSessions(int numberSessions) {
-        this.numberSessions = numberSessions;
-    }
 
    public Set<GroupOfStudents> getGroupsSet() {
         return groupsSet;

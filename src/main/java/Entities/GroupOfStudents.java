@@ -28,6 +28,10 @@ public class GroupOfStudents implements Serializable {
     @Column(name = "payment_type")
     private String paymentType;
 
+    @Column(name = "number_sessions")
+    private int numberSessions;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_module", nullable=false)
     private Module module;
@@ -56,6 +60,24 @@ public class GroupOfStudents implements Serializable {
         this.module = module;
         this.teacher = teacher;
         this.studentsSet = studentsSet;
+    }
+
+    public GroupOfStudents(String name, Date startDate, String paymentType, int numberSessions, Module module, Teacher teacher, Set<Student> studentsSet) {
+        this.name = name;
+        this.startDate = startDate;
+        this.paymentType = paymentType;
+        this.numberSessions = numberSessions;
+        this.module = module;
+        this.teacher = teacher;
+        this.studentsSet = studentsSet;
+    }
+
+    public int getNumberSessions() {
+        return numberSessions;
+    }
+
+    public void setNumberSessions(int numberSessions) {
+        this.numberSessions = numberSessions;
     }
 
     public String getName() {

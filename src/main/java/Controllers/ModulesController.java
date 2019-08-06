@@ -52,19 +52,52 @@ public class ModulesController {
         return "LanguagesSchoolPages/Modules/AddModule";
 
     }
+    @RequestMapping("/updateModule")
+    public String updateModule(Model model,  @RequestParam String query) {
 
-      @RequestMapping("/addNewModule")
+        String error = "";
+        model.addAttribute("module", moduleDAO.getModuleByID(Integer.parseInt(query)));
+
+        model.addAttribute("error", error);
+
+        return "LanguagesSchoolPages/Modules/UpdateModule";
+    }
+
+    @RequestMapping("/PersistUpdateModule")
+    public String persistUpdateModule(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+
+        String error = "";
+         Module module= new Module();
+
+         try{
+
+             module=new Module(param.get("name"), Long.parseLong(param.get("fees")));
+
+             moduleDAO.updateModule(Integer.parseInt(query), module);
+
+
+        }catch(Exception ex){
+            error=ex.toString();
+            ex.printStackTrace();
+        }
+        model.addAttribute("module", module);
+
+        model.addAttribute("error", error);
+        return "redirect:Modules.j";
+    }
+
+
+    @RequestMapping("/addNewModule")
     public String addNewModule(Model model , @RequestParam Map<String, String> param ) {
 
         String error = "";
 
           Set<Teacher> teachers= new HashSet<>();
           Set<Student> students= new HashSet<>();
-         // Set<GroupOfStudents> groups= new HashSet<>();
+          Set<GroupOfStudents> groups= new HashSet<>();
           Set<Session> sessions= new HashSet<>();
 
-        Module module=new Module(param.get("name"),  Integer.parseInt(param.get("numberLessons")),
-                Long.parseLong(param.get("fees")), sessions, students, teachers);
+        Module module=new Module(param.get("name"), Long.parseLong(param.get("fees")), groups, sessions, students, teachers);
 
         moduleDAO.addModule(module);
 

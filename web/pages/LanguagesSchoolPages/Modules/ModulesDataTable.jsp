@@ -92,9 +92,9 @@
                             <tr>
                                 <th>Module's name</th>
                                 <th>Teacher</th>
-                                <th>Number of lessons</th>
-                                <th>Fees</th>
 
+                                <th>Fees</th>
+                                <th>Update</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -110,8 +110,8 @@
                                             <c:out value="${teacher.name}"/>, <c:out value="${teacher.familyname}"/>
                                         </tg:forEach>
                                     </tg:forEach></td>
-                                    <td><c:out value="${item.numberSessions}"/></td>
                                     <td><c:out value="${item.fees}"/></td>
+                                    <td><a href="updateModule.j?query=${item.id}" class="btn  bg-teal-gradient">Update</a></td>
 
                                 </tr>
 
@@ -124,9 +124,9 @@
                             <tr>
                                 <th>Module's name</th>
                                 <th>Teacher</th>
-                                <th>Number of lessons</th>
-                                <th>Fees</th>
 
+                                <th>Fees</th>
+                                <th>Update</th>
                             </tr>
                             </tfoot>
                         </table>
