@@ -131,36 +131,36 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
 
 
 
-    public List<Timestamp> getPaymentTeacherByDate ()
-    {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = null;
-        List<Timestamp> results=null;
-        //  List<Timestamp> resultsTemp=null;
+        public List<Timestamp> getPaymentTeacherByDate ()
+        {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = null;
+            List<Timestamp> results=null;
+            //  List<Timestamp> resultsTemp=null;
 
-        try {
-            tx = session.beginTransaction();
+            try {
+                tx = session.beginTransaction();
 
-            results= session.createCriteria(PaymentTeacher.class)
-                    .setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
-                    .addOrder(Order.desc("date"))
-                    .list();
-            tx.commit();
+                results= session.createCriteria(PaymentTeacher.class)
+                        .setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
+                        .addOrder(Order.desc("date"))
+                        .list();
+                tx.commit();
 
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
+            } catch (HibernateException e) {
+                if (tx != null) tx.rollback();
+                e.printStackTrace();
+            } finally {
+                session.close();
+            }
+
+            return results;
         }
 
-        return results;
-    }
-
-    public List<PaymentTeacher> getPaymentTeachersByDate (Timestamp date)
-    {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = null;
+        public List<PaymentTeacher> getPaymentTeachersByDate (Timestamp date)
+        {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = null;
         List<PaymentTeacher> results=null;
         //  List<Timestamp> resultsTemp=null;
 

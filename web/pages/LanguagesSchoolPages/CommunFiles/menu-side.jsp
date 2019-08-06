@@ -49,16 +49,15 @@
                     <i class="glyphicon glyphicon-education"></i>
                     <span>Groups</span>
                     <span class="pull-right-container">
-              <span class="fa fa-angle-left pull-right pull-right"></span>
-            </span>
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="englishGroup.j"><i class="fa fa-circle-o"></i>English</a></li>
-                    <li><a href="frenchGroup.j"><i class="fa fa-circle-o"></i>French</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i>Mathematics</a></li>
-
+                    <li><a href="Groups.j"><i class="fa fa-circle-o"></i>Groups list</a></li>
+                    <li><a href="GroupsByModule.j"><i class="fa fa-circle-o"></i>Groups by module</a></li>
                 </ul>
             </li>
+
             <li class="treeview">
                 <a href="Modules.j">
                     <i class="glyphicon glyphicon-text-color"></i> <span>Modules</span>
@@ -94,9 +93,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="addStudentPayment.j"><i class="fa fa-circle-o"></i>Student payment</a></li>
-                    <li><a href="addTeacherPayment.j"><i class="fa fa-circle-o"></i>Teacher payment</a></li>
-                    <li><a href="addStaffPayment.j"><i class="fa fa-circle-o"></i>Staff payment</a></li>
+                    <li><a href="addStudentPayment.j"><i class="fa fa-circle-o"></i>New student's payment</a></li>
+                    <li><a href="addTeacherPayment.j"><i class="fa fa-circle-o"></i>New teacher's payment</a></li>
+                    <li><a href="addStaffPayment.j"><i class="fa fa-circle-o"></i>New staff's payment</a></li>
 
                      <li><a href="studentPayment.j"><i class="fa fa-circle-o"></i>List of students' payments</a></li>
                     <li><a href="teachersSalaries.j"><i class="fa fa-circle-o"></i>List of teachers' salaries</a></li>

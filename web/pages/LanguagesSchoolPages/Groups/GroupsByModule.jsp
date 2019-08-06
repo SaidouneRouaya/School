@@ -122,89 +122,114 @@
             </div>
 
 
-            <div class="row">
+
 
 
                 <c:set var="Number" value="${0}"/>
 
-                    <tg:forEach begin="0" end="${groupsList.size() -1}" var="i">
+
+                <tg:forEach var="entry" items="${groupsListByModule.entrySet()}">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="box">
+                               <div class="box-header">
+                                      <h3 class="box-title"><c:out value="${entry.key}" /></h3>
+                               </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <tg:forEach begin="0" end="${entry.value.size()-1}" var="i">
+
+                                            <div class="col-lg-3 col-xs-6">
+
+                                                <!-- small box -->
+                                                <div class="small-box
+                                           <c:choose>
+                                            <c:when test="${Number eq 0}">
+                                            bg-aqua
+                                            </c:when>
+                                            <c:when test="${Number eq 1}">
+                                            bg-orange
+                                            </c:when>
+
+                                             <c:when test="${Number eq 2}">
+                                            bg-olive
+                                             </c:when>
+                                            <c:when test="${Number eq 3}">
+                                            bg-maroon
+                                            </c:when>
+
+                                            <c:when test="${Number eq 4}">
+                                            bg-lime
+                                            </c:when>
+
+                                           <c:when test="${Number eq 5}">
+                                            bg-blue
+                                            </c:when>
+
+                                            <c:when test="${Number eq 6}">
+                                            bg-purple
+                                            </c:when>
+
+                                            <c:when test="${Number eq 7}">
+                                            bg-navy
+                                            </c:when>
+                                            <c:when test="${Number eq 8}">
+                                            bg-gray
+                                            </c:when>
+                                            <c:when test="${Number eq 9}">
+                                            bg-black
+                                            </c:when>
+
+                                            <c:when test="${Number eq 10}">
+                                            bg-teal
+                                            </c:when>
+                                            <c:when test="${Number eq 11}">
+                                            bg-primary
+                                            </c:when>
+                                            <c:when test="${Number eq 12}">
+                                            bg-yellow
+                                            </c:when>
+                                            <c:when test="${Number eq 13}">
+                                            bg-red
+                                            </c:when>
+                                            <c:when test="${Number eq 14}">
+                                            bg-green
+                                            </c:when>
+                                            <c:otherwise>
+                                                  <c:set var="Number" value="${0}"/>
+                                            </c:otherwise>
+                                        </c:choose> ">
+                                                    <div class="inner">
 
 
-                    <div class="col-lg-3 col-xs-6">
-                                        <!-- small box -->
-                                        <div class="small-box
-                                       <c:choose>
-                                        <c:when test="${Number eq 0}">
-                                        bg-aqua
-                                        </c:when>
-                                        <c:when test="${Number eq 1}">
-                                        bg-orange
-                                        </c:when>
-
-                                         <c:when test="${Number eq 2}">
-                                        bg-olive
-                                         </c:when>
-                                        <c:when test="${Number eq 3}">
-                                        bg-maroon
-                                        </c:when>
-
-                                        <c:when test="${Number eq 4}">
-                                        bg-lime
-                                        </c:when>
-
-                                       <c:when test="${Number eq 5}">
-                                        bg-blue
-                                        </c:when>
-
-                                        <c:when test="${Number eq 6}">
-                                        bg-purple
-                                        </c:when>
-
-                                        <c:when test="${Number eq 7}">
-                                        bg-navy
-                                        </c:when>
-                                        <c:when test="${Number eq 8}">
-                                        bg-gray
-                                        </c:when>
-                                        <c:when test="${Number eq 9}">
-                                        bg-black
-                                        </c:when>
-
-                                        <c:when test="${Number eq 10}">
-                                        bg-teal
-                                        </c:when>
-                                        <c:when test="${Number eq 11}">
-                                        bg-primary
-                                        </c:when>
-                                        <c:when test="${Number eq 12}">
-                                        bg-yellow
-                                        </c:when>
-                                        <c:when test="${Number eq 13}">
-                                        bg-red
-                                        </c:when>
-                                        <c:when test="${Number eq 14}">
-                                        bg-green
-                                        </c:when>
-                                        <c:otherwise>
-                                              <c:set var="Number" value="${0}"/>
-                                        </c:otherwise>
-                                    </c:choose> ">
-                                            <div class="inner">
-                                                <c:set var="Number" value="${Number+1}"/>
-                                                <h3><c:out value="${groupsList[i].name}" /></h3>
-                                                <p><c:out value="${groupsList[i].module.name}" /></p>
+                                                        <h3><c:out value="${entry.value.get(i).name}" /></h3>
+                                                        <p><c:out value="${entry.value.get(i).module.name}" /></p>
+                                                    </div>
+                                                    <div class="icon">
+                                                        <i class="ion ion-person-add"></i>
+                                                    </div>
+                                                    <a href="GroupDetails.j?id_group=${entry.value.get(i).id}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                                </div>
                                             </div>
-                                            <div class="icon">
-                                                <i class="ion ion-person-add"></i>
-                                            </div>
-                                            <a href="GroupDetails.j?id_group=${groupsList[i].id}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                                        </div>
+
+                                        </tg:forEach>
+
+                                        <c:set var="Number" value="${Number+1}"/>
+
                                     </div>
+                            </div>
 
-                    </tg:forEach>
+                        </div>
+                    </div>
+
+                </tg:forEach>
+
 
                 <!-- ./col -->
-            </div>
+
             <!-- /.row -->
         </section>
         <!-- /.content -->

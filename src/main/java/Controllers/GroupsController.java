@@ -1,6 +1,6 @@
 package Controllers;
 
-import DAO.GroupDAO;
+import DAO.GroupOfStudentsDAO;
 import DAO.ModuleDAO;
 import DAO.StudentDAO;
 import DAO.TeacherDAO;
@@ -21,7 +21,7 @@ public class GroupsController {
 
 
     @Autowired
-    GroupDAO groupDAO;
+    GroupOfStudentsDAO groupOfStudentsDAO;
 
     @Autowired
     ModuleDAO moduleDAO;
@@ -37,34 +37,30 @@ public class GroupsController {
 
         String error = "";
 
-        model.addAttribute("groupsList", groupDAO.getAllGroups());
+        model.addAttribute("groupsList", groupOfStudentsDAO.getAllGroups());
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupsList";
     }
 
-    @RequestMapping("/englishGroup")
-    public String englishGroup(Model model) {
+    @RequestMapping("/GroupsByModule")
+    public String GroupsByModule(Model model) {
 
         String error = "";
 
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Groups/GroupsListEnglish";
-    }
-
-    @RequestMapping("/frenchGroup")
-    public String frenchGroup(Model model) {
-
-        String error = "";
+        model.addAttribute("groupsListByModule", groupOfStudentsDAO.getAllGroupsByModules());
 
         model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Groups/GroupsListFrench";
+        return "LanguagesSchoolPages/Groups/GroupsByModule";
     }
+
 
     @RequestMapping("/GroupDetails")
-    public String groupDetails(Model model) {
+    public String groupDetails(Model model, @RequestParam String id_group) {
 
         String error = "";
+
+        model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group)));
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupDetails";
@@ -107,7 +103,7 @@ public class GroupsController {
 
         System.out.println(groupOfStudents);
 
-        groupDAO.addGroup(groupOfStudents);
+        groupOfStudentsDAO.addGroup(groupOfStudents);
 
         model.addAttribute("error", error);
         return "redirect:Groups.j";

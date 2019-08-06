@@ -11,7 +11,7 @@
 -->
     <bean class="DAO.StudentImpl" id="iStudent" init-method="init" />
     <bean class="DAO.ModuleImpl" id="iModule" init-method="init" />
-    <bean class="DAO.GroupImpl" id="iGroup" init-method="init" />
+    <bean class="DAO.GroupOfStudentsImpl" id="iGroup" init-method="init" />
     <bean class="DAO.PaymentTeacherImpl" id="iPaymentTeacher" init-method="init" />
     <bean class="DAO.PaymentStaffImpl" id="iPaymentStaff" init-method="init" />
     <bean class="DAO.PaymentStudentImpl" id="iPaymentSt" init-method="init" />

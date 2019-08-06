@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -83,10 +85,11 @@
 
                         <div class="box-header with-border">
                             <div class="col-md-8">
-                                <h3 class="box-title">Teacher : Flan ben flan</h3>
+                                <h3 class="box-title">Teacher : <c:out value="${group.teacher.name}"/>
+                                    <c:out value="${group.teacher.familyname}"/></h3>
                                 <p></p>
-                                <p>Start date : 12/03/2018</p>
-                                <p>Timing : 12:00-17:00 </p>
+                                <p>Start date : <c:out value="${group.startDate}"/></p>
+                                <p>Timing : 12:00-17:00 (from session ) </p>
                             </div>
                             <div class="col-md-4">
                                 <div class="box-tools pull-right">
@@ -103,20 +106,6 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <!--     <div class="mailbox-controls">
-                               Check all button
-                                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
-                                        class="fa fa-square-o"></i>
-                                </button>
-                                <div class="btn-groupOfStudents">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
-                                    </button>
-
-                                </div>
-                                <!-- /.btn-groupOfStudents -->
-
-                                <!-- /.pull-right
-                            </div>-->
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
 
@@ -130,368 +119,43 @@
                                         <th>S1: 12/03</th>
                                         <th>S2: 13/04</th>
                                         <th>S3: 12/05</th>
-                                        <th>S4: 10/06</th>
-                                        <th>S5: 10/07</th>
-                                        <th>S6: 10/08</th>
-                                        <th>S7: 10/09</th>
-                                        <th>S8: 10/10</th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                    </tr>
 
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
                                     </tr>
+                                    <c:set var="number" value="${0}"/>
+                                        <tg:forEach items="${group.studentsSet}" var="student">
+                                            <c:set var="number" value="${number+1}"/>
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
+                                                        class="fa fa-remove"></i>
+                                                </button>
+                                            </td>
+                                            <td><c:out value="${number}"/></td>
+                                            <!-- nom du type de la stat  -->
+                                            <td><a href="Profile.j?query=${student.id}" >
+                                                <c:out value="${student.name}"/>  <c:out value="${student.familyname}"/>
+                                            </a></td>
 
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                    </tr>
+                                            <td><c:out value ="${student.phoneNumber1}"/></td>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox"/>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox"/>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox"/>
+                                                </label>
+                                            </td>
 
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                    </tr>
+                                        </tr>
 
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                    class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
-                                        <td>1</td>
-                                        <td>SAIDOUNE Raid</td>
-                                        <td>092042018</td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red" checked disabled>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="flat-red">
-                                            </label>
-                                        </td>
-                                    </tr>
+                                    </tg:forEach>
 
 
                                     </tbody>
