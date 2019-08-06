@@ -8,7 +8,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<meta charset="utf-8">
 	<title>Toolbar Configuration &mdash; CKEditor Sample</title>
 	<meta name="ckeditor-sample-name" content="Toolbar Configurations">
-	<meta name="ckeditor-sample-group" content="Advanced Samples">
+	<meta name="ckeditor-sample-groupOfStudents" content="Advanced Samples">
 	<meta name="ckeditor-sample-description" content="Configuring CKEditor to display full or custom toolbar layout.">
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/old/sample.css" rel="stylesheet">
@@ -31,7 +31,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		<h2 class="samples">By <a href="https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbar">config.toolbar</a></h2>
 
 		<p>
-			You can explicitly define which buttons are displayed in which groups and in which order.
+			You can explicitly define which buttons are displayed in which groupOfStudents and in which order.
 			This is the more precise setting, but less flexible. If newly added plugin adds its
 			own button you'll have to add it manually to your <code>config.toolbar</code> setting as well.
 		</p>
@@ -41,9 +41,9 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		<pre class="samples">
 CKEDITOR.replace( <em>'textarea_id'</em>, {
 	<strong>toolbar:</strong> [
-		{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },	// Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
-		[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],			// Defines toolbar group without name.
-		'/',																					// Line break - next group will be placed in new line.
+		{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },	// Defines toolbar groupOfStudents with name (used to create voice label) and items in 3 subgroups.
+		[ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],			// Defines toolbar groupOfStudents without name.
+		'/',																					// Line break - next groupOfStudents will be placed in new line.
 		{ name: 'basicstyles', items: [ 'Bold', 'Italic' ] }
 	]
 });</pre>
@@ -51,22 +51,22 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 		<h2 class="samples">By <a href="https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-toolbarGroups">config.toolbarGroups</a></h2>
 
 		<p>
-			You can define which groups of buttons (like e.g. <code>basicstyles</code>, <code>clipboard</code>
+			You can define which groupOfStudents of buttons (like e.g. <code>basicstyles</code>, <code>clipboard</code>
 			and <code>forms</code>) are displayed and in which order. Registered buttons are associated
-			with toolbar groups by <code>toolbar</code> property in their definition.
+			with toolbar groupOfStudents by <code>toolbar</code> property in their definition.
 			This setting's advantage is that you don't have to modify toolbar configuration
 			when adding/removing plugins which register their own buttons.
 		</p>
 
-		<p>To add a CKEditor instance with custom toolbar groups setting, insert the following JavaScript call to your code:</p>
+		<p>To add a CKEditor instance with custom toolbar groupOfStudents setting, insert the following JavaScript call to your code:</p>
 
 		<pre class="samples">
 CKEDITOR.replace( <em>'textarea_id'</em>, {
 	<strong>toolbarGroups:</strong> [
-		{ name: 'document',	   groups: [ 'mode', 'document' ] },			// Displays document group with its two subgroups.
- 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },			// Group's name will be used to create voice label.
- 		'/',																// Line break - next group will be placed in new line.
- 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'document',	   groupOfStudents: [ 'mode', 'document' ] },			// Displays document groupOfStudents with its two subgroups.
+ 		{ name: 'clipboard',   groupOfStudents: [ 'clipboard', 'undo' ] },			// Group's name will be used to create voice label.
+ 		'/',																// Line break - next groupOfStudents will be placed in new line.
+ 		{ name: 'basicstyles', groupOfStudents: [ 'basicstyles', 'cleanup' ] },
  		{ name: 'links' }
 	]
 
@@ -125,10 +125,10 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 				'// Toolbar configuration generated automatically by the editor based on config.toolbarGroups.\n' +
 				dumpToolbarConfiguration( editor ) +
 				'\n\n' +
-				'// Toolbar groups configuration.\n' +
+				'// Toolbar groupOfStudents configuration.\n' +
 				dumpToolbarConfiguration( editor, true )
 		}
-		// Toolbar groups doesn't count in this case - print only toolbar.
+		// Toolbar groupOfStudents doesn't count in this case - print only toolbar.
 		else {
 			output += '// Toolbar configuration.\n' +
 				dumpToolbarConfiguration( editor );
@@ -153,33 +153,33 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			toolbar = editor.toolbar;
 
 		for ( var i = 0; i < toolbar.length; ++i ) {
-			var group = dumpToolbarGroup( toolbar[ i ], printGroups );
-			if ( group )
-				output.push( group );
+			var groupOfStudents = dumpToolbarGroup( toolbar[ i ], printGroups );
+			if ( groupOfStudents )
+				output.push( groupOfStudents );
 		}
 
 		return 'config.toolbar' + ( printGroups ? 'Groups' : '' ) + ' = [\n\t' + output.join( ',\n\t' ) + '\n];';
 	}
 
-	function dumpToolbarGroup( group, printGroups ) {
+	function dumpToolbarGroup( groupOfStudents, printGroups ) {
 		var output = [];
 
-		if ( typeof group == 'string' )
-			return '\'' + group + '\'';
-		if ( CKEDITOR.tools.isArray( group ) )
-			return dumpToolbarItems( group );
-		// Skip group when printing entire toolbar configuration and there are no items in this group.
-		if ( !printGroups && !group.items )
+		if ( typeof groupOfStudents == 'string' )
+			return '\'' + groupOfStudents + '\'';
+		if ( CKEDITOR.tools.isArray( groupOfStudents ) )
+			return dumpToolbarItems( groupOfStudents );
+		// Skip groupOfStudents when printing entire toolbar configuration and there are no items in this groupOfStudents.
+		if ( !printGroups && !groupOfStudents.items )
 			return;
 
-		if ( group.name )
-			output.push( 'name: \'' + group.name + '\'' );
+		if ( groupOfStudents.name )
+			output.push( 'name: \'' + groupOfStudents.name + '\'' );
 
-		if ( group.groups )
-			output.push( 'groups: ' + dumpToolbarItems( group.groups ) );
+		if ( groupOfStudents.groupOfStudents )
+			output.push( 'groupOfStudents: ' + dumpToolbarItems( groupOfStudents.groupOfStudents ) );
 
 		if ( !printGroups )
-			output.push( 'items: ' + dumpToolbarItems( group.items ) );
+			output.push( 'items: ' + dumpToolbarItems( groupOfStudents.items ) );
 
 		return '{ ' + output.join( ', ' ) + ' }';
 	}

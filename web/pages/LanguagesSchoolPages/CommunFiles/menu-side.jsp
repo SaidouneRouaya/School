@@ -26,9 +26,9 @@
         </div>
         <!-- search form
         <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
+            <div class="input-groupOfStudents">
                 <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
+                <span class="input-groupOfStudents-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
               </span>

@@ -114,23 +114,23 @@
 
 
                                 <!-- text input -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Name</label>
                                     <input type="text" class="form-control" name="name"  placeholder="Enter name ...">
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Family name</label>
                                     <input type="text" class="form-control" name="familyName" placeholder="Enter family name ...">
                                 </div>
 
                                 <!-- Phone number -->
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Phone number 1:</label>
 
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
 
@@ -142,8 +142,8 @@
 
                                     <label>Phone number 2:</label>
 
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
 
@@ -155,11 +155,11 @@
                                 </div>
 
                                 <!-- Subscritption date -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Subscription date:</label>
 
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents date">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <label for="datepicker"></label><input type="text" class="form-control pull-right" name="subscriptionDate" id="datepicker">
@@ -167,7 +167,7 @@
                                 </div>
 
                                 <!-- radio -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="r3" value="free" >Free

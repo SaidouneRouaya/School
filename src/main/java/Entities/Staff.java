@@ -70,6 +70,14 @@ public class Staff  implements Serializable {
         this.picture = newStaff.getPicture();
     }
 
+    public Set<PaymentStaff> getPaymentStaffSet() {
+        return paymentStaffSet;
+    }
+
+    public void setPaymentStaffSet(Set<PaymentStaff> paymentStaffSet) {
+        this.paymentStaffSet = paymentStaffSet;
+    }
+
     public int getId() {
         return id;
     }

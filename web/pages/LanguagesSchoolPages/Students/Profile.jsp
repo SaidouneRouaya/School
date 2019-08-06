@@ -315,7 +315,7 @@
 
                         <div id="printableArea">
 
-                            <div id="module" class="form-group">
+                            <div id="module" class="form-groupOfStudents">
                                 <label>Module</label>
 
                                     <select  class="form-control select2" style="width: 100%;" >
@@ -332,7 +332,7 @@
                             </div>
 
                             <!-- radio -->
-                            <div class="form-group">
+                            <div class="form-groupOfStudents">
                                 <div class="radio">
                                     <label>
                                         <!--  <input type="radio" name="r3"  onclick="disable()">Free-->
@@ -348,11 +348,11 @@
 
                             </div>
 
-                            <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
+                            <ul class="list-groupOfStudents list-groupOfStudents-unbordered">
+                                <li class="list-groupOfStudents-item">
                                     <b>Total (without discount) :</b> <span class=" btn bg-purple pull-right"> 55 500.00 $</span>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-groupOfStudents-item">
                                     <div id="discount">
 
                                         <b>Discount : </b>
@@ -363,7 +363,7 @@
                                     </div>
 
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-groupOfStudents-item">
                                     <b>Payed : </b> <span class="btn bg-teal pull-right">50 000.00 $</span>
                                 </li>
                             </ul>

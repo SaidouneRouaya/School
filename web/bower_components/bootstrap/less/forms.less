@@ -202,25 +202,25 @@ output {
     }
 
     &.input-sm,
-    .input-group-sm & {
+    .input-groupOfStudents-sm & {
       line-height: @input-height-small;
     }
 
     &.input-lg,
-    .input-group-lg & {
+    .input-groupOfStudents-lg & {
       line-height: @input-height-large;
     }
   }
 }
 
 
-// Form groups
+// Form groupOfStudents
 //
 // Designed to help with the organization and spacing of vertical forms. For
 // horizontal forms, use the predefined grid classes.
 
-.form-group {
-  margin-bottom: @form-group-margin-bottom;
+.form-groupOfStudents {
+  margin-bottom: @form-groupOfStudents-margin-bottom;
 }
 
 
@@ -315,13 +315,13 @@ output {
 // Build on `.form-control` with modifier classes to decrease or increase the
 // height and font-size of form controls.
 //
-// The `.form-group-* form-control` variations are sadly duplicated to avoid the
+// The `.form-groupOfStudents-* form-control` variations are sadly duplicated to avoid the
 // issue documented in https://github.com/twbs/bootstrap/issues/15074.
 
 .input-sm {
   .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @input-border-radius-small);
 }
-.form-group-sm {
+.form-groupOfStudents-sm {
   .form-control {
     height: @input-height-small;
     padding: @padding-small-vertical @padding-small-horizontal;
@@ -349,7 +349,7 @@ output {
 .input-lg {
   .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @input-border-radius-large);
 }
-.form-group-lg {
+.form-groupOfStudents-lg {
   .form-control {
     height: @input-height-large;
     padding: @padding-large-vertical @padding-large-horizontal;
@@ -393,7 +393,7 @@ output {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 2; // Ensure icon is above input groups
+  z-index: 2; // Ensure icon is above input groupOfStudents
   display: block;
   width: @input-height-base;
   height: @input-height-base;
@@ -402,15 +402,15 @@ output {
   pointer-events: none;
 }
 .input-lg + .form-control-feedback,
-.input-group-lg + .form-control-feedback,
-.form-group-lg .form-control + .form-control-feedback {
+.input-groupOfStudents-lg + .form-control-feedback,
+.form-groupOfStudents-lg .form-control + .form-control-feedback {
   width: @input-height-large;
   height: @input-height-large;
   line-height: @input-height-large;
 }
 .input-sm + .form-control-feedback,
-.input-group-sm + .form-control-feedback,
-.form-group-sm .form-control + .form-control-feedback {
+.input-groupOfStudents-sm + .form-control-feedback,
+.form-groupOfStudents-sm .form-control + .form-control-feedback {
   width: @input-height-small;
   height: @input-height-small;
   line-height: @input-height-small;
@@ -458,8 +458,8 @@ output {
 // forms begin stacked on extra small (mobile) devices and then go inline when
 // viewports reach <768px.
 //
-// Requires wrapping inputs and labels with `.form-group` for proper display of
-// default HTML form controls and our custom form controls (e.g., input groups).
+// Requires wrapping inputs and labels with `.form-groupOfStudents` for proper display of
+// default HTML form controls and our custom form controls (e.g., input groupOfStudents).
 //
 // Heads up! This is mixin-ed into `.navbar-form` in navbars.less.
 
@@ -468,16 +468,16 @@ output {
   // Kick in the inline
   @media (min-width: @screen-sm-min) {
     // Inline-block all the things for "inline"
-    .form-group {
+    .form-groupOfStudents {
       display: inline-block;
       margin-bottom: 0;
       vertical-align: middle;
     }
 
-    // In navbar-form, allow folks to *not* use `.form-group`
+    // In navbar-form, allow folks to *not* use `.form-groupOfStudents`
     .form-control {
       display: inline-block;
-      width: auto; // Prevent labels from stacking above inputs in `.form-group`
+      width: auto; // Prevent labels from stacking above inputs in `.form-groupOfStudents`
       vertical-align: middle;
     }
 
@@ -486,19 +486,19 @@ output {
       display: inline-block;
     }
 
-    .input-group {
+    .input-groupOfStudents {
       display: inline-table;
       vertical-align: middle;
 
-      .input-group-addon,
-      .input-group-btn,
+      .input-groupOfStudents-addon,
+      .input-groupOfStudents-btn,
       .form-control {
         width: auto;
       }
     }
 
-    // Input groups need that 100% width though
-    .input-group > .form-control {
+    // Input groupOfStudents need that 100% width though
+    .input-groupOfStudents > .form-control {
       width: 100%;
     }
 
@@ -559,8 +559,8 @@ output {
     min-height: (@line-height-computed + (@padding-base-vertical + 1));
   }
 
-  // Make form groups behave like rows
-  .form-group {
+  // Make form groupOfStudents behave like rows
+  .form-groupOfStudents {
     .make-row();
   }
 
@@ -582,11 +582,11 @@ output {
     right: floor((@grid-gutter-width / 2));
   }
 
-  // Form group sizes
+  // Form groupOfStudents sizes
   //
   // Quick utility class for applying `.input-lg` and `.input-sm` styles to the
-  // inputs and labels within a `.form-group`.
-  .form-group-lg {
+  // inputs and labels within a `.form-groupOfStudents`.
+  .form-groupOfStudents-lg {
     @media (min-width: @screen-sm-min) {
       .control-label {
         padding-top: (@padding-large-vertical + 1);
@@ -594,7 +594,7 @@ output {
       }
     }
   }
-  .form-group-sm {
+  .form-groupOfStudents-sm {
     @media (min-width: @screen-sm-min) {
       .control-label {
         padding-top: (@padding-small-vertical + 1);

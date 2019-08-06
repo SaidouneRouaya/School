@@ -1,11 +1,13 @@
 package DAO;
 
+import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import Entities.Module;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,10 +47,18 @@ public class ModuleImpl implements  ModuleDAO{
 
             for (Module module:modules){
 
-                Hibernate.initialize(module.getModuleTeachersSet());
-                Hibernate.initialize(module.getSessionsSet());
-                Hibernate.initialize(module.getStudentsSet());
-                // Hibernate.initialize(module.getGroupsSet());
+                try{
+                    Hibernate.initialize(module.getModuleTeachersSet());
+                    Hibernate.initialize(module.getSessionsSet());
+                    Hibernate.initialize(module.getStudentsSet());
+                    Hibernate.initialize(module.getGroupsSet());
+
+                } catch( SQLGrammarException ex){
+
+                    System.out.println( "exception in hibernate initialize");
+                ex.printStackTrace();
+
+                }
 
             }
 
@@ -83,7 +93,8 @@ public class ModuleImpl implements  ModuleDAO{
         }
     }
 
-    public void updateModule(int id, String type) {
+    @Override
+    public void updateModule(int id, Module newModule) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -105,4 +116,32 @@ public class ModuleImpl implements  ModuleDAO{
         }
 
     }
+
+    @Override
+    public Module getModuleByID(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Module module = null;
+
+        try {
+            tx = session.beginTransaction();
+            module =  session.get(Module.class, id);
+
+            Hibernate.initialize(module.getModuleTeachersSet());
+            Hibernate.initialize(module.getSessionsSet());
+            Hibernate.initialize(module.getStudentsSet());
+            Hibernate.initialize(module.getGroupsSet());
+
+            tx.commit();
+
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return module;
+    }
+
 }

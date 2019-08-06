@@ -79,7 +79,7 @@ Miscelleanous improvements:
 
 [cr]: http://highlightjs.readthedocs.org/en/latest/css-classes-reference.html
 [api docs]: http://highlightjs.readthedocs.org/en/latest/api.html
-[variants]: https://groups.google.com/d/topic/highlightjs/VoGC9-1p5vk/discussion
+[variants]: https://groupOfStudents.google.com/d/topic/highlightjs/VoGC9-1p5vk/discussion
 [beginKeywords]: https://github.com/isagalaev/highlight.js/commit/6c7fdea002eb3949577a85b3f7930137c7c3038d
 [php-html]: https://twitter.com/highlightjs/status/408890903017689088
 
@@ -322,7 +322,7 @@ Overall highlight.js currently supports 51 languages and 20 style themes.
 ## Version 6.2
 
 A lot of things happened in highlight.js since the last version! We've got nine
-new contributors, the discussion group came alive, and the main branch on GitHub
+new contributors, the discussion groupOfStudents came alive, and the main branch on GitHub
 now counts more than 350 followers. Here are most significant results coming
 from all this activity:
 

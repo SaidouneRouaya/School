@@ -117,14 +117,14 @@
 
                                     <!-- List of students -->
 
-                                    <div id="student" class="form-group">
+                                    <div id="student" class="form-groupOfStudents">
                                         <label>Student</label>
 
                                         <select name="students" id="students" class="form-control select2"
                                                 onchange="changeModules()" style="width: 100%;">
                                             <tg:forEach begin="0" end="${studentsList.size() -1}" var="i">
 
-                                                <option name="staff"
+                                                <option name="student"
                                                         value="${studentsList[i].id} ${studentsList[i].discount} ${i}">
                                                     <c:out value="${studentsList[i].name}"/>
                                                     <c:out value="${studentsList[i].familyname}"/></option>
@@ -140,7 +140,7 @@
                                         <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
                                         <div id="listModules">
 
-                                                <div class="form-group" id="modules${i}" style="display: none">
+                                                <div class="form-groupOfStudents" id="modules${i}" style="display: none">
 
                                                     <tg:forEach items="${modulesList.get(i)}" var="module">
 
@@ -159,9 +159,9 @@
 
 
                                 <!-- Total to pay -->
-                                        <ul class="list-group list-group-unbordered">
+                                        <ul class="list-groupOfStudents list-groupOfStudents-unbordered">
                                             <div id="totalDiv">
-                                                <li class="list-group-item">
+                                                <li class="list-groupOfStudents-item">
                                                     <b>Total (without discount) :</b>
                                                     <span class=" btn bg-purple pull-right" id="total_span"></span>
                                                 </li>
@@ -170,7 +170,7 @@
 
                                             <!-- Discount of this student -->
                                             <div id="discountDiv">
-                                                <li class="list-group-item">
+                                                <li class="list-groupOfStudents-item">
                                                     <b>Discount : </b>
                                                     <input id="discount" type="text" name="discount"
                                                            class="col-xs-4 btn bg-navy pull-right" onchange="calculatePayed()">
@@ -180,7 +180,7 @@
 
                                             <!-- To pay -->
                                             <div id="payedDiv" >
-                                                <li class="list-group-item">
+                                                <li class="list-groupOfStudents-item">
                                                     <b>Payed : </b>
                                                     <span class="btn bg-teal pull-right" id="payed_span"></span>
                                                 </li>
@@ -339,7 +339,7 @@
 
     function printDiv(divName) {
 
-        document.getElementById("discountDiv").innerHTML= "   <li class='list-group-item'><b>Discount : </b>" +
+        document.getElementById("discountDiv").innerHTML= "   <li class='list-groupOfStudents-item'><b>Discount : </b>" +
             "<span class='btn bg-navy pull-right'>"+  document.getElementById("discount").value+"</span></li>"
 
         document.getElementById("form").setAttribute("action", "addNewStudentPayment.j?id_student=" + id_discount_i[0]+"&payed="+payed);

@@ -25,8 +25,8 @@ public class Module implements Serializable {
     @Column(name = "fees")
     private long fees;
 
-    /*@OneToMany(fetch = FetchType.LAZY, mappedBy = "module")
-    private Set<Group> groupsSet;*/
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "module")
+    private Set<GroupOfStudents> groupsSet;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "module_session",
@@ -83,14 +83,14 @@ public class Module implements Serializable {
         this.numberSessions = numberSessions;
     }
 
-  /*  public Set<Group> getGroupsSet() {
+   public Set<GroupOfStudents> getGroupsSet() {
         return groupsSet;
     }
 
-    public void setGroupsSet(Set<Group> groupsSet) {
+    public void setGroupsSet(Set<GroupOfStudents> groupsSet) {
         this.groupsSet = groupsSet;
     }
-*/
+
     public Set<Session> getSessionsSet() {
         return sessionsSet;
     }

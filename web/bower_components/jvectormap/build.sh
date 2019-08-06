@@ -8,13 +8,13 @@ files=( \
   lib/abstract-canvas-element.js \
   lib/abstract-shape-element.js \
   lib/svg-element.js \
-  lib/svg-group-element.js \
+  lib/svg-groupOfStudents-element.js \
   lib/svg-canvas-element.js \
   lib/svg-shape-element.js \
   lib/svg-path-element.js \
   lib/svg-circle-element.js \
   lib/vml-element.js \
-  lib/vml-group-element.js \
+  lib/vml-groupOfStudents-element.js \
   lib/vml-canvas-element.js \
   lib/vml-shape-element.js \
   lib/vml-path-element.js \

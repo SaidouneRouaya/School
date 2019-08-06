@@ -6,7 +6,6 @@ import Util.utilities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -40,8 +39,8 @@ public class Teacher  implements Serializable {
     @Lob
     private byte[] picture;
 
-   /* @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
-    private Set<Group> groupsSet;*/
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    private Set<GroupOfStudents> groupsSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherPayed")
     private Set<PaymentTeacher> paymentTeacherSet;
@@ -89,7 +88,13 @@ public class Teacher  implements Serializable {
     }
 
 
+    public Set<GroupOfStudents> getGroupsSet() {
+        return groupsSet;
+    }
 
+    public void setGroupsSet(Set<GroupOfStudents> groupsSet) {
+        this.groupsSet = groupsSet;
+    }
 
     public Set<Module> getTeacherModulesSet() {
         return teacherModulesSet;

@@ -54,9 +54,9 @@ Markup with component
 
 .. code-block:: html
 
-    <div class="input-group date" data-provide="datepicker">
+    <div class="input-groupOfStudents date" data-provide="datepicker">
         <input type="text" class="form-control">
-        <div class="input-group-addon">
+        <div class="input-groupOfStudents-addon">
             <span class="glyphicon glyphicon-th"></span>
         </div>
     </div>

@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -61,11 +63,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Add group
+                Add groupOfStudents
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#" class="active">Add group</a></li>
+                <li><a href="#" class="active">Add groupOfStudents</a></li>
             </ol>
         </section>
 
@@ -80,7 +82,7 @@
                     <!-- general form elements disabled -->
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Add new group</h3>
+                            <h3 class="box-title">Add new groupOfStudents</h3>
                         </div>
 
                         <!-- /.box-header -->
@@ -89,50 +91,58 @@
 
 
                                 <!-- text input -->
-                                <div class="form-group">
-                                    <label>Name of the group</label>
-                                    <input type="text"  name="name"  class="form-control" placeholder="Enter ...">
+                                <div class="form-groupOfStudents">
+                                    <label>Name of the groupOfStudents</label>
+                                    <input type="text"  name="name"  id="name" class="form-control" placeholder="Enter ...">
                                 </div>
 
                                 <!-- select Module -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Module</label>
-                                    <select name="module" class="form-control">
-                                        <option>English</option>
-                                        <option>French</option>
-                                        <option>Mathematics</option>
+                                    <select name="modules" id="modules" class="form-control"  onchange="changeStudents()" >
+
+                                        <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
+
+                                            <option name="module"
+                                                    value="${modulesList[i].id}">
+                                                <c:out value="${modulesList[i].name}"/>
+                                        </tg:forEach>
+
                                     </select>
                                 </div>
 
                                 <!-- select teacher -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Teacher</label>
-                                    <select name="teacher" class="form-control">
-                                        <option>Flan 1</option>
-                                        <option>Flan 2</option>
-                                        <option>Flan 3</option>
-                                        <option>Flan 4</option>
+                                    <select name="teachers" id="teacher" class="form-control">
+                                        <tg:forEach begin="0" end="${teacherList.size() -1}" var="i">
+
+                                        <option name="teacher"
+                                                value="${teacherList[i].id}">
+                                                <c:out value="${teacherList[i].name}"/><c:out value="${teacherList[i].familyname}"/>
+                                            </tg:forEach>
                                     </select>
                                 </div>
                                 <!-- radio -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
+
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="Hour" class="flat-red" >Per hours
+                                            <input type="radio" name="r3" value="Hour"  >Per hours
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="Student" class="flat-red">Per student present
+                                            <input type="radio" name="r3" value="Student" >Per student present
                                         </label>
                                     </div>
                                 </div>
                                 <!-- Subscritption date -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Start date:</label>
 
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents date">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="startDate" class="form-control pull-right" id="datepicker">
@@ -140,63 +150,41 @@
                                 </div>
 
                                 <!-- Session -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Number of sessions</label>
-                                    <input type="number" max="30" name="sessionNumber" class="form-control" placeholder="Enter number of seances ...">
+                                    <input type="number" name="sessionNumber" class="form-control" placeholder="Enter number of seances ...">
                                 </div>
 
-                                <!-- Subscritption date
-                                <div class="form-group">
-                                    <label>Start date 2:</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input type="text" class="form-control pull-right" id="reservationtime">
-                                    </div>
-                                </div>-->
-
-                                <!-- Timing -->
-
-                                <!-- time Picker
-                                <div class="bootstrap-timepicker">
-                                    <div class="form-group">
-                                        <label>Time picker:</label>
-
-                                        <div class="input-group">
-                                            <input type="text" class="form-control timepicker">
-
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>-->
 
 
                                 <!-- Students -->
-                                <div class="form-group">
-                                    <label>Student</label>
-                                    <select name="student" multiple="" class="form-control">
-                                        <option>Student 1</option>
-                                        <option>Student 2</option>
-                                        <option>Student 3</option>
-                                        <option>Student 4</option>
-                                        <option>Student 5</option>
-                                        <option>Student 6</option>
-                                        <option>Student 7</option>
-                                        <option>Student 8</option>
-                                        <option>Student 9</option>
-                                        <option>Student 10</option>
-                                        <option>Student 11</option>
-                                    </select>
+                                <div class="form-groupOfStudents">
+                                    <label>Student (use ctrl+press)</label>
+
+                                    <div id="selectionID" class="form-groupOfStudents" name="selectionID">
+
+                                        <tg:forEach var="entry" items="${studentList.entrySet()}">
+                                            <select name="studentsList" id="studentsList${entry.key}" multiple=""
+                                                    class="form-control" style="display: none">
+
+                                                <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
+
+                                                    <option name="student" value="${entry.value.get(i).id}">
+                                                        <c:out value="${entry.value.get(i).name}"/>
+                                                        <c:out value="${entry.value.get(i).familyname}"/>
+                                                    </option>
+
+                                                </tg:forEach>
+
+
+                                            </select>
+                                        </tg:forEach>
+
+                                    </div>
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn bg-green-gradient pull-right"   data-toggle="modal" data-target="#modal-default" >Add</button>
+                                    <button type="submit" class="btn bg-green-gradient pull-right" >Add</button>
 
                                 </div>
 
@@ -267,6 +255,20 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page script -->
 <script>
+
+    var id_previous="studentsList1";
+
+    function changeStudents() {
+        var id= document.getElementById("modules").value;
+
+        document.getElementById(id_previous).style.display="none";
+
+        document.getElementById("studentsList"+id.toString()).style.display="block";
+
+        id_previous="studentsList"+id.toString();
+    }
+
+
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2();

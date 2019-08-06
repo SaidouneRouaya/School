@@ -282,7 +282,7 @@ Bugfixes:
 * Fixing the ui displaying 'undefined nan' when typing dates in Firefox & IE 
 * Reset tooltip to a default empty value 
 * Fix colspan if calendarWeeks & clearBtn are true 
-* Removed fixed width and height in large and small group addon
+* Removed fixed width and height in large and small groupOfStudents addon
 * z-index calculation should not stop at first element
 * Fix IE8 bug with Array#splice with one argument 
 

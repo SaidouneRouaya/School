@@ -96,37 +96,37 @@
 
 
                                 <!-- text input -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Name</label>
                                     <input type="text" name="name" class="form-control" placeholder="" value="<c:out value ="${staffProfile.name}"/>">
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Family name</label>
                                     <input type="text" name="familyName" class="form-control" placeholder="" value="<c:out value ="${staffProfile.familyname}"/>">
                                 </div>
 
                                 <!-- Phone number -->
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Phone number:</label>
 
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="text" class="form-control" name="phoneNumber"
                                                placeholder="" value="<c:out value ="${staffProfile.phoneNumber}"/>">
                                     </div>
-                                    <!-- /.input group -->
+                                    <!-- /.input groupOfStudents -->
                                 </div>
 
                                 <!-- Employment date -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Employment date:</label>
 
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents date">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker" placeholder="" value="<c:out value ="${staffProfile.employmentDate}"/>">
@@ -134,7 +134,7 @@
                                 </div>
 
                                 <!-- select Module
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Job</label>
                                     <select class="form-control">
 
@@ -150,7 +150,7 @@
                                 </div>-->
 
                                 <!-- radio -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="r3" value="administration"
@@ -170,12 +170,12 @@
                                 </div>
 
                                 <!-- Salary -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Salary</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">DZD</span>
+                                    <div class="input-groupOfStudents">
+                                        <span class="input-groupOfStudents-addon">DZD</span>
                                         <input name="salary" type="text" class="form-control" placeholder="" value="<c:out value ="${staffProfile.salary}"/>">
-                                        <span class="input-group-addon">.00</span>
+                                        <span class="input-groupOfStudents-addon">.00</span>
                                     </div>
                                 </div>
 

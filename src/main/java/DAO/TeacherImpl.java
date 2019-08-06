@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,11 +46,16 @@ public class TeacherImpl implements TeacherDAO{
             tx = session.beginTransaction();
             teachers = session.createQuery("from Teacher ").list();
             for (Teacher teacher: teachers){
-
-                //Hibernate.initialize(teacher.getGroupsSet());
-                Hibernate.initialize(teacher.getPaymentTeacherSet());
-                Hibernate.initialize(teacher.getTeacherModulesSet());
-            }
+                try{
+                    Hibernate.initialize(teacher.getGroupsSet());
+                    Hibernate.initialize(teacher.getPaymentTeacherSet());
+                    Hibernate.initialize(teacher.getTeacherModulesSet());
+                }
+                catch( SQLGrammarException ex){
+                    System.out.println( "exception in hibernate initialize");
+                    ex.printStackTrace();
+                }
+             }
 
             tx.commit();
 
@@ -115,7 +121,7 @@ public class TeacherImpl implements TeacherDAO{
 
              Hibernate.initialize(teacher.getTeacherModulesSet());
              Hibernate.initialize(teacher.getPaymentTeacherSet());
-          //  Hibernate.initialize(teacher.getGroupsSet());
+           Hibernate.initialize(teacher.getGroupsSet());
 
             tx.commit();
 

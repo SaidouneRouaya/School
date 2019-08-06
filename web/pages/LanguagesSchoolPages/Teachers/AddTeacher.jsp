@@ -95,38 +95,38 @@
 
 
                                 <!-- text input -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Name</label>
                                     <input type="text" name="name"  class="form-control" placeholder="Enter ...">
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Family name</label>
                                     <input type="text"  name="familyName" class="form-control" placeholder="Enter ...">
                                 </div>
 
                                 <!-- Phone number -->
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Phone number:</label>
 
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="number" class="form-control"
                                                data-inputmask='"mask": "(999) 99-99-99-99"'
                                                data-mask name="phoneNumber">
                                     </div>
-                                    <!-- /.input group -->
+                                    <!-- /.input groupOfStudents -->
                                 </div>
 
                                 <!-- Subscritption date -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Employment date:</label>
 
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
+                                    <div class="input-groupOfStudents date">
+                                        <div class="input-groupOfStudents-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker">
@@ -134,7 +134,7 @@
                                 </div>
 
                                 <!-- select Module -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Module</label>
                                     <select name="module" class="form-control">
                                         <option>English</option>
@@ -144,17 +144,17 @@
                                 </div>
 
                                 <!-- Salary -->
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Salary</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">DZD</span>
+                                    <div class="input-groupOfStudents">
+                                        <span class="input-groupOfStudents-addon">DZD</span>
                                         <input name="salary" type="text"  class="form-control">
-                                        <span class="input-group-addon">.00</span>
+                                        <span class="input-groupOfStudents-addon">.00</span>
                                     </div>
                                 </div>
 
                                 <!-- radio
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="r3" class="flat-red" checked>Payee
@@ -167,7 +167,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-groupOfStudents">
                                     <label>Discout</label>
                                     <input type="text" class="form-control" placeholder="Enter ...">
                                 </div>-->

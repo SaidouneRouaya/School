@@ -7,7 +7,7 @@ work for us, and a faster and better response.
 
 Issues are not a way to ask general questions about Flot. If you see unexpected
 behavior but are not 100% certain that it is a bug, please try posting to the
-[forum](http://groups.google.com/group/flot-graphs) first, and confirm that
+[forum](http://groupOfStudents.google.com/groupOfStudents/flot-graphs) first, and confirm that
 what you see is really a Flot problem before creating a new issue for it.  When
 reporting a bug, please include a working demonstration of the problem, if
 possible, or at least a clear description of the options you're using and the

@@ -112,7 +112,7 @@
                 <div class="col-xs-12">
 
                     <div class="box box-default">
-                        <a type="button"  href="addGroup.j" class="btn btn-block btn-default btn-lg">Add new group</a>
+                        <a type="button"  href="addGroup.j" class="btn btn-block btn-default btn-lg">Add new groupOfStudents</a>
                     </div>
 
 

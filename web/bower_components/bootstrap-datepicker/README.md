@@ -20,7 +20,7 @@ Please note: It might take a few hours until a new version is available on cdnjs
 
 * [Online Demo](https://uxsolutions.github.io/bootstrap-datepicker/)
 * [Online Docs](https://bootstrap-datepicker.readthedocs.org/en/stable/) (ReadTheDocs.com)
-* [Google Group](https://groups.google.com/group/bootstrap-datepicker/)
+* [Google Group](https://groupOfStudents.google.com/groupOfStudents/bootstrap-datepicker/)
 * [Travis CI](https://travis-ci.org/uxsolutions/bootstrap-datepicker)
 
 ## Development

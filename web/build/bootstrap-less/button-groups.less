@@ -1,10 +1,10 @@
 //
-// Button groups
+// Button groupOfStudents
 // --------------------------------------------------
 
 // Make the div behave like a button
-.btn-group,
-.btn-group-vertical {
+.btn-groupOfStudents,
+.btn-groupOfStudents-vertical {
   position: relative;
   display: inline-block;
   vertical-align: middle; // match .btn alignment given font-size hack above
@@ -22,69 +22,69 @@
 }
 
 // Prevent double borders when buttons are next to each other
-.btn-group {
+.btn-groupOfStudents {
   .btn + .btn,
-  .btn + .btn-group,
-  .btn-group + .btn,
-  .btn-group + .btn-group {
+  .btn + .btn-groupOfStudents,
+  .btn-groupOfStudents + .btn,
+  .btn-groupOfStudents + .btn-groupOfStudents {
     margin-left: -1px;
   }
 }
 
-// Optional: Group multiple button groups together for a toolbar
+// Optional: GroupOfStudents multiple button groupOfStudents together for a toolbar
 .btn-toolbar {
   margin-left: -5px; // Offset the first child's margin
   &:extend(.clearfix all);
 
   .btn,
-  .btn-group,
-  .input-group {
+  .btn-groupOfStudents,
+  .input-groupOfStudents {
     float: left;
   }
   > .btn,
-  > .btn-group,
-  > .input-group {
+  > .btn-groupOfStudents,
+  > .input-groupOfStudents {
     margin-left: 5px;
   }
 }
 
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+.btn-groupOfStudents > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
   border-radius: 0;
 }
 
-// Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
-.btn-group > .btn:first-child {
+// Set corners individual because sometimes a single button can be in a .btn-groupOfStudents and we need :first-child and :last-child to both match
+.btn-groupOfStudents > .btn:first-child {
   margin-left: 0;
   &:not(:last-child):not(.dropdown-toggle) {
     .border-right-radius(0);
   }
 }
 // Need .dropdown-toggle since :last-child doesn't apply, given that a .dropdown-menu is used immediately after it
-.btn-group > .btn:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
+.btn-groupOfStudents > .btn:last-child:not(:first-child),
+.btn-groupOfStudents > .dropdown-toggle:not(:first-child) {
   .border-left-radius(0);
 }
 
-// Custom edits for including btn-groups within btn-groups (useful for including dropdown buttons within a btn-group)
-.btn-group > .btn-group {
+// Custom edits for including btn-groupOfStudents within btn-groupOfStudents (useful for including dropdown buttons within a btn-groupOfStudents)
+.btn-groupOfStudents > .btn-groupOfStudents {
   float: left;
 }
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+.btn-groupOfStudents > .btn-groupOfStudents:not(:first-child):not(:last-child) > .btn {
   border-radius: 0;
 }
-.btn-group > .btn-group:first-child:not(:last-child) {
+.btn-groupOfStudents > .btn-groupOfStudents:first-child:not(:last-child) {
   > .btn:last-child,
   > .dropdown-toggle {
     .border-right-radius(0);
   }
 }
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+.btn-groupOfStudents > .btn-groupOfStudents:last-child:not(:first-child) > .btn:first-child {
   .border-left-radius(0);
 }
 
 // On active and open, don't show outline
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
+.btn-groupOfStudents .dropdown-toggle:active,
+.btn-groupOfStudents.open .dropdown-toggle {
   outline: 0;
 }
 
@@ -93,27 +93,27 @@
 //
 // Remix the default button sizing classes into new ones for easier manipulation.
 
-.btn-group-xs > .btn { &:extend(.btn-xs); }
-.btn-group-sm > .btn { &:extend(.btn-sm); }
-.btn-group-lg > .btn { &:extend(.btn-lg); }
+.btn-groupOfStudents-xs > .btn { &:extend(.btn-xs); }
+.btn-groupOfStudents-sm > .btn { &:extend(.btn-sm); }
+.btn-groupOfStudents-lg > .btn { &:extend(.btn-lg); }
 
 
 // Split button dropdowns
 // ----------------------
 
 // Give the line between buttons some depth
-.btn-group > .btn + .dropdown-toggle {
+.btn-groupOfStudents > .btn + .dropdown-toggle {
   padding-left: 8px;
   padding-right: 8px;
 }
-.btn-group > .btn-lg + .dropdown-toggle {
+.btn-groupOfStudents > .btn-lg + .dropdown-toggle {
   padding-left: 12px;
   padding-right: 12px;
 }
 
 // The clickable button for toggling the menu
 // Remove the gradient and set the same inset shadow as the :active state
-.btn-group.open .dropdown-toggle {
+.btn-groupOfStudents.open .dropdown-toggle {
   .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
 
   // Show no shadow for `.btn-link` since it has no other button styles.
@@ -138,13 +138,13 @@
 }
 
 
-// Vertical button groups
+// Vertical button groupOfStudents
 // ----------------------
 
-.btn-group-vertical {
+.btn-groupOfStudents-vertical {
   > .btn,
-  > .btn-group,
-  > .btn-group > .btn {
+  > .btn-groupOfStudents,
+  > .btn-groupOfStudents > .btn {
     display: block;
     float: none;
     width: 100%;
@@ -152,7 +152,7 @@
   }
 
   // Clear floats so dropdown menus can be properly placed
-  > .btn-group {
+  > .btn-groupOfStudents {
     &:extend(.clearfix all);
     > .btn {
       float: none;
@@ -160,15 +160,15 @@
   }
 
   > .btn + .btn,
-  > .btn + .btn-group,
-  > .btn-group + .btn,
-  > .btn-group + .btn-group {
+  > .btn + .btn-groupOfStudents,
+  > .btn-groupOfStudents + .btn,
+  > .btn-groupOfStudents + .btn-groupOfStudents {
     margin-top: -1px;
     margin-left: 0;
   }
 }
 
-.btn-group-vertical > .btn {
+.btn-groupOfStudents-vertical > .btn {
   &:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
@@ -181,39 +181,39 @@
     .border-bottom-radius(@btn-border-radius-base);
   }
 }
-.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {
+.btn-groupOfStudents-vertical > .btn-groupOfStudents:not(:first-child):not(:last-child) > .btn {
   border-radius: 0;
 }
-.btn-group-vertical > .btn-group:first-child:not(:last-child) {
+.btn-groupOfStudents-vertical > .btn-groupOfStudents:first-child:not(:last-child) {
   > .btn:last-child,
   > .dropdown-toggle {
     .border-bottom-radius(0);
   }
 }
-.btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {
+.btn-groupOfStudents-vertical > .btn-groupOfStudents:last-child:not(:first-child) > .btn:first-child {
   .border-top-radius(0);
 }
 
 
-// Justified button groups
+// Justified button groupOfStudents
 // ----------------------
 
-.btn-group-justified {
+.btn-groupOfStudents-justified {
   display: table;
   width: 100%;
   table-layout: fixed;
   border-collapse: separate;
   > .btn,
-  > .btn-group {
+  > .btn-groupOfStudents {
     float: none;
     display: table-cell;
     width: 1%;
   }
-  > .btn-group .btn {
+  > .btn-groupOfStudents .btn {
     width: 100%;
   }
 
-  > .btn-group .dropdown-menu {
+  > .btn-groupOfStudents .dropdown-menu {
     left: auto;
   }
 }
@@ -233,7 +233,7 @@
 
 [data-toggle="buttons"] {
   > .btn,
-  > .btn-group > .btn {
+  > .btn-groupOfStudents > .btn {
     input[type="radio"],
     input[type="checkbox"] {
       position: absolute;

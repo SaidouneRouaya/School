@@ -2,7 +2,7 @@
 
 ## Support requests
 
-The issue tracker is not the place for support requests.  If you get stuck with bootstrap-datepicker, it's very likely that the fine folks at [StackOverflow](http://stackoverflow.com/) will be able to help you; simply describe the problem you're having and provide them a link to the repo (so they know what code you're using).  Another option is to post to the [bootstrap-datepicker google group](https://groups.google.com/group/bootstrap-datepicker).
+The issue tracker is not the place for support requests.  If you get stuck with bootstrap-datepicker, it's very likely that the fine folks at [StackOverflow](http://stackoverflow.com/) will be able to help you; simply describe the problem you're having and provide them a link to the repo (so they know what code you're using).  Another option is to post to the [bootstrap-datepicker google groupOfStudents](https://groupOfStudents.google.com/groupOfStudents/bootstrap-datepicker).
 
 ## Issues
 

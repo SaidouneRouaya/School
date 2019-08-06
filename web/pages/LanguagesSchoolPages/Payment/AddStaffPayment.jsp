@@ -114,7 +114,7 @@
                                     </div>
 
 
-                                    <div id="student" class="form-group">
+                                    <div id="student" class="form-groupOfStudents">
                                         <label>Staff</label>
                                         <select class="form-control select2" name="staffs"  onchange="changeSalary()"
                                                 id="staffs" style="width: 100%;">

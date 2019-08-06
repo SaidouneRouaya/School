@@ -1,19 +1,18 @@
 package DAO;
 
+
 import Entities.Student;
+import Entities.Module;
 
 import Util.HibernateUtil;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
 
 @Component
 public class StudentImpl implements StudentDAO {
@@ -50,7 +49,7 @@ public class StudentImpl implements StudentDAO {
             students = session.createQuery("from Student ").list();
             for (Student student: students){
 
-              //  Hibernate.initialize(student.getGroupsSet());
+              Hibernate.initialize(student.getGroupsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
 
@@ -116,13 +115,18 @@ public class StudentImpl implements StudentDAO {
         try {
             tx = session.beginTransaction();
             student =  session.get(Student.class, id);
-            //Hibernate.initialize(student.getGroupsSet());
-            Hibernate.initialize(student.getModulesSet());
-            Hibernate.initialize(student.getPaymentSet());
 
-            System.out.println("student get by id date: "+student.getSubscriptionDate());
+            try{
+                Hibernate.initialize(student.getGroupsSet());
+                Hibernate.initialize(student.getModulesSet());
+                Hibernate.initialize(student.getPaymentSet());
+
+            } catch( SQLGrammarException ex){
+                System.out.println( "exception in hibernate initialize");
+                ex.printStackTrace();
+            }
             tx.commit();
-           // student.loadImage();
+
 
 
         } catch (HibernateException e) {
@@ -133,6 +137,48 @@ public class StudentImpl implements StudentDAO {
         }
         return student;
     }
+
+
+    public List<Student> getStudentsByModule(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<Student> results=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(Student.class)
+                    .createAlias("modulesSet", "module")
+                    .add(Restrictions.eq("module.id", id))
+                    .list();
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+
+    @Override
+    public HashMap<Integer, List<Student>> getStudentsByModules(List<Module> modules){
+
+
+        HashMap<Integer, List<Student>> results =new HashMap<>();
+
+        for (Module module: modules){
+
+            results.put(module.getId(), getStudentsByModule(module.getId()));
+        }
+
+        return results;
+    }
+
 
 
 }

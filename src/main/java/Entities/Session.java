@@ -5,7 +5,6 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
@@ -28,10 +27,10 @@ public class Session  implements Serializable {
     private Date date;
 
 
-  /*  @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_group", nullable=false)
-    private Group group;
-*/
+    private GroupOfStudents groupOfStudents;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
     private Set<Module> modulesSet ;
 
@@ -58,6 +57,14 @@ public class Session  implements Serializable {
 
     public Set<Module> getModulesSet() {
         return modulesSet;
+    }
+
+    public GroupOfStudents getGroupOfStudents() {
+        return groupOfStudents;
+    }
+
+    public void setGroupOfStudents(GroupOfStudents groupOfStudents) {
+        this.groupOfStudents = groupOfStudents;
     }
 
     public void setModulesSet(Set<Module> modulesSet) {

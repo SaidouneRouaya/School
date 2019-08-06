@@ -56,24 +56,24 @@
 }
 
 
-// List groups in panels
+// List groupOfStudents in panels
 //
-// By default, space out list group content from panel headings to account for
+// By default, space out list groupOfStudents content from panel headings to account for
 // any kind of custom content between the two.
 
 .panel {
-  > .list-group,
-  > .panel-collapse > .list-group {
+  > .list-groupOfStudents,
+  > .panel-collapse > .list-groupOfStudents {
     margin-bottom: 0;
 
-    .list-group-item {
+    .list-groupOfStudents-item {
       border-width: 1px 0;
       border-radius: 0;
     }
 
     // Add border top radius for first one
     &:first-child {
-      .list-group-item:first-child {
+      .list-groupOfStudents-item:first-child {
         border-top: 0;
         .border-top-radius((@panel-border-radius - 1));
       }
@@ -81,25 +81,25 @@
 
     // Add border bottom radius for last one
     &:last-child {
-      .list-group-item:last-child {
+      .list-groupOfStudents-item:last-child {
         border-bottom: 0;
         .border-bottom-radius((@panel-border-radius - 1));
       }
     }
   }
-  > .panel-heading + .panel-collapse > .list-group {
-    .list-group-item:first-child {
+  > .panel-heading + .panel-collapse > .list-groupOfStudents {
+    .list-groupOfStudents-item:first-child {
       .border-top-radius(0);
     }
   }
 }
 // Collapse space between when there's no additional content.
-.panel-heading + .list-group {
-  .list-group-item:first-child {
+.panel-heading + .list-groupOfStudents {
+  .list-groupOfStudents-item:first-child {
     border-top-width: 0;
   }
 }
-.list-group + .panel-footer {
+.list-groupOfStudents + .panel-footer {
   border-top-width: 0;
 }
 
@@ -218,10 +218,10 @@
 
 // Collapsible panels (aka, accordion)
 //
-// Wrap a series of panels in `.panel-group` to turn them into an accordion with
+// Wrap a series of panels in `.panel-groupOfStudents` to turn them into an accordion with
 // the help of our collapse JavaScript plugin.
 
-.panel-group {
+.panel-groupOfStudents {
   margin-bottom: @line-height-computed;
 
   // Tighten up margin so it's only between panels
@@ -238,7 +238,7 @@
     border-bottom: 0;
 
     + .panel-collapse > .panel-body,
-    + .panel-collapse > .list-group {
+    + .panel-collapse > .list-groupOfStudents {
       border-top: 1px solid @panel-inner-border;
     }
   }

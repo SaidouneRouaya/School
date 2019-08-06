@@ -108,12 +108,12 @@
                                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
                                         class="fa fa-square-o"></i>
                                 </button>
-                                <div class="btn-group">
+                                <div class="btn-groupOfStudents">
                                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
                                     </button>
 
                                 </div>
-                                <!-- /.btn-group -->
+                                <!-- /.btn-groupOfStudents -->
 
                                 <!-- /.pull-right
                             </div>-->

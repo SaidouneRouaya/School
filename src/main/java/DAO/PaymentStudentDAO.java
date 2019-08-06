@@ -1,9 +1,8 @@
 package DAO;
 
-import Entities.GroupedStudentPayment;
 import Entities.PaymentStudent;
+import Entities.Student;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 public interface PaymentStudentDAO {
@@ -18,5 +17,6 @@ public interface PaymentStudentDAO {
     public PaymentStudent getPayementStudentByID(int id);
     //public  List<Timestamp> getPaymentStudentByDate();
     HashMap<String, List<PaymentStudent>> getPaymentStudentSorted();
+
 
 }

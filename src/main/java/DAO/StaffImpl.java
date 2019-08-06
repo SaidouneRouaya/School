@@ -44,6 +44,10 @@ public class StaffImpl implements StaffDAO {
             tx = session.beginTransaction();
             staffs = session.createQuery("from Staff ").list();
 
+            for (Staff staff:staffs){
+                Hibernate.initialize(staff.getPaymentStaffSet());
+            }
+
             tx.commit();
 
         } catch (HibernateException e) {

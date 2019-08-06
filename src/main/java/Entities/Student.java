@@ -52,12 +52,12 @@ public class Student  implements Serializable {
     private byte[] picture;
 
 
-  /*  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "student_group",
             joinColumns = {@JoinColumn(name = "id_student") },
             inverseJoinColumns = { @JoinColumn(name = "id_group") })
-    private Set<Group> groupsSet;
-*/
+    private Set<GroupOfStudents> groupsSet;
+
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "student_module",
@@ -106,7 +106,13 @@ public class Student  implements Serializable {
         this.picture = newStudent.getPicture();
     }
 
+    public Set<GroupOfStudents> getGroupsSet() {
+        return groupsSet;
+    }
 
+    public void setGroupsSet(Set<GroupOfStudents> groupsSet) {
+        this.groupsSet = groupsSet;
+    }
 
     public Set<Module> getModulesSet() {
         return modulesSet;

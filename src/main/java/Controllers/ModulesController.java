@@ -60,7 +60,7 @@ public class ModulesController {
 
           Set<Teacher> teachers= new HashSet<>();
           Set<Student> students= new HashSet<>();
-         // Set<Group> groups= new HashSet<>();
+         // Set<GroupOfStudents> groups= new HashSet<>();
           Set<Session> sessions= new HashSet<>();
 
         Module module=new Module(param.get("name"),  Integer.parseInt(param.get("numberLessons")),
