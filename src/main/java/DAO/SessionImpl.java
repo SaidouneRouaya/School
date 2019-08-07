@@ -1,10 +1,11 @@
 package DAO;
 
-import Entities.Session;
+import Entities.SessionOfGroup;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +18,13 @@ public class SessionImpl implements SessionDAO{
 
     }
 
-    public void addSession(Session sessionn) {
+    public void addSession(SessionOfGroup sessionn) {
 
-        org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
+
             session.save(sessionn);
 
             tx.commit();
@@ -36,17 +38,15 @@ public class SessionImpl implements SessionDAO{
         }
     }
 
-    public List<Session> getAllSessions() {
-        org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    public List<SessionOfGroup> getAllSessions() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        List<Session> sessions = null;
+        List<SessionOfGroup> sessions = null;
 
         try {
             tx = session.beginTransaction();
-            sessions = session.createQuery("from Session ").list();
-            for (Session session1:sessions){
-
-                Hibernate.initialize(session1.getModulesSet());
+            sessions = session.createQuery("from SessionOfGroup ").list();
+            for (SessionOfGroup session1:sessions){
                 Hibernate.initialize(session1.getGroupOfStudents());
             }
 
@@ -63,12 +63,12 @@ public class SessionImpl implements SessionDAO{
 
     public void deleteSession(int id) {
 
-        org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
-            Session sessionn = session.get(Session.class, id);
+            SessionOfGroup sessionn = session.get(SessionOfGroup.class, id);
             session.delete(sessionn);
             tx.commit();
 
@@ -82,12 +82,12 @@ public class SessionImpl implements SessionDAO{
 
     public void updateSession(int id, String type) {
 
-        org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
-            Session sessionn = session.get(Session.class, id);
+            SessionOfGroup sessionn = session.get(SessionOfGroup.class, id);
 
             //TODO
 

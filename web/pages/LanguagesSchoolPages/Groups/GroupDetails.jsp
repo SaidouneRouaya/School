@@ -108,8 +108,11 @@
                                     </button>
                                 </div>
 
-                                <a id ="addModule" href="" class="btn btn-app bg-teal pull-right" data-toggle="modal" data-target="#modal-default1">
+                                <a id ="addModule" href="" class="btn btn-app bg-yellow pull-right" data-toggle="modal" data-target="#modal-default1">
                                     <i class=" fa fa-edit"></i>Add student</a>
+
+                                <a id =" " href="" class="btn btn-app bg-teal pull-right" data-toggle="modal" data-target="#modal-default3">
+                                    <i class=" fa fa-calendar"></i>Add session</a>
 
                                 <a id="" href="updateGroup.j?query=${group.id}" class="btn btn-app bg-purple  pull-right" >
                                     <i class=" fa fa-plus"></i>
@@ -134,10 +137,10 @@
                                         <th>N°</th>
                                         <th>Full name</th>
                                         <th>Phone number</th>
-                                        <th>S1: 12/03</th>
-                                        <th>S2: 13/04</th>
-                                        <th>S3: 12/05</th>
 
+                                        <tg:forEach items="${group.sessionSet}" var="session">
+                                            <th>S: <c:out value="${session.date}"/> </th>
+                                        </tg:forEach>
                                     </tr>
                                     <c:set var="number" value="${0}"/>
                                         <tg:forEach items="${group.studentsSet}" var="student">
@@ -158,21 +161,14 @@
                                             </a></td>
 
                                             <td><c:out value ="${student.phoneNumber1}"/></td>
+
+                                            <tg:forEach items="${group.sessionSet}" var="session">
                                             <td>
                                                 <label>
                                                     <input type="checkbox"/>
                                                 </label>
                                             </td>
-                                            <td>
-                                                <label>
-                                                    <input type="checkbox"/>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label>
-                                                    <input type="checkbox"/>
-                                                </label>
-                                            </td>
+                                            </tg:forEach>
 
                                         </tr>
 
@@ -232,6 +228,43 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="startDate" class="form-control pull-right" id="datepicker">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-green  pull-right">Add</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </form>
+
+            <form role="form" method="post" action="addSessionToGroup.j?query=${group.id}">
+                <div class="modal fade" id="modal-default3">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Warning </h4>
+                            </div>
+                            <div class="modal-body">
+
+
+                                <!-- Subscritption date -->
+                                <div class="form-groupOfStudents">
+                                    <label>Date:</label>
+
+                                    <div class="input-groupOfStudents date">
+                                        <div class="input-groupOfStudents-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="date" class="form-control pull-right" id="datepicker2">
                                     </div>
                                 </div>
 
@@ -324,19 +357,16 @@
 
 
 
-    function setForm(id_student, id_group) {
-
-        console.log("im here to submit");
-        var form = document.getElementById("form").setAttribute("action", "deleteStudentFromGroup.j?query="+id_student+"&id_group="+id_group) ;
-        form.submit();
-
-    }
-
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2();
 
-
+        $('#datepicker2').datepicker({
+            autoclose: true
+        });
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
         //Flat red color scheme for iCheck
         $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
             checkboxClass: 'icheckbox_flat-green',

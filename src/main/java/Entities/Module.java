@@ -26,12 +26,12 @@ public class Module implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module")
     private Set<GroupOfStudents> groupsSet;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   /* @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "module_session",
             joinColumns = {@JoinColumn(name = "id_module") },
             inverseJoinColumns = { @JoinColumn(name = "id_session") })
     private Set<Session> sessionsSet;
-
+*/
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "modulesSet")
     private Set<Student>  studentsSet ;
@@ -47,11 +47,9 @@ public class Module implements Serializable {
         this.fees = fees;
     }
 
-    public Module(String name, long fees, Set<Session> sessionsSet, Set<Student> studentsSet) {
+    public Module(String name, long fees,  Set<Student> studentsSet) {
         this.name = name;
         this.fees = fees;
-
-        this.sessionsSet = sessionsSet;
         this.studentsSet = studentsSet;
     }
 
@@ -62,21 +60,17 @@ public class Module implements Serializable {
 
     }
 
-    public Module(String name, long fees, Set<GroupOfStudents> groupsSet, Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
+    public Module(String name, long fees, Set<GroupOfStudents> groupsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
         this.name = name;
         this.fees = fees;
         this.groupsSet = groupsSet;
-        this.sessionsSet = sessionsSet;
         this.studentsSet = studentsSet;
         this.moduleTeachersSet = moduleTeachersSet;
     }
 
-    public Module(String name, long fees, Set<Session> sessionsSet, Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
+    public Module(String name, long fees,Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
         this.name = name;
-
         this.fees = fees;
-
-        this.sessionsSet = sessionsSet;
         this.studentsSet = studentsSet;
         this.moduleTeachersSet = moduleTeachersSet;
     }
@@ -96,14 +90,6 @@ public class Module implements Serializable {
 
     public void setGroupsSet(Set<GroupOfStudents> groupsSet) {
         this.groupsSet = groupsSet;
-    }
-
-    public Set<Session> getSessionsSet() {
-        return sessionsSet;
-    }
-
-    public void setSessionsSet(Set<Session> sessionsSet) {
-        this.sessionsSet = sessionsSet;
     }
 
     public Set<Student> getStudentsSet() {

@@ -51,7 +51,7 @@ public class ModuleImpl implements  ModuleDAO{
 
                 try{
                     Hibernate.initialize(module.getModuleTeachersSet());
-                    Hibernate.initialize(module.getSessionsSet());
+
                     Hibernate.initialize(module.getStudentsSet());
                     Hibernate.initialize(module.getGroupsSet());
 
@@ -155,7 +155,7 @@ public class ModuleImpl implements  ModuleDAO{
             module =  session.get(Module.class, id);
 
             Hibernate.initialize(module.getModuleTeachersSet());
-            Hibernate.initialize(module.getSessionsSet());
+
             Hibernate.initialize(module.getStudentsSet());
             Hibernate.initialize(module.getGroupsSet());
 

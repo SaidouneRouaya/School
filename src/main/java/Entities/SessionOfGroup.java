@@ -1,6 +1,8 @@
 package Entities;
 
 
+import Util.utilities;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -11,8 +13,7 @@ import java.util.Set;
 @Entity
 @Transactional
 @Table(name = "session")
-
-public class Session  implements Serializable {
+public class SessionOfGroup  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_session")
@@ -28,33 +29,20 @@ public class Session  implements Serializable {
     @JoinColumn(name="id_group", nullable=false)
     private GroupOfStudents groupOfStudents;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
+   /* @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
     private Set<Module> modulesSet ;
+*/
 
-
-    public Session() {
+    public SessionOfGroup() {
     }
 
-    public Session(String timing, String date) {
+    public SessionOfGroup( String date, GroupOfStudents groupOfStudents) {
 
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        Date parsedDate=null;
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        Date parsedTime=null;
-
-        try{
-            parsedDate = format.parse(date);
-            parsedTime=timeFormat.parse(timing);
-
-        }catch(Exception e){ e.printStackTrace();}
-
-
-        this.date = parsedDate;
+        this.date = utilities.formatDate(date);
+        this.groupOfStudents=groupOfStudents;
     }
 
-    public Set<Module> getModulesSet() {
-        return modulesSet;
-    }
+
 
     public GroupOfStudents getGroupOfStudents() {
         return groupOfStudents;
@@ -64,9 +52,6 @@ public class Session  implements Serializable {
         this.groupOfStudents = groupOfStudents;
     }
 
-    public void setModulesSet(Set<Module> modulesSet) {
-        this.modulesSet = modulesSet;
-    }
 
     public int getId() {
         return id;

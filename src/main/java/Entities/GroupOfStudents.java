@@ -1,6 +1,7 @@
 package Entities;
 
 import Util.utilities;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -51,6 +52,9 @@ public class GroupOfStudents implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupsSet")
     private Set<Student> studentsSet ;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupOfStudents")
+    private Set <SessionOfGroup> sessionSet;
 
     public GroupOfStudents() {
     }
@@ -104,6 +108,14 @@ public class GroupOfStudents implements Serializable {
     this.name= groupOfStudentsNew.getName();
     this.numberSessions=groupOfStudentsNew.getNumberSessions();
     this.paymentType= groupOfStudentsNew.getPaymentType();
+    }
+
+    public Set<SessionOfGroup> getSessionSet() {
+        return sessionSet;
+    }
+
+    public void setSessionSet(Set<SessionOfGroup> sessionSet) {
+        this.sessionSet = sessionSet;
     }
 
     public Date getStartTime() {

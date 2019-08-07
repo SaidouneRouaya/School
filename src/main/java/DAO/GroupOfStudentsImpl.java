@@ -1,16 +1,13 @@
 package DAO;
 
 
-import Entities.GroupOfStudents;
+import Entities.*;
 import Entities.Module;
-import Entities.PaymentTeacher;
-import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.SQLGrammarException;
@@ -138,6 +135,30 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
         }
 
     }
+    @Override
+    public void updateGroupSessionsList (int id, Set<SessionOfGroup> sessionsList) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
+            groupOfStudents.setSessionSet(sessionsList);
+            session.update(groupOfStudents);
+
+            System.out.println("update");
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+    }
 
     @Override
     public GroupOfStudents getGroupById(int id) {
@@ -153,6 +174,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize(groupOfStudents.getModule());
                 Hibernate.initialize(groupOfStudents.getTeacher());
                 Hibernate.initialize(groupOfStudents.getStudentsSet());
+                Hibernate.initialize(groupOfStudents.getSessionSet());
 
             } catch( SQLGrammarException ex){
                 System.out.println( "exception in hibernate initialize");
@@ -189,7 +211,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
             for (Module module: results){
                 Hibernate.initialize(module.getModuleTeachersSet());
-                Hibernate.initialize(module.getSessionsSet());
+
                 Hibernate.initialize(module.getStudentsSet());
                 Hibernate.initialize(module.getGroupsSet());
             }
@@ -225,6 +247,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize(groupOfStudents.getModule());
                 Hibernate.initialize(groupOfStudents.getTeacher());
                 Hibernate.initialize(groupOfStudents.getStudentsSet());
+                Hibernate.initialize(groupOfStudents.getSessionSet());
             }
 
             tx.commit();

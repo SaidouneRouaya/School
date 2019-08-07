@@ -95,9 +95,9 @@ public class ModulesController {
           Set<Teacher> teachers= new HashSet<>();
           Set<Student> students= new HashSet<>();
           Set<GroupOfStudents> groups= new HashSet<>();
-          Set<Session> sessions= new HashSet<>();
 
-        Module module=new Module(param.get("name"), Long.parseLong(param.get("fees")), groups, sessions, students, teachers);
+
+        Module module=new Module(param.get("name"), Long.parseLong(param.get("fees")), groups, students, teachers);
 
         moduleDAO.addModule(module);
 

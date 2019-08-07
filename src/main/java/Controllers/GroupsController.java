@@ -1,11 +1,9 @@
 package Controllers;
 
-import DAO.GroupOfStudentsDAO;
-import DAO.ModuleDAO;
-import DAO.StudentDAO;
-import DAO.TeacherDAO;
+import DAO.*;
 import Entities.GroupOfStudents;
 import Entities.Module;
+import Entities.SessionOfGroup;
 import Entities.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -32,6 +30,9 @@ public class GroupsController {
 
     @Autowired
     TeacherDAO teacherDAO;
+
+    @Autowired
+    SessionDAO sessionDAO;
 
     @RequestMapping("/Groups")
     public String pageAccueil(Model model) {
@@ -175,6 +176,28 @@ public class GroupsController {
 
         return "redirect:GroupDetails.j?id_group="+query;
     }
+ @RequestMapping("/addSessionToGroup")
+    public String addSessionToGroup(Model model, @RequestParam String query, @RequestParam String date){
+
+        String error = "";
+
+        int id_group=Integer.parseInt(query);
+
+
+        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(id_group);
+
+        SessionOfGroup session= new SessionOfGroup(date, groupOfStudents);
+
+        sessionDAO.addSession(session);
+
+        groupOfStudents.getSessionSet().add(session);
+
+        groupOfStudentsDAO.updateGroupSessionsList(id_group, groupOfStudents.getSessionSet());
+
+        model.addAttribute("error", error);
+
+        return "redirect:GroupDetails.j?id_group="+query;
+    }
 
 
     @RequestMapping("/deleteStudentFromGroup")
@@ -215,13 +238,7 @@ public class GroupsController {
 
         }
 
-        /*groupOfStudents.removeStudent(student.getId());
-
-        studentDAO.updateStudentGroups(Integer.parseInt(query), student.getGroupsSet());
-        groupOfStudentsDAO.updateGroupStudentsList(Integer.parseInt(id_group), groupOfStudents.getStudentsSet());
-*/
-
-        groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
+       groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
 
         model.addAttribute("error", error);
 
