@@ -1,6 +1,7 @@
 package DAO;
 
 
+import Entities.GroupOfStudents;
 import Entities.Student;
 import Entities.Module;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 
 @Component
@@ -105,6 +107,53 @@ public class StudentImpl implements StudentDAO {
         }
 
     }
+      public void updateStudentGroups(int id, Set<GroupOfStudents> groups) {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Student student = session.get(Student.class, id);
+
+            student.setGroupsSet(groups);
+            session.update(student);
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+         session.close();
+        }
+
+    }
+
+    public void updateStudentModules(int id, Set<Module> modules) {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Student student = session.get(Student.class, id);
+
+            student.setModulesSet(modules);
+            session.update(student);
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+         session.close();
+        }
+
+    }
+
+
 
     @Override
     public Student getStudentByID(int id) {
@@ -178,6 +227,41 @@ public class StudentImpl implements StudentDAO {
 
         return results;
     }
+
+
+    public List<Student> getStudentsByGroup(int id_group){
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<Student> results=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(Student.class)
+                    .createAlias("groupsSet", "group")
+                    .add(Restrictions.eq("group.id", id_group))
+                    .list();
+
+            for (Student student:results){
+                Hibernate.initialize(student.getGroupsSet());
+                Hibernate.initialize(student.getModulesSet());
+                Hibernate.initialize(student.getPaymentSet());
+            }
+
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
 
 
 

@@ -1,6 +1,7 @@
 package Entities;
 
 
+import Util.utilities;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -8,10 +9,7 @@ import javax.transaction.Transactional;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Entity
@@ -58,7 +56,6 @@ public class Student  implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "id_group") })
     private Set<GroupOfStudents> groupsSet;
 
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "student_module",
             joinColumns = {@JoinColumn(name = "id_student") },
@@ -79,7 +76,7 @@ public class Student  implements Serializable {
         this.phoneNumber2 = phoneNumber2;
         this.type = type;
 
-        this.subscriptionDate = subscriptionDate(subscriptionDate);
+        this.subscriptionDate = utilities.formatDate(subscriptionDate);
         if(disocunt!=0) this.discount=disocunt;
        // this.picture = uploadImage(picture);
         this.picture = picture;
@@ -90,7 +87,7 @@ public class Student  implements Serializable {
         this.phoneNumber1 = phoneNumber1;
         this.phoneNumber2 = phoneNumber2;
         this.type = type;
-        this.subscriptionDate = subscriptionDate(subscriptionDate);
+        this.subscriptionDate = utilities.formatDate(subscriptionDate);
         //this.picture = uploadImage(picture);
         this.picture = picture;
     }
@@ -104,6 +101,7 @@ public class Student  implements Serializable {
         this.subscriptionDate = newStudent.getSubscriptionDate();
         this.discount=newStudent.getDiscount();
         this.picture = newStudent.getPicture();
+
     }
 
     public Set<GroupOfStudents> getGroupsSet() {
@@ -215,36 +213,6 @@ public class Student  implements Serializable {
 
     }
 
-    public Date subscriptionDate(String date){
-        Map<Pattern, DateFormat> dateFormatPatterns = new HashMap<Pattern, DateFormat>();
-        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})-((0|1|2)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("MM-dd-yyyy"));
-        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})/((0|1|2)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("MM/dd/yyyy"));
-
-        dateFormatPatterns.put(Pattern.compile("^((0|1|2)\\d{1})-((0|1)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("dd-MM-yyyy"));
-        dateFormatPatterns.put(Pattern.compile("^((0|1|2)\\d{1})/((0|1)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("dd/MM/yyyy"));
-
-        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy-MM-dd"));
-        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})/((0|1)\\d{1})/((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy/MM/dd"));
-
-        Date finalDate=null;
-        try{
-            DateFormat finalFormat = new SimpleDateFormat("MM/dd/yyyy");
-
-            for (Pattern pattern : dateFormatPatterns.keySet()) {
-                if (pattern.matcher(date).matches()) {
-                    Date dateFormatted = dateFormatPatterns.get(pattern).parse(date);
-
-                    finalDate  = finalFormat.parse(finalFormat.format(dateFormatted));
-                    System.out.println(dateFormatted);
-                }
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return finalDate;
-    }
-
     public byte[] uploadImage(String picture){
 
         byte[] imageInBytes=null;
@@ -281,4 +249,27 @@ public class Student  implements Serializable {
         }
     }
 
+
+
+    public boolean removeGroup(int id_group){
+
+        Iterator<GroupOfStudents> it= this.groupsSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            GroupOfStudents group= it.next();
+            if(bool= (group.getId()==id_group)){
+                this.getGroupsSet().remove(group);
+            }
+        }
+        return bool;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Student)  return this.id== ((Student) obj).getId();
+        else return false;
+    }
 }

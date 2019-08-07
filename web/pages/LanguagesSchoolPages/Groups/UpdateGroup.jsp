@@ -63,11 +63,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Update module
+                Update group
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#" class="active">Update module</a></li>
+                <li><a href="#" class="active">Update group</a></li>
             </ol>
         </section>
 
@@ -82,34 +82,55 @@
                     <!-- general form elements disabled -->
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Update module</h3>
+                            <h3 class="box-title">Update group</h3>
                         </div>
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="PersistUpdateModule.j?query=${module.id}">
+
+                                <form role="form" method="post" action="PersistUpdateGroup.j?query=${group.id}">
+
 
                                     <!-- text input -->
                                     <div class="form-groupOfStudents">
-                                        <label>Name of the module </label>
-                                        <input type="text"  name="name"  value="${module.name}" class="form-control" placeholder="Enter ...">
+                                        <label>Name of the groupOfStudents</label>
+                                        <input type="text"  name="name"  id="name"  value="${group.name}" class="form-control">
                                     </div>
 
-                                    <!-- Fees -->
+
+                                    <!-- radio -->
                                     <div class="form-groupOfStudents">
-                                        <label>Fees</label>
-                                        <div class="input-groupOfStudents">
-                                            <span class="input-groupOfStudents-addon">DZD</span>
-                                            <input type="number" name="fees" value="${module.fees}" class="form-control">
-                                            <span class="input-groupOfStudents-addon">.00</span>
+
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="r3" value="Hour" <c:if test="${group.paymentType eq 'Hour'}">
+                                                       checked
+                                                </c:if>>Per hours
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="r3" value="Student"  <c:if test="${group.paymentType eq 'Student'}">
+                                                       checked
+                                                </c:if>>Per student present
+                                            </label>
                                         </div>
                                     </div>
 
-                                <div>
-                                    <button type="submit" class="btn  bg-green-gradient pull-right" >Update</button>
-                                </div>
+                                    <!-- Session -->
+                                    <div class="form-groupOfStudents">
+                                        <label>Number of sessions</label>
+                                        <input type="number" name="sessionNumber" class="form-control" value="${group.numberSessions}">
+                                    </div>
 
-                            </form>
+
+                                    <div>
+                                        <button type="submit" class="btn bg-green-gradient pull-right" >Update</button>
+
+                                    </div>
+
+                                </form>
+
                         </div>
 
                     </div>

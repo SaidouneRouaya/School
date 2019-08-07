@@ -2,6 +2,7 @@ package DAO;
 
 
 import Entities.PaymentStudent;
+import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -168,7 +169,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         List<PaymentStudent> results=null;
-      //  List<Timestamp> resultsTemp=null;
+
 
         try {
             tx = session.beginTransaction();
@@ -190,6 +191,38 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             time= time.substring(0, time.length()-10);
 
             totalsByDate.put(time, total);
+
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+    public List<PaymentStudent> getPaymentsByStudent(int id_student)
+    {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<PaymentStudent> results=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(PaymentStudent.class)
+                    .add(Restrictions.eq("studentPay.id", id_student))
+                    .list();
+
+
+            for(PaymentStudent paymentStudent:results){
+
+                Hibernate.initialize(paymentStudent.getStudentPay());
+            }
+
+            tx.commit();
 
 
         } catch (HibernateException e) {

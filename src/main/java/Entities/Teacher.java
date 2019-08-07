@@ -167,4 +167,9 @@ public class Teacher  implements Serializable {
     public void setPaymentTeacherSet(Set<PaymentTeacher> paymentTeacherSet) {
         this.paymentTeacherSet = paymentTeacherSet;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.id== ((Teacher) obj).getId();
+    }
 }

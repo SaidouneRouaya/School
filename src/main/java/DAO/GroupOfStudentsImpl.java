@@ -4,6 +4,7 @@ package DAO;
 import Entities.GroupOfStudents;
 import Entities.Module;
 import Entities.PaymentTeacher;
+import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -16,6 +17,7 @@ import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -29,6 +31,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         try {
+
             tx = session.beginTransaction();
             session.save(groupOfStudents);
             tx.commit();
@@ -88,7 +91,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
     }
 
     @Override
-    public void updateGroup(int id) {
+    public void updateGroup(int id, GroupOfStudents groupOfStudentsNew) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
@@ -96,9 +99,35 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             tx = session.beginTransaction();
            GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
 
-            //TODO
+            groupOfStudents.updateGroup(groupOfStudentsNew);
 
             session.update(groupOfStudents);
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+    }
+    @Override
+    public void updateGroupStudentsList (int id, Set<Student> studentList) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
+
+            groupOfStudents.setStudentsSet(studentList);
+
+            session.update(groupOfStudents);
+
+            System.out.println("update");
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -130,8 +159,6 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 ex.printStackTrace();
             }
             tx.commit();
-
-
 
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();

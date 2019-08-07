@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import java.util.*;
 
 
@@ -62,6 +63,8 @@ public class GroupsController {
 
         model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group)));
 
+        model.addAttribute("students", studentDAO.getAllStudents());
+
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupDetails";
     }
@@ -91,23 +94,143 @@ public class GroupsController {
         Set<Student> studentSet=new HashSet<>();
         for (String id_student: studentsList){
 
+            System.out.println(id_student);
             studentSet.add(studentDAO.getStudentByID(Integer.parseInt(id_student)));
         }
 
 
-
-       GroupOfStudents groupOfStudents = new GroupOfStudents(param.get("name"), param.get("startDate"), param.get("r3"),
+        GroupOfStudents groupOfStudents = new GroupOfStudents(param.get("name"), param.get("startDate"),
+        param.get("r3"), Integer.parseInt(param.get("sessionNumber")), param.get("startTime"), param.get("endTime"),
                moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
                teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))),
                studentSet);
 
-        System.out.println(groupOfStudents);
 
-        groupOfStudentsDAO.addGroup(groupOfStudents);
+        for (Student student: studentSet){
+
+            student.getGroupsSet().add(groupOfStudents);
+            studentDAO.updateStudentGroups(student.getId(), student.getGroupsSet());
+        }
+
+
 
         model.addAttribute("error", error);
         return "redirect:Groups.j";
     }
+
+    @RequestMapping("/updateGroup")
+    public String updateGroupsOfStudent(Model model,  @RequestParam String query) {
+
+        String error = "";
+        model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(query)));
+
+        model.addAttribute("error", error);
+
+        return "LanguagesSchoolPages/Groups/UpdateGroup";
+    }
+
+
+    @RequestMapping("/PersistUpdateGroup")
+    public String persistUpdateGroupsOfStudent(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+
+        String error = "";
+        GroupOfStudents group= new GroupOfStudents();
+
+        try{
+
+            group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")));
+
+            groupOfStudentsDAO.updateGroup(Integer.parseInt(query), group);
+
+        }catch(Exception ex){
+            error=ex.toString();
+            ex.printStackTrace();
+        }
+        model.addAttribute("group", group);
+
+        model.addAttribute("error", error);
+        return "redirect:GroupDetails.j?id_group="+query;
+    }
+
+    @RequestMapping("/addStudentToGroup")
+    public String addStudentToGroup(Model model, @RequestParam String query, @RequestParam String students){
+
+        String error = "";
+
+         int id_group=Integer.parseInt(query);
+         int id_student=Integer.parseInt(students);
+
+        Student student= studentDAO.getStudentByID(Integer.parseInt(students));
+        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(id_group);
+
+        student.getGroupsSet().add(groupOfStudents);
+
+        studentDAO.updateStudentGroups(id_student, student.getGroupsSet());
+
+        groupOfStudents.getStudentsSet().add(student);
+
+        groupOfStudentsDAO.updateGroupStudentsList(id_group, groupOfStudents.getStudentsSet());
+
+        model.addAttribute("error", error);
+
+        return "redirect:GroupDetails.j?id_group="+query;
+    }
+
+
+    @RequestMapping("/deleteStudentFromGroup")
+    public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String id_group){
+
+        String error = "";
+
+        Student student=studentDAO.getStudentByID(Integer.parseInt(query));
+
+        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
+
+        student.removeGroup(groupOfStudents.getId());
+        groupOfStudents.removeStudent(student.getId());
+
+        studentDAO.updateStudentGroups(Integer.parseInt(query), student.getGroupsSet());
+        groupOfStudentsDAO.updateGroupStudentsList(Integer.parseInt(id_group), groupOfStudents.getStudentsSet());
+
+        model.addAttribute("error", error);
+
+        return "redirect:GroupDetails.j?id_group="+id_group;
+
+    }
+
+
+
+    @RequestMapping("/deleteGroup")
+    public String deleteGroup(Model model, @RequestParam String query){
+
+        String error = "";
+
+
+        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(Integer.parseInt(query));
+        List<Student> students=studentDAO.getStudentsByGroup(groupOfStudents.getId());
+
+        for (Student student:students){
+            student.removeGroup(groupOfStudents.getId());
+            studentDAO.updateStudentGroups(student.getId(), student.getGroupsSet());
+
+        }
+
+        /*groupOfStudents.removeStudent(student.getId());
+
+        studentDAO.updateStudentGroups(Integer.parseInt(query), student.getGroupsSet());
+        groupOfStudentsDAO.updateGroupStudentsList(Integer.parseInt(id_group), groupOfStudents.getStudentsSet());
+*/
+
+        groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
+
+        model.addAttribute("error", error);
+
+        return "redirect:Groups.j";
+
+    }
+
+
+
 
 
 

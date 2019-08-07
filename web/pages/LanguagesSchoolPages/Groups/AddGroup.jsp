@@ -63,11 +63,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Add groupOfStudents
+                Add group of students
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#" class="active">Add groupOfStudents</a></li>
+                <li><a href="#" class="active">Add group of students</a></li>
             </ol>
         </section>
 
@@ -82,7 +82,7 @@
                     <!-- general form elements disabled -->
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Add new groupOfStudents</h3>
+                            <h3 class="box-title">Add new group of students</h3>
                         </div>
 
                         <!-- /.box-header -->
@@ -91,13 +91,13 @@
 
 
                                 <!-- text input -->
-                                <div class="form-groupOfStudents">
-                                    <label>Name of the groupOfStudents</label>
+                                <div class="form-group">
+                                    <label>Name of the group of students</label>
                                     <input type="text"  name="name"  id="name" class="form-control" placeholder="Enter ...">
                                 </div>
 
                                 <!-- select Module -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Module</label>
                                     <select name="modules" id="modules" class="form-control"  onchange="changeStudents()" >
 
@@ -112,7 +112,7 @@
                                 </div>
 
                                 <!-- select teacher -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Teacher</label>
                                     <select name="teachers" id="teacher" class="form-control">
                                         <tg:forEach begin="0" end="${teacherList.size() -1}" var="i">
@@ -124,7 +124,7 @@
                                     </select>
                                 </div>
                                 <!-- radio -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
 
                                     <div class="radio">
                                         <label>
@@ -137,20 +137,56 @@
                                         </label>
                                     </div>
                                 </div>
+
                                 <!-- Subscritption date -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Start date:</label>
 
-                                    <div class="input-groupOfStudents date">
-                                        <div class="input-groupOfStudents-addon">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="startDate" class="form-control pull-right" id="datepicker">
+                                        <input type="text"  name="startDate" class="form-control pull-right" id="datepicker">
                                     </div>
+                                    <!-- /.input  -->
                                 </div>
 
+                                <!-- timing -->
+
+                                <div class="bootstrap-timepicker">
+                                    <div class="form-group">
+                                        <label>Start time :</label>
+
+                                        <div class="input-group">
+                                            <input type="text" name="startTime" class="form-control timepicker">
+
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                        </div>
+                                        <!-- /.input  -->
+                                    </div>
+                                    <!-- /.form  -->
+                                </div>
+                                <div class="bootstrap-timepicker">
+                                    <div class="form-group">
+                                        <label>End time :</label>
+
+                                        <div class="input-group">
+                                            <input type="text" name="endTime" class="form-control timepicker">
+
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                        </div>
+                                        <!-- /.input -->
+                                    </div>
+                                    <!-- /.form  -->
+                                </div>
+
+
                                 <!-- Session -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Number of sessions</label>
                                     <input type="number" name="sessionNumber" class="form-control" placeholder="Enter number of seances ...">
                                 </div>
@@ -158,10 +194,10 @@
 
 
                                 <!-- Students -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Student (use ctrl+press)</label>
 
-                                    <div id="selectionID" class="form-groupOfStudents" name="selectionID">
+                                    <div id="selectionID" class="form-group" name="selectionID">
 
                                         <tg:forEach var="entry" items="${studentList.entrySet()}">
                                             <select name="studentsList" id="studentsList${entry.key}" multiple=""
@@ -268,7 +304,6 @@
         id_previous="studentsList"+id.toString();
     }
 
-
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2();
@@ -283,7 +318,7 @@
         //Date range picker
         $('#reservation').daterangepicker();
         //Date range picker with time picker
-        $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' });
+        $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY hh:mm:ss ' });
         //Date range as a button
         $('#daterange-btn').daterangepicker(
             {
@@ -331,7 +366,8 @@
 
         //Timepicker
         $('.timepicker').timepicker({
-            showInputs: false
+            showInputs: false,
+            showMeridian: false
         })
     })
 </script>

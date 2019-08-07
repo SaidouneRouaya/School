@@ -5,7 +5,9 @@ import Util.utilities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 
 
@@ -31,6 +33,13 @@ public class GroupOfStudents implements Serializable {
     @Column(name = "number_sessions")
     private int numberSessions;
 
+    @Column(name = "start_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
+
+    @Column(name = "end_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_module", nullable=false)
@@ -70,6 +79,47 @@ public class GroupOfStudents implements Serializable {
         this.module = module;
         this.teacher = teacher;
         this.studentsSet = studentsSet;
+    }
+
+    public GroupOfStudents(String name, String startDate, String paymentType, int numberSessions, String startTime, String endTime, Module module, Teacher teacher, Set<Student> studentsSet) {
+        this.name = name;
+        this.startDate = utilities.formatDate(startDate);
+        this.paymentType = paymentType;
+        this.numberSessions = numberSessions;
+        this.startTime = utilities.formatTime(startTime);
+        this.endTime = utilities.formatTime(endTime);
+        this.module = module;
+        this.teacher = teacher;
+        this.studentsSet = studentsSet;
+    }
+
+    public GroupOfStudents(String name, String paymentType, int numberSessions) {
+        this.name = name;
+        this.paymentType = paymentType;
+        this.numberSessions = numberSessions;
+    }
+
+    public void updateGroup (GroupOfStudents groupOfStudentsNew){
+
+    this.name= groupOfStudentsNew.getName();
+    this.numberSessions=groupOfStudentsNew.getNumberSessions();
+    this.paymentType= groupOfStudentsNew.getPaymentType();
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public int getNumberSessions() {
@@ -134,6 +184,43 @@ public class GroupOfStudents implements Serializable {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GroupOfStudents) return this.id==((GroupOfStudents) obj).getId();
+        else return false;
+    }
+
+
+    public boolean removeStudent(int id_student){
+
+        Iterator<Student> it= this.studentsSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            Student student= it.next();
+
+            if(bool= (student.getId()==id_student)){
+                this.getStudentsSet().remove(student);
+            }
+        }
+        return bool;
+    }
+
+    public String getTime(Date time) {
+
+        String timeString= time.toString();
+        return timeString.substring(11, 16);
+
+    }
+
+    public String getDate(Date time) {
+
+        String timeString= time.toString();
+        return timeString.substring(0, timeString.length()-10);
+
     }
 
 

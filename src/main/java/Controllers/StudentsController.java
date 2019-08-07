@@ -1,6 +1,10 @@
 package Controllers;
 
+import DAO.ModuleDAO;
+import DAO.PaymentStudentDAO;
 import DAO.StudentDAO;
+import Entities.GroupOfStudents;
+import Entities.PaymentStudent;
 import Entities.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -21,6 +25,11 @@ public class StudentsController {
     @Autowired
    private StudentDAO studentDAO;
 
+    @Autowired
+    private ModuleDAO moduleDAO;
+
+    @Autowired
+    private PaymentStudentDAO paymentStudentDAO;
 
 
     @RequestMapping("/Students")
@@ -59,7 +68,24 @@ public class StudentsController {
         String error = "";
 
 
-        model.addAttribute("studentProfile", studentDAO.getStudentByID(Integer.parseInt(query)));
+        Student student=studentDAO.getStudentByID(Integer.parseInt(query));
+       List <PaymentStudent> paymentStudents=paymentStudentDAO.getPaymentsByStudent(student.getId());
+
+       Long total=0L;
+
+            for(PaymentStudent paymentStudent: paymentStudents){
+
+            total+=paymentStudent.getAmmount();
+            }
+
+        model.addAttribute("studentProfile", student);
+        model.addAttribute("listOfModules", student.getModulesSet());
+        model.addAttribute("payments", paymentStudents);
+        model.addAttribute("total",total);
+
+
+        model.addAttribute("modules", moduleDAO.getAllModules());
+
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/Profile";
     }
@@ -147,5 +173,34 @@ public class StudentsController {
         model.addAttribute("error", error);
         return "redirect:Profile.j?query="+query+"";
     }
+
+
+
+    @RequestMapping("/addModuleToStudent")
+    public String addModuleToStudent(Model model, @RequestParam String id_student, @RequestParam String modules){
+
+        String error = "";
+
+
+       int id_module= Integer.parseInt(modules);
+       int id_st= Integer.parseInt(id_student);
+
+
+
+        Student student= studentDAO.getStudentByID(id_st);
+        Entities.Module module= moduleDAO.getModuleByID(id_module);
+
+        student.getModulesSet().add(module);
+        studentDAO.updateStudentModules(id_st, student.getModulesSet());
+
+        module.getStudentsSet().add(student);
+        moduleDAO.updateGroupStudentsList(id_module, module.getStudentsSet());
+
+        model.addAttribute("error", error);
+
+
+        return "redirect:Profile.j?query="+id_student+"";
+    }
+
 
 }

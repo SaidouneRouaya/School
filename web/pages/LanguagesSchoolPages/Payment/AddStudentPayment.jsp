@@ -140,7 +140,7 @@
                                         <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
                                         <div id="listModules">
 
-                                                <div class="form-groupOfStudents" id="modules${i}" style="display: none">
+                                                <div class="form-group" id="modules${i}" style="display: none">
 
                                                     <tg:forEach items="${modulesList.get(i)}" var="module">
 

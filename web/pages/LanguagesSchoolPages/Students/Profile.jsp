@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -75,24 +76,27 @@
                                     <h5 class="widget-user-desc">Student</h5>
                                 </div>
 
-                                <div class="col-md-4">
+                            <div class="col-md-4">
 
-                                    <a href="updateProfile.j?query=${studentProfile.id}" class="btn btn-app btn-default pull-right" >
-                                        <i class=" fa fa-edit"></i>
-                                        Update profile
-                                    </a>
-                                    <a id="addModule" href="#" class="btn btn-app btn-default pull-right" >
-                                        <i class=" fa fa-plus"></i>
-                                      Add modules
-                                    </a>
-                                </div>
+                                <a href="updateProfile.j?query=${studentProfile.id}"
+                                   class="btn btn-app bg-navy pull-right">
+                                    <i class=" fa fa-edit"></i>
+                                    Update profile
+                                </a>
+
+                                <a id="addModule" href="" class="btn btn-app bg-teal pull-right" data-toggle="modal"
+                                   data-target="#modal-default2">
+                                    <i class=" fa fa-plus"></i>
+                                    Add modules
+                                </a>
+                            </div>
                         </div>
                         <div class="widget-user-image">
                             <img class="img-circle"  src="${studentProfile.picture}"  alt="User Avatar">
                         </div>
                         <div class="box-footer">
                             <div class="row">
-                                <div class="col-sm-4 border-right">
+                                <div class="col-sm-12 border-right">
                                     <div class="description-block">
                                         <h5 class="description-header">Subscription date</h5>
                                         <span class="description-text"><c:out value ="${studentProfile.subscriptionDate}"/></span>
@@ -100,22 +104,7 @@
                                     <!-- /.description-block -->
                                 </div>
                                 <!-- /.col -->
-                                <div class="col-sm-4 border-right">
-                                    <div class="description-block">
-                                        <h5 class="description-header">13,000</h5>
-                                        <span class="description-text">information</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-4">
-                                    <div class="description-block">
-                                        <h5 class="description-header">35</h5>
-                                        <span class="description-text">information</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
+
                             </div>
                             <!-- /.row -->
                         </div>
@@ -152,13 +141,11 @@
                                         <td><c:out value ="${studentProfile.phoneNumber2}"/></td>
                                     </tr>
                                     <tr>
-                                        <td>Modules : </td>
-
-                                        <td>English  ( many to many)..
-
-                                        </td>
-
+                                         <td>Modules</td>
+                                         <td><tg:forEach items="${listOfModules}"  var="item"><c:out value="${item.name}"/>,
+                                             </tg:forEach></td>
                                     </tr>
+
                                     <tr>
                                         <td>Type</td>
                                         <td><c:out value ="${studentProfile.type}"/></td>
@@ -171,7 +158,7 @@
                                                   No discount
                                               </c:when>
                                               <c:otherwise>
-                                                  studentProfile.discount
+                                                  <c:out value ="${studentProfile.discount}"/>
                                               </c:otherwise>
                                           </c:choose>
                                         </span></td>
@@ -185,7 +172,7 @@
                                 <div>
                                  <!--   <button type="submit" class="btn  bg-red-gradient pull-left">Delete</button>-->
                                     <button type="submit" class="btn bg-danger-gradient pull-right"
-                                            data-toggle="modal" data-target="#modal-default" >Delete</button>
+                                            data-toggle="modal" data-target="#modal-default1" >Delete</button>
 
                                 </div>
 
@@ -217,38 +204,22 @@
                                         <th>Date</th>
                                         <th>Amount</th>
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>English</td>
-                                        <td>12/04/2018</td>
-                                        <td>3000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>English</td>
-                                        <td>12/05/2018</td>
-                                        <td>3000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>English</td>
-                                        <td>12/06/2018</td>
-                                        <td>3500.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>French</td>
-                                        <td>12/07/2018</td>
-                                        <td>3000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>French</td>
-                                        <td>12/08/2018</td>
-                                        <td>2500.00 DZD</td>
-                                    </tr>
+                                <c:set var="number" value="0"/>
+                                    <tg:forEach begin="0" end="${payments.size()-1}"  var="i">
+                                        <c:set var="number" value="${number+1}"/>
 
+                                        <tr>
+
+                                            <td><c:out value="${number}"/></td>
+                                            <td><c:out value="${payments[i].module}"/></td>
+                                            <td><c:out value="${payments[i].date}"/></td>
+                                            <td><c:out value="${payments[i].ammount}"/></td>
+                                        </tr>
+
+                                    </tg:forEach>
                                     </tbody>
+                                    <h4 class="pull-right">Total :${total}.00 DZD</h4>
+
                                 </table>
 
 
@@ -260,9 +231,11 @@
                 </div>
             </div>
             <!-- /.row -->
+
+
             <!-- The Modal -->
             <form role="form" method="post" action="deleteStudent.j?query=${studentProfile.id}">
-                <div class="modal fade" id="modal-default">
+                <div class="modal fade" id="modal-default1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -285,108 +258,50 @@
                 </div>
             </form>
 
+            <form role="form" method="post" action="addModuleToStudent.j?id_student=${studentProfile.id}">
+                <div class="modal fade" id="modal-default2">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                 <h4 class="modal-title">Add module</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="Student" class="form-group">
+                                    <label>Modules</label>
 
+                                    <select  name="modules" id="modules" class="form-control select2" style="width: 100%;" >
+
+                                        <tg:forEach begin="0" end="${modules.size()-1}"  var="i">
+
+                                            <option name="module" value="${modules[i].id}"><c:out value="${modules[i].name}"/></option>
+
+                                        </tg:forEach>
+
+                                    </select>
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-green  pull-right">Add</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </form>
         </section>
-
-
-
-
-
-
-
 
         <!-- /.content -->
 </div>
     <!-- /.content-wrapper -->
-
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add module</h4>
-                </div>
-                <form role="form">
-                    <div class="modal-body">
-
-                        <div id="printableArea">
-
-                            <div id="module" class="form-groupOfStudents">
-                                <label>Module</label>
-
-                                    <select  class="form-control select2" style="width: 100%;" >
-                                        <option onchange="isSelected(this)">module 1</option>
-                                        <option onchange="isSelected(this)">module 2</option>
-                                        <option onchange="isSelected(this)">module 3</option>
-                                        <option onchange="isSelected(this)">module 4</option>
-                                        <option onchange="isSelected(this)">module 5</option>
-                                        <option onchange="isSelected(this)">module 6</option>
-                                        <option onchange="isSelected(this)">module 7</option>
-
-                                    </select>
-
-                            </div>
-
-                            <!-- radio -->
-                            <div class="form-groupOfStudents">
-                                <div class="radio">
-                                    <label>
-                                        <!--  <input type="radio" name="r3"  onclick="disable()">Free-->
-                                        <input type="radio" name="r3" onclick="isChecked(this)">Free
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <!--   <input type="radio" name="r3" onclick="enable()">Payee-->
-                                        <input type="radio" name="r3" onclick="isChecked(this)">Payee
-                                    </label>
-                                </div>
-
-                            </div>
-
-                            <ul class="list-groupOfStudents list-groupOfStudents-unbordered">
-                                <li class="list-groupOfStudents-item">
-                                    <b>Total (without discount) :</b> <span class=" btn bg-purple pull-right"> 55 500.00 $</span>
-                                </li>
-                                <li class="list-groupOfStudents-item">
-                                    <div id="discount">
-
-                                        <b>Discount : </b>
-                                        <input type="number" class="col-xs-2 btn bg-navy pull-right"
-                                               onchange="this.setAttribute('value', this.value)" value="">
-
-                                        <!--<a class="pull-right">5 500.00 $</a>-->
-                                    </div>
-
-                                </li>
-                                <li class="list-groupOfStudents-item">
-                                    <b>Payed : </b> <span class="btn bg-teal pull-right">50 000.00 $</span>
-                                </li>
-                            </ul>
-
-                        </div>
-
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <div>
-                            <a  target="_blank" class="btn btn-default pull-right" onclick="printDiv('printableArea')" ><i class="fa fa-print"></i> Submit</a>
-                            <!--  <a target="_blank" class="btn btn-default pull-right"><i class="fa fa-print"></i> Submit</a>-->
-
-                         </div>
-                         <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                     </div>
-
-                 </form>
-             </div>
-
-         </div>
-     </div>
 
      <!-- footer  -->
     <%@ include file="../CommunFiles/footer.jsp" %>
@@ -411,7 +326,6 @@
 <script src="../../dist/js/demo.js"></script>
 <script src="../../../dist/js/addModule.js"></script>
 <script>
-
 
 </script>
 </body>

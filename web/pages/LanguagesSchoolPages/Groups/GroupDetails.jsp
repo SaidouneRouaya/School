@@ -13,7 +13,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Advanced form elements</title>
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="../../plugins/iCheck/all.css">
+
+    <link rel="stylesheet" href="../../../bower_components/select2/dist/css/select2.min.css">
+
     <!-- Bootstrap Color Picker -->
     <link rel="stylesheet" href="../../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
     <!-- Bootstrap time Picker -->
@@ -39,6 +42,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../../../dist/css/modalStyle2.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -84,12 +88,18 @@
                     <div class="box  box-solid box-default ">
 
                         <div class="box-header with-border">
-                            <div class="col-md-8">
-                                <h3 class="box-title">Teacher : <c:out value="${group.teacher.name}"/>
-                                    <c:out value="${group.teacher.familyname}"/></h3>
+                            <div class="col-md-4">
+                                <h3 class="box-title">Group : <c:out value="${group.name}"/></h3>
                                 <p></p>
-                                <p>Start date : <c:out value="${group.startDate}"/></p>
-                                <p>Timing : 12:00-17:00 (from session ) </p>
+                                <h5 class="box-title">Teacher : <c:out value="${group.teacher.name}"/>
+                                    <c:out value="${group.teacher.familyname}"/></h5>
+                                <p></p>
+                                <h5 class="box-title">Module : <c:out value="${group.module.name}"/></h5>
+                                <p></p>
+                            </div>
+                            <div class="col-md-4">
+                                <p>Start date : <c:out value="${group.getDate(group.startDate)}"/></p>
+                                <p>Timing : <c:out value="${group.getTime(group.startTime)}"/> - <c:out value="${group.getTime(group.endTime)}"/> </p>
                             </div>
                             <div class="col-md-4">
                                 <div class="box-tools pull-right">
@@ -97,8 +107,16 @@
                                             class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <a href="#.j" class="btn btn-app bg-green-gradient pull-right">
+
+                                <a id ="addModule" href="" class="btn btn-app bg-teal pull-right" data-toggle="modal" data-target="#modal-default1">
                                     <i class=" fa fa-edit"></i>Add student</a>
+
+                                <a id="" href="updateGroup.j?query=${group.id}" class="btn btn-app bg-purple  pull-right" >
+                                    <i class=" fa fa-plus"></i>
+                                    Update group
+                                </a>
+
+
                             </div>
                             <!-- /.box-tools -->
                         </div>
@@ -126,9 +144,12 @@
                                             <c:set var="number" value="${number+1}"/>
                                         <tr>
                                             <td>
-                                                <button type="button" class="btn  btn-box-tool btn-danger" data-widget="Remove" data-toggle="modal" data-target="#modal-danger"><i
-                                                        class="fa fa-remove"></i>
-                                                </button>
+                                                <a  class="btn  btn-box-tool btn-danger"
+                                                        data-toggle="modal" data-target="#modal-default3"
+                                                href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
+
+                                                    <i class="fa fa-remove" ></i>
+                                                </a>
                                             </td>
                                             <td><c:out value="${number}"/></td>
                                             <!-- nom du type de la stat  -->
@@ -162,6 +183,11 @@
                                 </table>
 
                             </div>
+
+
+
+                            <button type="submit" class="btn bg-danger-gradient  pull-right"
+                                    data-toggle="modal" data-target="#modal-default2" >Delete Group</button>
                             <!-- /.box-body -->
                         </div>
                     </div>
@@ -169,29 +195,91 @@
                 </div>
                 <div class="col-md-3"></div>
             </div>
+            <!-- The Modal -->
 
-            <div class="modal modal-danger fade" id="modal-danger">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Attention</h4>
+            <form role="form" method="post" action="addStudentToGroup.j?query=${group.id}">
+                <div class="modal fade" id="modal-default1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Warning </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="Student" class="form-group">
+                                    <label>Students</label>
+
+                                    <select  name="students" id="students" class="form-control select2" style="width: 100%;" >
+
+                                        <tg:forEach begin="0" end="${students.size()-1}"  var="i">
+
+                                            <option name="student" value="${students[i].id}"><c:out value="${students[i].name}"/>
+                                                <c:out value="${students[i].familyname}"/></option>
+
+                                        </tg:forEach>
+
+                                    </select>
+
+                                </div>
+
+                                <!-- Subscritption date -->
+                                <div class="form-groupOfStudents">
+                                    <label>Start date:</label>
+
+                                    <div class="input-groupOfStudents date">
+                                        <div class="input-groupOfStudents-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" name="startDate" class="form-control pull-right" id="datepicker">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-green  pull-right">Add</button>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <p>Would you really delete this element ?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                            <a href="GroupDetails.j" class="btn btn-outline  pull-right">Delete anyway</a>
-                        </div>
+                        <!-- /.modal-content -->
                     </div>
-                    <!-- /.modal-content -->
+                    <!-- /.modal-dialog -->
                 </div>
-                <!-- /.modal-dialog -->
-            </div>
+            </form>
+
+            <form role="form" method="post" action="deleteGroup.j?query=${group.id}">
+                <div class="modal fade" id="modal-default2">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Warning </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you really want to delete this group ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-danger  pull-right">Delete anyway</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </form>
+
+
+
         </section>
     </div>
+
+
+
+
 
     <!-- footer  -->
     <%@ include file="../CommunFiles/footer.jsp" %>
@@ -230,8 +318,20 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script src="../../../dist/js/addModule.js"></script>
 <!-- Page script -->
 <script>
+
+
+
+    function setForm(id_student, id_group) {
+
+        console.log("im here to submit");
+        var form = document.getElementById("form").setAttribute("action", "deleteStudentFromGroup.j?query="+id_student+"&id_group="+id_group) ;
+        form.submit();
+
+    }
+
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2();

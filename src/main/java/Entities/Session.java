@@ -18,9 +18,6 @@ public class Session  implements Serializable {
     @Column(name = "id_session")
     private int id;
 
-    @Column(name = "timing")
-    @Temporal(TemporalType.TIME)
-    private Date timing;
 
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
@@ -51,7 +48,7 @@ public class Session  implements Serializable {
 
         }catch(Exception e){ e.printStackTrace();}
 
-        this.timing = parsedTime;
+
         this.date = parsedDate;
     }
 
@@ -77,14 +74,6 @@ public class Session  implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Date getTiming() {
-        return timing;
-    }
-
-    public void setTiming(Date timing) {
-        this.timing = timing;
     }
 
     public Date getDate() {

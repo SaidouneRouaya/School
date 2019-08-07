@@ -10,12 +10,14 @@ public interface PaymentStudentDAO {
 
     public Map<String,Long> totalsByDate=new HashMap<>();
 
+
     public void addPaymentStudent(PaymentStudent paymentStudent);
     public List<PaymentStudent> getAllPaymentStudents();
     public void deletePaymentStudent(int id);
     public void updatePaymentStudent(int id, PaymentStudent paymentStudent);
     public PaymentStudent getPayementStudentByID(int id);
     //public  List<Timestamp> getPaymentStudentByDate();
+    public List<PaymentStudent> getPaymentsByStudent(int id_student);
     HashMap<String, List<PaymentStudent>> getPaymentStudentSorted();
 
 

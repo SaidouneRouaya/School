@@ -1,5 +1,6 @@
 package DAO;
 
+import Entities.GroupOfStudents;
 import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
@@ -11,6 +12,7 @@ import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class ModuleImpl implements  ModuleDAO{
@@ -117,6 +119,31 @@ public class ModuleImpl implements  ModuleDAO{
 
     }
 
+    @Override
+    public void updateGroupStudentsList (int id, Set<Student> studentList) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            Module module = session.get(Module.class, id);
+
+            module.setStudentsSet(studentList);
+
+            session.update(module);
+
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+    }
     @Override
     public Module getModuleByID(int id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
