@@ -7,9 +7,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -53,6 +51,7 @@ public class GroupOfStudents implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupsSet")
     private Set<Student> studentsSet ;
 
+    @OrderBy("date Asc")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupOfStudents")
     private Set <SessionOfGroup> sessionSet;
 
@@ -111,6 +110,7 @@ public class GroupOfStudents implements Serializable {
     }
 
     public Set<SessionOfGroup> getSessionSet() {
+
         return sessionSet;
     }
 

@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Transactional
 @Table(name = "session")
-public class SessionOfGroup  implements Serializable {
+public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_session")
@@ -67,5 +67,12 @@ public class SessionOfGroup  implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+
+    @Override
+    public int compareTo(SessionOfGroup o) {
+
+         return this.date.before(o.getDate()) ? 1:0;
     }
 }

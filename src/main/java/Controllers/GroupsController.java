@@ -61,10 +61,12 @@ public class GroupsController {
     public String groupDetails(Model model, @RequestParam String id_group) {
 
         String error = "";
+        GroupOfStudents groupOfStudents=groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
 
-        model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group)));
-
+        model.addAttribute("group", groupOfStudents);
         model.addAttribute("students", studentDAO.getAllStudents());
+
+        model.addAttribute("now", new Date());
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupDetails";

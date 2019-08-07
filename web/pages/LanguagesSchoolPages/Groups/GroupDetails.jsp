@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -56,6 +57,7 @@
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 </head>
+
 
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -165,7 +167,12 @@
                                             <tg:forEach items="${group.sessionSet}" var="session">
                                             <td>
                                                 <label>
-                                                    <input type="checkbox"/>
+                                                    <input type="checkbox"
+
+                                                     <c:if test="${session.date lt now }">
+                                                    disabled
+                                                    </c:if>
+                                                    />
                                                 </label>
                                             </td>
                                             </tg:forEach>

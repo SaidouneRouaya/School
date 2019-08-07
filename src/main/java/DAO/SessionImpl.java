@@ -9,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -58,6 +60,8 @@ public class SessionImpl implements SessionDAO{
         } finally {
             session.close();
         }
+       // Collections.sort(sessions);
+
         return sessions;
     }
 
