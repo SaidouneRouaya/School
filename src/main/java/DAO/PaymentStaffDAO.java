@@ -15,5 +15,7 @@ public interface PaymentStaffDAO {
     public void deletePaymentStaff(int id);
     public void updatePaymentStaff(int id, PaymentStaff paymentStaff);
     public PaymentStaff getPayementStaffByID(int id);
+
+    public List<PaymentStaff> getPaymentsByStaff(int id_staff);
     SortedMap<String, List<PaymentStaff>> getPaymentStaffSorted();
 }

@@ -1,6 +1,9 @@
 package Util;
 
+import DAO.TeacherDAO;
+import Entities.Teacher;
 import net.bytebuddy.asm.Advice;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,6 +11,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -107,7 +111,7 @@ public class utilities {
 
     public static void main(String [] args)
     {
-
+/*
         LocalTime date = LocalTime.now();
 
         System.out.println(date);
@@ -118,7 +122,28 @@ public class utilities {
 
         LocalTime parsedDate = LocalTime.parse(text, formatter);
 
-        System.out.println("formatted date : " +parsedDate);
+        System.out.println("formatted date : " +parsedDate);*/
+
+        String time1 = "9:00";
+        String time2 = "10:00";
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
+       try{
+
+           Date d1 = formatter.parse(time1);
+           Date d2 = formatter.parse(time2);
+
+           long timeDiff = d2.getTime() - d1.getTime();
+
+           Date diff = new Date(timeDiff);
+
+           System.out.println(timeDiff/3600000);
+
+
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+
+
     }
 
 

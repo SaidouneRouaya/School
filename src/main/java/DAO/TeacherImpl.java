@@ -1,5 +1,6 @@
 package DAO;
 
+import Entities.GroupOfStudents;
 import Entities.Student;
 import Entities.Teacher;
 import Util.HibernateUtil;

@@ -17,5 +17,6 @@ public interface PaymentTeacherDAO {
     public void deletePaymentTeacher(int id);
     public void updatePaymentTeacher(int id, PaymentTeacher paymentTeacher);
     public PaymentTeacher getPayementTeacherByID(int id);
+    public List<PaymentTeacher> getPaymentsByTreacher(int id_teacher);
     SortedMap <String, List<PaymentTeacher>> getPaymentTeacherSorted();
 }

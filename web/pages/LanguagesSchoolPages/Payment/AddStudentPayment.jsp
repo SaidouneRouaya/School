@@ -117,7 +117,7 @@
 
                                     <!-- List of students -->
 
-                                    <div id="student" class="form-groupOfStudents">
+                                    <div id="student" class="form-group">
                                         <label>Student</label>
 
                                         <select name="students" id="students" class="form-control select2"

@@ -55,23 +55,23 @@ public class Teacher  implements Serializable {
     public Teacher() {
     }
 
-    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, long salary, byte[] picture) {
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
 
         this.employmentDate = utilities.formatDate(employmentDate);
 
-        this.salary = salary;
+
         this.picture = picture;
     }
 
-    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, long salary, byte[] picture,  Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture,  Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.employmentDate = utilities.formatDate(employmentDate);
-        this.salary = salary;
+
         this.picture = picture;
 
         this.paymentTeacherSet= paymentsSet;
@@ -87,6 +87,17 @@ public class Teacher  implements Serializable {
         this.picture = newTeacher.getPicture();
     }
 
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture, Set<GroupOfStudents> groupsSet, Set<PaymentTeacher> paymentTeacherSet, Set<Module> teacherModulesSet) {
+        this.name = name;
+        this.familyname = familyname;
+        this.phoneNumber = phoneNumber;
+        this.employmentDate =utilities.formatDate(employmentDate);
+
+        this.picture = picture;
+        this.groupsSet = groupsSet;
+        this.paymentTeacherSet = paymentTeacherSet;
+        this.teacherModulesSet = teacherModulesSet;
+    }
 
     public Set<GroupOfStudents> getGroupsSet() {
         return groupsSet;

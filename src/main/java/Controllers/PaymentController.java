@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -26,6 +27,9 @@ public class PaymentController {
 
     @Autowired
     StudentDAO studentDAO;
+
+    @Autowired
+    GroupOfStudentsDAO groupOfStudentsDAO;
 
     @Autowired
     PaymentStaffDAO paymentStaffDAO;
@@ -184,19 +188,51 @@ public class PaymentController {
         String error = "";
 
         List<Teacher> teachersList = teacherDAO.getAllTeachers();
-        model.addAttribute("teachersList", teachersList);
+        List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
+        Map<Integer, Long> group_salary=new HashMap<>();
 
-        List<HashSet<Module>> modulesList = new ArrayList<>();
 
         for (Teacher teacher : teachersList) {
+            HashSet<GroupOfStudents> groupOfStudents = new HashSet<>(teacher.getGroupsSet());
+            groupsList.add(groupOfStudents);
 
-            HashSet<Module> module = new HashSet<>(teacher.getTeacherModulesSet());
 
-            modulesList.add(module);
+            for (GroupOfStudents group: teacher.getGroupsSet()){
+
+                long salary= 0L;
+
+                GroupOfStudents  groupp= groupOfStudentsDAO.getGroupById(group.getId());
+
+                if (groupp.getPaymentType().equalsIgnoreCase("Student")){
+
+                    salary= groupp.getStudentsSet().size() * groupp.getModule().getFees();
+
+                    group_salary.put(groupp.getId(), salary);
+
+                }
+                else if (groupp.getPaymentType().equalsIgnoreCase("Hour")){
+                    // salary= number of hours * number of sessions * fees
+
+                    Date d1 = groupp.getStartTime();
+                    Date d2 =  groupp.getEndTime();
+
+                    long timeDiff = (d2.getTime() - d1.getTime())/3600000;
+
+                    salary= (timeDiff)* groupp.getNumberSessions() * groupp.getModule().getFees();
+                    group_salary.put(groupp.getId(), salary);
+                }
+
+            }
 
         }
 
-        model.addAttribute("modulesList", modulesList);
+
+
+        model.addAttribute("teachersList", teachersList);
+        model.addAttribute("groupsList", groupsList);
+        model.addAttribute("groupSalariesMap", group_salary);
+
+
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddTeacherPayment";
@@ -237,18 +273,21 @@ public class PaymentController {
 
 
     @RequestMapping("/addNewTeacherPayment")
-    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher) {
+    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher,@RequestParam String id_group, @RequestParam Map<String, String> param) {
 
         String error = "";
 
 
         Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
+        GroupOfStudents group = groupOfStudentsDAO.getGroupById(Integer.parseInt(param.get(id_group)));
 
         System.out.println(id_teacher);
 
 
-        PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), teacher.getSalary(), "the one connected",
-                "module", "payment type", teacher);
+        //TODO change the one connected
+
+        PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Long.parseLong(param.get("salaries")), "the one connected",
+                group.getModule().getName(), group.getPaymentType(), teacher);
 
         paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
 

@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -175,42 +177,27 @@
 
                                     <tr>
                                         <th>#</th>
-
                                         <th>Date</th>
                                         <th>Amount</th>
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
 
-                                        <td>12/04/2018</td>
-                                        <td>23000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
+                                    <c:set var="number" value="0"/>
+                                    <tg:forEach begin="0" end="${payments.size()-1}"  var="i">
+                                        <c:set var="number" value="${number+1}"/>
 
-                                        <td>12/05/2018</td>
-                                        <td>23000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
+                                        <tr>
 
-                                        <td>12/06/2018</td>
-                                        <td>23000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
+                                            <td><c:out value="${number}"/></td>
+                                            <td><c:out value="${payments[i].date}"/></td>
+                                            <td><c:out value="${payments[i].amount}"/>.00 DZD</td>
+                                        </tr>
 
-                                        <td>12/07/2018</td>
-                                        <td>23000.00 DZD</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
+                                    </tg:forEach>
 
-                                        <td>12/08/2018</td>
-                                        <td>23000.00 DZD</td>
-                                    </tr>
 
                                     </tbody>
+                                    <h4 class="pull-right">Total :${total}.00 DZD</h4>
+
                                 </table>
 
                             </form>

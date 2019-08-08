@@ -113,14 +113,14 @@
                                         <h3 id="date"></h3>
                                     </div>
 
-                                    <div id="teacher" class="form-groupOfStudents">
+                                    <div id="teacher" class="form-group">
                                         <label>Teacher</label>
                                         <select name="teachers" id="teachers"  class="form-control select2" style="width: 100%;"
-                                                onchange="changeSalary()">
+                                                onchange="changeGroup()">
 
                                             <tg:forEach begin="0" end="${teachersList.size() -1}" var="i">
 
-                                                <option name="staff" value="${teachersList[i].id} ${teachersList[i].salary} ${i}">
+                                                <option name="teacher" value="${teachersList[i].id} ${teachersList[i].salary} ${i}">
                                                     <c:out value="${teachersList[i].name}"/>
                                                     <c:out value="${teachersList[i].familyname}"/></option>
 
@@ -129,25 +129,46 @@
                                         </select>
                                     </div>
 
-                                    <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
 
-                                        <div class="form-groupOfStudents" id="modules${i}" style="display: none">
 
-                                            <tg:forEach items="${modulesList.get(i)}" var="module">
+                                    <tg:forEach begin="0" end="${groupsList.size() -1}" var="i">
+                                        <div id="groupList${i}" style="display: none">
+                                            <label>Groups</label>
 
-                                                <label>
-                                                    <input type="checkbox" onclick="isChecked(this)" name="mod"
-                                                           value="${module.name}"> <c:out value="${module.name}"/>,
-                                                </label><br>
+                                            <select name="groups" id="groups${i}" class="form-control select2"
+                                                    style="width: 100%"
+                                                    onchange="changeSalary()">
 
-                                            </tg:forEach>
+                                                <tg:forEach items="${groupsList.get(i)}" var="group">
+
+                                                    <option name="group" value="${group.id}">
+                                                        <c:out value="${group.name}"/></option>
+
+                                                </tg:forEach>
+
+                                            </select>
+                                        </div>
+
+                                    </tg:forEach>
+
+
+                                    <div class="form-group" id="salaries" >
+
+                                    <tg:forEach items="${groupSalariesMap}" var="groupSalary_entry">
+
+                                        <div  id="salary${groupSalary_entry.key}"
+                                             style="display: none">
+
+                                            <p></p>
+                                            <b><p class="pull-left">Salary : <c:out value="${groupSalary_entry.value}"/>.00 DZD</p></b>
 
                                         </div>
                                     </tg:forEach>
 
-                                    <div id="salary">
-                                        <p class="pull-left">Salary : <c:out value="${teachersList[0].salary}"/>.00 DZD</p>
-                                    </div>
+                                </div>
+                                 <!--   <div id="salary">
+                                        <p class="pull-left">Salary : .00 DZD</p>
+                                    </div>-->
 
                                 </div>
 
@@ -229,6 +250,8 @@
 <script>
     document.getElementById("date").innerHTML =  formatDate();
 
+    var id_previous_group="groupList0";
+    var id_previous_salary="salary3";
 
 
     function  formatDate() {
@@ -255,17 +278,30 @@
         }
     }
 
-    function changeSalary() {
+    function changeGroup() {
 
         var id_salary = document.getElementById("teachers").value.split(" ",3);
 
-        document.getElementById("modules"+id_salary[2]).style.display = 'block';
+        document.getElementById(id_previous_group).style.display = 'none';
+        document.getElementById("groupList"+id_salary[2]).style.display = 'block';
 
-        document.getElementById("salary").innerHTML = "Salary : "+ id_salary[1] + " .00 DZD";
 
-        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]) ;
-
+        id_previous_group="groupList"+id_salary[2];
     }
+
+
+   function changeSalary() {
+
+        var id_salary = document.getElementById("teachers").value.split(" ",3);
+
+        var id_group = document.getElementById("groups"+id_salary[2]).value;
+        document.getElementById(id_previous_salary).style.display = 'none';
+        document.getElementById("salary"+id_group).style.display = 'block';
+
+        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group) ;
+        id_previous_salary="salary"+id_group;
+    }
+
 
 
     function printDiv(divName) {

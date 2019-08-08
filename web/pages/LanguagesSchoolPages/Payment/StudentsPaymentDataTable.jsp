@@ -84,7 +84,7 @@ To change this template use File | Settings | File Templates.
                             <div id="printableArea">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
-                                    <h3>Date : 12/03/2019</h3>
+                                    <h3>Date : ?? </h3>
                                     <br/>
 
                                     <tr>

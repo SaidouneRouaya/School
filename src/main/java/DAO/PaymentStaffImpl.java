@@ -212,6 +212,38 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
     }
 
 
+    public List<PaymentStaff> getPaymentsByStaff(int id_staff)
+    {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<PaymentStaff> results=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(PaymentStaff.class)
+                    .add(Restrictions.eq("staff.id", id_staff))
+                    .list();
+
+
+            for(PaymentStaff paymentStaff:results){
+
+                Hibernate.initialize(paymentStaff.getStaff());
+            }
+
+            tx.commit();
+
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
 
 
 

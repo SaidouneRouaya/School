@@ -53,7 +53,7 @@ public class Controller {
         String error = "";
 
         model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Groups/GroupsList";
+        return "redirect:/Groups.j";
     }
 
 

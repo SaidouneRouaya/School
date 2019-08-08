@@ -1,21 +1,16 @@
 package Controllers;
 
 
-import DAO.StaffDAO;
-import DAO.TeacherDAO;
-import Entities.Module;
-import Entities.Staff;
+import DAO.*;
+import Entities.*;
 
-import Entities.Teacher;
+import Entities.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @org.springframework.stereotype.Controller
 
@@ -28,6 +23,13 @@ public class StaffController {
     @Autowired
     TeacherDAO teacherDAO;
 
+    @Autowired
+    ModuleDAO moduleDAO;
+
+    @Autowired
+    PaymentTeacherDAO paymentTeacherDAO;
+    @Autowired
+    PaymentStaffDAO paymentStaffDAO;
 
     /** Staff section **/
 
@@ -65,7 +67,19 @@ public class StaffController {
 
         String error = "";
 
-        model.addAttribute("staffProfile", staffDAO.getStaffByID(Integer.parseInt(query)));
+        Staff staff= staffDAO.getStaffByID(Integer.parseInt(query));
+        List <PaymentStaff> paymentStaffs= paymentStaffDAO.getPaymentsByStaff(staff.getId());
+        Long total=0L;
+
+        for(PaymentStaff paymentStaff: paymentStaffs){
+
+            total+=paymentStaff.getAmmount();
+        }
+
+        model.addAttribute("staffProfile",staff);
+        model.addAttribute("payments", paymentStaffs);
+        model.addAttribute("total", total);
+
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Staff/StaffProfile";
     }
@@ -144,6 +158,7 @@ public class StaffController {
 
         String error = "";
 
+        model.addAttribute("modules", moduleDAO.getAllModules());
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Teachers/AddTeacher";
     }
@@ -162,7 +177,21 @@ public class StaffController {
     public String teacherProfile(Model model, @RequestParam String query) {
 
         String error = "";
-        model.addAttribute("teacherProfile", teacherDAO.getTeacherByID(Integer.parseInt(query)));
+
+
+        Teacher teacher= teacherDAO.getTeacherByID(Integer.parseInt(query));
+        List <PaymentTeacher> paymentTeachers= paymentTeacherDAO.getPaymentsByTreacher(teacher.getId());
+        Long total=0L;
+
+        for(PaymentTeacher paymentTeacher: paymentTeachers){
+
+            total+=paymentTeacher.getAmount();
+        }
+
+        model.addAttribute("teacherProfile",teacher);
+        model.addAttribute("payments", paymentTeachers);
+        model.addAttribute("total", total);
+
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Teachers/TeacherProfile";
     }
@@ -173,8 +202,19 @@ public class StaffController {
 
         String error = "";
 
+        Set<Module> modules = new HashSet<>();
+        Set<PaymentTeacher> paymentTeachers= new HashSet<>();
+        Set<GroupOfStudents> groupOfStudents= new HashSet<>();
+
+        Module module= moduleDAO.getModuleByID(Integer.parseInt(param.get("modules")));
+
         Teacher teacher= new Teacher(param.get("name"), param.get("familyName"),Integer.parseInt(param.get("phoneNumber")),
-                param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
+                param.get("employmentDate"), param.get("picture").getBytes(),
+                groupOfStudents, paymentTeachers, modules);
+
+
+        modules.add(module);
+        module.getModuleTeachersSet().add(teacher);
 
         teacherDAO.addTeacher(teacher);
 
@@ -199,7 +239,7 @@ public class StaffController {
         String error = "";
 
         Teacher teacher= new Teacher(param.get("name"), param.get("familyName"),Integer.parseInt(param.get("phoneNumber")),
-                param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
+                param.get("employmentDate"), param.get("picture").getBytes());
 
         teacherDAO.updateTeacher(Integer.parseInt(query), teacher);
 

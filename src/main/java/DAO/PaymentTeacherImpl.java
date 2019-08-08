@@ -214,6 +214,37 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
         return results;
     }
 
+    public List<PaymentTeacher> getPaymentsByTreacher(int id_teacher)
+    {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<PaymentTeacher> results=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(PaymentTeacher.class)
+                    .add(Restrictions.eq("teacherPayed.id", id_teacher))
+                    .list();
+
+
+            for(PaymentTeacher paymentTeacher:results){
+
+                Hibernate.initialize(paymentTeacher.getTeacher());
+            }
+
+            tx.commit();
+
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
 
 
 

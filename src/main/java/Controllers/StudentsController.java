@@ -78,9 +78,9 @@ public class StudentsController {
             total+=paymentStudent.getAmmount();
             }
 
+        model.addAttribute("payments", paymentStudents);
         model.addAttribute("studentProfile", student);
         model.addAttribute("listOfModules", student.getModulesSet());
-        model.addAttribute("payments", paymentStudents);
         model.addAttribute("total",total);
 
 
