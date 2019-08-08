@@ -142,7 +142,8 @@
                                     </tr>
                                     <tr>
                                          <td>Modules</td>
-                                         <td><tg:forEach items="${listOfModules}"  var="item"><c:out value="${item.name}"/>,
+                                         <td><tg:forEach items="${listOfModules}"  var="item">
+                                                <c:out value="${item.name}"/>,
                                              </tg:forEach></td>
                                     </tr>
 
@@ -153,7 +154,8 @@
                                     <tr>
                                         <td>Discount</td>
                                         <td><span >
-                                          <c:choose>
+
+                                            <c:choose>
                                               <c:when test="${empty studentProfile.discount}">
                                                   No discount
                                               </c:when>
@@ -205,18 +207,23 @@
                                         <th>Amount</th>
                                     </tr>
                                 <c:set var="number" value="0"/>
-                                    <tg:forEach begin="0" end="${payments.size()-1}"  var="i">
-                                        <c:set var="number" value="${number+1}"/>
 
-                                        <tr>
+                                    <c:if test="${payments.size() gt 0}">
 
-                                            <td><c:out value="${number}"/></td>
-                                            <td><c:out value="${payments[i].module}"/></td>
-                                            <td><c:out value="${payments[i].date}"/></td>
-                                            <td><c:out value="${payments[i].ammount}"/></td>
-                                        </tr>
+                                        <tg:forEach begin="0" end="${payments.size()-1}" var="i">
 
-                                    </tg:forEach>
+                                            <c:set var="number" value="${number+1}"/>
+
+                                            <tr>
+                                                <td><c:out value="${number}"/></td>
+                                                <td><c:out value="${payments[i].module}"/></td>
+                                                <td><c:out value="${payments[i].date}"/></td>
+                                                <td><c:out value="${payments[i].ammount}"/></td>
+                                            </tr>
+
+                                        </tg:forEach>
+                                    </c:if>
+
                                     </tbody>
                                     <h4 class="pull-right">Total :${total}.00 DZD</h4>
 
@@ -270,7 +277,7 @@
                             <div class="modal-body">
                                 <div id="Student" class="form-group">
                                     <label>Modules</label>
-
+                        <c:if test="${modules.size() gt 0}">
                                     <select  name="modules" id="modules" class="form-control select2" style="width: 100%;" >
 
                                         <tg:forEach begin="0" end="${modules.size()-1}"  var="i">
@@ -280,7 +287,7 @@
                                         </tg:forEach>
 
                                     </select>
-
+                        </c:if>
                                 </div>
 
 

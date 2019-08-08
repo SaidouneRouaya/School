@@ -119,7 +119,7 @@
                                         <input type="number" class="form-control"
                                              name="phoneNumber">
                                     </div>
-                                    <!-- /.input groupOfStudents -->
+                                    <!-- /.input group -->
                                 </div>
 
                                 <!-- Subscritption date -->

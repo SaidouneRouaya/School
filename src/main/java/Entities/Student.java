@@ -2,8 +2,9 @@ package Entities;
 
 
 import Util.utilities;
+import org.hibernate.Session;
 import org.hibernate.annotations.DynamicUpdate;
-
+import Entities.Module;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.*;
@@ -62,6 +63,14 @@ public class Student  implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "id_module") })
     private Set<Module> modulesSet;
 
+
+    //represents sessions when student was present
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "student_session",
+            joinColumns = {@JoinColumn(name = "id_student") },
+            inverseJoinColumns = { @JoinColumn(name = "id_session") })
+    private Set<SessionOfGroup> sessionsSet;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentPay")
     private Set<PaymentStudent> paymentSet;
 
@@ -80,6 +89,10 @@ public class Student  implements Serializable {
         if(disocunt!=0) this.discount=disocunt;
        // this.picture = uploadImage(picture);
         this.picture = picture;
+        this.groupsSet = new HashSet<>();
+        this.modulesSet = new HashSet<>();
+        this.sessionsSet = new HashSet<>();
+        this.paymentSet = new HashSet<>();
     }
     public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture) {
         this.name = name;
@@ -90,6 +103,41 @@ public class Student  implements Serializable {
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
         //this.picture = uploadImage(picture);
         this.picture = picture;
+        this.groupsSet = new HashSet<>();
+        this.modulesSet = new HashSet<>();
+        this.sessionsSet = new HashSet<>();
+        this.paymentSet = new HashSet<>();
+    }
+
+    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long discount, byte[] picture,
+                   Set<GroupOfStudents> groupsSet, Set<Module> modulesSet, Set<SessionOfGroup> sessionsSet, Set<PaymentStudent> paymentSet) {
+        this.name = name;
+        this.familyname = familyname;
+        this.phoneNumber1 = phoneNumber1;
+        this.phoneNumber2 = phoneNumber2;
+        this.type = type;
+        this.subscriptionDate = utilities.formatDate(subscriptionDate);
+        this.discount = discount;
+        this.picture = picture;
+        this.groupsSet = groupsSet;
+        this.modulesSet = modulesSet;
+        this.sessionsSet = sessionsSet;
+        this.paymentSet = paymentSet;
+    }
+   public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture,
+                   Set<GroupOfStudents> groupsSet, Set<Module> modulesSet, Set<SessionOfGroup> sessionsSet, Set<PaymentStudent> paymentSet) {
+        this.name = name;
+        this.familyname = familyname;
+        this.phoneNumber1 = phoneNumber1;
+        this.phoneNumber2 = phoneNumber2;
+        this.type = type;
+        this.subscriptionDate = utilities.formatDate(subscriptionDate);
+
+        this.picture = picture;
+        this.groupsSet = groupsSet;
+        this.modulesSet = modulesSet;
+        this.sessionsSet = sessionsSet;
+        this.paymentSet = paymentSet;
     }
 
     public void updateStudent(Student newStudent ) {
@@ -114,6 +162,14 @@ public class Student  implements Serializable {
 
     public Set<Module> getModulesSet() {
         return modulesSet;
+    }
+
+    public Set<SessionOfGroup> getSessionsSet() {
+        return sessionsSet;
+    }
+
+    public void setSessionsSet(Set<SessionOfGroup> sessionsSet) {
+        this.sessionsSet = sessionsSet;
     }
 
     public void setModulesSet(Set<Module> modulesSet) {
@@ -266,10 +322,34 @@ public class Student  implements Serializable {
         return bool;
     }
 
+    public boolean wasPresentinSession(SessionOfGroup session){
+
+        System.out.println(this.getSessionsSet().contains(session));
+        return this.getSessionsSet().contains(session);
+    }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Student)  return this.id== ((Student) obj).getId();
         else return false;
     }
+
+    public boolean payedForGroup (GroupOfStudents group, Date date){
+
+        if (this.paymentSet.isEmpty()) return false;
+        for (PaymentStudent paymentStudent: this.paymentSet){
+            if ( (paymentStudent
+                    .getGroupPay()
+                    .getId()==group
+                    .getId()) &&
+                    (paymentStudent
+                            .getDate()
+                            .before(date))) return true;
+            break;
+        }
+
+        return false;
+    }
+
+
 }

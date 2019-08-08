@@ -159,9 +159,9 @@
 
 
                                 <!-- Total to pay -->
-                                        <ul class="list-groupOfStudents list-groupOfStudents-unbordered">
+                                        <ul class="list-group list-group-unbordered">
                                             <div id="totalDiv">
-                                                <li class="list-groupOfStudents-item">
+                                                <li class="list-group-item">
                                                     <b>Total (without discount) :</b>
                                                     <span class=" btn bg-purple pull-right" id="total_span"></span>
                                                 </li>
@@ -170,7 +170,7 @@
 
                                             <!-- Discount of this student -->
                                             <div id="discountDiv">
-                                                <li class="list-groupOfStudents-item">
+                                                <li class="list-group-item">
                                                     <b>Discount : </b>
                                                     <input id="discount" type="text" name="discount"
                                                            class="col-xs-4 btn bg-navy pull-right" onchange="calculatePayed()">
@@ -180,7 +180,7 @@
 
                                             <!-- To pay -->
                                             <div id="payedDiv" >
-                                                <li class="list-groupOfStudents-item">
+                                                <li class="list-group-item">
                                                     <b>Payed : </b>
                                                     <span class="btn bg-teal pull-right" id="payed_span"></span>
                                                 </li>
@@ -339,7 +339,7 @@
 
     function printDiv(divName) {
 
-        document.getElementById("discountDiv").innerHTML= "   <li class='list-groupOfStudents-item'><b>Discount : </b>" +
+        document.getElementById("discountDiv").innerHTML= "   <li class='list-group-item'><b>Discount : </b>" +
             "<span class='btn bg-navy pull-right'>"+  document.getElementById("discount").value+"</span></li>"
 
         document.getElementById("form").setAttribute("action", "addNewStudentPayment.j?id_student=" + id_discount_i[0]+"&payed="+payed);

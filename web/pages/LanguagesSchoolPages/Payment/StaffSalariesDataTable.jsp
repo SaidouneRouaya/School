@@ -150,7 +150,7 @@
                         <div class="box-body">
 
                             <div class="col-md-6">
-                                <div class="box-groupOfStudents" id="accordion">
+                                <div class="box-group" id="accordion">
                                     <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 
                                     <c:set var="collapseNumber" value="${0}"/>
@@ -240,7 +240,7 @@
 
 
                             <div class="col-md-6">
-                                <div class="box-groupOfStudents" id="accordion2">
+                                <div class="box-group" id="accordion2">
                                     <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 
                                     <tg:forEach var="entryPayments" items="${staffPaymentListSorted2.entrySet()}">

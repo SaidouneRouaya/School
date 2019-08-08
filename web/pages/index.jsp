@@ -163,7 +163,7 @@
                             <h3 class="box-title">Chat</h3>
 
                             <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                                <div class="btn-groupOfStudents" data-toggle="btn-toggle">
+                                <div class="btn-group" data-toggle="btn-toggle">
                                     <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i>
                                     </button>
                                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
@@ -231,10 +231,10 @@
                         </div>
                         <!-- /.chat -->
                         <div class="box-footer">
-                            <div class="input-groupOfStudents">
+                            <div class="input-group">
                                 <input class="form-control" placeholder="Type message...">
 
-                                <div class="input-groupOfStudents-btn">
+                                <div class="input-group-btn">
                                     <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
@@ -371,10 +371,10 @@
                         </div>
                         <div class="box-body">
                             <form action="#" method="post">
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <input type="email" class="form-control" name="emailto" placeholder="Email to:">
                                 </div>
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <input type="text" class="form-control" name="subject" placeholder="Subject">
                                 </div>
                                 <div>
@@ -498,7 +498,7 @@
                             <!-- tools box -->
                             <div class="pull-right box-tools">
                                 <!-- button with a dropdown -->
-                                <div class="btn-groupOfStudents">
+                                <div class="btn-group">
                                     <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-bars"></i></button>
                                     <ul class="dropdown-menu pull-right" role="menu">

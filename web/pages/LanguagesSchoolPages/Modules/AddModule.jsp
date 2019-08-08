@@ -88,7 +88,7 @@
                             <form role="form" method="post" action="addNewModule.j">
 
                                 <!-- text input -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Name of the module </label>
                                     <input type="text"  name="name"  class="form-control" placeholder="Enter ...">
                                 </div>
@@ -96,12 +96,12 @@
 
 
                                 <!-- Fees -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Fees</label>
-                                    <div class="input-groupOfStudents">
-                                        <span class="input-groupOfStudents-addon">DZD</span>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">DZD</span>
                                         <input type="number" name="fees" class="form-control">
-                                        <span class="input-groupOfStudents-addon">.00</span>
+                                        <span class="input-group-addon">.00</span>
                                     </div>
                                 </div>
 

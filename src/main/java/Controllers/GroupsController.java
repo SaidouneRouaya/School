@@ -5,12 +5,15 @@ import Entities.GroupOfStudents;
 import Entities.Module;
 import Entities.SessionOfGroup;
 import Entities.Student;
+import Util.utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -61,12 +64,40 @@ public class GroupsController {
     public String groupDetails(Model model, @RequestParam String id_group) {
 
         String error = "";
-        GroupOfStudents groupOfStudents=groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
 
-        model.addAttribute("group", groupOfStudents);
-        model.addAttribute("students", studentDAO.getAllStudents());
+        Date now = new Date();
 
-        model.addAttribute("now", new Date());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        GroupOfStudents group =groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
+       List<Student> studentList= studentDAO.getAllStudents();
+
+        model.addAttribute("group", group );
+        model.addAttribute("students", studentList);
+        model.addAttribute("now", dateFormat.format(now));
+
+       /* class Presence {
+            public int id_session;
+            public boolean present;
+
+            public Presence(int id_session, boolean present) {
+                this.id_session = id_session;
+                this.present = present;
+            }
+        }
+        HashMap<Integer, List<Presence>  > presenceList= new HashMap<>();
+
+        for (Student s: studentList){
+            List<Presence> presences= new ArrayList<>();
+            for (SessionOfGroup session: group.getSessionSet()){
+
+                presences.add(new Presence(session.getId(), s.getSessionsSet().contains(session) ));
+            }
+
+            presenceList.put(s.getId(), presences);
+        }
+
+
+        model.addAttribute("presences", presenceList);*/
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupDetails";
@@ -249,6 +280,29 @@ public class GroupsController {
     }
 
 
+
+    @RequestMapping("/markPresence.j")
+    public String markPresence ( @RequestParam Map<String,String> param){
+
+//EntityExistsException
+
+        String[] ids=param.get("sess").split(" ");
+
+
+        SessionOfGroup sessionOfGroup= sessionDAO.getSessionByID(Integer.parseInt(ids[0]));
+        Student student= studentDAO.getStudentByID(Integer.parseInt(ids[1]));
+
+
+        sessionOfGroup.getStudentsSet().add(student);
+        student.getSessionsSet().add(sessionOfGroup);
+
+
+        studentDAO.updateStudentSessions(student.getId(), student.getSessionsSet());
+        sessionDAO.updateSessionStudents(sessionOfGroup.getId(), sessionOfGroup.getStudentsSet());
+
+
+        return "redirect:GroupDetails.j?id_group="+ids[2];
+    }
 
 
 

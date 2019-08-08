@@ -1,6 +1,7 @@
 package Util;
 
 import DAO.TeacherDAO;
+import Entities.SessionOfGroup;
 import Entities.Teacher;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class utilities {
@@ -148,6 +146,10 @@ public class utilities {
 
 
 
+    public static boolean contains(Collection<SessionOfGroup> coll, Object o) {
+        if (coll == null) return false;
+        return coll.contains((SessionOfGroup)o);
+    }
 
 
 

@@ -56,6 +56,8 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize( group.getModule());
                 Hibernate.initialize (group.getTeacher());
                 Hibernate.initialize (group.getStudentsSet());
+                Hibernate.initialize(group.getSessionSet());
+                Hibernate.initialize(group.getPaymentStudentSet());
             }
             tx.commit();
 
@@ -175,6 +177,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize(groupOfStudents.getTeacher());
                 Hibernate.initialize(groupOfStudents.getStudentsSet());
                 Hibernate.initialize(groupOfStudents.getSessionSet());
+                Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
 
             } catch( SQLGrammarException ex){
                 System.out.println( "exception in hibernate initialize");
@@ -248,6 +251,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize(groupOfStudents.getTeacher());
                 Hibernate.initialize(groupOfStudents.getStudentsSet());
                 Hibernate.initialize(groupOfStudents.getSessionSet());
+                Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
             }
 
             tx.commit();

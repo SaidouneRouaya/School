@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -59,10 +60,8 @@ public class Teacher  implements Serializable {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
-
+        this.groupsSet= new HashSet<>();
         this.employmentDate = utilities.formatDate(employmentDate);
-
-
         this.picture = picture;
     }
 
@@ -73,7 +72,7 @@ public class Teacher  implements Serializable {
         this.employmentDate = utilities.formatDate(employmentDate);
 
         this.picture = picture;
-
+        this.groupsSet= new HashSet<>();
         this.paymentTeacherSet= paymentsSet;
         this.teacherModulesSet = teacherModulesSet;
     }
@@ -85,6 +84,7 @@ public class Teacher  implements Serializable {
         this.phoneNumber= newTeacher.getPhoneNumber();
         this.salary= newTeacher.getSalary();
         this.picture = newTeacher.getPicture();
+        this.groupsSet= new HashSet<>();
     }
 
     public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture, Set<GroupOfStudents> groupsSet, Set<PaymentTeacher> paymentTeacherSet, Set<Module> teacherModulesSet) {

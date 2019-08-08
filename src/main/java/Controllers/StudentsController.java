@@ -3,9 +3,7 @@ package Controllers;
 import DAO.ModuleDAO;
 import DAO.PaymentStudentDAO;
 import DAO.StudentDAO;
-import Entities.GroupOfStudents;
-import Entities.PaymentStudent;
-import Entities.Student;
+import Entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @org.springframework.stereotype.Controller
@@ -49,8 +45,62 @@ public class StudentsController {
 
         String error = "";
 
+
+        List<Student> students= studentDAO.getAllStudents();
+        List<Student> unpaidStudents= new ArrayList<>();
+
+        HashMap<Integer, List<GroupOfStudents>> groups = new HashMap<>();
+
+
+        Date today= new Date();
+
+boolean bool= false;
+        for (Student student: students){
+
+
+            if (student.getPaymentSet().size() > 0) {
+
+                    try {
+
+                        List<GroupOfStudents> groupOfStudent = new ArrayList<>();
+
+                    if (student.getType().equalsIgnoreCase("payee")) {
+
+                        if (student.getSubscriptionDate().before(today)) {
+
+                            for (GroupOfStudents group : student.getGroupsSet()) {
+
+                                if (!student.payedForGroup(group, today)) {
+
+                                    groupOfStudent.add(group);
+                                    unpaidStudents.add(student);
+                                    bool=true;
+                                }
+
+                            }
+
+                            if (bool)  groups.put(student.getId(), groupOfStudent );
+                        }
+
+                    }
+
+
+                }
+               catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }else {
+                    unpaidStudents.add(student);
+                    groups.put(student.getId(), new ArrayList<>(student.getGroupsSet()) );
+                }
+        }
+
+        model.addAttribute("unpaidStudents", unpaidStudents);
+        model.addAttribute("groups", groups);
+
         model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Students/UnpaidStudentsDataTable";
+        return "LanguagesSchoolPages/Students/unpaidStudentsDataTable";
     }
 
   @RequestMapping("/addStudent")
@@ -69,7 +119,7 @@ public class StudentsController {
 
 
         Student student=studentDAO.getStudentByID(Integer.parseInt(query));
-       List <PaymentStudent> paymentStudents=paymentStudentDAO.getPaymentsByStudent(student.getId());
+        List <PaymentStudent> paymentStudents=paymentStudentDAO.getPaymentsByStudent(student.getId());
 
        Long total=0L;
 
@@ -81,7 +131,7 @@ public class StudentsController {
         model.addAttribute("payments", paymentStudents);
         model.addAttribute("studentProfile", student);
         model.addAttribute("listOfModules", student.getModulesSet());
-        model.addAttribute("total",total);
+        model.addAttribute("total", total);
 
 
         model.addAttribute("modules", moduleDAO.getAllModules());
@@ -106,16 +156,21 @@ public class StudentsController {
         String error = "";
         Student student;
 
+        Set<GroupOfStudents> groups=new HashSet<>();
+        Set<SessionOfGroup> session= new HashSet<>();
+        Set<Entities.Module> modules = new HashSet<>();
+        Set<PaymentStudent> payments = new HashSet<>();
 
         try{
             if(param.get("discount")!=null){
                 student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
                         Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
-                        Long.parseLong(param.get("discount")), param.get("picture").getBytes());
+                        Long.parseLong(param.get("discount")), param.get("picture").getBytes(), groups,  modules, session, payments);
             }else
             {
                         student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
-                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes(),
+                         groups,modules,  session, payments);
             }
 
             studentDAO.addStudent(student);

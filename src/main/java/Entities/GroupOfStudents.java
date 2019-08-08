@@ -55,6 +55,9 @@ public class GroupOfStudents implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupOfStudents")
     private Set <SessionOfGroup> sessionSet;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupPay")
+    private Set <PaymentStudent> paymentStudentSet;
+
     public GroupOfStudents() {
     }
 
@@ -63,6 +66,9 @@ public class GroupOfStudents implements Serializable {
         this.startDate = startDate;
         this.module = module;
         this.teacher = teacher;
+        this.studentsSet= new HashSet<>();
+        this.sessionSet= new HashSet<>();
+
     }
 
     public GroupOfStudents(String name, String startDate, String paymentType, Module module, Teacher teacher, Set<Student> studentsSet) {
@@ -72,6 +78,7 @@ public class GroupOfStudents implements Serializable {
         this.module = module;
         this.teacher = teacher;
         this.studentsSet = studentsSet;
+        this.sessionSet= new HashSet<>();
     }
 
     public GroupOfStudents(String name, Date startDate, String paymentType, int numberSessions, Module module, Teacher teacher, Set<Student> studentsSet) {
@@ -82,6 +89,7 @@ public class GroupOfStudents implements Serializable {
         this.module = module;
         this.teacher = teacher;
         this.studentsSet = studentsSet;
+        this.sessionSet= new HashSet<>();
     }
 
     public GroupOfStudents(String name, String startDate, String paymentType, int numberSessions, String startTime, String endTime, Module module, Teacher teacher, Set<Student> studentsSet) {
@@ -94,12 +102,15 @@ public class GroupOfStudents implements Serializable {
         this.module = module;
         this.teacher = teacher;
         this.studentsSet = studentsSet;
+        this.sessionSet= new HashSet<>();
     }
 
     public GroupOfStudents(String name, String paymentType, int numberSessions) {
         this.name = name;
         this.paymentType = paymentType;
         this.numberSessions = numberSessions;
+        this.studentsSet= new HashSet<>();
+        this.sessionSet= new HashSet<>();
     }
 
     public void updateGroup (GroupOfStudents groupOfStudentsNew){
@@ -196,6 +207,14 @@ public class GroupOfStudents implements Serializable {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Set<PaymentStudent> getPaymentStudentSet() {
+        return paymentStudentSet;
+    }
+
+    public void setPaymentStudentSet(Set<PaymentStudent> paymentStudentSet) {
+        this.paymentStudentSet = paymentStudentSet;
     }
 
     @Override

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,9 +30,10 @@ public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>
     @JoinColumn(name="id_group", nullable=false)
     private GroupOfStudents groupOfStudents;
 
-   /* @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
-    private Set<Module> modulesSet ;
-*/
+    // represents students present in this session
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
+    private Set<Student> studentsSet ;
 
     public SessionOfGroup() {
     }
@@ -40,6 +42,7 @@ public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>
 
         this.date = utilities.formatDate(date);
         this.groupOfStudents=groupOfStudents;
+        this.studentsSet= new HashSet<>();
     }
 
 
@@ -69,6 +72,13 @@ public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>
         this.date = date;
     }
 
+    public Set<Student> getStudentsSet() {
+        return studentsSet;
+    }
+
+    public void setStudentsSet(Set<Student> studentsSet) {
+        this.studentsSet = studentsSet;
+    }
 
     @Override
     public int compareTo(SessionOfGroup o) {

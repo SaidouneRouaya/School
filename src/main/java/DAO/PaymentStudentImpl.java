@@ -59,6 +59,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             for(PaymentStudent paymentStudent:paymentStudents){
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
+                Hibernate.initialize(paymentStudent.getGroupPay());
             }
 
             tx.commit();
@@ -123,6 +124,8 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             tx = session.beginTransaction();
             paymentStudent= session.get(PaymentStudent.class, id);
             Hibernate.initialize(paymentStudent.getStudentPay());
+            Hibernate.initialize(paymentStudent.getGroupPay());
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -184,6 +187,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
                 total+=paymentStudent.getAmmount();
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
+                Hibernate.initialize(paymentStudent.getGroupPay());
             }
 
             tx.commit();
@@ -220,6 +224,12 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             for(PaymentStudent paymentStudent:results){
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
+                Hibernate.initialize(paymentStudent.getGroupPay());
+                Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+
             }
 
             tx.commit();

@@ -1,17 +1,20 @@
 package DAO;
 
 import Entities.SessionOfGroup;
+import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class SessionImpl implements SessionDAO{
@@ -65,6 +68,9 @@ public class SessionImpl implements SessionDAO{
         return sessions;
     }
 
+
+
+
     public void deleteSession(int id) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -106,4 +112,61 @@ public class SessionImpl implements SessionDAO{
         }
 
     }
+
+
+    public SessionOfGroup getSessionByID(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        SessionOfGroup sessionOfGroup = null;
+
+        try {
+            tx = session.beginTransaction();
+            sessionOfGroup =  session.get(SessionOfGroup.class, id);
+
+            try{
+
+                Hibernate.initialize(sessionOfGroup.getStudentsSet());
+                Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
+
+            } catch( SQLGrammarException ex){
+                System.out.println( "exception in hibernate initialize");
+                ex.printStackTrace();
+            }
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return sessionOfGroup;
+    }
+
+
+    public void updateSessionStudents(int id, Set<Student> studentList) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            SessionOfGroup sessionOfGroup = session.get(SessionOfGroup.class, id);
+            sessionOfGroup.setStudentsSet(studentList);
+
+            session.update(sessionOfGroup);
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+    }
+
+
+
 }

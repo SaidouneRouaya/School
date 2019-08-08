@@ -164,19 +164,33 @@
 
                                             <td><c:out value ="${student.phoneNumber1}"/></td>
 
-                                            <tg:forEach items="${group.sessionSet}" var="session">
-                                            <td>
-                                                <label>
-                                                    <input type="checkbox"
+                                            <c:set var="contains" value="${false}"/>
+                                            <form id="session_form" method="post">
+                                                <tg:forEach items="${group.sessionSet}" var="session">
 
-                                                     <c:if test="${session.date lt now }">
-                                                    disabled
-                                                    </c:if>
-                                                    />
-                                                </label>
-                                            </td>
-                                            </tg:forEach>
 
+                                                    <td>
+                                                        <label>
+                                                            <input type="checkbox"  name="sess"
+                                                                   id="sess" value="${session.id} ${student.id} ${group.id}"
+
+
+                                                                    <c:choose>
+                                                                        <c:when test="${session.date.toString() eq now }">
+                                                                            onclick="isChecked(this)"
+                                                                        </c:when>
+
+                                                                        <c:otherwise>
+                                                                            disabled
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                            />
+                                                        </label>
+                                                    </td>
+
+                                                </tg:forEach>
+
+                                            </form>
                                         </tr>
 
                                     </tg:forEach>
@@ -227,11 +241,11 @@
                                 </div>
 
                                 <!-- Subscritption date -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Start date:</label>
 
-                                    <div class="input-groupOfStudents date">
-                                        <div class="input-groupOfStudents-addon">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="startDate" class="form-control pull-right" id="datepicker">
@@ -264,11 +278,11 @@
 
 
                                 <!-- Subscritption date -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Date:</label>
 
-                                    <div class="input-groupOfStudents date">
-                                        <div class="input-groupOfStudents-addon">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="date" class="form-control pull-right" id="datepicker2">
@@ -358,10 +372,48 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
-<script src="../../../dist/js/addModule.js"></script>
 <!-- Page script -->
 <script>
 
+    function isChecked(event) {
+
+        var session_student_group = document.getElementById("sess").value.split(" ", 3);
+
+        if (event.getAttribute('checked') === null) {
+            event.setAttribute('checked', '');
+
+            // if student.get session contains (session)
+
+
+
+
+            var form = document.getElementById("session_form");
+
+           // var action="markPresence.j?id_session="+session_student_group[0]+"&id_student="+session_student_group[1]+"&id_group="+session_student_group[2];
+            var action="markPresence.j";
+
+            form.setAttribute("action",action ) ;
+            form.submit();
+        }
+        else {
+            event.removeAttribute('checked');
+        }
+    }
+
+    function  formatDate(date) {
+
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        return dd + '/' + mm + '/' + yyyy;
+    }
 
 
     $(function () {

@@ -35,6 +35,10 @@ public class PaymentStudent implements Serializable {
     @JoinColumn(name="id_student")
     private Student studentPay;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_group")
+    private GroupOfStudents groupPay;
+
     public PaymentStudent() {
     }
 
@@ -103,5 +107,13 @@ public class PaymentStudent implements Serializable {
 
     public void setStudentPay(Student studentPay) {
         this.studentPay = studentPay;
+    }
+
+    public GroupOfStudents getGroupPay() {
+        return groupPay;
+    }
+
+    public void setGroupPay(GroupOfStudents groupPay) {
+        this.groupPay = groupPay;
     }
 }

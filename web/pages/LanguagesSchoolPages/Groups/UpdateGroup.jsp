@@ -92,14 +92,14 @@
 
 
                                     <!-- text input -->
-                                    <div class="form-groupOfStudents">
-                                        <label>Name of the groupOfStudents</label>
+                                    <div class="form-group">
+                                        <label>Name of the group Of Students</label>
                                         <input type="text"  name="name"  id="name"  value="${group.name}" class="form-control">
                                     </div>
 
 
                                     <!-- radio -->
-                                    <div class="form-groupOfStudents">
+                                    <div class="form-group">
 
                                         <div class="radio">
                                             <label>
@@ -118,7 +118,7 @@
                                     </div>
 
                                     <!-- Session -->
-                                    <div class="form-groupOfStudents">
+                                    <div class="form-group">
                                         <label>Number of sessions</label>
                                         <input type="number" name="sessionNumber" class="form-control" value="${group.numberSessions}">
                                     </div>

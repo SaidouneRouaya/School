@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -59,6 +60,7 @@ public class Staff  implements Serializable {
         this.employmentDate = utilities.formatDate(employmentDate);
         this.salary = salary;
         this.picture = picture;
+        this.paymentStaffSet= new HashSet<>();
     }
     public void updateStaff(Staff newStaff ) {
         this.name = newStaff.getName();

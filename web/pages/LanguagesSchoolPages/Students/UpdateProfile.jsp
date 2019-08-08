@@ -97,23 +97,23 @@
 
 
                                 <!-- text input -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" name="name" class="form-control" placeholder="" value="<c:out value ="${studentProfile.name}"/>">
                                 </div>
 
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Family name</label>
                                     <input type="text" name="familyName" class="form-control" placeholder="" value="<c:out value ="${studentProfile.familyname}"/>">
                                 </div>
 
                                 <!-- Phone number -->
 
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Phone number 1:</label>
 
-                                    <div class="input-groupOfStudents">
-                                        <div class="input-groupOfStudents-addon">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="text" class="form-control"
@@ -121,22 +121,22 @@
                                     </div>
                                     <label>Phone number 2:</label>
 
-                                    <div class="input-groupOfStudents">
-                                        <div class="input-groupOfStudents-addon">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="text" class="form-control"
                                                name="phoneNumber2"    placeholder="" value="<c:out value ="${studentProfile.phoneNumber2}"/>">
                                     </div>
-                                    <!-- /.input groupOfStudents -->
+                                    <!-- /.input group -->
                                 </div>
 
                                 <!-- Subscritption date -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Subscription date:</label>
 
-                                    <div class="input-groupOfStudents date">
-                                        <div class="input-groupOfStudents-addon">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <label for="datepicker"></label>
@@ -147,7 +147,7 @@
 
 
                                 <!-- radio -->
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="r3" value="payee"  onclick="enable()"
@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-groupOfStudents">
+                                <div class="form-group">
                                     <label>Discount</label>
                                     <input type="text" id="discount" name="discount"
                                            class="form-control"  placeholder=""

@@ -2,6 +2,7 @@ package DAO;
 
 
 import Entities.GroupOfStudents;
+import Entities.SessionOfGroup;
 import Entities.Student;
 import Entities.Module;
 
@@ -54,6 +55,7 @@ public class StudentImpl implements StudentDAO {
               Hibernate.initialize(student.getGroupsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
+                Hibernate.initialize(student.getSessionsSet());
 
             }
             tx.commit();
@@ -130,6 +132,29 @@ public class StudentImpl implements StudentDAO {
 
     }
 
+    public void updateStudentSessions (int id, Set<SessionOfGroup> sessionOfGroupsSet) {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Student student = session.get(Student.class, id);
+
+            student.setSessionsSet(sessionOfGroupsSet);
+            session.update(student);
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+         session.close();
+        }
+
+    }
+
     public void updateStudentModules(int id, Set<Module> modules) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -169,14 +194,13 @@ public class StudentImpl implements StudentDAO {
                 Hibernate.initialize(student.getGroupsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
+                Hibernate.initialize(student.getSessionsSet());
 
             } catch( SQLGrammarException ex){
                 System.out.println( "exception in hibernate initialize");
                 ex.printStackTrace();
             }
             tx.commit();
-
-
 
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
@@ -247,6 +271,8 @@ public class StudentImpl implements StudentDAO {
                 Hibernate.initialize(student.getGroupsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
+                Hibernate.initialize(student.getSessionsSet());
+
             }
 
 

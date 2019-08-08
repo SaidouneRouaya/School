@@ -3,6 +3,7 @@ package Entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,13 +27,6 @@ public class Module implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module")
     private Set<GroupOfStudents> groupsSet;
 
-   /* @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "module_session",
-            joinColumns = {@JoinColumn(name = "id_module") },
-            inverseJoinColumns = { @JoinColumn(name = "id_session") })
-    private Set<Session> sessionsSet;
-*/
-
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "modulesSet")
     private Set<Student>  studentsSet ;
 
@@ -45,12 +39,18 @@ public class Module implements Serializable {
     public Module(String name, long fees) {
         this.name = name;
         this.fees = fees;
+        this.groupsSet= new HashSet<>();
+        this.moduleTeachersSet = new HashSet<>();
+        this.studentsSet= new HashSet<>();
     }
 
     public Module(String name, long fees,  Set<Student> studentsSet) {
         this.name = name;
         this.fees = fees;
         this.studentsSet = studentsSet;
+        this.groupsSet= new HashSet<>();
+        this.moduleTeachersSet = new HashSet<>();
+        this.studentsSet= new HashSet<>();
     }
 
     public void updateModule(Module newModule)  {
@@ -66,6 +66,9 @@ public class Module implements Serializable {
         this.groupsSet = groupsSet;
         this.studentsSet = studentsSet;
         this.moduleTeachersSet = moduleTeachersSet;
+        this.groupsSet= new HashSet<>();
+        this.moduleTeachersSet = new HashSet<>();
+        this.studentsSet= new HashSet<>();
     }
 
     public Module(String name, long fees,Set<Student> studentsSet, Set<Teacher> moduleTeachersSet) {
@@ -73,6 +76,9 @@ public class Module implements Serializable {
         this.fees = fees;
         this.studentsSet = studentsSet;
         this.moduleTeachersSet = moduleTeachersSet;
+        this.groupsSet= new HashSet<>();
+        this.moduleTeachersSet = new HashSet<>();
+        this.studentsSet= new HashSet<>();
     }
 
     public Set<Teacher> getModuleTeachersSet() {
