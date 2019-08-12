@@ -149,6 +149,11 @@ public class Student  implements Serializable {
         this.subscriptionDate = newStudent.getSubscriptionDate();
         this.discount=newStudent.getDiscount();
         this.picture = newStudent.getPicture();
+        this.paymentSet= newStudent.getPaymentSet();
+        this.groupsSet= newStudent.getGroupsSet();
+        this.modulesSet= newStudent.getModulesSet();
+        this.sessionsSet=newStudent.getSessionsSet();
+
 
     }
 
@@ -317,6 +322,21 @@ public class Student  implements Serializable {
             GroupOfStudents group= it.next();
             if(bool= (group.getId()==id_group)){
                 this.getGroupsSet().remove(group);
+            }
+        }
+        return bool;
+    }
+    public boolean removePayment(int id_payment){
+
+        Iterator<PaymentStudent> it= this.paymentSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            PaymentStudent paymentStudent= it.next();
+
+            if(bool= (paymentStudent.getId()==id_payment)){
+                this.getGroupsSet().remove(paymentStudent);
             }
         }
         return bool;

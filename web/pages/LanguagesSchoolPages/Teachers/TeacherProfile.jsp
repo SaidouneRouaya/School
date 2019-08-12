@@ -97,13 +97,7 @@
                                     <!-- /.description-block -->
                                 </div>
                                 <!-- /.col -->
-                                <div class="col-sm-6 border-right">
-                                    <div class="description-block">
-                                        <h5 class="description-header">Salary</h5>
-                                        <span class="description-text">${teacherProfile.salary}</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
+
                                 <!-- /.col -->
                             </div>
                             <!-- /.row -->
@@ -189,14 +183,14 @@
 
                                             <td><c:out value="${number}"/></td>
                                             <td><c:out value="${payments[i].date}"/></td>
-                                            <td><c:out value="${payments[i].amount}"/>.00 DZD</td>
+                                            <td><c:out value="${payments[i].amount}"/>0 DZD</td>
                                         </tr>
 
                                     </tg:forEach>
 
 
                                     </tbody>
-                                    <h4 class="pull-right">Total :${total}.00 DZD</h4>
+                                    <h4 class="pull-right">Total :${total}0 DZD</h4>
 
                                 </table>
 

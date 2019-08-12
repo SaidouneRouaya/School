@@ -93,13 +93,13 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name of the group of students</label>
-                                    <input type="text"  name="name"  id="name" class="form-control" placeholder="Enter ...">
+                                    <input type="text"  name="name"  id="name" class="form-control" placeholder="Enter ..." required>
                                 </div>
 
                                 <!-- select Module -->
                                 <div class="form-group">
                                     <label>Module</label>
-                                    <select name="modules" id="modules" class="form-control"  onchange="changeStudents()" >
+                                    <select name="modules" id="modules" class="form-control"  onchange="changeStudents()"  >
 
                                         <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
 
@@ -114,7 +114,7 @@
                                 <!-- select teacher -->
                                 <div class="form-group">
                                     <label>Teacher</label>
-                                    <select name="teachers" id="teacher" class="form-control">
+                                    <select name="teachers" id="teacher" class="form-control" >
                                         <tg:forEach begin="0" end="${teacherList.size() -1}" var="i">
 
                                         <option name="teacher"
@@ -123,12 +123,20 @@
                                             </tg:forEach>
                                     </select>
                                 </div>
-                                <!-- radio -->
                                 <div class="form-group">
+                                    <label>Fees (unit price) </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">DZD</span>
+                                        <input type="number" name="fees" class="form-control">
+                                        <span class="input-group-addon">.00</span>
+                                    </div>
+                                </div>
+                                <!-- radio -->
+                                <div class="form-group" >
 
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="Hour"  >Per hours
+                                            <input type="radio" name="r3" value="Hour"  >Per hour
                                         </label>
                                     </div>
                                     <div class="radio">
@@ -146,7 +154,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text"  name="startDate" class="form-control pull-right" id="datepicker">
+                                        <input type="text"  name="startDate" class="form-control pull-right" id="datepicker" required>
                                     </div>
                                     <!-- /.input  -->
                                 </div>
@@ -158,7 +166,7 @@
                                         <label>Start time :</label>
 
                                         <div class="input-group">
-                                            <input type="text" name="startTime" class="form-control timepicker">
+                                            <input type="text" name="startTime" class="form-control timepicker " required>
 
                                             <div class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
@@ -173,7 +181,7 @@
                                         <label>End time :</label>
 
                                         <div class="input-group">
-                                            <input type="text" name="endTime" class="form-control timepicker">
+                                            <input type="text" name="endTime" class="form-control timepicker" required>
 
                                             <div class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
@@ -188,7 +196,7 @@
                                 <!-- Session -->
                                 <div class="form-group">
                                     <label>Number of sessions</label>
-                                    <input type="number" name="sessionNumber" class="form-control" placeholder="Enter number of seances ...">
+                                    <input type="number" name="sessionNumber" class="form-control" placeholder="Enter number of seances ..." required>
                                 </div>
 
 
@@ -201,7 +209,7 @@
 
                                         <tg:forEach var="entry" items="${studentList.entrySet()}">
                                             <select name="studentsList" id="studentsList${entry.key}" multiple=""
-                                                    class="form-control" style="display: none">
+                                                    class="form-control" style="display: none" >
 
                                                 <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
 
@@ -291,7 +299,6 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page script -->
 <script>
-
     var id_previous="studentsList1";
 
     function changeStudents() {
@@ -303,6 +310,10 @@
 
         id_previous="studentsList"+id.toString();
     }
+
+
+
+
 
     $(function () {
         //Initialize Select2 Elements

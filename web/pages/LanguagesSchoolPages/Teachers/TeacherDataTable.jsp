@@ -100,7 +100,6 @@
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Module</th>
-                                <th>Salary</th>
 
                             </tr>
                             </thead>
@@ -113,14 +112,11 @@
                                     </a></td>
                                     <td><c:out value ="${teachersList[i].phoneNumber}"/></td>
 
-
                                     <td><tg:forEach items="${modulesList}" var="modules">
                                         <tg:forEach items="${modules}" var="module">
                                             <c:out value="${module.name}"/>,
                                         </tg:forEach>
                                     </tg:forEach></td>
-
-                                    <td><c:out value ="${teachersList[i].salary}"/></td>
 
                                 </tr>
 
@@ -132,7 +128,6 @@
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Module</th>
-                                <th>Salary</th>
 
                             </tr>
                             </tfoot>

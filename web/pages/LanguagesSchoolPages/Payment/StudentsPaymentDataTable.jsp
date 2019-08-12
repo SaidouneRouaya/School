@@ -103,7 +103,7 @@ To change this template use File | Settings | File Templates.
                                         <tr>
                                             <td><c:out value="${studentPaymentList[i].studentPay.name}"/> <c:out value="${studentPaymentList[i].studentPay.familyname}"/></td>
                                             <td><c:out value="${studentPaymentList[i].module}"/></td>
-                                            <td><c:out value="${studentPaymentList[i].ammount.toString()}"/></td>
+                                            <td><c:out value="${studentPaymentList[i].amount.toString()}"/></td>
                                             <td><c:out value="${studentPaymentList[i].receiver}"/></td>
                                         </tr>
 
@@ -120,7 +120,7 @@ To change this template use File | Settings | File Templates.
                                     </tr>
                                     </tfoot>
                                 </table>
-                                <h4 class="pull-right">Total : ${totalPayStudent} .00 DZD</h4>
+                                <h4 class="pull-right">Total : ${totalPayStudent} 0 DZD</h4>
                             </div>
 
                             <div>
@@ -162,13 +162,13 @@ To change this template use File | Settings | File Templates.
 
                                         <c:set var="tabNumber" value="${tabNumber+1}"/>
 
-                                         <!-- <= 7 -->
+                                        <!-- <= 7 -->
                                         <li role="presentation" <c:if test="${tabNumber eq 1}">class="active"</c:if> >
                                             <a
-                                               href="#tab_${tabNumber}"
-                                               aria-controls="tab_${tabNumber}"
-                                               role="tab"
-                                               data-toggle="tab">
+                                                    href="#tab_${tabNumber}"
+                                                    aria-controls="tab_${tabNumber}"
+                                                    role="tab"
+                                                    data-toggle="tab">
                                                 <c:out value="${entryDates.key}"/></a>
                                         </li>
                                     </tg:forEach>
@@ -176,16 +176,15 @@ To change this template use File | Settings | File Templates.
 
 
                                 <c:set var="tabNumber" value="${0}"/>
-
                                 <div id="printableArea2">
-                                <div class="tab-content">
+                                    <div class="tab-content">
 
-                                    <tg:forEach var="entryPayments" items="${studentPaymentListSorted.entrySet()}">
+                                        <tg:forEach var="entryPayments" items="${studentPaymentListSorted.entrySet()}">
 
-                                        <c:set var="tabNumber" value="${tabNumber+1}"/>
-                                        <div role="tabpanel"
-                                             class="tab-pane  <c:if test="${tabNumber eq 1}">active</c:if> "
-                                             id="tab_${tabNumber}">
+                                            <c:set var="tabNumber" value="${tabNumber+1}"/>
+                                            <div role="tabpanel"
+                                                 class="tab-pane  <c:if test="${tabNumber eq 1}">active</c:if> "
+                                                 id="tab_${tabNumber}">
 
 
                                                 <table id="example11" class="table table-bordered table-striped">
@@ -216,7 +215,7 @@ To change this template use File | Settings | File Templates.
                                                             <td><c:out
                                                                     value="${entryPayments.value.get(k).module}"/></td>
                                                             <td><c:out
-                                                                    value="${entryPayments.value.get(k).ammount}"/></td>
+                                                                    value="${entryPayments.value.get(k).amount}"/></td>
                                                             <td><c:out
                                                                     value="${entryPayments.value.get(k).receiver}"/></td>
                                                         </tr>
@@ -236,22 +235,23 @@ To change this template use File | Settings | File Templates.
                                                 </table>
 
                                                 <h4 class="pull-right">Total : ${totalsByDate.get(entryPayments.key)}
-                                                    .00 DZD</h4>
+                                                    0 DZD</h4>
 
-                                            <div>
+                                                <div>
 
-                                                <a target="_blank" class="btn btn-default pull-left"
-                                                   onclick="printDiv('printableArea2')"><i class="fa fa-print"></i>
-                                                    Print</a>
+                                                    <a target="_blank" class="btn btn-default pull-left"
+                                                       onclick="printDiv('printableArea2')"><i class="fa fa-print"></i>
+                                                        Print</a>
+                                                </div>
+
                                             </div>
 
-                                        </div>
+                                        </tg:forEach>
 
-                                    </tg:forEach>
-
-                                </div>
+                                    </div>
 
                                 </div>
+
                                 <!-- /.tab-content -->
                             </div>
                             <!-- nav-tabs-custom -->

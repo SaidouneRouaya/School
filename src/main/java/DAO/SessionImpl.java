@@ -52,6 +52,7 @@ public class SessionImpl implements SessionDAO{
             tx = session.beginTransaction();
             sessions = session.createQuery("from SessionOfGroup ").list();
             for (SessionOfGroup session1:sessions){
+                Hibernate.initialize(session1.getStudentsSet());
                 Hibernate.initialize(session1.getGroupOfStudents());
             }
 

@@ -33,8 +33,6 @@ public class Teacher  implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date employmentDate;
 
-    @Column(name="salary")
-    private long salary;
 
     @Column(name="picture")
     @Lob
@@ -82,7 +80,7 @@ public class Teacher  implements Serializable {
         this.familyname = newTeacher.getFamilyname();
         this.employmentDate= newTeacher.getEmploymentDate();
         this.phoneNumber= newTeacher.getPhoneNumber();
-        this.salary= newTeacher.getSalary();
+
         this.picture = newTeacher.getPicture();
         this.groupsSet= new HashSet<>();
     }
@@ -155,13 +153,7 @@ public class Teacher  implements Serializable {
         this.employmentDate = employmentDate;
     }
 
-    public long getSalary() {
-        return salary;
-    }
 
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
 
     public byte[] getPicture() {
         return picture;

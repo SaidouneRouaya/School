@@ -9,7 +9,7 @@ import java.util.SortedMap;
 
 public interface PaymentStaffDAO {
 
-    public Map<String,Long> totalsByDate=new HashMap<>();
+    public Map<String,Float> totalsByDate=new HashMap<>();
     public void addPaymentStaff(PaymentStaff paymentStaff);
     public List<PaymentStaff> getAllPaymentStaffs();
     public void deletePaymentStaff(int id);

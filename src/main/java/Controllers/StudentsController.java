@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Blob;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -121,11 +119,11 @@ boolean bool= false;
         Student student=studentDAO.getStudentByID(Integer.parseInt(query));
         List <PaymentStudent> paymentStudents=paymentStudentDAO.getPaymentsByStudent(student.getId());
 
-       Long total=0L;
+      float total=0L;
 
             for(PaymentStudent paymentStudent: paymentStudents){
 
-            total+=paymentStudent.getAmmount();
+            total+=paymentStudent.getAmount();
             }
 
         model.addAttribute("payments", paymentStudents);
@@ -228,8 +226,6 @@ boolean bool= false;
         model.addAttribute("error", error);
         return "redirect:Profile.j?query="+query+"";
     }
-
-
 
     @RequestMapping("/addModuleToStudent")
     public String addModuleToStudent(Model model, @RequestParam String id_student, @RequestParam String modules){

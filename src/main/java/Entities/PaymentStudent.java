@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 
 @Entity
 @Transactional
@@ -22,7 +23,7 @@ public class PaymentStudent implements Serializable {
     private Date date;
 
     @Column(name = "amount")
-    private Long ammount;
+    private float amount;
 
     @Column(name = "module")
     private String module;
@@ -42,9 +43,9 @@ public class PaymentStudent implements Serializable {
     public PaymentStudent() {
     }
 
-    public PaymentStudent(String date, Long ammount, String module, String receiver, Student studentPay) {
+    public PaymentStudent(String date, Long amount, String module, String receiver, Student studentPay) {
         this.date = utilities.formatDate(date);
-        this.ammount = ammount;
+        this.amount = amount;
         this.module = module;
         this.receiver = receiver;
         this.studentPay = studentPay;
@@ -54,7 +55,7 @@ public class PaymentStudent implements Serializable {
 
     public void updatePaymentStudent(PaymentStudent paymentStudent) {
         this.date = paymentStudent.getDate();
-        this.ammount = paymentStudent.getAmmount();
+        this.amount = paymentStudent.getAmount();
         this.module = paymentStudent.getModule();
         this.receiver = paymentStudent.getReceiver();
         this.studentPay = paymentStudent.getStudentPay();
@@ -77,12 +78,12 @@ public class PaymentStudent implements Serializable {
         this.date = date;
     }
 
-    public Long getAmmount() {
-        return ammount;
+    public float getAmount() {
+        return amount;
     }
 
-    public void setAmmount(Long ammount) {
-        this.ammount = ammount;
+    public void setAmount(float ammount) {
+        this.amount = ammount;
     }
 
     public String getModule() {
@@ -116,4 +117,7 @@ public class PaymentStudent implements Serializable {
     public void setGroupPay(GroupOfStudents groupPay) {
         this.groupPay = groupPay;
     }
+
+
+
 }

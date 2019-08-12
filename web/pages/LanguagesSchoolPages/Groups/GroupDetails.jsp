@@ -150,9 +150,7 @@
                                         <tr>
                                             <td>
                                                 <a  class="btn  btn-box-tool btn-danger"
-                                                        data-toggle="modal" data-target="#modal-default3"
-                                                href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
-
+                                                        href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
                                                     <i class="fa fa-remove" ></i>
                                                 </a>
                                             </td>
@@ -266,6 +264,7 @@
             </form>
 
             <form role="form" method="post" action="addSessionToGroup.j?query=${group.id}">
+
                 <div class="modal fade" id="modal-default3">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -313,6 +312,31 @@
                             </div>
                             <div class="modal-body">
                                 <p>Do you really want to delete this group ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn bg-danger  pull-right">Delete anyway</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </form>
+
+            <form role="form" method="post" action="">
+
+                <div class="modal fade" id="modal-default4">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Warning </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you really want to delete this student ?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel

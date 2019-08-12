@@ -28,6 +28,11 @@ public class Profile  implements Serializable {
     @Lob
     private byte[] picture;
 
+    @Column(name= "username")
+    private String username ;
+
+    @Column(name="password")
+    private String password;
 
     public Profile() {
     }
@@ -43,6 +48,40 @@ public class Profile  implements Serializable {
         this.familyname = familyname;
         this.type = type;
         this.picture = picture;
+    }
+
+    public Profile(String name, String familyname, String type, byte[] picture, String username, String password) {
+        this.name = name;
+        this.familyname = familyname;
+        this.type = type;
+        this.picture = picture;
+        this.username = username;
+        this.password= password;
+    }
+
+    public void updateProfile(Profile newProfile){
+        this.name = newProfile.getName();
+        this.familyname = newProfile.getFamilyname();
+        this.type = newProfile.getType();
+        this.picture = newProfile.getPicture();
+        this.username = newProfile.getUsername();
+        this.password= newProfile.getPassword();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String email) {
+        this.username = email;
     }
 
     public int getId() {

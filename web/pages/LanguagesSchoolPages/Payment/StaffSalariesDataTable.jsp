@@ -121,7 +121,7 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            <h4 class="pull-right">Total : ${totalPayStaff} .00 DZD</h4>
+                            <h4 class="pull-right">Total : ${totalPayStaff} 0 DZD</h4>
                             </div>
                             <div>
 
@@ -215,7 +215,7 @@
                                                             </tfoot>
                                                         </table>
                                                         <h4 class="pull-right">Total
-                                                            :${totalsByDate.get(entryPayments.key)}.00 DZD</h4>
+                                                            :${totalsByDate.get(entryPayments.key)}0 DZD</h4>
 
                                                     </div>
                                                     <div>
@@ -302,7 +302,7 @@
                                                             </tfoot>
                                                         </table>
                                                         <h4 class="pull-right">Total
-                                                            :${totalsByDate.get(entryPayments.key)}.00 DZD</h4>
+                                                            :${totalsByDate.get(entryPayments.key)}0 DZD</h4>
 
                                                     </div>
                                                     <div>

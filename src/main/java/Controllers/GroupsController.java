@@ -59,7 +59,6 @@ public class GroupsController {
         return "LanguagesSchoolPages/Groups/GroupsByModule";
     }
 
-
     @RequestMapping("/GroupDetails")
     public String groupDetails(Model model, @RequestParam String id_group) {
 
@@ -135,7 +134,7 @@ public class GroupsController {
 
         GroupOfStudents groupOfStudents = new GroupOfStudents(param.get("name"), param.get("startDate"),
         param.get("r3"), Integer.parseInt(param.get("sessionNumber")), param.get("startTime"), param.get("endTime"),
-               moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
+                Float.parseFloat(param.get("fees")), moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
                teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))),
                studentSet);
 
@@ -162,7 +161,6 @@ public class GroupsController {
 
         return "LanguagesSchoolPages/Groups/UpdateGroup";
     }
-
 
     @RequestMapping("/PersistUpdateGroup")
     public String persistUpdateGroupsOfStudent(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
@@ -209,7 +207,8 @@ public class GroupsController {
 
         return "redirect:GroupDetails.j?id_group="+query;
     }
- @RequestMapping("/addSessionToGroup")
+
+    @RequestMapping("/addSessionToGroup")
     public String addSessionToGroup(Model model, @RequestParam String query, @RequestParam String date){
 
         String error = "";
@@ -232,9 +231,8 @@ public class GroupsController {
         return "redirect:GroupDetails.j?id_group="+query;
     }
 
-
-    @RequestMapping("/deleteStudentFromGroup")
-    public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String id_group){
+    @RequestMapping("/deletePaymentStudent")
+    public String deletePaymentStudent(Model model, @RequestParam String query, @RequestParam String id_group){
 
         String error = "";
 
@@ -253,8 +251,6 @@ public class GroupsController {
         return "redirect:GroupDetails.j?id_group="+id_group;
 
     }
-
-
 
     @RequestMapping("/deleteGroup")
     public String deleteGroup(Model model, @RequestParam String query){
@@ -278,8 +274,6 @@ public class GroupsController {
         return "redirect:Groups.j";
 
     }
-
-
 
     @RequestMapping("/markPresence.j")
     public String markPresence ( @RequestParam Map<String,String> param){

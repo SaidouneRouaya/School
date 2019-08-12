@@ -21,7 +21,7 @@ public class PaymentTeacher implements Serializable {
     private Date date;
 
     @Column(name = "amount")
-    private Long amount;
+    private float amount;
 
     @Column(name = "receiver")
     private String receiver;
@@ -43,7 +43,7 @@ public class PaymentTeacher implements Serializable {
     public PaymentTeacher() {
     }
 
-    public PaymentTeacher(Date date, Long amount, String receiver, String module, String paymentType, Teacher teacher) {
+    public PaymentTeacher(Date date, float amount, String receiver, String module, String paymentType, Teacher teacher) {
         this.date = date;
         this.amount = amount;
         this.receiver = receiver;
@@ -74,11 +74,11 @@ public class PaymentTeacher implements Serializable {
         this.date = date;
     }
 
-    public Long getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

@@ -57,6 +57,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize (group.getTeacher());
                 Hibernate.initialize (group.getStudentsSet());
                 Hibernate.initialize(group.getSessionSet());
+
                 Hibernate.initialize(group.getPaymentStudentSet());
             }
             tx.commit();

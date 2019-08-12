@@ -2,7 +2,6 @@ package DAO;
 
 
 import Entities.PaymentStudent;
-import Entities.Student;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -23,7 +22,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
     public void init() {
     }
 
-    public Map<String,Long> getTotalsByDate() {
+    public Map<String, Float> getTotalsByDate() {
         return totalsByDate;
     }
 
@@ -60,6 +59,11 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
                 Hibernate.initialize(paymentStudent.getGroupPay());
+                Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+
             }
 
             tx.commit();
@@ -125,6 +129,10 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             paymentStudent= session.get(PaymentStudent.class, id);
             Hibernate.initialize(paymentStudent.getStudentPay());
             Hibernate.initialize(paymentStudent.getGroupPay());
+            Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+            Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
+            Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
+            Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
 
             tx.commit();
 
@@ -153,8 +161,6 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
                     .addOrder(Order.desc("date"))
                     .list();
 
-
-
             tx.commit();
 
         } catch (HibernateException e) {
@@ -180,13 +186,17 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             results= session.createCriteria(PaymentStudent.class)
                     .add(Restrictions.eq("date", date)).list();
 
-
-            Long total=0L;
+            float total=0;
             for(PaymentStudent paymentStudent:results){
 
-                total+=paymentStudent.getAmmount();
+                total+=paymentStudent.getAmount();
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
+                Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+
                 Hibernate.initialize(paymentStudent.getGroupPay());
             }
 
@@ -195,7 +205,6 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             time= time.substring(0, time.length()-10);
 
             totalsByDate.put(time, total);
-
 
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();

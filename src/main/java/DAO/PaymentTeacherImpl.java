@@ -171,7 +171,7 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
                     .add(Restrictions.eq("date", date)).list();
 
 
-            Long total=0L;
+            float total=0L;
             for(PaymentTeacher paymentTeacher:results){
 
                 total+=paymentTeacher.getAmount();

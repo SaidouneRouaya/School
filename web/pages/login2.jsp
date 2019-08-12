@@ -49,7 +49,7 @@
                     <div class="content-img">
                         <img src="../dist/img/user1-128x128.jpg" alt="img" class="w3l-img">
                     </div>
-                    <form action="index.j" autocomplete="on" method="post">
+                    <form action="loginprocess.j" autocomplete="on" method="post">
                         <h2>Login</h2>
                         <p>
                             <label for="username" class="uname" data-icon="u"> Your email or username </label>

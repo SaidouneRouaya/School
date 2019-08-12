@@ -120,7 +120,7 @@
 
                                             <tg:forEach begin="0" end="${teachersList.size() -1}" var="i">
 
-                                                <option name="teacher" value="${teachersList[i].id} ${teachersList[i].salary} ${i}">
+                                                <option name="teacher" value="${teachersList[i].id} ${i}">
                                                     <c:out value="${teachersList[i].name}"/>
                                                     <c:out value="${teachersList[i].familyname}"/></option>
 
@@ -139,9 +139,15 @@
                                                     style="width: 100%"
                                                     onchange="changeSalary()">
 
+                                                <option name="empty" value="${0}" selected>
+
+                                                    Select a group</option>
+
+
                                                 <tg:forEach items="${groupsList.get(i)}" var="group">
 
                                                     <option name="group" value="${group.id}">
+
                                                         <c:out value="${group.name}"/></option>
 
                                                 </tg:forEach>
@@ -152,22 +158,22 @@
                                     </tg:forEach>
 
 
-                                    <div class="form-group" id="salaries" >
+                                <div class="form-group" id="salaries" >
 
                                     <tg:forEach items="${groupSalariesMap}" var="groupSalary_entry">
 
                                         <div  id="salary${groupSalary_entry.key}"
-                                             style="display: none">
+                                              style="display: none" >
 
                                             <p></p>
-                                            <b><p class="pull-left">Salary : <c:out value="${groupSalary_entry.value}"/>.00 DZD</p></b>
-
+                                            <b><h4 class="pull-left">Salary : <c:out value="${groupSalary_entry.value}"/>0 DZD</h4></b>
+                                            <input id="salaryOfGroup${groupSalary_entry.key}" value="${groupSalary_entry.value}" style="display: none">
                                         </div>
                                     </tg:forEach>
 
                                 </div>
                                  <!--   <div id="salary">
-                                        <p class="pull-left">Salary : .00 DZD</p>
+                                        <p class="pull-left">Salary : 0 DZD</p>
                                     </div>-->
 
                                 </div>
@@ -251,7 +257,7 @@
     document.getElementById("date").innerHTML =  formatDate();
 
     var id_previous_group="groupList0";
-    var id_previous_salary="salary3";
+    var id_previous_salary="";
 
 
     function  formatDate() {
@@ -280,25 +286,31 @@
 
     function changeGroup() {
 
-        var id_salary = document.getElementById("teachers").value.split(" ",3);
+        var id_salary = document.getElementById("teachers").value.split(" ",2);
 
         document.getElementById(id_previous_group).style.display = 'none';
-        document.getElementById("groupList"+id_salary[2]).style.display = 'block';
+        document.getElementById("groupList"+id_salary[1]).style.display = 'block';
 
 
-        id_previous_group="groupList"+id_salary[2];
+        id_previous_group="groupList"+id_salary[1];
     }
 
 
    function changeSalary() {
 
-        var id_salary = document.getElementById("teachers").value.split(" ",3);
+        var id_salary = document.getElementById("teachers").value.split(" ",2);
 
-        var id_group = document.getElementById("groups"+id_salary[2]).value;
-        document.getElementById(id_previous_salary).style.display = 'none';
+        var id_group = document.getElementById("groups"+id_salary[1]).value;
+
+
+        if (document.getElementById(id_previous_salary) !=null) document.getElementById(id_previous_salary).style.display = 'none';
+
+
         document.getElementById("salary"+id_group).style.display = 'block';
 
-        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group) ;
+        var salary= document.getElementById("salaryOfGroup"+id_group).value;
+
+        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&value="+salary) ;
         id_previous_salary="salary"+id_group;
     }
 

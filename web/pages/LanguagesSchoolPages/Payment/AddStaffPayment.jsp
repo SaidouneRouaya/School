@@ -133,7 +133,7 @@
                                     </div>
 
                                         <div id="salary">
-                                            <p class="pull-left">Salary : <c:out value="${staffList[0].salary}"/>.00 DZD</p>
+                                            <p class="pull-left">Salary : <c:out value="${staffList[0].salary}"/>0 DZD</p>
                                         </div>
                                 </div>
 
@@ -236,7 +236,7 @@
         var id_salary = document.getElementById("staffs").value.split(" ",2);
 
 
-        document.getElementById("salary").innerHTML = "Salary : "+ id_salary[1] + " .00 DZD";
+        document.getElementById("salary").innerHTML = "Salary : "+ id_salary[1] + " 0 DZD";
 
         document.getElementById("form").setAttribute("action", "addNewStaffPayment.j?id_staff="+id_salary[0]) ;
 

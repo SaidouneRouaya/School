@@ -168,7 +168,7 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
                     .add(Restrictions.eq("date", date)).list();
 
 
-            Long total=0L;
+            float total=0L;
             for(PaymentStaff paymentStaff:results){
 
                 total+=paymentStaff.getAmmount();

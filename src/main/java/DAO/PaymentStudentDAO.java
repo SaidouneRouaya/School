@@ -8,7 +8,7 @@ import java.util.*;
 public interface PaymentStudentDAO {
 
 
-    public Map<String,Long> totalsByDate=new HashMap<>();
+    public Map<String, Float> totalsByDate=new HashMap<>();
 
 
     public void addPaymentStudent(PaymentStudent paymentStudent);

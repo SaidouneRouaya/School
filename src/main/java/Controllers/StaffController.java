@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.*;
 
@@ -31,225 +32,391 @@ public class StaffController {
     @Autowired
     PaymentStaffDAO paymentStaffDAO;
 
-    /** Staff section **/
+    /**
+     * Staff section
+     **/
 
     @RequestMapping("/Staff")
-    public String staffList(Model model) {
+    public String staffList(Model model, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        model.addAttribute("staffList", staffDAO.getAllStaffs());
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Staff/StaffDataTable";
+                model.addAttribute("staffList", staffDAO.getAllStaffs());
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Staff/StaffDataTable";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
+
     @RequestMapping("/addStaff")
-    public String addStaff(Model model) {
+    public String addStaff(Model model, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
-
         model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Staff/AddStaff";
+
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
+
+                model.addAttribute("utilisateur", profile);
+                return "LanguagesSchoolPages/Staff/AddStaff";
+
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
+
     }
 
     @RequestMapping("/updateStaff")
-    public String updateStaff(Model model,  @RequestParam String query) {
+    public String updateStaff(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
-        model.addAttribute("staffProfile", staffDAO.getStaffByID(Integer.parseInt(query)));
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Staff/UpdateStaff";
+                model.addAttribute("staffProfile", staffDAO.getStaffByID(Integer.parseInt(query)));
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Staff/UpdateStaff";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/StaffProfile")
-    public String staffProfile(Model model, @RequestParam String query) {
+    public String staffProfile(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        Staff staff= staffDAO.getStaffByID(Integer.parseInt(query));
-        List <PaymentStaff> paymentStaffs= paymentStaffDAO.getPaymentsByStaff(staff.getId());
-        Long total=0L;
 
-        for(PaymentStaff paymentStaff: paymentStaffs){
+                Staff staff = staffDAO.getStaffByID(Integer.parseInt(query));
+                List<PaymentStaff> paymentStaffs = paymentStaffDAO.getPaymentsByStaff(staff.getId());
+                float total = 0L;
 
-            total+=paymentStaff.getAmmount();
+                for (PaymentStaff paymentStaff : paymentStaffs) {
+
+                    total += paymentStaff.getAmmount();
+                }
+
+                model.addAttribute("staffProfile", staff);
+                model.addAttribute("payments", paymentStaffs);
+                model.addAttribute("total", total);
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Staff/StaffProfile";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
         }
-
-        model.addAttribute("staffProfile",staff);
-        model.addAttribute("payments", paymentStaffs);
-        model.addAttribute("total", total);
-
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Staff/StaffProfile";
     }
 
     @RequestMapping("/addNewStaff")
-    public String addNewStaff(Model model, @RequestParam Map<String,String> param) {
+    public String addNewStaff(Model model, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        Staff staff= new Staff(param.get("name"), param.get("familyName"),Integer.parseInt(param.get("phoneNumber")),
-                param.get("job"),  param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
 
-        staffDAO.addStaff(staff);
+                Staff staff = new Staff(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
+                        param.get("job"), param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
 
-        model.addAttribute("error", error);
-        return "redirect:Staff.j";
+                staffDAO.addStaff(staff);
+
+                model.addAttribute("error", error);
+                return "redirect:Staff.j";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/deleteStaff")
-    public String deleteStaff(Model model,  @RequestParam String query) {
+    public String deleteStaff(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        staffDAO.deleteStaff(Integer.parseInt(query));
 
-        model.addAttribute("error", error);
-        return "redirect:Staff.j";
+                staffDAO.deleteStaff(Integer.parseInt(query));
+
+                model.addAttribute("error", error);
+                return "redirect:Staff.j";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/PersistUpdateStaff")
-    public String persistUpdateStaff(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+    public String persistUpdateStaff(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
 
 
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        Staff staff= new Staff(param.get("name"), param.get("familyName"),Integer.parseInt(param.get("phoneNumber")),
-                param.get("r3"),  param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
+                Staff staff = new Staff(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
+                        param.get("r3"), param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
 
-            staffDAO.updateStaff(Integer.parseInt(query), staff);
+                staffDAO.updateStaff(Integer.parseInt(query), staff);
 
-        model.addAttribute("staffProfile", staff);
+                model.addAttribute("staffProfile", staff);
 
-        model.addAttribute("error", error);
-        return "redirect:StaffProfile.j?query="+query+"";
+                model.addAttribute("error", error);
+                return "redirect:StaffProfile.j?query=" + query + "";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
 
-    /** Teachers section **/
+    /**
+     * Teachers section
+     **/
     @RequestMapping("/Teachers")
-    public String teachersList(Model model) {
+    public String teachersList(Model model, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
-        List<Teacher> teachersList= teacherDAO.getAllTeachers();
-        model.addAttribute("teachersList", teachersList );
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        List<HashSet<Module>> modulesList= new ArrayList<>();
+                List<Teacher> teachersList = teacherDAO.getAllTeachers();
+                model.addAttribute("teachersList", teachersList);
 
-        for (Teacher teacher: teachersList){
+                List<HashSet<Module>> modulesList = new ArrayList<>();
 
-           HashSet<Module> modules=new HashSet<>(teacher.getTeacherModulesSet());
+                for (Teacher teacher : teachersList) {
 
-            modulesList.add(modules);
+                    HashSet<Module> modules = new HashSet<>(teacher.getTeacherModulesSet());
+
+                    modulesList.add(modules);
+                }
+
+                model.addAttribute("modulesList", modulesList);
+
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Teachers/TeacherDataTable";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
         }
-
-        model.addAttribute("modulesList", modulesList);
-
-
-
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Teachers/TeacherDataTable";
     }
 
     @RequestMapping("/addTeacher")
-    public String AddTeacher(Model model) {
+    public String AddTeacher(Model model, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        model.addAttribute("modules", moduleDAO.getAllModules());
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Teachers/AddTeacher";
+
+                model.addAttribute("modules", moduleDAO.getAllModules());
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Teachers/AddTeacher";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/updateTeacher")
-    public String updateTeacher(Model model, @RequestParam String query) {
+    public String updateTeacher(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
-        model.addAttribute("teacherProfile", teacherDAO.getTeacherByID(Integer.parseInt(query)));
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Teachers/UpdateTeacher";
+                model.addAttribute("teacherProfile", teacherDAO.getTeacherByID(Integer.parseInt(query)));
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Teachers/UpdateTeacher";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/TeacherProfile")
-    public String teacherProfile(Model model, @RequestParam String query) {
+    public String teacherProfile(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
 
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        Teacher teacher= teacherDAO.getTeacherByID(Integer.parseInt(query));
-        List <PaymentTeacher> paymentTeachers= paymentTeacherDAO.getPaymentsByTreacher(teacher.getId());
-        Long total=0L;
+                Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(query));
+                List<PaymentTeacher> paymentTeachers = paymentTeacherDAO.getPaymentsByTreacher(teacher.getId());
+                float total = 0L;
 
-        for(PaymentTeacher paymentTeacher: paymentTeachers){
+                for (PaymentTeacher paymentTeacher : paymentTeachers) {
 
-            total+=paymentTeacher.getAmount();
+                    total += paymentTeacher.getAmount();
+                }
+
+                model.addAttribute("teacherProfile", teacher);
+                model.addAttribute("payments", paymentTeachers);
+                model.addAttribute("total", total);
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Teachers/TeacherProfile";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
         }
-
-        model.addAttribute("teacherProfile",teacher);
-        model.addAttribute("payments", paymentTeachers);
-        model.addAttribute("total", total);
-
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Teachers/TeacherProfile";
     }
 
-
     @RequestMapping("/addNewTeacher")
-    public String addNewTeacher(Model model, @RequestParam Map<String,String> param) {
+    public String addNewTeacher(Model model, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        Set<Module> modules = new HashSet<>();
-        Set<PaymentTeacher> paymentTeachers= new HashSet<>();
-        Set<GroupOfStudents> groupOfStudents= new HashSet<>();
+                Set<Module> modules = new HashSet<>();
+                Set<PaymentTeacher> paymentTeachers = new HashSet<>();
+                Set<GroupOfStudents> groupOfStudents = new HashSet<>();
 
-        Module module= moduleDAO.getModuleByID(Integer.parseInt(param.get("modules")));
+                Module module = moduleDAO.getModuleByID(Integer.parseInt(param.get("modules")));
 
-        Teacher teacher= new Teacher(param.get("name"), param.get("familyName"),Integer.parseInt(param.get("phoneNumber")),
-                param.get("employmentDate"), param.get("picture").getBytes(),
-                groupOfStudents, paymentTeachers, modules);
+                Teacher teacher = new Teacher(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
+                        param.get("employmentDate"), param.get("picture").getBytes(),
+                        groupOfStudents, paymentTeachers, modules);
 
 
-        modules.add(module);
-        module.getModuleTeachersSet().add(teacher);
+                modules.add(module);
+                module.getModuleTeachersSet().add(teacher);
 
-        teacherDAO.addTeacher(teacher);
+                teacherDAO.addTeacher(teacher);
 
-        model.addAttribute("error", error);
-        return "redirect:Teachers.j";
+                model.addAttribute("error", error);
+                return "redirect:Teachers.j";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/deleteTeacher")
-    public String deleteTeacher(Model model,  @RequestParam String query) {
+    public String deleteTeacher(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        teacherDAO.deleteTeacher(Integer.parseInt(query));
+                teacherDAO.deleteTeacher(Integer.parseInt(query));
 
-        model.addAttribute("error", error);
-        return "redirect:Teachers.j";
+                model.addAttribute("error", error);
+                return "redirect:Teachers.j";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
     @RequestMapping("/PersistUpdateTeacher")
-    public String persistUpdateTeacher(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+    public String persistUpdateTeacher(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equals("Admin")) {
 
-        Teacher teacher= new Teacher(param.get("name"), param.get("familyName"),Integer.parseInt(param.get("phoneNumber")),
-                param.get("employmentDate"), param.get("picture").getBytes());
+                Teacher teacher = new Teacher(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
+                        param.get("employmentDate"), param.get("picture").getBytes());
 
-        teacherDAO.updateTeacher(Integer.parseInt(query), teacher);
+                teacherDAO.updateTeacher(Integer.parseInt(query), teacher);
 
-        model.addAttribute("teacherProfile", teacher);
+                model.addAttribute("teacherProfile", teacher);
 
-        model.addAttribute("error", error);
-        return "redirect:TeacherProfile.j?query="+query+"";
+                model.addAttribute("error", error);
+                return "redirect:TeacherProfile.j?query=" + query + "";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
-
-
 
 
 }

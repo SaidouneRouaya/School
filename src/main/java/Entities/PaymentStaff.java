@@ -23,7 +23,7 @@ public class PaymentStaff implements Serializable {
     private Date date;
 
     @Column(name = "amount")
-    private Long amount;
+    private float amount;
 
     @Column(name = "receiver")
     private String receiver;
@@ -72,11 +72,11 @@ public class PaymentStaff implements Serializable {
         this.date = date;
     }
 
-    public Long getAmmount() {
+    public float getAmmount() {
         return amount;
     }
 
-    public void setAmmount(Long ammount) {
+    public void setAmmount(float ammount) {
         this.amount = ammount;
     }
 

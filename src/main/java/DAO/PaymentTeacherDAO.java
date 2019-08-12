@@ -11,7 +11,7 @@ import java.util.SortedMap;
 
 public interface PaymentTeacherDAO {
 
-    public Map<String,Long> totalsByDate=new HashMap<>();
+    public Map<String, Float> totalsByDate=new HashMap<>();
     public void addPaymentTeacher(PaymentTeacher paymentTeacher);
     public List<PaymentTeacher> getAllPaymentTeachers();
     public void deletePaymentTeacher(int id);

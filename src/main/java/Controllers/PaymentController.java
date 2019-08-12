@@ -5,14 +5,13 @@ import Entities.*;
 import Entities.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import java.sql.Timestamp;
 import java.util.*;
 
-import static java.lang.Thread.getAllStackTraces;
 import static java.lang.Thread.sleep;
 
 @org.springframework.stereotype.Controller
@@ -40,122 +39,142 @@ public class PaymentController {
     @Autowired
     PaymentStudentDAO paymentStudentDAO;
 
+    @Autowired
+    SessionDAO sessionDAO;
+
 
     @RequestMapping("/studentPayment")
     public String studentsPayment(Model model) {
 
         String error = "";
 
-        List<PaymentStudent> studentPaymentList= paymentStudentDAO.getAllPaymentStudents();
+        List<PaymentStudent> studentPaymentList = paymentStudentDAO.getAllPaymentStudents();
+        model.addAttribute("studentPaymentList", studentPaymentList);
 
-        model.addAttribute("studentPaymentList",studentPaymentList );
+        float total = 0f;
 
-        Long total=0L;
-
-        for (PaymentStudent paymentStudent:studentPaymentList){
-            total+=paymentStudent.getAmmount();
+        for (PaymentStudent paymentStudent : studentPaymentList) {
+            total += paymentStudent.getAmount();
         }
         model.addAttribute("totalPayStudent", total);
 
-        HashMap<String, List<PaymentStudent>> results  = paymentStudentDAO.getPaymentStudentSorted();
+        HashMap<String, List<PaymentStudent>> results = paymentStudentDAO.getPaymentStudentSorted();
 
-
-        Map<String,Long>  totalsByDate = paymentStudentDAO.totalsByDate;
-
-
+        Map<String, Float> totalsByDate = paymentStudentDAO.totalsByDate;
 
         model.addAttribute("totalsByDate", totalsByDate);
 
         model.addAttribute("studentPaymentListSorted", results);
+
+
         model.addAttribute("error", error);
 
         return "LanguagesSchoolPages/Payment/StudentsPaymentDataTable";
     }
 
     @RequestMapping("/teachersSalaries")
-    public String teachersSalaries(Model model) {
+    public String teachersSalaries(Model model, @ModelAttribute("utilisateur") Profile profile) {
 
         String error = "";
 
-        List<PaymentTeacher> teacherSalariesList= paymentTeacherDAO.getAllPaymentTeachers();
+        if (profile != null) {
+            if (profile.getType().equalsIgnoreCase("Admin")) {
 
-        model.addAttribute("teacherSalariesList",teacherSalariesList );
+                List<PaymentTeacher> teacherSalariesList = paymentTeacherDAO.getAllPaymentTeachers();
 
-        Long total=0L;
+                model.addAttribute("teacherSalariesList", teacherSalariesList);
+
+                float total = 0;
 
 
-        for (PaymentTeacher paymentTeacher:teacherSalariesList){
-            total+=paymentTeacher.getAmount();
+                for (PaymentTeacher paymentTeacher : teacherSalariesList) {
+                    total += paymentTeacher.getAmount();
+                }
+
+                model.addAttribute("totalPayTeacher", total);
+
+                SortedMap<String, List<PaymentTeacher>> results = paymentTeacherDAO.getPaymentTeacherSorted();
+
+                int size = results.size() / 2;
+
+                String firstKey = results.firstKey();
+
+
+                String middleKey = results.keySet().toArray()[size].toString();
+
+
+                model.addAttribute("teacherPaymentListSorted", results);
+                model.addAttribute("teacherPaymentListSorted1", results.subMap(firstKey, middleKey));
+                model.addAttribute("teacherPaymentListSorted2", results.tailMap(middleKey));
+
+
+                Map<String, Float> totalsByDate = paymentTeacherDAO.totalsByDate;
+
+                model.addAttribute("totalsByDate", totalsByDate);
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Payment/TeachersSalariesDataTable";
+
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+            //todo no one is connected
+            return "redirect:/error.j";
         }
 
-        model.addAttribute("totalPayTeacher", total);
-
-        SortedMap<String, List<PaymentTeacher>> results  = paymentTeacherDAO.getPaymentTeacherSorted();
-
-        int size= results.size()/2;
-
-        String firstKey= results.firstKey();
-
-
-        String middleKey=results.keySet().toArray()[size].toString();
-
-
-
-        model.addAttribute("teacherPaymentListSorted", results);
-        model.addAttribute("teacherPaymentListSorted1", results.subMap(firstKey,middleKey));
-        model.addAttribute("teacherPaymentListSorted2", results.tailMap(middleKey));
-
-
-        Map<String,Long>  totalsByDate = paymentTeacherDAO.totalsByDate;
-
-        model.addAttribute("totalsByDate", totalsByDate);
-
-
-
-
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Payment/TeachersSalariesDataTable";
     }
 
 
     @RequestMapping("/staffSalaries")
-    public String staffSalaries(Model model) {
-
+    public String staffSalaries(Model model, @ModelAttribute("utilisateur") Profile profile) {
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equalsIgnoreCase("Admin")) {
+                List<PaymentStaff> staffSalariesList = paymentStaffDAO.getAllPaymentStaffs();
 
-        List<PaymentStaff> staffSalariesList= paymentStaffDAO.getAllPaymentStaffs();
+                model.addAttribute("staffSalariesList", staffSalariesList);
 
-        model.addAttribute("staffSalariesList",staffSalariesList );
-
-        Long total=0L;
+                float total = 0;
 
 
-        for (PaymentStaff paymentStaff:staffSalariesList){
-            total+=paymentStaff.getAmmount();
+                for (PaymentStaff paymentStaff : staffSalariesList) {
+                    total += paymentStaff.getAmmount();
+                }
+
+                model.addAttribute("totalPayStaff", total);
+
+                SortedMap<String, List<PaymentStaff>> results = paymentStaffDAO.getPaymentStaffSorted();
+
+                int size = results.size() / 2;
+
+                String firstKey = results.firstKey();
+
+                String middleKey = results.keySet().toArray()[size].toString();
+
+                model.addAttribute("staffPaymentListSorted", results);
+                model.addAttribute("staffPaymentListSorted1", results.subMap(firstKey, middleKey));
+                model.addAttribute("staffPaymentListSorted2", results.tailMap(middleKey));
+
+                Map<String, Float> totalsByDate = paymentStaffDAO.totalsByDate;
+
+                model.addAttribute("totalsByDate", totalsByDate);
+
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Payment/StaffSalariesDataTable";
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
         }
 
-        model.addAttribute("totalPayStaff", total);
 
-        SortedMap<String, List<PaymentStaff>> results  = paymentStaffDAO.getPaymentStaffSorted();
-
-        int size= results.size()/2;
-
-
-        String firstKey= results.firstKey();
-
-        String middleKey=results.keySet().toArray()[size].toString();
-
-
-        model.addAttribute("staffPaymentListSorted", results);
-        model.addAttribute("staffPaymentListSorted1", results.subMap(firstKey,middleKey));
-        model.addAttribute("staffPaymentListSorted2", results.tailMap(middleKey));
-
-        Map<String,Long>  totalsByDate = paymentStaffDAO.totalsByDate;
-
-        model.addAttribute("totalsByDate", totalsByDate);
-
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Payment/StaffSalariesDataTable";
     }
 
     @RequestMapping("/addStudentPayment")
@@ -183,123 +202,185 @@ public class PaymentController {
     }
 
     @RequestMapping("/addTeacherPayment")
-    public String addTeacherPayment(Model model) {
+    public String addTeacherPayment(Model model, @ModelAttribute("utilisateur") Profile profile) {
 
         String error = "";
-
-        List<Teacher> teachersList = teacherDAO.getAllTeachers();
-        List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
-        Map<Integer, Long> group_salary=new HashMap<>();
+        if (profile != null) {
+            if (profile.getType().equalsIgnoreCase("Admin")) {
 
 
-        for (Teacher teacher : teachersList) {
-            HashSet<GroupOfStudents> groupOfStudents = new HashSet<>(teacher.getGroupsSet());
-            groupsList.add(groupOfStudents);
+                List<Teacher> teachersList = teacherDAO.getAllTeachers();
+                List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
+                Map<Integer, Float> group_salary = new HashMap<>();
 
 
-            for (GroupOfStudents group: teacher.getGroupsSet()){
+                for (Teacher teacher : teachersList) {
+                    HashSet<GroupOfStudents> groupOfStudents = new HashSet<>(teacher.getGroupsSet());
+                    groupsList.add(groupOfStudents);
 
-                long salary= 0L;
 
-                GroupOfStudents  groupp= groupOfStudentsDAO.getGroupById(group.getId());
+                    for (GroupOfStudents group : teacher.getGroupsSet()) {
 
-                if (groupp.getPaymentType().equalsIgnoreCase("Student")){
+                        float salary = 0L;
 
-                    salary= groupp.getStudentsSet().size() * groupp.getModule().getFees();
+                        GroupOfStudents groupp = groupOfStudentsDAO.getGroupById(group.getId());
 
-                    group_salary.put(groupp.getId(), salary);
+                        if (groupp.getPaymentType().equalsIgnoreCase("Student")) {
+
+                            // le nombre d'étudiants * le prix par etudiant (présent)
+
+                            //todo
+                            /** salary of all student with absent ones **/
+                            salary = groupp.getStudentsSet().size() * groupp.getFees();
+
+                            /** salary of only present students **/
+                            for (SessionOfGroup session : groupp.getSessionSet()) {
+                                //number of student present     *
+                                SessionOfGroup sessionn = sessionDAO.getSessionByID(session.getId());
+                                salary += sessionn.getStudentsSet().size() * group.getFees();
+                            }
+
+                            group_salary.put(groupp.getId(), salary);
+
+                        } else if (groupp.getPaymentType().equalsIgnoreCase("Hour")) {
+                            // salary= number of hours (in one session) * number of sessions * fees
+
+                            Date d1 = groupp.getStartTime();
+                            Date d2 = groupp.getEndTime();
+
+
+                            float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
+
+                            System.out.println(d2.getTime() - d1.getTime());
+                            System.out.println("time : " + timeDiff);
+
+                            salary = (timeDiff) * groupp.getNumberSessions() * groupp.getFees();
+                            group_salary.put(groupp.getId(), salary);
+                        }
+
+                    }
 
                 }
-                else if (groupp.getPaymentType().equalsIgnoreCase("Hour")){
-                    // salary= number of hours * number of sessions * fees
 
-                    Date d1 = groupp.getStartTime();
-                    Date d2 =  groupp.getEndTime();
 
-                    long timeDiff = (d2.getTime() - d1.getTime())/3600000;
+                model.addAttribute("teachersList", teachersList);
+                model.addAttribute("groupsList", groupsList);
+                model.addAttribute("groupSalariesMap", group_salary);
 
-                    salary= (timeDiff)* groupp.getNumberSessions() * groupp.getModule().getFees();
-                    group_salary.put(groupp.getId(), salary);
-                }
 
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Payment/AddTeacherPayment";
+
+            } else {
+
+                return "redirect:/error.j";
             }
 
+        } else {
+
+            return "redirect:/error.j";
         }
 
-
-
-        model.addAttribute("teachersList", teachersList);
-        model.addAttribute("groupsList", groupsList);
-        model.addAttribute("groupSalariesMap", group_salary);
-
-
-
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Payment/AddTeacherPayment";
     }
 
     @RequestMapping("/addStaffPayment")
-    public String addStaffPayment(Model model) {
+    public String addStaffPayment(Model model, @ModelAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equalsIgnoreCase("Admin")) {
 
-        model.addAttribute("staffList", staffDAO.getAllStaffs());
+                model.addAttribute("staffList", staffDAO.getAllStaffs());
 
 
-        model.addAttribute("error", error);
-        return "LanguagesSchoolPages/Payment/AddStaffPayment";
+                model.addAttribute("error", error);
+                return "LanguagesSchoolPages/Payment/AddStaffPayment";
+
+            } else {
+
+                return "redirect:/error.j";
+            }
+
+        } else {
+
+            return "redirect:/error.j";
+        }
     }
 
 
     @RequestMapping("/addNewStaffPayment")
-    public String addNewStaffPayment(Model model, @RequestParam String id_staff) {
+    public String addNewStaffPayment(Model model, @RequestParam String id_staff, @ModelAttribute("utilisateur") Profile profile) {
 
         String error = "";
+        if (profile != null) {
+            if (profile.getType().equalsIgnoreCase("Admin")) {
 
 
-        Staff staff = staffDAO.getStaffByID(Integer.parseInt(id_staff));
+                Staff staff = staffDAO.getStaffByID(Integer.parseInt(id_staff));
+
+                //todo the one connected
+
+                PaymentStaff paymentStaff = new PaymentStaff(new Date(), staff.getSalary(), "the one connected", staff);
+
+                paymentStaffDAO.addPaymentStaff(paymentStaff);
+
+                model.addAttribute("error", error);
 
 
-        PaymentStaff paymentStaff = new PaymentStaff(new Date(), staff.getSalary(), "the one connected", staff);
+                return "redirect:staffSalaries.j";
+            } else {
 
-        paymentStaffDAO.addPaymentStaff(paymentStaff);
+                return "redirect:/error.j";
+            }
 
-        model.addAttribute("error", error);
+        } else {
 
+            return "redirect:/error.j";
+        }
 
-        return "redirect:staffSalaries.j";
 
     }
 
 
     @RequestMapping("/addNewTeacherPayment")
-    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher,@RequestParam String id_group, @RequestParam Map<String, String> param) {
+    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String
+            id_group, @RequestParam String value, @ModelAttribute("utilisateur") Profile profile) {
 
         String error = "";
 
+        if (profile != null) {
+            if (profile.getType().equalsIgnoreCase("Admin")) {
 
-        Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
-        GroupOfStudents group = groupOfStudentsDAO.getGroupById(Integer.parseInt(param.get(id_group)));
+                Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
+                GroupOfStudents group = groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
 
-        System.out.println(id_teacher);
+                //TODO change the one connected
 
+                PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Float.parseFloat(value), "the one connected",
+                        group.getModule().getName(), group.getPaymentType(), teacher);
 
-        //TODO change the one connected
+                paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
 
-        PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Long.parseLong(param.get("salaries")), "the one connected",
-                group.getModule().getName(), group.getPaymentType(), teacher);
+                model.addAttribute("error", error);
 
-        paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
+                return "redirect:teachersSalaries.j";
+            } else {
 
-        model.addAttribute("error", error);
+                return "redirect:/error.j";
+            }
 
-        return "redirect:teachersSalaries.j";
+        } else {
+
+            return "redirect:/error.j";
+        }
+
 
     }
 
 
     @RequestMapping("/addNewStudentPayment")
-    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String payed, @RequestParam String mod, @RequestParam String date_payment) {
+    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String
+            payed, @RequestParam String mod, @RequestParam String date_payment) {
 
         String error = "";
 
@@ -320,6 +401,30 @@ public class PaymentController {
         model.addAttribute("error", error);
 
         return "redirect:studentPayment.j";
+
+    }
+
+
+    @RequestMapping("/deleteStudentFromGroup")
+    public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String
+            id_student) {
+
+        String error = "";
+
+        Student student = studentDAO.getStudentByID(Integer.parseInt(id_student));
+
+        PaymentStudent paymentStudent = paymentStudentDAO.getPayementStudentByID(Integer.parseInt(query));
+
+        student.removePayment(paymentStudent.getId());
+
+
+        studentDAO.updateStudent(student.getId(), student);
+
+        paymentStudentDAO.deletePaymentStudent(paymentStudent.getId());
+
+        model.addAttribute("error", error);
+
+        return "redirect:studentPayment";
 
     }
 

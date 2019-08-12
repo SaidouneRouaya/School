@@ -193,14 +193,14 @@
 
                                             <td><c:out value="${number}"/></td>
                                             <td><c:out value="${payments[i].date}"/></td>
-                                            <td><c:out value="${payments[i].ammount}"/>.00 DZD</td>
+                                            <td><c:out value="${payments[i].ammount}"/>0 DZD</td>
                                         </tr>
 
                                     </tg:forEach>
 
 
                                     </tbody>
-                                    <h4 class="pull-right">Total :${total}.00 DZD</h4>
+                                    <h4 class="pull-right">Total :${total}0 DZD</h4>
 
                                 </table>
 

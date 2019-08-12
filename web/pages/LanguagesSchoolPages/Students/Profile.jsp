@@ -218,14 +218,14 @@
                                                 <td><c:out value="${number}"/></td>
                                                 <td><c:out value="${payments[i].module}"/></td>
                                                 <td><c:out value="${payments[i].date}"/></td>
-                                                <td><c:out value="${payments[i].ammount}"/></td>
+                                                <td><c:out value="${payments[i].amount}"/></td>
                                             </tr>
 
                                         </tg:forEach>
                                     </c:if>
 
                                     </tbody>
-                                    <h4 class="pull-right">Total :${total}.00 DZD</h4>
+                                    <h4 class="pull-right">Total :${total}0 DZD</h4>
 
                                 </table>
 

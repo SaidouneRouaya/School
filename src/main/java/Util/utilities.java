@@ -105,51 +105,22 @@ public class utilities {
     }
 
 
-
-
-    public static void main(String [] args)
-    {
-/*
-        LocalTime date = LocalTime.now();
-
-        System.out.println(date);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-        String text = date.format(formatter);
-
-        LocalTime parsedDate = LocalTime.parse(text, formatter);
-
-        System.out.println("formatted date : " +parsedDate);*/
-
-        String time1 = "9:00";
-        String time2 = "10:00";
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
-       try{
-
-           Date d1 = formatter.parse(time1);
-           Date d2 = formatter.parse(time2);
-
-           long timeDiff = d2.getTime() - d1.getTime();
-
-           Date diff = new Date(timeDiff);
-
-           System.out.println(timeDiff/3600000);
-
-
-       }catch (Exception e){
-           e.printStackTrace();
-       }
-
-
-    }
-
-
-
     public static boolean contains(Collection<SessionOfGroup> coll, Object o) {
         if (coll == null) return false;
         return coll.contains((SessionOfGroup)o);
     }
+
+
+
+
+    public static void main(String [] args)
+    {
+
+        for (int i=0; i<=i+10; i++){
+            System.out.println(i);
+    }
+    }
+
 
 
 
