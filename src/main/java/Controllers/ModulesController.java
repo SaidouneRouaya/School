@@ -23,7 +23,7 @@ public class ModulesController {
     private ModuleDAO moduleDAO;
 
     @RequestMapping("/Modules")
-    public String modulesList(Model model, @SessionAttribute("utilisateur") Profile profile) {
+    public String modulesList(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -58,7 +58,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/addModule")
-    public String addModule(Model model, @SessionAttribute("utilisateur") Profile profile) {
+    public String addModule(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -79,7 +79,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/updateModule")
-    public String updateModule(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String updateModule(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -102,7 +102,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/PersistUpdateModule")
-    public String persistUpdateModule(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
+    public String persistUpdateModule(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -136,7 +136,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/addNewModule")
-    public String addNewModule(Model model, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
+    public String addNewModule(Model model, @RequestParam Map<String, String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {

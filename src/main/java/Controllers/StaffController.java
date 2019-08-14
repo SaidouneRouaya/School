@@ -37,7 +37,7 @@ public class StaffController {
      **/
 
     @RequestMapping("/Staff")
-    public String staffList(Model model, @SessionAttribute("utilisateur") Profile profile) {
+    public String staffList(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -59,7 +59,7 @@ public class StaffController {
 
 
     @RequestMapping("/addStaff")
-    public String addStaff(Model model, @SessionAttribute("utilisateur") Profile profile) {
+    public String addStaff(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         model.addAttribute("error", error);
@@ -83,7 +83,7 @@ public class StaffController {
     }
 
     @RequestMapping("/updateStaff")
-    public String updateStaff(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String updateStaff(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -105,7 +105,7 @@ public class StaffController {
     }
 
     @RequestMapping("/StaffProfile")
-    public String staffProfile(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String staffProfile(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -139,7 +139,7 @@ public class StaffController {
     }
 
     @RequestMapping("/addNewStaff")
-    public String addNewStaff(Model model, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
+    public String addNewStaff(Model model, @RequestParam Map<String, String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -165,7 +165,7 @@ public class StaffController {
     }
 
     @RequestMapping("/deleteStaff")
-    public String deleteStaff(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String deleteStaff(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -188,7 +188,7 @@ public class StaffController {
     }
 
     @RequestMapping("/PersistUpdateStaff")
-    public String persistUpdateStaff(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
+    public String persistUpdateStaff(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -221,7 +221,7 @@ public class StaffController {
      * Teachers section
      **/
     @RequestMapping("/Teachers")
-    public String teachersList(Model model, @SessionAttribute("utilisateur") Profile profile) {
+    public String teachersList(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -256,7 +256,7 @@ public class StaffController {
     }
 
     @RequestMapping("/addTeacher")
-    public String AddTeacher(Model model, @SessionAttribute("utilisateur") Profile profile) {
+    public String AddTeacher(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -278,7 +278,7 @@ public class StaffController {
     }
 
     @RequestMapping("/updateTeacher")
-    public String updateTeacher(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String updateTeacher(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -300,7 +300,7 @@ public class StaffController {
     }
 
     @RequestMapping("/TeacherProfile")
-    public String teacherProfile(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String teacherProfile(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -334,7 +334,7 @@ public class StaffController {
     }
 
     @RequestMapping("/addNewTeacher")
-    public String addNewTeacher(Model model, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
+    public String addNewTeacher(Model model, @RequestParam Map<String, String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -370,7 +370,7 @@ public class StaffController {
     }
 
     @RequestMapping("/deleteTeacher")
-    public String deleteTeacher(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
+    public String deleteTeacher(Model model, @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -392,7 +392,7 @@ public class StaffController {
     }
 
     @RequestMapping("/PersistUpdateTeacher")
-    public String persistUpdateTeacher(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
+    public String persistUpdateTeacher(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {

@@ -3,7 +3,6 @@ package Controllers;
 import DAO.ProfileDAO;
 import Entities.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @org.springframework.stereotype.Controller
 
-@SessionAttributes("utilisateur")
+@SessionAttributes("sessionUser")
 public class Controller {
 
 
@@ -21,8 +20,8 @@ public class Controller {
     public Profile profile;
 
 
-    @ModelAttribute("utilisateur")
-    public void setUpUserForm(Model model) {model.addAttribute("utilisateur", profile);
+    @ModelAttribute("sessionUser")
+    public void setUpUserForm(Model model) {model.addAttribute("sessionUser", profile);
     }
 
     @Autowired
@@ -35,7 +34,7 @@ public class Controller {
 
     @RequestMapping(value="/loginprocess")
     public String loginsucess(Model model, @RequestParam String username,
-                              @RequestParam String password, @ModelAttribute ("utilisateur") Profile  profile)
+                              @RequestParam String password, @ModelAttribute ("sessionUser") Profile  profile)
     {
         String pageretour = "";
         System.out.println(username+" + "+password);
@@ -73,7 +72,7 @@ public class Controller {
 
     @RequestMapping("/deconnexion")
 
-    public String logout(Model model, @ModelAttribute("utilisateur") Profile profile,  SessionStatus status)
+    public String logout(Model model, @ModelAttribute("sessionUser") Profile profile,  SessionStatus status)
     {
         this.profile = null;
 

@@ -76,7 +76,7 @@ public class PaymentController {
     }
 
     @RequestMapping("/teachersSalaries")
-    public String teachersSalaries(Model model, @SessionAttribute ("utilisateur") Profile profile) {
+    public String teachersSalaries(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -132,7 +132,7 @@ public class PaymentController {
 
 
     @RequestMapping("/staffSalaries")
-    public String staffSalaries(Model model, @SessionAttribute ("utilisateur") Profile profile) {
+    public String staffSalaries(Model model, @SessionAttribute ("sessionUser") Profile profile) {
         String error = "";
         if (profile != null) {
             if (profile.getType().equalsIgnoreCase("Admin")) {
@@ -205,7 +205,7 @@ public class PaymentController {
     }
 
     @RequestMapping("/addTeacherPayment")
-    public String addTeacherPayment(Model model, @SessionAttribute ("utilisateur") Profile profile) {
+    public String addTeacherPayment(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -297,7 +297,7 @@ public class PaymentController {
     }
 
     @RequestMapping("/addStaffPayment")
-    public String addStaffPayment(Model model, @SessionAttribute ("utilisateur") Profile profile) {
+    public String addStaffPayment(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -327,7 +327,7 @@ public class PaymentController {
 
 
     @RequestMapping("/addNewStaffPayment")
-    public String addNewStaffPayment(Model model, @RequestParam String id_staff,@SessionAttribute ("utilisateur") Profile profile) {
+    public String addNewStaffPayment(Model model, @RequestParam String id_staff,@SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -362,7 +362,7 @@ public class PaymentController {
 
     @RequestMapping("/addNewTeacherPayment")
     public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String
-            id_group, @RequestParam String value, @SessionAttribute  ("utilisateur") Profile profile) {
+            id_group, @RequestParam String value, @SessionAttribute  ("sessionUser") Profile profile) {
 
         String error = "";
 
