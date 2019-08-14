@@ -316,7 +316,7 @@
 
     function isChecked(event) {
 
-        var name_fees = document.getElementById("mod").value.split(" ", 2);
+        var name_fees = event.value.split(" ", 2);
 
         if (event.getAttribute('checked') === null) {
             event.setAttribute('checked', '');

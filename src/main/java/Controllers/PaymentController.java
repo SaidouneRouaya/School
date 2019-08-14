@@ -236,8 +236,7 @@ public class PaymentController {
 
                             // le nombre d'étudiants * le prix par etudiant (présent)
 
-                            System.out.println("\n\n\n groupe name: "+groupp.getName());
-                            //todo
+
                             /** salary of all student with absent ones **/
                             salary_absent = groupp.getStudentsSet().size() * groupp.getFees();
 
@@ -246,7 +245,6 @@ public class PaymentController {
                                 //number of student present
                                 SessionOfGroup sessionn = sessionDAO.getSessionByID(session.getId());
                                 salary += sessionn.getStudentsSet().size() * group.getFees();
-                                System.out.println("# "+salary);
 
                             }
 
@@ -260,10 +258,6 @@ public class PaymentController {
                             Date d2 = groupp.getEndTime();
 
                             float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
-
-                            System.out.println(d2.getTime() - d1.getTime());
-                            System.out.println("time : " + timeDiff);
-
                             salary = (timeDiff) * groupp.getNumberSessions() * groupp.getFees();
                             group_salary.put(groupp.getId(), salary);
                         }
@@ -277,7 +271,6 @@ public class PaymentController {
                 model.addAttribute("groupsList", groupsList);
                 model.addAttribute("groupSalariesMap", group_salary);
                 model.addAttribute("groupSalariesAbsentMap", group_salary_absent);
-                System.out.println("size of absent : "+group_salary_absent.size());
 
 
                 model.addAttribute("error", error);
@@ -338,7 +331,8 @@ public class PaymentController {
 
                 //todo the one connected
 
-                PaymentStaff paymentStaff = new PaymentStaff(new Date(), staff.getSalary(), "the one connected", staff);
+                PaymentStaff paymentStaff = new PaymentStaff(new Date(), staff.getSalary(),
+                        profile.getFamilyname()+" "+profile.getName(), staff);
 
                 paymentStaffDAO.addPaymentStaff(paymentStaff);
 
@@ -361,8 +355,7 @@ public class PaymentController {
 
 
     @RequestMapping("/addNewTeacherPayment")
-    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String
-            id_group, @RequestParam String value, @SessionAttribute  ("sessionUser") Profile profile) {
+    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String group, @RequestParam String totalToPay, @SessionAttribute  ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -370,12 +363,24 @@ public class PaymentController {
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
                 Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
-                GroupOfStudents group = groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
 
-                //TODO change the one connected
+                String[] groups = group.split(",");
+                StringBuilder groupsList = new StringBuilder();
 
-                PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Float.parseFloat(value), "the one connected",
-                        group.getModule().getName(), group.getPaymentType(), teacher);
+                for (String groupp : groups) {
+
+                    String id= groupp.split(" ", 4)[3];
+                    if(id.isEmpty()) id= groupp.split(" ", 3)[2];
+
+                    groupsList.append(
+                            groupOfStudentsDAO.getGroupById(Integer.parseInt(id)).getName()
+                            ).append(", ");
+                }
+
+
+                PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Float.parseFloat(totalToPay),
+                        profile.getFamilyname()+" "+profile.getName(),
+                        groupsList.toString(), "test", teacher);
 
                 paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
 
@@ -398,7 +403,7 @@ public class PaymentController {
 
     @RequestMapping("/addNewStudentPayment")
     public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String
-            payed, @RequestParam String mod, @RequestParam String date_payment) {
+            payed, @RequestParam String mod, @RequestParam String date_payment, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -412,7 +417,8 @@ public class PaymentController {
         }
 
 
-        PaymentStudent paymentStudent = new PaymentStudent(date_payment, Long.parseLong(payed), modules.toString(), "the one connected", student);
+        PaymentStudent paymentStudent = new PaymentStudent(date_payment, Long.parseLong(payed), modules.toString(),
+                profile.getFamilyname()+" "+profile.getName(), student);
 
         paymentStudentDAO.addPaymentStudent(paymentStudent);
 

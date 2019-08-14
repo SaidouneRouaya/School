@@ -133,77 +133,63 @@
                                         </select>
                                     </div>
 
-
+                            <!-- List of modules -->
                                     <tg:forEach begin="0" end="${groupsList.size() -1}" var="i">
                                         <div id="groupList${i}" style="display: none">
                                             <label>Groups</label>
 
-                                            <select name="groups" id="groups${i}" class="form-control select2"
-                                                    style="width: 100%"
-                                                    onchange="changeSalary()">
-
-                                                <option name="empty" value="${0}" selected>
-
-                                                    Select a group</option>
-
+                                            <div class="form-group" id="groups${i}" >
 
                                                 <tg:forEach items="${groupsList.get(i)}" var="group">
 
-                                                    <option name="group" value="${group.id}">
-
-                                                        <c:out value="${group.name}"/></option>
+                                                    <label>
+                                                        <input type="checkbox" onclick="isChecked(this)" name="group"
+                                                               id="group" value="${group.paymentType} ${group.fees} ${groupSalariesAbsentMap.get(group.id)} ${group.id}"/>
+                                                        <c:out value="${group.name}"/>,
+                                                    </label><br>
 
                                                 </tg:forEach>
 
-                                            </select>
-                                        </div>
+                                            </div>
 
+                                        </div>
                                     </tg:forEach>
 
 
                                     <div class="form-group" id="salaries">
-                                        <div class="row">
-                                            <div class="col-xs-9">
 
-                                                <tg:forEach items="${groupSalariesMap}" var="groupSalary_entry">
+                                        <!--------------------------------------------------------------->
 
-                                                    <div id="salary${groupSalary_entry.key}"
-                                                         style="display: none">
-
-                                                        <p></p>
-                                                        <b><h4 class="pull-left">Salary : <c:out
-                                                                value="${groupSalary_entry.value}"/>0 DZD</h4></b>
-
-                                                    </div>
-
-                                                    <div class="form-group" style="display: none"
-                                                         id="salaryDiv${groupSalary_entry.key}">
-
-
-                                                                <div class="form-group">
-                                                                    <p></p>
-                                                                    <b><h4 class="pull-left">Amount for absent students
-                                                                        :<c:out value="${groupSalariesAbsentMap.get(groupSalary_entry.key)}"/>0
-                                                                        DZD</h4></b>
-                                                                    <p></p>
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label>Total to pay </label>
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">DZD</span>
-                                                                        <input id="salaryOfGroup${groupSalary_entry.key}"
-                                                                               type="text" name="totalToPay"
-                                                                               class="form-control"
-                                                                              >
-                                                                        <span class="input-group-addon">.0</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                </tg:forEach>
+                                        <ul class="list-group list-group-unbordered">
+                                            <div id="salary">
+                                                <li class="list-group-item">
+                                                    <b>Salary : </b>
+                                                    <span class=" btn bg-purple pull-right" id="salary_span"></span>
+                                                </li>
                                             </div>
-                                        </div>
+
+
+                                            <!--Absent of this student -->
+                                            <div id="AbsentDiv" >
+                                                <li class="list-group-item">
+                                                    <b>Amount for absent students :</b>
+                                                    <span class="btn bg-teal pull-right" id="absent_span"></span>
+                                                </li>
+                                            </div>
+
+
+                                            <!-- To pay -->
+                                            <div id="salaryDiv">
+                                                <li class="list-group-item">
+                                                    <b>Total to pay : </b>
+                                                    <input id="salaryOfGroup" type="text" name="totalToPay"
+                                                           class="col-xs-4 btn bg-navy pull-right"
+                                                           onchange="setValue(this)">
+                                                </li>
+                                            </div>
+
+                                        </ul>
+
                                     </div>
                                     <!--   <div id="salary">
                                            <p class="pull-left">Salary : 0 DZD</p>
@@ -288,10 +274,12 @@
 <!-- Page script -->
 <script>
     document.getElementById("date").innerHTML =  formatDate();
-
+    var total=0 ;
+    var absentTotal=0;
     var id_previous_group="groupList0";
     var id_previous_salary="";
-    var id_previous_toPay="";
+    var id_previous_absent="";
+    var id_previous_toPay="salaryDiv";
 
 
     function  formatDate() {
@@ -309,13 +297,13 @@
         return dd + '/' + mm + '/' + yyyy;
     }
 
-    function isChecked(event){
-        if(event.getAttribute('checked') === null){
-            event.setAttribute('checked','');
-        }
-        else{
-            event.removeAttribute('checked');
-        }
+    function setValue(event){
+            console.log("je suis set value "+event.value);
+
+           document.getElementById("salaryOfGroup").setAttribute("value",event.value);
+           console.log("je suis set value 2 "+ document.getElementById("salaryOfGroup").value);
+
+
     }
 
     function changeGroup() {
@@ -329,7 +317,43 @@
         id_previous_group="groupList"+id_salary[1];
     }
 
+    function isChecked(event) {
 
+        var idGroup_fees_absentFees = event.value.split(" ", 4);
+        var id_group = idGroup_fees_absentFees[3];
+        var id_salary = document.getElementById("teachers").value.split(" ",2);
+
+        var salary= document.getElementById("salaryOfGroup").value;
+
+
+        console.log(idGroup_fees_absentFees[0]);
+
+        if (event.getAttribute('checked') === null) {
+            event.setAttribute('checked', '');
+            total+= parseInt(idGroup_fees_absentFees[1]) ;
+            if(idGroup_fees_absentFees[0]==='Student'){
+
+                absentTotal+= parseInt(idGroup_fees_absentFees[2]) ;
+            }
+
+        }
+        else {
+            event.removeAttribute('checked');
+            total -= parseInt(idGroup_fees_absentFees[1]);
+            if (idGroup_fees_absentFees[0] === 'Student') {
+                absentTotal -= parseInt(idGroup_fees_absentFees[2]);
+            }
+        }
+
+        document.getElementById("salary_span").innerText=total+".0 DZD";
+        if(idGroup_fees_absentFees[0]==='Student') {
+            document.getElementById("absent_span").innerText = absentTotal + ".0 DZD";
+        }
+
+
+        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&value="+salary) ;
+
+    }
    function changeSalary() {
 
         var id_salary = document.getElementById("teachers").value.split(" ",2);
@@ -338,18 +362,24 @@
 
 
         if (document.getElementById(id_previous_salary) !=null) document.getElementById(id_previous_salary).style.display = 'none';
+        if (document.getElementById(id_previous_absent) !=null) document.getElementById(id_previous_absent).style.display = 'none';
         if (document.getElementById(id_previous_toPay) !=null) document.getElementById(id_previous_toPay).style.display = 'none';
 
 
         document.getElementById("salary"+id_group).style.display = 'block';
-        document.getElementById("salaryDiv"+id_group).style.display = 'block';
+        document.getElementById("AbsentDiv"+id_group).style.display = 'block';
+        document.getElementById("salaryDiv").style.display = 'block';
 
-        var salary= document.getElementById("salaryOfGroup"+id_group).value;
+        console.log(document.getElementById("salaryOfGroup"));
+        console.log(document.getElementById("salaryOfGroup").value);
+
+        var salary= document.getElementById("salaryOfGroup").value;
 
 
         document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&value="+salary) ;
         id_previous_salary="salary"+id_group;
-        id_previous_toPay="salaryDiv"+id_group;
+        id_previous_absent="AbsentDiv"+id_group;
+        id_previous_toPay="salaryDiv";
     }
 
 
