@@ -117,6 +117,10 @@
                                         <label>Teacher</label>
                                         <select name="teachers" id="teachers"  class="form-control select2" style="width: 100%;"
                                                 onchange="changeGroup()">
+                                            <option name="empty" value="${0}" selected>
+
+                                                Select a teacher</option>
+
 
                                             <tg:forEach begin="0" end="${teachersList.size() -1}" var="i">
 
@@ -128,7 +132,6 @@
 
                                         </select>
                                     </div>
-
 
 
                                     <tg:forEach begin="0" end="${groupsList.size() -1}" var="i">
@@ -158,23 +161,53 @@
                                     </tg:forEach>
 
 
-                                <div class="form-group" id="salaries" >
+                                    <div class="form-group" id="salaries">
+                                        <div class="row">
+                                            <div class="col-xs-9">
 
-                                    <tg:forEach items="${groupSalariesMap}" var="groupSalary_entry">
+                                                <tg:forEach items="${groupSalariesMap}" var="groupSalary_entry">
 
-                                        <div  id="salary${groupSalary_entry.key}"
-                                              style="display: none" >
+                                                    <div id="salary${groupSalary_entry.key}"
+                                                         style="display: none">
 
-                                            <p></p>
-                                            <b><h4 class="pull-left">Salary : <c:out value="${groupSalary_entry.value}"/>0 DZD</h4></b>
-                                            <input id="salaryOfGroup${groupSalary_entry.key}" value="${groupSalary_entry.value}" style="display: none">
+                                                        <p></p>
+                                                        <b><h4 class="pull-left">Salary : <c:out
+                                                                value="${groupSalary_entry.value}"/>0 DZD</h4></b>
+
+                                                    </div>
+
+                                                    <div class="form-group" style="display: none"
+                                                         id="salaryDiv${groupSalary_entry.key}">
+
+
+                                                                <div class="form-group">
+                                                                    <p></p>
+                                                                    <b><h4 class="pull-left">Amount for absent students
+                                                                        :<c:out value="${groupSalariesAbsentMap.get(groupSalary_entry.key)}"/>0
+                                                                        DZD</h4></b>
+                                                                    <p></p>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Total to pay </label>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon">DZD</span>
+                                                                        <input id="salaryOfGroup${groupSalary_entry.key}"
+                                                                               type="text" name="totalToPay"
+                                                                               class="form-control"
+                                                                              >
+                                                                        <span class="input-group-addon">.0</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                </tg:forEach>
+                                            </div>
                                         </div>
-                                    </tg:forEach>
-
-                                </div>
-                                 <!--   <div id="salary">
-                                        <p class="pull-left">Salary : 0 DZD</p>
-                                    </div>-->
+                                    </div>
+                                    <!--   <div id="salary">
+                                           <p class="pull-left">Salary : 0 DZD</p>
+                                       </div>-->
 
                                 </div>
 
@@ -258,6 +291,7 @@
 
     var id_previous_group="groupList0";
     var id_previous_salary="";
+    var id_previous_toPay="";
 
 
     function  formatDate() {
@@ -304,14 +338,18 @@
 
 
         if (document.getElementById(id_previous_salary) !=null) document.getElementById(id_previous_salary).style.display = 'none';
+        if (document.getElementById(id_previous_toPay) !=null) document.getElementById(id_previous_toPay).style.display = 'none';
 
 
         document.getElementById("salary"+id_group).style.display = 'block';
+        document.getElementById("salaryDiv"+id_group).style.display = 'block';
 
         var salary= document.getElementById("salaryOfGroup"+id_group).value;
 
+
         document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&value="+salary) ;
         id_previous_salary="salary"+id_group;
+        id_previous_toPay="salaryDiv"+id_group;
     }
 
 

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.print.attribute.HashPrintJobAttributeSet;
 import java.util.*;
@@ -22,7 +23,7 @@ public class ModulesController {
     private ModuleDAO moduleDAO;
 
     @RequestMapping("/Modules")
-    public String modulesList(Model model, @ModelAttribute("utilisateur") Profile profile) {
+    public String modulesList(Model model, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -57,7 +58,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/addModule")
-    public String addModule(Model model, @ModelAttribute("utilisateur") Profile profile) {
+    public String addModule(Model model, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -78,7 +79,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/updateModule")
-    public String updateModule(Model model, @RequestParam String query, @ModelAttribute("utilisateur") Profile profile) {
+    public String updateModule(Model model, @RequestParam String query, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -101,7 +102,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/PersistUpdateModule")
-    public String persistUpdateModule(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @ModelAttribute("utilisateur") Profile profile) {
+    public String persistUpdateModule(Model model, @RequestParam String query, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -135,7 +136,7 @@ public class ModulesController {
     }
 
     @RequestMapping("/addNewModule")
-    public String addNewModule(Model model, @RequestParam Map<String, String> param, @ModelAttribute("utilisateur") Profile profile) {
+    public String addNewModule(Model model, @RequestParam Map<String, String> param, @SessionAttribute("utilisateur") Profile profile) {
 
         String error = "";
         if (profile != null) {

@@ -1,6 +1,8 @@
 package Entities;
 
 
+import org.springframework.context.annotation.Scope;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Transactional
 @Table(name = "profile")
+@Scope("session")
 public class Profile  implements Serializable {
 
     @Id

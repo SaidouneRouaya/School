@@ -3,17 +3,17 @@ package Controllers;
 import DAO.ProfileDAO;
 import Entities.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @org.springframework.stereotype.Controller
 
+@SessionAttributes("utilisateur")
 public class Controller {
 
 
@@ -22,8 +22,7 @@ public class Controller {
 
 
     @ModelAttribute("utilisateur")
-    public Profile setUpUserForm() {
-        return profile;
+    public void setUpUserForm(Model model) {model.addAttribute("utilisateur", profile);
     }
 
     @Autowired
@@ -36,28 +35,28 @@ public class Controller {
 
     @RequestMapping(value="/loginprocess")
     public String loginsucess(Model model, @RequestParam String username,
-                              @RequestParam String password, @ModelAttribute("utilisateur") Profile  profile)
+                              @RequestParam String password, @ModelAttribute ("utilisateur") Profile  profile)
     {
         String pageretour = "";
         System.out.println(username+" + "+password);
 
         ModelAndView modelview = new ModelAndView();
 
-
         List<Profile> users= profileDAO.getProfileByEmail(username, password);
 
         if (users != null && users.size()!=0) {
             Profile user = users.get(0);
             if (user.getUsername().equals(username)) {
-                if (user.getPassword().equals(password))
-                {
+                if (user.getPassword().equals(password)) {
+
                    if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:index.j";
                    else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:indexReceptionist.j";
 
-                    modelview.addObject("utilisateur",user);
-
                     this.profile = user;
+                    modelview.addObject("utilisateur", this.profile);
+                    model.addAttribute("utilisateur", this.profile);
                     System.out.println(this.profile.getType());
+
                 }
                 else {
                     model.addAttribute("erreur", "erreur dans l'email ou le mot de passe");
@@ -68,14 +67,17 @@ public class Controller {
         {
             model.addAttribute("erreur", "Utilisateur inexistant !");
         }
+
         return pageretour;
     }
 
     @RequestMapping("/deconnexion")
 
-    public String logout(Model model, @SessionAttribute("utilisateur") Profile profile)
+    public String logout(Model model, @ModelAttribute("utilisateur") Profile profile,  SessionStatus status)
     {
         this.profile = null;
+
+        status.setComplete();
         return "login2";
     }
 

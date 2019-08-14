@@ -4,10 +4,12 @@ import DAO.*;
 import Entities.*;
 import Entities.Module;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 import java.util.*;
@@ -15,6 +17,7 @@ import java.util.*;
 import static java.lang.Thread.sleep;
 
 @org.springframework.stereotype.Controller
+@Scope("session")
 
 public class PaymentController {
 
@@ -73,7 +76,7 @@ public class PaymentController {
     }
 
     @RequestMapping("/teachersSalaries")
-    public String teachersSalaries(Model model, @ModelAttribute("utilisateur") Profile profile) {
+    public String teachersSalaries(Model model, @SessionAttribute ("utilisateur") Profile profile) {
 
         String error = "";
 
@@ -129,7 +132,7 @@ public class PaymentController {
 
 
     @RequestMapping("/staffSalaries")
-    public String staffSalaries(Model model, @ModelAttribute("utilisateur") Profile profile) {
+    public String staffSalaries(Model model, @SessionAttribute ("utilisateur") Profile profile) {
         String error = "";
         if (profile != null) {
             if (profile.getType().equalsIgnoreCase("Admin")) {
@@ -202,16 +205,19 @@ public class PaymentController {
     }
 
     @RequestMapping("/addTeacherPayment")
-    public String addTeacherPayment(Model model, @ModelAttribute("utilisateur") Profile profile) {
+    public String addTeacherPayment(Model model, @SessionAttribute ("utilisateur") Profile profile) {
 
         String error = "";
-        if (profile != null) {
-            if (profile.getType().equalsIgnoreCase("Admin")) {
 
+        if (profile != null) {
+
+
+            if (profile.getType().equalsIgnoreCase("Admin")) {
 
                 List<Teacher> teachersList = teacherDAO.getAllTeachers();
                 List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
                 Map<Integer, Float> group_salary = new HashMap<>();
+                Map<Integer, Float> group_salary_absent = new HashMap<>();
 
 
                 for (Teacher teacher : teachersList) {
@@ -221,7 +227,8 @@ public class PaymentController {
 
                     for (GroupOfStudents group : teacher.getGroupsSet()) {
 
-                        float salary = 0L;
+                        float salary=0f;
+                        float salary_absent=0f;
 
                         GroupOfStudents groupp = groupOfStudentsDAO.getGroupById(group.getId());
 
@@ -229,17 +236,21 @@ public class PaymentController {
 
                             // le nombre d'étudiants * le prix par etudiant (présent)
 
+                            System.out.println("\n\n\n groupe name: "+groupp.getName());
                             //todo
                             /** salary of all student with absent ones **/
-                            salary = groupp.getStudentsSet().size() * groupp.getFees();
+                            salary_absent = groupp.getStudentsSet().size() * groupp.getFees();
 
                             /** salary of only present students **/
                             for (SessionOfGroup session : groupp.getSessionSet()) {
-                                //number of student present     *
+                                //number of student present
                                 SessionOfGroup sessionn = sessionDAO.getSessionByID(session.getId());
                                 salary += sessionn.getStudentsSet().size() * group.getFees();
+                                System.out.println("# "+salary);
+
                             }
 
+                            group_salary_absent.put(groupp.getId(), salary_absent-salary);
                             group_salary.put(groupp.getId(), salary);
 
                         } else if (groupp.getPaymentType().equalsIgnoreCase("Hour")) {
@@ -247,7 +258,6 @@ public class PaymentController {
 
                             Date d1 = groupp.getStartTime();
                             Date d2 = groupp.getEndTime();
-
 
                             float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
 
@@ -266,28 +276,36 @@ public class PaymentController {
                 model.addAttribute("teachersList", teachersList);
                 model.addAttribute("groupsList", groupsList);
                 model.addAttribute("groupSalariesMap", group_salary);
+                model.addAttribute("groupSalariesAbsentMap", group_salary_absent);
+                System.out.println("size of absent : "+group_salary_absent.size());
 
 
                 model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Payment/AddTeacherPayment";
 
-            } else {
+           } else {
+                System.out.println("im here");
 
                 return "redirect:/error.j";
             }
 
         } else {
 
+            System.out.println("je suis la");
             return "redirect:/error.j";
         }
-
     }
 
     @RequestMapping("/addStaffPayment")
-    public String addStaffPayment(Model model, @ModelAttribute("utilisateur") Profile profile) {
+    public String addStaffPayment(Model model, @SessionAttribute ("utilisateur") Profile profile) {
 
         String error = "";
+
+
         if (profile != null) {
+
+            System.out.println("*******"+profile.getType());
+
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
                 model.addAttribute("staffList", staffDAO.getAllStaffs());
@@ -309,7 +327,7 @@ public class PaymentController {
 
 
     @RequestMapping("/addNewStaffPayment")
-    public String addNewStaffPayment(Model model, @RequestParam String id_staff, @ModelAttribute("utilisateur") Profile profile) {
+    public String addNewStaffPayment(Model model, @RequestParam String id_staff,@SessionAttribute ("utilisateur") Profile profile) {
 
         String error = "";
         if (profile != null) {
@@ -334,7 +352,7 @@ public class PaymentController {
             }
 
         } else {
-
+            System.out.println("je suis la");
             return "redirect:/error.j";
         }
 
@@ -344,7 +362,7 @@ public class PaymentController {
 
     @RequestMapping("/addNewTeacherPayment")
     public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String
-            id_group, @RequestParam String value, @ModelAttribute("utilisateur") Profile profile) {
+            id_group, @RequestParam String value, @SessionAttribute  ("utilisateur") Profile profile) {
 
         String error = "";
 
@@ -365,12 +383,12 @@ public class PaymentController {
 
                 return "redirect:teachersSalaries.j";
             } else {
-
+                System.out.println("je suis la 2");
                 return "redirect:/error.j";
             }
 
         } else {
-
+            System.out.println("je suis la");
             return "redirect:/error.j";
         }
 
