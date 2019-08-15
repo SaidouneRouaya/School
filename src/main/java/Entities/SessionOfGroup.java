@@ -85,4 +85,14 @@ public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>
 
          return this.date.before(o.getDate()) ? 1:0;
     }
+
+
+    public void updateSession(SessionOfGroup newSession){
+        this.date=newSession.getDate();
+        this.groupOfStudents= newSession.getGroupOfStudents();
+        this.studentsSet=newSession.getStudentsSet();
+
+
+    }
+
 }

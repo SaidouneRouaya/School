@@ -30,7 +30,7 @@ public class GroupOfStudents implements Serializable {
     private String paymentType;
 
     @Column(name = "number_sessions")
-    private int numberSessions;
+    private int numberSessions=0;
 
     @Column(name = "start_time")
     @Temporal(TemporalType.TIMESTAMP)

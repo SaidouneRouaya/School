@@ -1,15 +1,14 @@
 package Controllers;
 
 import DAO.*;
-import Entities.GroupOfStudents;
+import Entities.*;
 import Entities.Module;
-import Entities.SessionOfGroup;
-import Entities.Student;
 import Util.utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 import java.text.DateFormat;
@@ -60,43 +59,54 @@ public class GroupsController {
     }
 
     @RequestMapping("/GroupDetails")
-    public String groupDetails(Model model, @RequestParam String id_group) {
+    public String groupDetails(Model model, @RequestParam String id_group, @SessionAttribute ("unpaidStudent") List<Student> unpaidStudent) {
 
         String error = "";
 
         Date now = new Date();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         GroupOfStudents group =groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
-       List<Student> studentList= studentDAO.getAllStudents();
+        //List<Student> studentList= studentDAO.getAllStudents();
+        List<Student> studentList= studentDAO.getStudentsByGroup(group.getId());
+
+
+        HashMap<Integer, List<Presence>  > presenceList= new HashMap<>();
+
+        for (Student stud: studentList){
+
+            System.out.println("****************************  \n" +stud.getId());
+            System.out.println("list of sessions ");
+            for (SessionOfGroup se : stud.getSessionsSet()){
+                System.out.println(se.getId());
+            }
+            System.out.println("end");
+
+            List<Presence> presences= new ArrayList<>();
+
+            for (SessionOfGroup session: group.getSessionSet()){
+
+                System.out.println(session.getId()+" "+session.getDate());
+
+                System.out.println("test : " + stud.present(session));
+                Presence presence=new Presence(session.getId(), stud.present(session) );
+
+                presences.add(presence);
+
+                System.out.println(presence.present);
+            }
+
+            presenceList.put(stud.getId(), presences);
+          //  System.out.println("id student: "+stud.getId()+" "+ presences);
+        }
+
 
         model.addAttribute("group", group );
         model.addAttribute("students", studentList);
         model.addAttribute("now", dateFormat.format(now));
-
-       /* class Presence {
-            public int id_session;
-            public boolean present;
-
-            public Presence(int id_session, boolean present) {
-                this.id_session = id_session;
-                this.present = present;
-            }
-        }
-        HashMap<Integer, List<Presence>  > presenceList= new HashMap<>();
-
-        for (Student s: studentList){
-            List<Presence> presences= new ArrayList<>();
-            for (SessionOfGroup session: group.getSessionSet()){
-
-                presences.add(new Presence(session.getId(), s.getSessionsSet().contains(session) ));
-            }
-
-            presenceList.put(s.getId(), presences);
-        }
-
-
-        model.addAttribute("presences", presenceList);*/
+        model.addAttribute("presences", presenceList);
+        model.addAttribute("unpaidStudent", unpaidStudent);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupDetails";
@@ -126,18 +136,19 @@ public class GroupsController {
 
         Set<Student> studentSet=new HashSet<>();
         for (String id_student: studentsList){
-
-            System.out.println(id_student);
             studentSet.add(studentDAO.getStudentByID(Integer.parseInt(id_student)));
         }
 
 
+        int numberOfSession= Integer.parseInt(param.get("sessionNumber"));
+
         GroupOfStudents groupOfStudents = new GroupOfStudents(param.get("name"), param.get("startDate"),
-        param.get("r3"), Integer.parseInt(param.get("sessionNumber")), param.get("startTime"), param.get("endTime"),
+        param.get("r3"), Integer.parseInt(param.get("seancesNumber")), param.get("startTime"), param.get("endTime"),
                 Float.parseFloat(param.get("fees")), moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
                teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))),
                studentSet);
 
+        groupOfStudentsDAO.addGroup(groupOfStudents);
 
         for (Student student: studentSet){
 
@@ -145,7 +156,17 @@ public class GroupsController {
             studentDAO.updateStudentGroups(student.getId(), student.getGroupsSet());
         }
 
+        for (int i=0; i<numberOfSession; i++){
 
+            Date now = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            if (i==0){
+                addSessionToGroup(model, Integer.toString(groupOfStudents.getId()), dateFormat.format(now));
+            }else
+            {
+                addSessionToGroup(model, Integer.toString(groupOfStudents.getId()), null);
+            }
+        }
 
         model.addAttribute("error", error);
         return "redirect:Groups.j";
@@ -215,7 +236,6 @@ public class GroupsController {
 
         int id_group=Integer.parseInt(query);
 
-
         GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(id_group);
 
         SessionOfGroup session= new SessionOfGroup(date, groupOfStudents);
@@ -264,7 +284,14 @@ public class GroupsController {
         for (Student student:students){
             student.removeGroup(groupOfStudents.getId());
             studentDAO.updateStudentGroups(student.getId(), student.getGroupsSet());
+        }
 
+        for (SessionOfGroup session: groupOfStudents.getSessionSet()){
+            for (Student student:students){
+                if (student.present(session)) student.getSessionsSet().remove(session);
+                studentDAO.updateStudent(student.getId(), student);
+            }
+            sessionDAO.deleteSession(session.getId());
         }
 
        groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
@@ -276,26 +303,44 @@ public class GroupsController {
     }
 
     @RequestMapping("/markPresence.j")
-    public String markPresence ( @RequestParam Map<String,String> param){
+    public String markPresence ( @RequestParam String sess, @RequestParam String id_group){
 
 //EntityExistsException
 
-        String[] ids=param.get("sess").split(" ");
+        System.out.println("im in markpresence");
+
+        System.out.println(sess);
+
+        String[] ids=sess.split(",");
 
 
-        SessionOfGroup sessionOfGroup= sessionDAO.getSessionByID(Integer.parseInt(ids[0]));
-        Student student= studentDAO.getStudentByID(Integer.parseInt(ids[1]));
+        for (String id :ids){
 
 
-        sessionOfGroup.getStudentsSet().add(student);
-        student.getSessionsSet().add(sessionOfGroup);
+            SessionOfGroup sessionOfGroup= sessionDAO.getSessionByID(Integer.parseInt(id.split(" ", 2)[0]));
+            Student student= studentDAO.getStudentByID(Integer.parseInt(id.split(" ", 2)[1]));
 
+            Date now = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try{
+                sessionOfGroup.setDate(dateFormat.parse(dateFormat.format(now)));
 
-        studentDAO.updateStudentSessions(student.getId(), student.getSessionsSet());
-        sessionDAO.updateSessionStudents(sessionOfGroup.getId(), sessionOfGroup.getStudentsSet());
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
 
+            sessionOfGroup.getStudentsSet().add(student);
+            student.getSessionsSet().add(sessionOfGroup);
 
-        return "redirect:GroupDetails.j?id_group="+ids[2];
+            studentDAO.updateStudentSessions(student.getId(), student.getSessionsSet());
+
+            //sessionDAO.updateSessionStudents(sessionOfGroup.getId(), sessionOfGroup.getStudentsSet());
+            sessionDAO.updateSession(sessionOfGroup.getId(), sessionOfGroup );
+
+        }
+
+        return "redirect:GroupDetails.j?id_group="+id_group;
     }
 
 

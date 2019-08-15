@@ -6,14 +6,17 @@ import DAO.StudentDAO;
 import Entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.*;
 
 
 @org.springframework.stereotype.Controller
 
+@SessionAttributes("unpaidStudent")
 public class StudentsController {
 
     @Autowired
@@ -25,6 +28,71 @@ public class StudentsController {
     @Autowired
     private PaymentStudentDAO paymentStudentDAO;
 
+    @ModelAttribute("sessionUser")
+    public void setUpUserForm(Model model) {
+        unpaidStudent=fillUnpaidStudent();
+        model.addAttribute("unpaidStudent", unpaidStudent);
+    }
+
+    private HashMap<Integer, List<GroupOfStudents>> groups = new HashMap<>();
+
+    private List<Student> unpaidStudent;
+
+
+    public List<Student> fillUnpaidStudent(){
+
+        List<Student> students= studentDAO.getAllStudents();
+
+
+        List<Student> unpaidStudent=new ArrayList<>();
+
+
+        Date today= new Date();
+
+        boolean bool= false;
+        for (Student student: students){
+
+
+            if (student.getPaymentSet().size() > 0) {
+
+                try {
+
+                    List<GroupOfStudents> groupOfStudent = new ArrayList<>();
+
+                    if (student.getType().equalsIgnoreCase("payee")) {
+
+                        if (student.getSubscriptionDate().before(today)) {
+
+                            for (GroupOfStudents group : student.getGroupsSet()) {
+
+                                if (!student.payedForGroup(group, today)) {
+
+                                    groupOfStudent.add(group);
+                                   unpaidStudent.add(student);
+                                    bool=true;
+                                }
+
+                            }
+
+                            if (bool)  groups.put(student.getId(), groupOfStudent );
+                        }
+
+                    }
+
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }else {
+                unpaidStudent.add(student);
+                groups.put(student.getId(), new ArrayList<>(student.getGroupsSet()) );
+            }
+        }
+      return unpaidStudent;
+    }
+
 
     @RequestMapping("/Students")
     public String studentsList(Model model) {
@@ -32,6 +100,8 @@ public class StudentsController {
         String error = "";
         List<Student> studentsList=studentDAO.getAllStudents();
         model.addAttribute("studentsList", studentsList);
+
+
         model.addAttribute("studentId",0);
 
         model.addAttribute("error", error);
@@ -44,7 +114,7 @@ public class StudentsController {
         String error = "";
 
 
-        List<Student> students= studentDAO.getAllStudents();
+   /*     List<Student> students= studentDAO.getAllStudents();
         List<Student> unpaidStudents= new ArrayList<>();
 
         HashMap<Integer, List<GroupOfStudents>> groups = new HashMap<>();
@@ -52,7 +122,7 @@ public class StudentsController {
 
         Date today= new Date();
 
-boolean bool= false;
+        boolean bool= false;
         for (Student student: students){
 
 
@@ -93,8 +163,8 @@ boolean bool= false;
                     groups.put(student.getId(), new ArrayList<>(student.getGroupsSet()) );
                 }
         }
-
-        model.addAttribute("unpaidStudents", unpaidStudents);
+*/
+        model.addAttribute("unpaidStudents", this.unpaidStudent);
         model.addAttribute("groups", groups);
 
         model.addAttribute("error", error);

@@ -110,12 +110,30 @@
                             </thead>
                             <tbody>
 
+
                             <tg:forEach begin="0" end="${studentsList.size() -1}" var="i">
-                                <tr>
+                                <tr
+                                        <c:choose>
+                                    <c:when test="${studentsList[i].type eq 'free'}">
+                                        class="bg-purple disabled"
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <tg:forEach begin="0" end="${unpaidStudent.size()-1}" var="m">
+
+                                            <c:if test="${unpaidStudent[m].id eq studentsList[i].id}">
+                                                class="bg-red disabled"
+                                            </c:if>
+
+                                        </tg:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                >
 
                                          <!-- nom du type de la stat  -->
-                                    <td><a href="Profile.j?query=${studentsList[i].id}" >
-                                         <c:out value="${studentsList[i].name}"/>  <c:out value="${studentsList[i].familyname}"/>
+                                    <td><a class="text-black" href="Profile.j?query=${studentsList[i].id}" >
+                                         <b><c:out value="${studentsList[i].name}"/>  <c:out value="${studentsList[i].familyname}"/></b>
                                      </a></td>
 
                                     <td><c:out value ="${studentsList[i].phoneNumber1}"/></td>

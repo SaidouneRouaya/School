@@ -18,6 +18,8 @@ public class utilities {
 
 
     public static Date formatDate (String date){
+
+        if (date==null ) return null;
         Map<Pattern, DateFormat> dateFormatPatterns = new HashMap<Pattern, DateFormat>();
         dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})-((0|1|2)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("MM-dd-yyyy"));
         dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})/((0|1|2)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("MM/dd/yyyy"));

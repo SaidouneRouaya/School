@@ -91,7 +91,7 @@ public class SessionImpl implements SessionDAO{
         }
     }
 
-    public void updateSession(int id, String type) {
+    public void updateSession(int id, SessionOfGroup sessionOfGroup) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -100,7 +100,7 @@ public class SessionImpl implements SessionDAO{
             tx = session.beginTransaction();
             SessionOfGroup sessionn = session.get(SessionOfGroup.class, id);
 
-            //TODO
+            sessionn.updateSession(sessionOfGroup);
 
             session.update(sessionn);
             tx.commit();

@@ -65,6 +65,13 @@
         .example-modal .modal {
             background: transparent !important;
         }
+
+        @media print {
+            html, body {
+                height: 99%;
+            }
+        }
+
     </style>
 </head>
 
@@ -387,6 +394,7 @@
     function printDiv(divName) {
 
 
+        document.getElementById("AbsentDiv").innerHTML="";
         var printContents = document.getElementById(divName).innerHTML;
         var form = document.getElementById("form");
 

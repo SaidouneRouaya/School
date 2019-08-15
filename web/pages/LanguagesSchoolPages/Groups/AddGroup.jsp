@@ -195,8 +195,8 @@
 
                                 <!-- Session -->
                                 <div class="form-group">
-                                    <label>Number of sessions</label>
-                                    <input type="number" name="sessionNumber" class="form-control" placeholder="Enter number of seances ..." required>
+                                    <label>Number of seances</label>
+                                    <input type="number" name="seancesNumber" class="form-control" placeholder="Enter number of seances ..." required>
                                 </div>
 
 

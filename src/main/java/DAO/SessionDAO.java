@@ -13,7 +13,7 @@ public interface SessionDAO {
     public SessionOfGroup getSessionByID(int id);
 
     public void deleteSession(int id);
-    public void updateSession(int id, String type);
+    public void updateSession(int id, SessionOfGroup sessionOfGroup);
 
     public void updateSessionStudents(int id, Set<Student> studentList);
 }

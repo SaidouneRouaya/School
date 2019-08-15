@@ -59,17 +59,31 @@
             </li>
 
             <li class="treeview">
-                <a href="Modules.j">
-                    <i class="glyphicon glyphicon-text-color"></i> <span>Modules</span>
-
+                <a href="#">
+                    <i class="glyphicon glyphicon-text-color"></i>
+                    <span>Modules</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="Modules.j"><i class="fa fa-circle-o"></i>Modules list</a></li>
+                    <li><a href="addModule.j"><i class="fa fa-circle-o"></i>Add new module</a></li>
+                </ul>
             </li>
 
             <li class="treeview">
-                <a href="Students.j">
-                    <i class="glyphicon glyphicon-education"></i> <span>Students</span>
-
+                <a href="#">
+                    <i class="glyphicon glyphicon-education"></i>
+                    <span>Students</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="Students.j"><i class="fa fa-circle-o"></i>Students list</a></li>
+                    <li><a href="addStudent.j"><i class="fa fa-circle-o"></i>Add new student</a></li>
+                </ul>
             </li>
 
             <li class="treeview">

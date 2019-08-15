@@ -372,4 +372,18 @@ public class Student  implements Serializable {
     }
 
 
+    public boolean present(SessionOfGroup session){
+
+        if (this.sessionsSet.isEmpty()) return false;
+        for (SessionOfGroup sessionOfGroup: this.sessionsSet){
+            if ( sessionOfGroup.getId()==session
+                    .getId() ) return true;
+            break;
+        }
+
+        return false;
+
+    }
+
+
 }

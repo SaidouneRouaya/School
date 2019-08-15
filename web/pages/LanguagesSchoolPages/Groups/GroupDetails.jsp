@@ -133,68 +133,125 @@
                                 <table class="table table-hover table-striped">
 
                                     <tbody>
+                                    <form id="session_form" method="post" action="markPresence.j?id_group=${group.id}">
 
-                                    <tr>
-                                        <th>#</th>
-                                        <th>N°</th>
-                                        <th>Full name</th>
-                                        <th>Phone number</th>
-
-                                        <tg:forEach items="${group.sessionSet}" var="session">
-                                            <th>S: <c:out value="${session.date}"/> </th>
-                                        </tg:forEach>
-                                    </tr>
-                                    <c:set var="number" value="${0}"/>
-                                        <tg:forEach items="${group.studentsSet}" var="student">
-                                            <c:set var="number" value="${number+1}"/>
                                         <tr>
-                                            <td>
-                                                <a  class="btn  btn-box-tool btn-danger"
-                                                        href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
-                                                    <i class="fa fa-remove" ></i>
-                                                </a>
-                                            </td>
-                                            <td><c:out value="${number}"/></td>
-                                            <!-- nom du type de la stat  -->
-                                            <td><a href="Profile.j?query=${student.id}" >
-                                                <c:out value="${student.name}"/>  <c:out value="${student.familyname}"/>
-                                            </a></td>
+                                            <th>#</th>
+                                            <th>N°</th>
+                                            <th>Full name</th>
+                                            <th>Phone number</th>
 
-                                            <td><c:out value ="${student.phoneNumber1}"/></td>
+                                            <tg:forEach items="${group.sessionSet}" var="session">
+                                                <th>S:
+                                                    <c:choose>
+                                                        <c:when test="${session.date ne null}">
+                                                            <c:out value="${session.date}"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                                no date
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </th>
+                                            </tg:forEach>
+                                        </tr>
+                                        <c:set var="number" value="${0}"/>
+                                        <tg:forEach items="${group.studentsSet}" var="student">
 
-                                            <c:set var="contains" value="${false}"/>
-                                            <form id="session_form" method="post">
+                                            <c:set var="number" value="${number+1}"/>
+                                            <tr
+                                                    <c:choose>
+                                                        <c:when test="${student.type eq 'free'}">
+                                                        class="bg-purple disabled"
+                                                        </c:when>
+
+                                                        <c:otherwise>
+                                                            <tg:forEach begin="0" end="${unpaidStudent.size()-1}" var="m">
+
+                                                                <c:if test="${unpaidStudent[m].id eq student.id}">
+                                                                    class="bg-red disabled"
+                                                                </c:if>
+
+                                                            </tg:forEach>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                            >
+                                                <td>
+                                                    <a class="btn  btn-box-tool  bg-red-active"
+                                                       href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </td>
+                                                <td><c:out value="${number}"/></td>
+                                                <!-- nom du type de la stat  -->
+                                                <td><a class="text-black" href="Profile.j?query=${student.id}">
+                                                    <b><c:out value="${student.name}"/> <c:out
+                                                        value="${student.familyname}"/></b>
+                                                </a></td>
+
+
+                                                <td><c:out value="${student.phoneNumber1}"/></td>
+
+                                                <c:set var="contains" value="${false}"/>
+
                                                 <tg:forEach items="${group.sessionSet}" var="session">
 
 
                                                     <td>
-                                                        <label>
-                                                            <input type="checkbox"  name="sess"
-                                                                   id="sess" value="${session.id} ${student.id} ${group.id}"
+                                                        <label>Present
+                                                            <input type="checkbox" name="sess" id="sess" value="${session.id} ${student.id}" onclick="isChecked(this)"
 
+                                                                <tg:forEach begin="0" end="${presences.get(student.id).size()-1}" var="k">
 
                                                                     <c:choose>
-                                                                        <c:when test="${session.date.toString() eq now }">
-                                                                            onclick="isChecked(this)"
+                                                                        <c:when test="${(presences.get(student.id).get(k).id_session eq session.id)
+                                                                        and (presences.get(student.id).get(k).isPresent()) and (session.date.toString() eq now)}">
+
+                                                                            checked disabled
                                                                         </c:when>
 
+                                                                        <c:when test="${(presences.get(student.id).get(k).id_session eq session.id)
+                                                                        and (presences.get(student.id).get(k).isPresent())}">
+
+                                                                            checked
+                                                                        </c:when>
                                                                         <c:otherwise>
-                                                                            disabled
+
                                                                         </c:otherwise>
                                                                     </c:choose>
+
+                                                                </tg:forEach>
+
+                                                                    <c:if test="${(session.date ne null) and (session.date.toString() lt now) }">
+                                                                        disabled
+                                                                   </c:if>
                                                             />
-                                                        </label>
+
+                                                      </label>
                                                     </td>
 
                                                 </tg:forEach>
+                                            </tr>
 
-                                            </form>
+
+                                        </tg:forEach>
+
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <tg:forEach begin="0" end="${group.numberSessions-1}" var="i">
+                                                <td>
+                                                    <button
+
+                                                            type="submit" class="btn bg-olive">Submit
+                                                    </button>
+                                                </td>
+                                            </tg:forEach>
                                         </tr>
-
-                                    </tg:forEach>
-
-
+                                    </form>
                                     </tbody>
+
                                 </table>
 
                             </div>
@@ -278,7 +335,7 @@
 
                                 <!-- Subscritption date -->
                                 <div class="form-group">
-                                    <label>Date:</label>
+                                    <label>Start date:</label>
 
                                     <div class="input-group date">
                                         <div class="input-group-addon">
@@ -287,6 +344,12 @@
                                         <input type="text" name="date" class="form-control pull-right" id="datepicker2">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Number of seances</label>
+                                    <input type="number" name="seancesNumber" class="form-control" placeholder="Enter number of seances ..." required>
+                                </div>
+
 
                             </div>
                             <div class="modal-footer">
@@ -399,21 +462,26 @@
 <!-- Page script -->
 <script>
 
-    function isChecked(event) {
+
+
+    function isChecked(event){
+        if(event.getAttribute('checked') === null){
+            event.setAttribute('checked','');
+        }
+        else{
+            event.removeAttribute('checked');
+        }
+    }
+
+    function isChecked2(event) {
 
         var session_student_group = document.getElementById("sess").value.split(" ", 3);
 
         if (event.getAttribute('checked') === null) {
             event.setAttribute('checked', '');
 
-            // if student.get session contains (session)
-
-
-
-
             var form = document.getElementById("session_form");
 
-           // var action="markPresence.j?id_session="+session_student_group[0]+"&id_student="+session_student_group[1]+"&id_group="+session_student_group[2];
             var action="markPresence.j";
 
             form.setAttribute("action",action ) ;

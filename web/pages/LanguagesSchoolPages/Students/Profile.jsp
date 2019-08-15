@@ -72,7 +72,7 @@
                         <div class="widget-user-header bg-aqua-active">
 
                                 <div class="col-md-8">
-                                    <h3 class="widget-user-username">${studentProfile.familyname} ${studentProfile.name}</h3>
+                                    <h3 class="widget-user-username"><b>${studentProfile.familyname} ${studentProfile.name}</b></h3>
                                     <h5 class="widget-user-desc">Student</h5>
                                 </div>
 

@@ -58,30 +58,61 @@
                 </ul>
             </li>
 
-            <li class="treeview">
-                <a href="Modules.j">
-                    <i class="glyphicon glyphicon-text-color"></i> <span>Modules</span>
 
+            <li class="treeview">
+                <a href="#">
+                    <i class="glyphicon glyphicon-text-color"></i>
+                    <span>Modules</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="Modules.j"><i class="fa fa-circle-o"></i>Modules list</a></li>
+                    <li><a href="addModule.j"><i class="fa fa-circle-o"></i>Add new module</a></li>
+                </ul>
             </li>
 
             <li class="treeview">
-                <a href="Students.j">
-                    <i class="glyphicon glyphicon-education"></i> <span>Students</span>
-
+                <a href="#">
+                    <i class="glyphicon glyphicon-education"></i>
+                    <span>Students</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="Students.j"><i class="fa fa-circle-o"></i>Students list</a></li>
+                    <li><a href="addStudent.j"><i class="fa fa-circle-o"></i>Add new student</a></li>
+                </ul>
             </li>
-            <li class="treeview">
-                <a href="Teachers.j">
-                    <i class="fa fa-user-secret"></i> <span>Teachers</span>
 
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user-secret"></i>
+                    <span>Teachers</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="Teachers.j"><i class="fa fa-circle-o"></i>Teachers list</a></li>
+                    <li><a href="addTeacher.j"><i class="fa fa-circle-o"></i>Add new teacher</a></li>
+                </ul>
             </li>
-            <li class="treeview">
-                <a href="Staff.j">
-                    <i class="fa fa-users"></i> <span>Staff</span>
 
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Staff</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="Staff.j"><i class="fa fa-circle-o"></i>Staff list</a></li>
+                    <li><a href="addStaff.j"><i class="fa fa-circle-o"></i>Add new member</a></li>
+                </ul>
             </li>
 
             <li class="treeview">
