@@ -184,6 +184,11 @@
                                             <td><c:out value="${number}"/></td>
                                             <td><c:out value="${payments[i].date}"/></td>
                                             <td><c:out value="${payments[i].amount}"/>0 DZD</td>
+                                            <td>
+                                                <a type="submit" class="btn btn-default pull-right"
+                                                   href="teacherVoucher.j?p=${payments[i].id}"
+                                                   target="_blank"><i class="fa fa-print"></i> print
+                                                </a></td>
                                         </tr>
 
                                     </tg:forEach>

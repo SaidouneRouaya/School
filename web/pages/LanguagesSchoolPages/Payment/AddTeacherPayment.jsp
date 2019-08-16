@@ -151,11 +151,11 @@
 
                                                     <div class="row">
 
-                                                        <div class="col-xs-2">
+                                                        <div class="col-xs-4">
                                                             <label> <c:out value="${group.name}"/></label>
 
                                                         </div>
-                                                        <div class="col-xs-4">
+                                                        <div class="col-xs-8">
 
                                                             <tg:forEach items="${group_sessionsMap.get(group.id)}" var="sessionsOfGroup">
 
@@ -374,7 +374,7 @@
         }
 
 
-        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&value="+salary) ;
+        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&T="+total) ;
 
     }
    function changeSalary() {

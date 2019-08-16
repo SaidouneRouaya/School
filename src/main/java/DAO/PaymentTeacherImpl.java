@@ -55,6 +55,8 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
             for (PaymentTeacher paymentTeacher: paymentTeachers){
 
                 Hibernate.initialize(paymentTeacher.getTeacher());
+                Hibernate.initialize(paymentTeacher.getSessionPay());
+
             }
             tx.commit();
         } catch (HibernateException e) {
@@ -118,6 +120,8 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
                 tx = session.beginTransaction();
                 paymentTeacher= session.get(PaymentTeacher.class, id);
                 Hibernate.initialize(paymentTeacher.getTeacher());
+
+                Hibernate.initialize(paymentTeacher.getSessionPay());
                 tx.commit();
 
             } catch (HibernateException e) {
@@ -177,6 +181,8 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
                 total+=paymentTeacher.getAmount();
 
                 Hibernate.initialize(paymentTeacher.getTeacher());
+                Hibernate.initialize(paymentTeacher.getSessionPay());
+
             }
 
             tx.commit();
@@ -225,12 +231,15 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
 
             results= session.createCriteria(PaymentTeacher.class)
                     .add(Restrictions.eq("teacherPayed.id", id_teacher))
+                    .addOrder(Order.desc("date"))
                     .list();
 
 
             for(PaymentTeacher paymentTeacher:results){
 
                 Hibernate.initialize(paymentTeacher.getTeacher());
+
+                Hibernate.initialize(paymentTeacher.getSessionPay());
             }
 
             tx.commit();

@@ -20,6 +20,9 @@ public class PaymentTeacher implements Serializable {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "total")
+    private float total;
+
     @Column(name = "amount")
     private float amount;
 
@@ -36,6 +39,16 @@ public class PaymentTeacher implements Serializable {
     @JoinColumn(name="id_teacher", nullable=false)
     private Teacher teacherPayed;
 
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "paymentteacher_session",
+            joinColumns = {@JoinColumn(name = "id_payment_tch") },
+            inverseJoinColumns = { @JoinColumn(name = "id_session") })
+    private Set<SessionOfGroup> sessionPay;
+
+
+
+
     public int getId() {
         return id;
     }
@@ -43,9 +56,10 @@ public class PaymentTeacher implements Serializable {
     public PaymentTeacher() {
     }
 
-    public PaymentTeacher(Date date, float amount, String receiver, String module, String paymentType, Teacher teacher) {
+    public PaymentTeacher(Date date, float amount, float total,  String receiver, String module, String paymentType, Teacher teacher) {
         this.date = date;
         this.amount = amount;
+        this.total=total;
         this.receiver = receiver;
         this.groups = module;
         this.paymentType = paymentType;
@@ -114,7 +128,35 @@ public class PaymentTeacher implements Serializable {
         this.teacherPayed = teacher;
     }
 
+    public String getGroups() {
+        return groups;
+    }
 
+    public void setGroups(String groups) {
+        this.groups = groups;
+    }
 
+    public Teacher getTeacherPayed() {
+        return teacherPayed;
+    }
 
+    public void setTeacherPayed(Teacher teacherPayed) {
+        this.teacherPayed = teacherPayed;
+    }
+
+    public Set<SessionOfGroup> getSessionPay() {
+        return sessionPay;
+    }
+
+    public void setSessionPay(Set<SessionOfGroup> sessionPay) {
+        this.sessionPay = sessionPay;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
 }

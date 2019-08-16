@@ -50,6 +50,8 @@ public class SessionImpl implements SessionDAO {
             sessions = session.createQuery("from SessionOfGroup ").list();
             for (SessionOfGroup session1:sessions){
                 Hibernate.initialize(session1.getGroupOfStudents());
+                Hibernate.initialize(session1.getPaymentSet());
+
                 Hibernate.initialize(session1.getSeancesSet());
                 Hibernate.initialize(session1.getStudentSessionsSet());
                 for (StudentSession studentSession: session1.getStudentSessionsSet()){
@@ -86,6 +88,7 @@ public class SessionImpl implements SessionDAO {
 
                 Hibernate.initialize(sessionOfGroup.getSeancesSet());
                 Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
+                Hibernate.initialize(sessionOfGroup.getPaymentSet());
 
                 Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
                 for (StudentSession studentSession: sessionOfGroup.getStudentSessionsSet()){
@@ -169,6 +172,7 @@ public class SessionImpl implements SessionDAO {
 
                 Hibernate.initialize(sessionOfGroup.getSeancesSet());
                 Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
+                Hibernate.initialize(sessionOfGroup.getPaymentSet());
 
                 Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
                 for (StudentSession studentSession: sessionOfGroup.getStudentSessionsSet()){

@@ -41,6 +41,8 @@ public class SessionOfGroup  implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "primaryKey.session")
     private Set<StudentSession> studentSessionsSet;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionPay")
+    private Set<PaymentTeacher> paymentSet;
 
 
     public SessionOfGroup() {
@@ -118,5 +120,14 @@ public class SessionOfGroup  implements Serializable {
 
     public void setNumberOfSeances(int numberOfSeances) {
         this.numberOfSeances = numberOfSeances;
+    }
+
+
+    public Set<PaymentTeacher> getPaymentSet() {
+        return paymentSet;
+    }
+
+    public void setPaymentSet(Set<PaymentTeacher> paymentSet) {
+        this.paymentSet = paymentSet;
     }
 }

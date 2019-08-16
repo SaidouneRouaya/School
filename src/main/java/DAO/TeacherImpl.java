@@ -51,6 +51,7 @@ public class TeacherImpl implements TeacherDAO{
                     Hibernate.initialize(teacher.getGroupsSet());
                     Hibernate.initialize(teacher.getPaymentTeacherSet());
                     Hibernate.initialize(teacher.getTeacherModulesSet());
+
                 }
                 catch( SQLGrammarException ex){
                     System.out.println( "exception in hibernate initialize");
@@ -123,6 +124,16 @@ public class TeacherImpl implements TeacherDAO{
              Hibernate.initialize(teacher.getTeacherModulesSet());
              Hibernate.initialize(teacher.getPaymentTeacherSet());
            Hibernate.initialize(teacher.getGroupsSet());
+
+           for (GroupOfStudents group:teacher.getGroupsSet() ){
+
+               Hibernate.initialize(group.getSessionOfGroupsSet());
+               Hibernate.initialize(group.getPaymentStudentSet());
+               Hibernate.initialize(group.getTeacher());
+               Hibernate.initialize(group.getModule());
+
+
+           }
 
             tx.commit();
 

@@ -29,6 +29,8 @@ public class PaymentController {
     @Autowired
     StudentSessionDAO studentSessionDAO;
 
+    @Autowired
+    SessionDAO sessionDAO;
 
     @Autowired
     TeacherDAO teacherDAO;
@@ -390,7 +392,7 @@ public class PaymentController {
 
 
     @RequestMapping("/addNewTeacherPayment")
-    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String group, @RequestParam String totalToPay, @SessionAttribute  ("sessionUser") Profile profile) {
+    public String addNewTeacherPayment(Model model, @RequestParam String id_teacher, @RequestParam String group, @RequestParam String totalToPay, @RequestParam String T, @SessionAttribute  ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -400,24 +402,31 @@ public class PaymentController {
                 Teacher teacher = teacherDAO.getTeacherByID(Integer.parseInt(id_teacher));
 
                 String[] groups = group.split(",");
+                float salary= Float.parseFloat(T);
+
                 StringBuilder groupsList = new StringBuilder();
+                Set<SessionOfGroup> sessions= new HashSet<>();
 
                 for (String groupp : groups) {
 
                     String id= groupp.split(" ", 4)[3];
                     if(id.isEmpty()) id= groupp.split(" ", 3)[2];
 
-                    groupsList.append(
-                            groupOfStudentsDAO.getGroupById(Integer.parseInt(id)).getName()
-                            ).append(", ");
+                    groupsList.append( groupOfStudentsDAO.getGroupById(Integer.parseInt(id)).getName()).append(", ");
                 }
 
 
-                PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Float.parseFloat(totalToPay),
+                PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Float.parseFloat(totalToPay),salary,
                         profile.getFamilyname()+" "+profile.getName(),
                         groupsList.toString(), "test", teacher);
 
                 paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
+
+                for (SessionOfGroup sessionOfGroup: sessions){
+
+                   sessionOfGroup.getPaymentSet().add(paymentTeacher);
+                   sessionDAO.updateSession(sessionOfGroup.getId(), sessionOfGroup);
+                }
 
                 model.addAttribute("error", error);
 
@@ -507,6 +516,40 @@ public class PaymentController {
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/StudentVoucher";
     }
+
+    @RequestMapping("/teacherVoucher")
+    public String teacherVoucher(Model model, @RequestParam String p) {
+
+        String error = "";
+        int id_payment= Integer.parseInt(p);
+
+      PaymentTeacher paymentTeacher = paymentTeacherDAO.getPayementTeacherByID(id_payment);
+      Teacher teacher= teacherDAO.getTeacherByID(paymentTeacher.getTeacher().getId());
+
+
+        List<Integer> sessionPayed= new ArrayList<>();
+
+
+       for (SessionOfGroup sessionOfGroup: paymentTeacher.getSessionPay()){
+           sessionPayed.add(sessionOfGroup.getId());
+
+       }
+
+
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("groups", teacher.getGroupsSet());
+
+        model.addAttribute("sessionPayed", sessionPayed);
+
+        model.addAttribute("payment", paymentTeacher);
+        model.addAttribute("date", paymentTeacher.getDate());
+
+        model.addAttribute("error", error);
+        return "LanguagesSchoolPages/Payment/TeacherVoucher";
+    }
+
+
+
 
     @RequestMapping("/deleteStudentFromGroup")
     public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String
