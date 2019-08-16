@@ -42,35 +42,10 @@ public class GroupsController {
     SeanceDAO seanceDAO;
 
     @RequestMapping("/Groups")
-    public String pageAccueil(Model model) {
+    public String pageAccueil(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
-       /* List<SessionOfGroup> list= sessionDAO.getAllSessions();
-
-        for (SessionOfGroup sessionOfGroup:list){
-
-            System.out.println(" **************** Session " +sessionOfGroup.getId()+" info **************" );
-
-            System.out.println(sessionOfGroup.getStartDate());
-            System.out.println(sessionOfGroup.getNumberOfSeances());
-            System.out.println(sessionOfGroup.getGroupOfStudents().getName());
-
-            System.out.println(" -- List fo seances --" );
-            for (Seance seance:sessionOfGroup.getSeancesSet())
-            {
-                System.out.println(seance.getDate());
-            }
-            System.out.println(" -- List of session student --" );
-            for (StudentSession studentSession:sessionOfGroup.getStudentSessionsSet())
-            {
-                System.out.println(studentSession.getSession().getId());
-                System.out.println(studentSession.getStudent().getName());
-            }
-
-
-
-        }
-*/
+        model.addAttribute("profile", profile);
         model.addAttribute("groupsList", groupOfStudentsDAO.getAllGroups());
 
         model.addAttribute("error", error);
@@ -78,10 +53,10 @@ public class GroupsController {
     }
 
     @RequestMapping("/GroupsByModule")
-    public String GroupsByModule(Model model) {
+    public String GroupsByModule(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
-
+        model.addAttribute("profile", profile);
         model.addAttribute("groupsListByModule", groupOfStudentsDAO.getAllGroupsByModules());
 
         model.addAttribute("error", error);
@@ -89,11 +64,9 @@ public class GroupsController {
     }
 
     @RequestMapping("/GroupDetails")
-    public String groupDetails(Model model, @RequestParam String id_group, @SessionAttribute ("unpaidStudent") List<Student> unpaidStudent) {
+    public String groupDetails(Model model, @RequestParam String id_group, @SessionAttribute ("unpaidStudent") List<Student> unpaidStudent, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
-
-
 
         Date now = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,13 +128,14 @@ public class GroupsController {
         model.addAttribute("now", dateFormat.format(now));
         model.addAttribute("presences", presenceList);
         model.addAttribute("unpaidStudent", unpaidStudent);
+        model.addAttribute("profile", profile);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupDetails";
     }
 
     @RequestMapping("/addGroup")
-    public String addGroup(Model model) {
+    public String addGroup(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -171,14 +145,14 @@ public class GroupsController {
         model.addAttribute("modulesList", modules);
         model.addAttribute("studentList",students);
         model.addAttribute("teacherList", teacherDAO.getAllTeachers());
-
+        model.addAttribute("profile", profile);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/AddGroup";
     }
 
     @RequestMapping("/addNewGroup")
-    public String addNewGroup(Model model , @RequestParam Map<String, String> param, @RequestParam List<String> studentsList) {
+    public String addNewGroup(Model model , @RequestParam Map<String, String> param, @RequestParam List<String> studentsList, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -267,24 +241,24 @@ public class GroupsController {
         }
 
 
-
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
         return "redirect:Groups.j";
     }
 
     @RequestMapping("/updateGroup")
-    public String updateGroupsOfStudent(Model model,  @RequestParam String query) {
+    public String updateGroupsOfStudent(Model model,  @RequestParam String query, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
         model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(query)));
-
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
         return "LanguagesSchoolPages/Groups/UpdateGroup";
     }
 
     @RequestMapping("/PersistUpdateGroup")
-    public String persistUpdateGroupsOfStudent(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+    public String persistUpdateGroupsOfStudent(Model model,  @RequestParam String query, @RequestParam Map<String,String> param, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
         GroupOfStudents group= new GroupOfStudents();
@@ -300,14 +274,14 @@ public class GroupsController {
             ex.printStackTrace();
         }
         model.addAttribute("group", group);
-
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
         return "redirect:GroupDetails.j?id_group="+query;
     }
 
 
     @RequestMapping("/addSessionToGroup")
-    public String addSessionToGroup(Model model, @RequestParam String query, @RequestParam String date, @RequestParam String seancesNumber){
+    public String addSessionToGroup(Model model, @RequestParam String query, @RequestParam String date, @RequestParam String seancesNumber, @SessionAttribute ("sessionUser") Profile profile){
 
         String error = "";
 
@@ -332,7 +306,7 @@ public class GroupsController {
         sessionDAO.addSession(session);
         groupOfStudentsDAO.updateGroup(id_group, groupOfStudents);
 
-
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
         return "redirect:GroupDetails.j?id_group="+query;
@@ -341,7 +315,7 @@ public class GroupsController {
 
 
     @RequestMapping("/deleteGroup")
-    public String deleteGroup(Model model, @RequestParam String query){
+    public String deleteGroup(Model model, @RequestParam String query, @SessionAttribute ("sessionUser") Profile profile){
 
         String error = "";
 
@@ -372,15 +346,40 @@ public class GroupsController {
         }
 
        groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
-
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
         return "redirect:Groups.j";
 
     }
 
+
+    @RequestMapping("/deleteStudentFromSession")
+    public String deleteStudentFromSession(Model model, @RequestParam String query, @RequestParam String id_session,  @RequestParam String group,@SessionAttribute("sessionUser") Profile profile) {
+
+        String error = "";
+
+        Student student = studentDAO.getStudentByID(Integer.parseInt(query));
+
+        SessionOfGroup sessionOfGroup= sessionDAO.getSessionByID(Integer.parseInt(id_session));
+
+        StudentSession studentSession= new StudentSession(new StudentSessionID(student, sessionOfGroup));
+
+        studentSessionDAO.deleteStudentSession(studentSession);
+
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
+
+        return "redirect:GroupDetails.j?id_group="+group;
+
+    }
+
+
+
+
+
+
     @RequestMapping("/markPresence.j")
-    public String markPresence ( @RequestParam String sess, @RequestParam String id_group){
+    public String markPresence ( @RequestParam String sess, @RequestParam String id_group, @SessionAttribute ("sessionUser") Profile profile){
 
 //EntityExistsException
 

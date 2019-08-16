@@ -410,8 +410,9 @@ public class Student  implements Serializable {
     public StudentSession getLatestSession (){
 
         Iterator<StudentSession> it= studentSessionsSet.iterator();
-        return it.next();
 
+       if (it.hasNext()) return it.next();
+       else return new StudentSession();
 
     }
 

@@ -44,11 +44,20 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 <%@ include file="../CommunFiles/header.jsp"%>
-<%@ include file="../CommunFiles/menu-side.jsp"%>
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
 
 
 
-<!-- Content Wrapper. Contains page content -->
+
+
+    <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -66,18 +75,17 @@
     <!-- Main content -->
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
+        <c:if test="${profile.type eq 'Admin'}">
+            <div class="row">
+                <div class="col-xs-12">
 
                     <div class="box box-primary">
                         <a type="button"  href="addTeacher.j" class="btn btn-block btn-primary btn-lg">Add new Teacher</a>
                     </div>
 
-
+                </div>
             </div>
-        </div>
-
-
+        </c:if>
 
         <div class="row">
             <div class="col-xs-12">
@@ -107,9 +115,17 @@
                             <tg:forEach begin="0" end="${teachersList.size() -1}" var="i">
                                 <tr>
                                     <!-- nom du type de la stat  -->
-                                    <td><a href="TeacherProfile.j?query=${teachersList[i].id}" >
-                                        <c:out value="${teachersList[i].name}"/>  <c:out value="${teachersList[i].familyname}"/>
-                                    </a></td>
+
+                                    <c:if test="${profile.type eq 'Admin'}">
+                                        <td><a href="TeacherProfile.j?query=${teachersList[i].id}" >
+                                            <c:out value="${teachersList[i].name}"/>  <c:out value="${teachersList[i].familyname}"/>
+                                        </a></td>
+                                    </c:if>
+                                    <c:if test="${profile.type eq 'Receptionist'}">
+                                        <td><c:out value="${teachersList[i].name}"/>  <c:out value="${teachersList[i].familyname}"/>
+                                        </td>
+                                    </c:if>
+
                                     <td><c:out value ="${teachersList[i].phoneNumber}"/></td>
 
                                     <td><tg:forEach items="${modulesList}" var="modules">

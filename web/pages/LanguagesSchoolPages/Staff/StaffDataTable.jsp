@@ -44,11 +44,20 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 <%@ include file="../CommunFiles/header.jsp"%>
-<%@ include file="../CommunFiles/menu-side.jsp"%>
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
 
 
 
-<!-- Content Wrapper. Contains page content -->
+
+
+    <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -66,16 +75,18 @@
     <!-- Main content -->
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
+        <c:if test="${profile.type eq 'Admin'}">
+            <div class="row">
+                <div class="col-xs-12">
 
                     <div class="box box-primary">
                         <a type="button"  href="addStaff.j" class="btn btn-block btn-primary btn-lg">Add new Staff</a>
                     </div>
 
 
+                </div>
             </div>
-        </div>
+        </c:if>
 
 
 
@@ -108,9 +119,19 @@
                             <tg:forEach begin="0" end="${staffList.size() -1}" var="i">
                                 <tr>
                                     <!-- nom du type de la stat  -->
-                                    <td><a href="StaffProfile.j?query=${staffList[i].id}" >
-                                        <c:out value="${staffList[i].name}"/> <c:out value="${staffList[i].familyname}"/>
-                                    </a></td>
+
+                                    <c:if test="${profile.type eq 'Admin'}">
+                                            <td>  <a href="StaffProfile.j?query=${staffList[i].id}" >
+                                                <c:out value="${staffList[i].name}"/> <c:out value="${staffList[i].familyname}"/>
+                                            </a></td>
+                                    </c:if>
+                                     <c:if test="${profile.type eq 'Receptionist'}">
+                                            <td><c:out value="${staffList[i].name}"/> <c:out value="${staffList[i].familyname}"/>
+                                            </td>
+                                    </c:if>
+
+
+
                                     <td><c:out value ="${staffList[i].phoneNumber}"/></td>
                                     <td><c:out value ="${staffList[i].salary}"/></td>
                                     <td><c:out value ="${staffList[i].job}"/></td>

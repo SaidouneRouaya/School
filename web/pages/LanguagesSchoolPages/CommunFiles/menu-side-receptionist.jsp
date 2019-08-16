@@ -58,19 +58,6 @@
                 </ul>
             </li>
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="glyphicon glyphicon-text-color"></i>
-                    <span>Modules</span>
-                    <span class="pull-right-container">
-                        <span class="fa fa-angle-left pull-right pull-right"></span>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="Modules.j"><i class="fa fa-circle-o"></i>Modules list</a></li>
-                    <li><a href="addModule.j"><i class="fa fa-circle-o"></i>Add new module</a></li>
-                </ul>
-            </li>
 
             <li class="treeview">
                 <a href="#">
@@ -85,6 +72,64 @@
                     <li><a href="addStudent.j"><i class="fa fa-circle-o"></i>Add new student</a></li>
                 </ul>
             </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="glyphicon glyphicon-text-color"></i>
+                    <span>Modules</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="Modules.j"><i class="fa fa-circle-o"></i>Modules list</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user-secret"></i>
+                    <span>Teachers</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="Teachers.j"><i class="fa fa-circle-o"></i>Teachers list</a></li>
+
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Staff</span>
+                    <span class="pull-right-container">
+                        <span class="fa fa-angle-left pull-right pull-right"></span>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="Staff.j"><i class="fa fa-circle-o"></i>Staff list</a></li>
+
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-money"></i>
+                    <span>Payments</span>
+                    <span class="pull-right-container">
+              <span class="fa fa-angle-left pull-right pull-right"></span>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="addStudentPayment.j"><i class="fa fa-circle-o"></i>New student's payment</a></li>
+
+                    <li><a href="studentPayment.j"><i class="fa fa-circle-o"></i>List of students' payments</a></li>
+
+                </ul>
+            </li>
+
 
             <li class="treeview">
                 <a href="#">

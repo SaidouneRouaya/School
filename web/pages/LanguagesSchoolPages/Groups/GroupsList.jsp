@@ -91,7 +91,17 @@
 <div class="wrapper">
 
     <%@ include file="../CommunFiles/header.jsp" %>
-    <%@ include file="../CommunFiles/menu-side.jsp" %>
+
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
+
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

@@ -48,13 +48,16 @@ public class Controller {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password)) {
 
+
                    if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:index.j";
                    else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:indexReceptionist.j";
 
                     this.profile = user;
                     modelview.addObject("utilisateur", this.profile);
                     model.addAttribute("utilisateur", this.profile);
-                    System.out.println(this.profile.getType());
+
+
+                    model.addAttribute("profile", profile);
 
                 }
                 else {
@@ -113,7 +116,8 @@ public class Controller {
         String error = "";
 
         model.addAttribute("error", error);
-        return "redirect:/Groups.j";
+
+        return "redirect:/Students.j";
     }
 
     @RequestMapping("/indexReceptionist")
@@ -122,7 +126,7 @@ public class Controller {
         String error = "";
 
         model.addAttribute("error", error);
-        return "index-receptionist";
+        return "redirect:/Students.j";
     }
     @RequestMapping("/error")
     public String error(Model model) {

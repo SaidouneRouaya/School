@@ -51,9 +51,30 @@ public class StudentImpl implements StudentDAO {
             for (Student student: students){
 
                 Hibernate.initialize(student.getStudentSessionsSet());
+
+                for (StudentSession studentSession:student.getStudentSessionsSet()){
+                    Hibernate.initialize(studentSession.getStudent());
+                    Hibernate.initialize(studentSession.getSession());
+                    Hibernate.initialize(studentSession.getSession().getStudentSessionsSet());
+                    Hibernate.initialize(studentSession.getSession().getGroupOfStudents());
+                    Hibernate.initialize(studentSession.getSession().getSeancesSet());
+                    Hibernate.initialize(studentSession.getStudent().getStudentSessionsSet());
+                    Hibernate.initialize(studentSession.getStudent().getPaymentSet());
+
+                   for (PaymentStudent pay:studentSession.getStudent().getPaymentSet()){
+                       Hibernate.initialize(pay.getGroupPay());
+                       Hibernate.initialize(pay.getStudentPay());
+                   }
+
+
+                    Hibernate.initialize(studentSession.getStudent().getModulesSet());
+                    Hibernate.initialize(studentSession.getStudent().getSeancesSet());
+                }
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
                 Hibernate.initialize(student.getSeancesSet());
+
+
 
             }
             tx.commit();

@@ -41,10 +41,11 @@ public class StaffController {
 
         String error = "";
         if (profile != null) {
-            if (profile.getType().equals("Admin")) {
+            if (profile.getType().equals("Admin")|| profile.getType().equals("Receptionist")) {
 
                 model.addAttribute("staffList", staffDAO.getAllStaffs());
                 model.addAttribute("error", error);
+                model.addAttribute("profile", profile);
                 return "LanguagesSchoolPages/Staff/StaffDataTable";
             } else {
 
@@ -125,7 +126,7 @@ public class StaffController {
                 model.addAttribute("payments", paymentStaffs);
                 model.addAttribute("total", total);
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Staff/StaffProfile";
             } else {
 
@@ -151,7 +152,7 @@ public class StaffController {
 
                 staffDAO.addStaff(staff);
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "redirect:Staff.j";
             } else {
 
@@ -174,7 +175,7 @@ public class StaffController {
 
                 staffDAO.deleteStaff(Integer.parseInt(query));
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "redirect:Staff.j";
             } else {
 
@@ -203,7 +204,7 @@ public class StaffController {
 
                 model.addAttribute("staffProfile", staff);
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "redirect:StaffProfile.j?query=" + query + "";
             } else {
 
@@ -225,7 +226,7 @@ public class StaffController {
 
         String error = "";
         if (profile != null) {
-            if (profile.getType().equals("Admin")) {
+            if (profile.getType().equals("Admin") || profile.getType().equals("Receptionist")) {
 
                 List<Teacher> teachersList = teacherDAO.getAllTeachers();
                 model.addAttribute("teachersList", teachersList);
@@ -242,7 +243,7 @@ public class StaffController {
                 model.addAttribute("modulesList", modulesList);
 
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Teachers/TeacherDataTable";
             } else {
 
@@ -264,7 +265,7 @@ public class StaffController {
 
 
                 model.addAttribute("modules", moduleDAO.getAllModules());
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Teachers/AddTeacher";
             } else {
 
@@ -286,7 +287,7 @@ public class StaffController {
 
                 model.addAttribute("teacherProfile", teacherDAO.getTeacherByID(Integer.parseInt(query)));
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Teachers/UpdateTeacher";
             } else {
 
@@ -320,7 +321,7 @@ public class StaffController {
                 model.addAttribute("payments", paymentTeachers);
                 model.addAttribute("total", total);
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Teachers/TeacherProfile";
             } else {
 
@@ -356,7 +357,7 @@ public class StaffController {
 
                 teacherDAO.addTeacher(teacher);
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "redirect:Teachers.j";
             } else {
 
@@ -378,7 +379,7 @@ public class StaffController {
 
                 teacherDAO.deleteTeacher(Integer.parseInt(query));
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "redirect:Teachers.j";
             } else {
 
@@ -405,7 +406,7 @@ public class StaffController {
 
                 model.addAttribute("teacherProfile", teacher);
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "redirect:TeacherProfile.j?query=" + query + "";
             } else {
 

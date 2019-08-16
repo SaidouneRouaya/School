@@ -44,7 +44,15 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 <%@ include file="../CommunFiles/header.jsp"%>
-<%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
 
 
 
@@ -66,14 +74,17 @@
     <!-- Main content -->
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
+        <c:if test="${profile.type eq 'Admin'}">
+            <div class="row">
+                <div class="col-xs-12">
 
-                <div class="box box-primary">
-                    <a type="button"  href="addModule.j" class="btn btn-block btn-primary btn-lg">Add new module</a>
+                    <div class="box box-primary">
+                        <a type="button"  href="addModule.j" class="btn btn-block btn-primary btn-lg">Add new module</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
+
 
 
         <div class="row">
@@ -94,7 +105,11 @@
                                 <th>Teacher</th>
 
                                 <th>Fees</th>
-                                <th>Update</th>
+                                <c:if test="${profile.type eq 'Admin'}">
+                                    <th>Update</th>
+                                </c:if>
+
+
                             </tr>
                             </thead>
                             <tbody>
@@ -111,7 +126,12 @@
                                         </tg:forEach>
                                     </tg:forEach></td>
                                     <td><c:out value="${item.fees}"/></td>
-                                    <td><a href="updateModule.j?query=${item.id}" class="btn  bg-teal-gradient">Update</a></td>
+
+                                    <c:if test="${profile.type eq 'Admin'}">
+                                        <td><a href="updateModule.j?query=${item.id}" class="btn  bg-teal-gradient">Update</a></td>
+
+
+                                    </c:if>
 
                                 </tr>
 
@@ -124,9 +144,10 @@
                             <tr>
                                 <th>Module's name</th>
                                 <th>Teacher</th>
-
                                 <th>Fees</th>
-                                <th>Update</th>
+                                <c:if test="${profile.type eq 'Admin'}">
+                                    <th>Update</th>
+                                </c:if>
                             </tr>
                             </tfoot>
                         </table>

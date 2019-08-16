@@ -27,7 +27,8 @@ public class ModulesController {
 
         String error = "";
         if (profile != null) {
-            if (profile.getType().equalsIgnoreCase("Admin")) {
+            if (profile.getType().equalsIgnoreCase("Admin")
+                    || profile.getType().equalsIgnoreCase("Receptionist")) {
 
                 List<Module> modules = moduleDAO.getAllModules();
 
@@ -43,16 +44,21 @@ public class ModulesController {
                 }
 
                 model.addAttribute("teachersList", teachersList);
+                model.addAttribute("profile", profile);
 
                 model.addAttribute("error", error);
+                model.addAttribute("profile", profile);
+
                 return "LanguagesSchoolPages/Modules/ModulesDataTable";
             } else {
-
+                System.out.println("1");
                 return "redirect:/error.j";
+
             }
 
         } else {
             //todo no one is connected
+            System.out.println("2");
             return "redirect:/error.j";
         }
     }
@@ -63,7 +69,7 @@ public class ModulesController {
         String error = "";
         if (profile != null) {
             if (profile.getType().equalsIgnoreCase("Admin")) {
-
+                model.addAttribute("profile", profile);
                 model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Modules/AddModule";
             } else {
@@ -121,7 +127,7 @@ public class ModulesController {
                     ex.printStackTrace();
                 }
                 model.addAttribute("module", module);
-
+                model.addAttribute("profile", profile);
                 model.addAttribute("error", error);
                 return "redirect:Modules.j";
             } else {
@@ -151,7 +157,7 @@ public class ModulesController {
                 Module module = new Module(param.get("name"), Long.parseLong(param.get("fees")), groups, students, teachers);
 
                 moduleDAO.addModule(module);
-
+                model.addAttribute("profile", profile);
                 model.addAttribute("error", error);
                 return "redirect:Modules.j";
             } else {

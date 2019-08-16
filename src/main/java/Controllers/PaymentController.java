@@ -55,7 +55,7 @@ public class PaymentController {
 
 
     @RequestMapping("/studentPayment")
-    public String studentsPayment(Model model) {
+    public String studentsPayment(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -78,6 +78,7 @@ public class PaymentController {
         model.addAttribute("studentPaymentListSorted", results);
 
 
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
         return "LanguagesSchoolPages/Payment/StudentsPaymentDataTable";
@@ -173,7 +174,7 @@ public class PaymentController {
 
                 model.addAttribute("totalsByDate", totalsByDate);
 
-                model.addAttribute("error", error);
+             model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Payment/StaffSalariesDataTable";
             } else {
 
@@ -189,7 +190,7 @@ public class PaymentController {
     }
 
     @RequestMapping("/addStudentPayment")
-    public String addStudentPayment(Model model) {
+    public String addStudentPayment(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -229,24 +230,28 @@ public class PaymentController {
                 }*/
                 StudentSession session= student.getLatestSession();
 
-                    int numberSeances = session.getSession().getNumberOfSeances();
-                    int numberSeancesOfStudent = 0;
+                  if(session.getSession()!=null){
+                      int numberSeances = session.getSession().getNumberOfSeances();
+                      int numberSeancesOfStudent = 0;
 
-                    for (Seance seance : session.getSession().getSeancesSet()) {
+                      for (Seance seance : session.getSession().getSeancesSet()) {
 
-                        if (seance.getDate().before(session.getStartDate())) {
-                            numberSeancesOfStudent++;
-                        }
-                    }
+                          if (seance.getDate().before(session.getStartDate())) {
+                              numberSeancesOfStudent++;
+                          }
+                      }
 
-                    // fees * number of seances that this student will have starting from his start date in this session
-                    fee = group.getFees() * (numberSeances - numberSeancesOfStudent);
+                      // fees * number of seances that this student will have starting from his start date in this session
+
+
+
+                     fee = group.getFees() * (numberSeances - numberSeancesOfStudent);
 
                 System.out.println("########################################################");
                 System.out.println(group.getId());
                 System.out.println( " group fee = "+ group.getFees() );
                 System.out.println( " number of seance = "+  (numberSeances - numberSeancesOfStudent) );
-
+            }
                 fees.put(module.getId(), fee);
             }
 
@@ -261,6 +266,7 @@ public class PaymentController {
         model.addAttribute("modulesList", modulesList);
         model.addAttribute("feesList", feesList);
 
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddStudentPayment";
     }
@@ -345,7 +351,7 @@ public class PaymentController {
                 model.addAttribute("sessionSalariesAbsentMap", session_salary_absent);
 
 
-                model.addAttribute("error", error);
+             model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Payment/AddTeacherPayment";
 
            } else {
@@ -376,7 +382,7 @@ public class PaymentController {
                 model.addAttribute("staffList", staffDAO.getAllStaffs());
 
 
-                model.addAttribute("error", error);
+             model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Payment/AddStaffPayment";
 
             } else {
@@ -408,7 +414,7 @@ public class PaymentController {
 
                 paymentStaffDAO.addPaymentStaff(paymentStaff);
 
-                model.addAttribute("error", error);
+             model.addAttribute("profile", profile); model.addAttribute("error", error);
 
 
                 return "redirect:staffSalaries.j";
@@ -463,7 +469,7 @@ public class PaymentController {
                    sessionDAO.updateSession(sessionOfGroup.getId(), sessionOfGroup);
                 }
 
-                model.addAttribute("error", error);
+                model.addAttribute("profile", profile); model.addAttribute("error", error);
 
                 return "redirect:teachersSalaries.j";
             } else {
@@ -519,7 +525,7 @@ public class PaymentController {
             groupOfStudentsDAO.updateGroup(group.getId(), group);
         }
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
 
         return "redirect:studentPayment.j";
 
@@ -527,7 +533,7 @@ public class PaymentController {
 
 
     @RequestMapping("/studentVoucher")
-    public String studentVoucher(Model model, @RequestParam String p) {
+    public String studentVoucher(Model model, @RequestParam String p , @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
         int id_payment= Integer.parseInt(p);
@@ -552,12 +558,12 @@ public class PaymentController {
         model.addAttribute("payment", paymentStudent);
         model.addAttribute("date", paymentStudent.getDate());
 
-        model.addAttribute("error", error);
+     model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/StudentVoucher";
     }
 
     @RequestMapping("/teacherVoucher")
-    public String teacherVoucher(Model model, @RequestParam String p) {
+    public String teacherVoucher(Model model, @RequestParam String p, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
         int id_payment= Integer.parseInt(p);
@@ -583,12 +589,13 @@ public class PaymentController {
         model.addAttribute("payment", paymentTeacher);
         model.addAttribute("date", paymentTeacher.getDate());
 
-        model.addAttribute("error", error);
+
+     model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/TeacherVoucher";
     }
 
     @RequestMapping("/staffVoucher")
-    public String staffVoucher(Model model, @RequestParam String p) {
+    public String staffVoucher(Model model, @RequestParam String p, @SessionAttribute ("sessionUser") Profile profile ) {
 
         String error = "";
         int id_payment= Integer.parseInt(p);
@@ -601,7 +608,9 @@ public class PaymentController {
 
         model.addAttribute("payment", paymentStaff);
 
-        model.addAttribute("error", error);
+
+     model.addAttribute("profile", profile);
+     model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/StaffVoucher";
     }
 
@@ -609,8 +618,7 @@ public class PaymentController {
 
 
     @RequestMapping("/deleteStudentFromGroup")
-    public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String
-            id_student) {
+    public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String id_student, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -625,7 +633,7 @@ public class PaymentController {
 
         paymentStudentDAO.deletePaymentStudent(paymentStudent.getId());
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
 
         return "redirect:studentPayment";
 
@@ -647,7 +655,7 @@ public class PaymentController {
         studentDAO.updateStudentGroups(Integer.parseInt(query), student.getGroupsSet());
         groupOfStudentsDAO.updateGroupStudentsList(Integer.parseInt(id_group), groupOfStudents.getStudentsSet());
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
 
         return "redirect:GroupDetails.j?id_group="+id_group;
 

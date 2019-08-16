@@ -6,10 +6,7 @@ import DAO.StudentDAO;
 import Entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -66,6 +63,7 @@ public class StudentsController {
 
                             for (StudentSession studentSession : student.getStudentSessionsSet()) {
 
+
                                 if (!student.payedForSession(studentSession.getSession().getGroupOfStudents(), today)) {
 
                                     sessionsOfStudent.add(studentSession.getSession());
@@ -103,7 +101,7 @@ public class StudentsController {
 
 
     @RequestMapping("/Students")
-    public String studentsList(Model model) {
+    public String studentsList(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         List<Student> studentsList=studentDAO.getAllStudents();
@@ -112,84 +110,33 @@ public class StudentsController {
 
         model.addAttribute("studentId",0);
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/StudentsDataTable";
     }
 
     @RequestMapping("/unpaidStudents")
-    public String unpaidStudentsList(Model model) {
+    public String unpaidStudentsList(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
-
-   /*     List<Student> students= studentDAO.getAllStudents();
-        List<Student> unpaidStudents= new ArrayList<>();
-
-        HashMap<Integer, List<GroupOfStudents>> groups = new HashMap<>();
-
-
-        Date today= new Date();
-
-        boolean bool= false;
-        for (Student student: students){
-
-
-            if (student.getPaymentSet().size() > 0) {
-
-                    try {
-
-                        List<GroupOfStudents> groupOfStudent = new ArrayList<>();
-
-                    if (student.getType().equalsIgnoreCase("payee")) {
-
-                        if (student.getSubscriptionDate().before(today)) {
-
-                            for (GroupOfStudents group : student.getGroupsSet()) {
-
-                                if (!student.payedForGroup(group, today)) {
-
-                                    groupOfStudent.add(group);
-                                    unpaidStudents.add(student);
-                                    bool=true;
-                                }
-
-                            }
-
-                            if (bool)  groups.put(student.getId(), groupOfStudent );
-                        }
-
-                    }
-
-
-                }
-               catch (Exception e){
-                e.printStackTrace();
-            }
-
-        }else {
-                    unpaidStudents.add(student);
-                    groups.put(student.getId(), new ArrayList<>(student.getGroupsSet()) );
-                }
-        }
-*/
         model.addAttribute("unpaidStudents", this.unpaidStudent);
         model.addAttribute("sessions", sessions);
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/unpaidStudentsDataTable";
     }
 
   @RequestMapping("/addStudent")
-    public String addStudent(Model model) {
+    public String addStudent(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/AddStudent";
     }
 
   @RequestMapping("/Profile")
-    public String Profile(Model model,@RequestParam String query) {
+    public String Profile(Model model,@RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -212,23 +159,23 @@ public class StudentsController {
 
         model.addAttribute("modules", moduleDAO.getAllModules());
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/Profile";
     }
 
     @RequestMapping("/updateProfile")
-    public String updateProfile(Model model,  @RequestParam String query) {
+    public String updateProfile(Model model,  @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         model.addAttribute("studentProfile", studentDAO.getStudentByID(Integer.parseInt(query)));
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/UpdateProfile";
     }
 
     /** Operation on student **/
     @RequestMapping("/addNewStudent")
-    public String addNewStudent(Model model,  @RequestParam Map<String,String> param) {
+    public String addNewStudent(Model model,  @RequestParam Map<String,String> param, @SessionAttribute("sessionUser") Profile profile) {
         String error = "";
         Student student;
 
@@ -259,26 +206,28 @@ public class StudentsController {
             ex.printStackTrace();
         }
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "redirect:Students.j";
     }
 
     @RequestMapping("/deleteStudent")
-    public String deleteStudent(Model model,  @RequestParam String query) {
+    public String deleteStudent(Model model,  @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
         studentDAO.deleteStudent(Integer.parseInt(query));
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "redirect:Students.j";
     }
 
     @RequestMapping("/PersistUpdate")
-    public String persistUpdate(Model model,  @RequestParam String query, @RequestParam Map<String,String> param) {
+    public String persistUpdate(Model model,  @RequestParam String query, @RequestParam Map<String,String> param, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
         Student student=new Student();
+
+        Student student1= studentDAO.getStudentByID(Integer.parseInt(query));
 
         try{
 
@@ -293,6 +242,10 @@ public class StudentsController {
                         Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
             }
 
+            student.setSeancesSet(student1.getSeancesSet());
+            student.setModulesSet(student1.getModulesSet());
+            student.setPaymentSet(student1.getPaymentSet());
+            student.setStudentSessionsSet(student1.getStudentSessionsSet());
 
             studentDAO.updateStudent(Integer.parseInt(query), student);
 
@@ -303,12 +256,13 @@ public class StudentsController {
         }
         model.addAttribute("studentProfile", student);
 
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
         return "redirect:Profile.j?query="+query+"";
     }
 
     @RequestMapping("/addModuleToStudent")
-    public String addModuleToStudent(Model model, @RequestParam String id_student, @RequestParam String modules){
+    public String addModuleToStudent(Model model, @RequestParam String id_student, @RequestParam String modules, @SessionAttribute("sessionUser") Profile profile){
 
         String error = "";
 
@@ -327,6 +281,7 @@ public class StudentsController {
         module.getStudentsSet().add(student);
         moduleDAO.updateGroupStudentsList(id_module, module.getStudentsSet());
 
+        model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
 

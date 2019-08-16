@@ -47,6 +47,11 @@ public class StudentSession {
         this.startDate = startDate;
     }
 
+    public StudentSession(StudentSessionID primaryKey) {
+        this.primaryKey = primaryKey;
+
+    }
+
     public StudentSession() {
     }
 

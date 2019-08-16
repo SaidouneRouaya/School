@@ -45,11 +45,20 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 <%@ include file="../CommunFiles/header.jsp"%>
-<%@ include file="../CommunFiles/menu-side.jsp"%>
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
 
 
 
-<!-- Content Wrapper. Contains page content -->
+
+
+    <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -110,25 +119,26 @@
 
 
                                     <c:choose>
-                                        <c:when test="${groups.get(unpaidStudents[i].id).size() eq 0 }">
+                                        <c:when test="${sessions.get(unpaidStudents[i].id).size() eq 0 }">
 
                                             <td>No group</td>
                                             <td>No module</td>
                                         </c:when>
 
                                         <c:otherwise>
-                                            <td><tg:forEach begin="0" end="${groups.get(unpaidStudents[i].id).size() -1}" var="k">
+                                            <td><tg:forEach begin="0" end="${sessions.get(unpaidStudents[i].id).size() -1}" var="k">
 
 
-                                                <c:out value="${groups.get(unpaidStudents[i].id).get(k).name}"/>,
+                                                <c:out value="${sessions.get(unpaidStudents[i].id).get(k).groupOfStudents.module.name}"/>,
 
 
                                             </tg:forEach></td>
 
-                                            <td><tg:forEach begin="0" end="${groups.get(unpaidStudents[i].id).size() -1}" var="k">
+                                            <td>
+                                                <tg:forEach begin="0" end="${sessions.get(unpaidStudents[i].id).size() -1}" var="k">
 
 
-                                                <c:out value="${groups.get(unpaidStudents[i].id).get(k).module.name}"/>,
+                                                <c:out value="${sessions.get(unpaidStudents[i].id).get(k).name}"/>,
 
                                             </tg:forEach></td>
                                         </c:otherwise>

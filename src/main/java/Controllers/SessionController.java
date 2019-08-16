@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ public class SessionController {
 
 
     @RequestMapping("/addStudentToSession")
-    public String addStudentToSession(Model model, @RequestParam String query,@RequestParam String id_group, @RequestParam String students){
+    public String addStudentToSession(Model model, @RequestParam String query,@RequestParam String id_group, @RequestParam String students, @SessionAttribute("sessionUser") Profile profile){
 
         String error = "";
 
@@ -66,7 +67,7 @@ public class SessionController {
         sessionDAO.updateSession(id_session, sessionOfGroup);
 
 
-        model.addAttribute("error", error);
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
 
         return "redirect:GroupDetails.j?id_group="+id_group;
     }

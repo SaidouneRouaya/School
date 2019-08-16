@@ -70,7 +70,16 @@
 
 <div class="wrapper">
     <%@ include file="../CommunFiles/header.jsp" %>
-    <%@ include file="../CommunFiles/menu-side.jsp" %>
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="../CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
+
+
 
 
 
@@ -107,7 +116,7 @@
 
                                 <div>
                                    <!-- <img class="profile-user-img img-responsive img-circle" src="../../../dist/img/user4-128x128.jpg" alt="User profile picture">-->
-                                    <img class="profile-user-img img-responsive img-circle" src="#" alt="User profile picture">
+                                    <img class="profile-user-img img-responsive img-circle" src="../../../dist/img/user6-128x128.jpg" alt="User profile picture">
                                     <input type="file" id="picture" name="picture" class="pull-right">
 
                                 </div>
