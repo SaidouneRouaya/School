@@ -146,7 +146,7 @@
 
                                                         <label>
                                                             <input type="checkbox" onclick="isChecked(this)" name="mod"
-                                                                   id="mod" value="${module.name} ${module.fees} ${groupsList.get(i).get(module.id)}"> <c:out value="${module.name}"/>,
+                                                                   id="mod" value="${module.name} ${feesList.get(i).get(module.id)} ${groupsList.get(i).get(module.id)}"> <c:out value="${module.name}"/>,
                                                         </label><br>
 
                                                     </tg:forEach>

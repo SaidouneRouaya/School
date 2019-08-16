@@ -3,6 +3,7 @@ package Entities;
 import Util.utilities;
 
 import javax.persistence.*;
+import javax.swing.text.html.HTMLDocument;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.*;
@@ -259,6 +260,14 @@ public class GroupOfStudents implements Serializable {
 
     public void setFees(float fees) {
         this.fees = fees;
+    }
+
+    public SessionOfGroup getLatestSession (){
+
+        Iterator<SessionOfGroup> it= sessionOfGroupsSet.iterator();
+        return it.next();
+
+
     }
 
 

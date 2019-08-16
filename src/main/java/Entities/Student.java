@@ -57,6 +57,7 @@ public class Student  implements Serializable {
 */
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "primaryKey.student")
+    @OrderBy("startDate Asc")
     private Set<StudentSession> studentSessionsSet;
 
 
@@ -405,5 +406,13 @@ public class Student  implements Serializable {
         return new GroupOfStudents();
     }
 
+
+    public StudentSession getLatestSession (){
+
+        Iterator<StudentSession> it= studentSessionsSet.iterator();
+        return it.next();
+
+
+    }
 
 }

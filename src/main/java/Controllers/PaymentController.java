@@ -197,6 +197,7 @@ public class PaymentController {
         studentSessionDAO.getAllStudentSessions();
 
         List <Map<Integer, String>> groupsList = new ArrayList<>();
+        List < Map<Integer, Float>> feesList = new ArrayList<>();
 
 
         List<HashSet<Module>> modulesList = new ArrayList<>();
@@ -205,26 +206,60 @@ public class PaymentController {
 
             Student student= studentDAO.getStudentByID(student1.getId());
 
+
             Map<Integer, String> groups= new HashMap<>();
+            Map<Integer, Float> fees= new HashMap<>();
+
+
             HashSet<Module> modules = new HashSet<>(student.getModulesSet());
 
 
-            for (Module module:modules){
-                groups.put(
-                        module.getId(),
-                        Integer.toString(
-                                student
-                                        .getGroupOfModule(module)
-                                        .getId()));
+            for (Module module:modules) {
+
+                GroupOfStudents group = student.getGroupOfModule(module);
+                groups.put(module.getId(), Integer.toString(group.getId()));
+
+                 float fee = 0;
+               /*  Iterator<StudentSession> it=student.getStudentSessionsSet().iterator();
+
+                StudentSession session=  it.next();
+
+                while (it.hasNext() && session.getSession().getId()!= group.getLatestSession().getId()){
+                   session= it.next();
+                }*/
+                StudentSession session= student.getLatestSession();
+
+                    int numberSeances = session.getSession().getNumberOfSeances();
+                    int numberSeancesOfStudent = 0;
+
+                    for (Seance seance : session.getSession().getSeancesSet()) {
+
+                        if (seance.getDate().before(session.getStartDate())) {
+                            numberSeancesOfStudent++;
+                        }
+                    }
+
+                    // fees * number of seances that this student will have starting from his start date in this session
+                    fee = group.getFees() * (numberSeances - numberSeancesOfStudent);
+
+                System.out.println("########################################################");
+                System.out.println(group.getId());
+                System.out.println( " group fee = "+ group.getFees() );
+                System.out.println( " number of seance = "+  (numberSeances - numberSeancesOfStudent) );
+
+                fees.put(module.getId(), fee);
             }
+
 
             modulesList.add(modules);
             groupsList.add(groups);
+            feesList.add(fees);
         }
 
         model.addAttribute("studentsList", studentList);
         model.addAttribute("groupsList", groupsList);
         model.addAttribute("modulesList", modulesList);
+        model.addAttribute("feesList", feesList);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddStudentPayment";
@@ -461,14 +496,18 @@ public class PaymentController {
         for (String module_fee : modules_fees) {
             modules.append(module_fee.split(" ", 3)[0]).append(", ");
            groups.add(groupOfStudentsDAO.getGroupById(Integer.parseInt(module_fee.split(" ", 3)[2])));
-        }
 
+
+        }
 
         Date now= new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         float payedd=Float.parseFloat(payed);
         float total=Float.parseFloat(T);
+
+        System.out.println("groups"+groups.toString());
+        System.out.println("to pay"+total);
 
         PaymentStudent paymentStudent = new PaymentStudent(dateFormat.format(now), payedd, total-payedd
                 , total,  modules.toString(), profile.getFamilyname()+" "+profile.getName(), student, groups);
