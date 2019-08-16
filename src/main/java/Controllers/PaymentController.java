@@ -6,7 +6,6 @@ import Entities.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -43,7 +42,7 @@ public class PaymentController {
     PaymentStudentDAO paymentStudentDAO;
 
     @Autowired
-    SessionDAO sessionDAO;
+    SeanceDAO seanceDAO;
 
 
     @RequestMapping("/studentPayment")
@@ -216,8 +215,9 @@ public class PaymentController {
 
                 List<Teacher> teachersList = teacherDAO.getAllTeachers();
                 List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
-                Map<Integer, Float> group_salary = new HashMap<>();
-                Map<Integer, Float> group_salary_absent = new HashMap<>();
+                Map<Integer, List<SessionOfGroup>> group_sessions = new HashMap<>();
+                Map<Integer, Float> session_salary = new HashMap<>();
+                Map<Integer, Float> session_salary_absent = new HashMap<>();
 
 
                 for (Teacher teacher : teachersList) {
@@ -227,40 +227,49 @@ public class PaymentController {
 
                     for (GroupOfStudents group : teacher.getGroupsSet()) {
 
-                        float salary=0f;
-                        float salary_absent=0f;
+                        group_sessions.put(group.getId(), new ArrayList<>(group.getSessionOfGroupsSet()));
 
-                        GroupOfStudents groupp = groupOfStudentsDAO.getGroupById(group.getId());
-
-                        if (groupp.getPaymentType().equalsIgnoreCase("Student")) {
-
-                            // le nombre d'étudiants * le prix par etudiant (présent)
+                     for (SessionOfGroup session: group.getSessionOfGroupsSet()){
 
 
-                            /** salary of all student with absent ones **/
-                            salary_absent = groupp.getStudentsSet().size() * groupp.getFees();
+                         float salary=0f;
+                         float salary_absent=0f;
 
-                            /** salary of only present students **/
-                            for (SessionOfGroup session : groupp.getSessionSet()) {
-                                //number of student present
-                                SessionOfGroup sessionn = sessionDAO.getSessionByID(session.getId());
-                                salary += sessionn.getStudentsSet().size() * group.getFees();
 
-                            }
 
-                            group_salary_absent.put(groupp.getId(), salary_absent-salary);
-                            group_salary.put(groupp.getId(), salary);
+                         if (group.getPaymentType().equalsIgnoreCase("Student")) {
 
-                        } else if (groupp.getPaymentType().equalsIgnoreCase("Hour")) {
-                            // salary= number of hours (in one session) * number of sessions * fees
+                             // le nombre d'étudiants * le prix par etudiant (présent)
 
-                            Date d1 = groupp.getStartTime();
-                            Date d2 = groupp.getEndTime();
 
-                            float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
-                            salary = (timeDiff) * groupp.getNumberSessions() * groupp.getFees();
-                            group_salary.put(groupp.getId(), salary);
-                        }
+                             /** salary of all student with absent ones **/
+                             salary_absent = session.getStudentSessionsSet().size() * group.getFees();
+
+                             /** salary of only present students **/
+                             for (Seance seance : session.getSeancesSet()) {
+                                 //number of student present
+                                 Seance sessionn = seanceDAO.getSeanceByID(seance.getId());
+                                 salary += sessionn.getStudentsSet().size() * group.getFees();
+
+                             }
+
+                             session_salary_absent.put(session.getId(), salary_absent-salary);
+                             session_salary.put(session.getId(), salary);
+
+                         } else if (group.getPaymentType().equalsIgnoreCase("Hour")) {
+                             // salary= number of hours (in one session) * number of sessions * fees
+
+                             Date d1 = group.getStartTime();
+                             Date d2 = group.getEndTime();
+
+                             float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
+
+                             salary = (timeDiff) * group.getNumberSessions() * group.getFees();
+                             session_salary.put(session.getId(), salary);
+                         }
+                     }
+
+
 
                     }
 
@@ -269,8 +278,9 @@ public class PaymentController {
 
                 model.addAttribute("teachersList", teachersList);
                 model.addAttribute("groupsList", groupsList);
-                model.addAttribute("groupSalariesMap", group_salary);
-                model.addAttribute("groupSalariesAbsentMap", group_salary_absent);
+                model.addAttribute("group_sessionsMap", group_sessions);
+                model.addAttribute("sessionSalariesMap", session_salary);
+                model.addAttribute("sessionSalariesAbsentMap", session_salary_absent);
 
 
                 model.addAttribute("error", error);
@@ -452,5 +462,27 @@ public class PaymentController {
 
     }
 
+
+   /* @RequestMapping("/deletePaymentStudent")
+    public String deletePaymentStudent(Model model, @RequestParam String query, @RequestParam String id_group){
+
+        String error = "";
+
+        Student student=studentDAO.getStudentByID(Integer.parseInt(query));
+
+        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
+
+        student.removeGroup(groupOfStudents.getId());
+        groupOfStudents.removeStudent(student.getId());
+
+        studentDAO.updateStudentGroups(Integer.parseInt(query), student.getGroupsSet());
+        groupOfStudentsDAO.updateGroupStudentsList(Integer.parseInt(id_group), groupOfStudents.getStudentsSet());
+
+        model.addAttribute("error", error);
+
+        return "redirect:GroupDetails.j?id_group="+id_group;
+
+    }
+    */
 
 }

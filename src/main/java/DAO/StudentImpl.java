@@ -2,7 +2,7 @@ package DAO;
 
 
 import Entities.GroupOfStudents;
-import Entities.SessionOfGroup;
+import Entities.Seance;
 import Entities.Student;
 import Entities.Module;
 
@@ -52,10 +52,10 @@ public class StudentImpl implements StudentDAO {
             students = session.createQuery("from Student ").list();
             for (Student student: students){
 
-              Hibernate.initialize(student.getGroupsSet());
+                Hibernate.initialize(student.getStudentSessionsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
-                Hibernate.initialize(student.getSessionsSet());
+                Hibernate.initialize(student.getSeancesSet());
 
             }
             tx.commit();
@@ -109,7 +109,8 @@ public class StudentImpl implements StudentDAO {
         }
 
     }
-      public void updateStudentGroups(int id, Set<GroupOfStudents> groups) {
+
+    /*public void updateStudentGroups(int id, Set<GroupOfStudents> groups) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -130,9 +131,9 @@ public class StudentImpl implements StudentDAO {
          session.close();
         }
 
-    }
+    }*/
 
-    public void updateStudentSessions (int id, Set<SessionOfGroup> sessionOfGroupsSet) {
+    public void updateStudentSessions (int id, Set<Seance> sessionOfGroupsSet) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -141,7 +142,7 @@ public class StudentImpl implements StudentDAO {
             tx = session.beginTransaction();
             Student student = session.get(Student.class, id);
 
-            student.setSessionsSet(sessionOfGroupsSet);
+            student.setSeancesSet(sessionOfGroupsSet);
             session.update(student);
 
             tx.commit();
@@ -191,10 +192,10 @@ public class StudentImpl implements StudentDAO {
             student =  session.get(Student.class, id);
 
             try{
-                Hibernate.initialize(student.getGroupsSet());
+                Hibernate.initialize(student.getStudentSessionsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
-                Hibernate.initialize(student.getSessionsSet());
+                Hibernate.initialize(student.getSeancesSet());
 
             } catch( SQLGrammarException ex){
                 System.out.println( "exception in hibernate initialize");
@@ -253,7 +254,7 @@ public class StudentImpl implements StudentDAO {
     }
 
 
-    public List<Student> getStudentsByGroup(int id_group){
+  /*  public List<Student> getStudentsByGroup(int id_group){
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -271,7 +272,7 @@ public class StudentImpl implements StudentDAO {
                 Hibernate.initialize(student.getGroupsSet());
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
-                Hibernate.initialize(student.getSessionsSet());
+                Hibernate.initialize(student.getSeancesSet());
 
             }
 
@@ -288,7 +289,7 @@ public class StudentImpl implements StudentDAO {
         return results;
     }
 
-
+*/
 
 
 }

@@ -15,7 +15,9 @@
     <bean class="DAO.PaymentTeacherImpl" id="iPaymentTeacher" init-method="init" />
     <bean class="DAO.PaymentStaffImpl" id="iPaymentStaff" init-method="init" />
     <bean class="DAO.PaymentStudentImpl" id="iPaymentSt" init-method="init" />
+    <bean class="DAO.SeanceImpl" id="iSeance" init-method="init" />
     <bean class="DAO.SessionImpl" id="iSession" init-method="init" />
+    <bean class="DAO.StudentSessionImpl" id="iStudSess" init-method="init" />
     <bean class="DAO.StaffImpl" id="iStaff" init-method="init" />
     <bean class="DAO.TeacherImpl" id="iTeacher" init-method="init" />
     <bean class="DAO.ProfileImpl" id="iProfile" init-method="init" />

@@ -4,14 +4,12 @@ package Entities;
 import Util.utilities;
 import org.hibernate.Session;
 import org.hibernate.annotations.DynamicUpdate;
-import Entities.Module;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Entity
 @DynamicUpdate
@@ -51,11 +49,16 @@ public class Student  implements Serializable {
     private byte[] picture;
 
 
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "student_group",
+   /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "student_session",
             joinColumns = {@JoinColumn(name = "id_student") },
             inverseJoinColumns = { @JoinColumn(name = "id_group") })
     private Set<GroupOfStudents> groupsSet;
+*/
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "primaryKey.student")
+    private Set<StudentSession> studentSessionsSet;
+
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "student_module",
@@ -66,10 +69,10 @@ public class Student  implements Serializable {
 
     //represents sessions when student was present
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "student_session",
+    @JoinTable(name = "student_seance",
             joinColumns = {@JoinColumn(name = "id_student") },
-            inverseJoinColumns = { @JoinColumn(name = "id_session") })
-    private Set<SessionOfGroup> sessionsSet;
+            inverseJoinColumns = { @JoinColumn(name = "id_seance") })
+    private Set<Seance> seancesSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentPay")
     private Set<PaymentStudent> paymentSet;
@@ -89,9 +92,9 @@ public class Student  implements Serializable {
         if(disocunt!=0) this.discount=disocunt;
        // this.picture = uploadImage(picture);
         this.picture = picture;
-        this.groupsSet = new HashSet<>();
+        this.studentSessionsSet = new HashSet<>();
         this.modulesSet = new HashSet<>();
-        this.sessionsSet = new HashSet<>();
+        this.seancesSet = new HashSet<>();
         this.paymentSet = new HashSet<>();
     }
     public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture) {
@@ -103,14 +106,14 @@ public class Student  implements Serializable {
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
         //this.picture = uploadImage(picture);
         this.picture = picture;
-        this.groupsSet = new HashSet<>();
+        this.studentSessionsSet = new HashSet<>();
         this.modulesSet = new HashSet<>();
-        this.sessionsSet = new HashSet<>();
+        this.seancesSet = new HashSet<>();
         this.paymentSet = new HashSet<>();
     }
 
     public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long discount, byte[] picture,
-                   Set<GroupOfStudents> groupsSet, Set<Module> modulesSet, Set<SessionOfGroup> sessionsSet, Set<PaymentStudent> paymentSet) {
+                   Set<StudentSession> studentSessionsSet, Set<Module> modulesSet, Set<Seance> seancesSet, Set<PaymentStudent> paymentSet) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber1 = phoneNumber1;
@@ -119,13 +122,13 @@ public class Student  implements Serializable {
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
         this.discount = discount;
         this.picture = picture;
-        this.groupsSet = groupsSet;
+        this.studentSessionsSet = studentSessionsSet;
         this.modulesSet = modulesSet;
-        this.sessionsSet = sessionsSet;
+        this.seancesSet = seancesSet;
         this.paymentSet = paymentSet;
     }
    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture,
-                   Set<GroupOfStudents> groupsSet, Set<Module> modulesSet, Set<SessionOfGroup> sessionsSet, Set<PaymentStudent> paymentSet) {
+                  Set<StudentSession> studentSessionsSet, Set<Module> modulesSet, Set<Seance> seancesSet, Set<PaymentStudent> paymentSet) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber1 = phoneNumber1;
@@ -134,9 +137,9 @@ public class Student  implements Serializable {
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
 
         this.picture = picture;
-        this.groupsSet = groupsSet;
+        this.studentSessionsSet = studentSessionsSet;
         this.modulesSet = modulesSet;
-        this.sessionsSet = sessionsSet;
+        this.seancesSet = seancesSet;
         this.paymentSet = paymentSet;
     }
 
@@ -150,31 +153,31 @@ public class Student  implements Serializable {
         this.discount=newStudent.getDiscount();
         this.picture = newStudent.getPicture();
         this.paymentSet= newStudent.getPaymentSet();
-        this.groupsSet= newStudent.getGroupsSet();
+        this.studentSessionsSet= newStudent.getStudentSessionsSet();
         this.modulesSet= newStudent.getModulesSet();
-        this.sessionsSet=newStudent.getSessionsSet();
+        this.seancesSet =newStudent.getSeancesSet();
 
 
     }
 
-    public Set<GroupOfStudents> getGroupsSet() {
-        return groupsSet;
+    public Set<StudentSession> getStudentSessionsSet() {
+        return studentSessionsSet;
     }
 
-    public void setGroupsSet(Set<GroupOfStudents> groupsSet) {
-        this.groupsSet = groupsSet;
+    public void setStudentSessionsSet(Set<StudentSession> studentSessionsSet) {
+        this.studentSessionsSet = studentSessionsSet;
     }
 
     public Set<Module> getModulesSet() {
         return modulesSet;
     }
 
-    public Set<SessionOfGroup> getSessionsSet() {
-        return sessionsSet;
+    public Set<Seance> getSeancesSet() {
+        return seancesSet;
     }
 
-    public void setSessionsSet(Set<SessionOfGroup> sessionsSet) {
-        this.sessionsSet = sessionsSet;
+    public void setSeancesSet(Set<Seance> sessionsSet) {
+        this.seancesSet = sessionsSet;
     }
 
     public void setModulesSet(Set<Module> modulesSet) {
@@ -312,20 +315,21 @@ public class Student  implements Serializable {
 
 
 
-    public boolean removeGroup(int id_group){
+    public boolean removeSeance(int id_session){
 
-        Iterator<GroupOfStudents> it= this.groupsSet.iterator();
+        Iterator<Seance> it= this.seancesSet.iterator();
         boolean bool= false;
 
         while (it.hasNext() && !bool)
         {
-            GroupOfStudents group= it.next();
-            if(bool= (group.getId()==id_group)){
-                this.getGroupsSet().remove(group);
+            Seance seance= it.next();
+            if(bool= (seance.getId()==id_session)){
+                this.getSeancesSet().remove(seance);
             }
         }
         return bool;
     }
+
     public boolean removePayment(int id_payment){
 
         Iterator<PaymentStudent> it= this.paymentSet.iterator();
@@ -336,16 +340,16 @@ public class Student  implements Serializable {
             PaymentStudent paymentStudent= it.next();
 
             if(bool= (paymentStudent.getId()==id_payment)){
-                this.getGroupsSet().remove(paymentStudent);
+                this.getPaymentSet().remove(paymentStudent);
             }
         }
         return bool;
     }
 
-    public boolean wasPresentinSession(SessionOfGroup session){
+    public boolean wasPresentinSession(Seance session){
 
-        System.out.println(this.getSessionsSet().contains(session));
-        return this.getSessionsSet().contains(session);
+        System.out.println(this.getSeancesSet().contains(session));
+        return this.getSeancesSet().contains(session);
     }
 
     @Override
@@ -354,14 +358,11 @@ public class Student  implements Serializable {
         else return false;
     }
 
-    public boolean payedForGroup (GroupOfStudents group, Date date){
+    public boolean payedForSession (GroupOfStudents group, Date date){
 
         if (this.paymentSet.isEmpty()) return false;
         for (PaymentStudent paymentStudent: this.paymentSet){
-            if ( (paymentStudent
-                    .getGroupPay()
-                    .getId()==group
-                    .getId()) &&
+            if ( (paymentStudent.getGroupPay().getId()==group.getId()) &&
                     (paymentStudent
                             .getDate()
                             .before(date))) return true;
@@ -372,11 +373,11 @@ public class Student  implements Serializable {
     }
 
 
-    public boolean present(SessionOfGroup session){
+    public boolean present(Seance session){
 
-        if (this.sessionsSet.isEmpty()) return false;
-        for (SessionOfGroup sessionOfGroup: this.sessionsSet){
-            if ( sessionOfGroup.getId()==session
+        if (this.seancesSet.isEmpty()) return false;
+        for (Seance seance : this.seancesSet){
+            if ( seance.getId()==session
                     .getId() ) return true;
             break;
         }

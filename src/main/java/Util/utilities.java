@@ -1,15 +1,9 @@
 package Util;
 
-import DAO.TeacherDAO;
-import Entities.SessionOfGroup;
-import Entities.Teacher;
-import net.bytebuddy.asm.Advice;
-import org.springframework.beans.factory.annotation.Autowired;
+import Entities.Seance;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -107,9 +101,9 @@ public class utilities {
     }
 
 
-    public static boolean contains(Collection<SessionOfGroup> coll, Object o) {
+    public static boolean contains(Collection<Seance> coll, Object o) {
         if (coll == null) return false;
-        return coll.contains((SessionOfGroup)o);
+        return coll.contains((Seance)o);
     }
 
 

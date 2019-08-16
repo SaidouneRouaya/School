@@ -1,60 +1,68 @@
 package Entities;
 
-
 import Util.utilities;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 @Entity
 @Transactional
 @Table(name = "session")
-public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>{
+public class SessionOfGroup  implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_session")
     private int id;
 
-
-    @Column(name = "date")
+    @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date startDate;
 
+    @Column(name = "number_seances")
+    private int numberOfSeances;
+
+    @OrderBy("date Asc")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sessionOfGroup")
+    private Set<Seance> seancesSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_group", nullable=false)
     private GroupOfStudents groupOfStudents;
 
-    // represents students present in this session
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sessionsSet")
-    private Set<Student> studentsSet ;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "primaryKey.session")
+    private Set<StudentSession> studentSessionsSet;
+
+
 
     public SessionOfGroup() {
     }
 
-    public SessionOfGroup( String date, GroupOfStudents groupOfStudents) {
-
-        this.date = utilities.formatDate(date);
-        this.groupOfStudents=groupOfStudents;
-        this.studentsSet= new HashSet<>();
-    }
-
-
-
-    public GroupOfStudents getGroupOfStudents() {
-        return groupOfStudents;
-    }
-
-    public void setGroupOfStudents(GroupOfStudents groupOfStudents) {
+    public SessionOfGroup(Date startDate, Set<Seance> seancesSet, GroupOfStudents groupOfStudents) {
+        this.startDate = startDate;
+        this.seancesSet = seancesSet;
         this.groupOfStudents = groupOfStudents;
     }
 
+    public SessionOfGroup(String startDate, Set<Seance> seancesSet, GroupOfStudents groupOfStudents) {
+        this.startDate = utilities.formatDate(startDate);
+        this.seancesSet = seancesSet;
+        this.groupOfStudents = groupOfStudents;
+    }
+
+    public SessionOfGroup(String startDate) {
+        this.startDate = utilities.formatDate(startDate);
+        this.seancesSet= new HashSet<>();
+        this.studentSessionsSet= new HashSet<>();
+    }
 
     public int getId() {
         return id;
@@ -64,35 +72,51 @@ public class SessionOfGroup  implements Serializable, Comparable<SessionOfGroup>
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Set<Student> getStudentsSet() {
-        return studentsSet;
+    public Set<Seance> getSeancesSet() {
+        return seancesSet;
     }
 
-    public void setStudentsSet(Set<Student> studentsSet) {
-        this.studentsSet = studentsSet;
+    public void setSeancesSet(Set<Seance> seancesSet) {
+        this.seancesSet = seancesSet;
     }
 
-    @Override
-    public int compareTo(SessionOfGroup o) {
-
-         return this.date.before(o.getDate()) ? 1:0;
+    public GroupOfStudents getGroupOfStudents() {
+        return groupOfStudents;
     }
 
+    public void setGroupOfStudents(GroupOfStudents groupOfStudents) {
+        this.groupOfStudents = groupOfStudents;
+    }
 
     public void updateSession(SessionOfGroup newSession){
-        this.date=newSession.getDate();
-        this.groupOfStudents= newSession.getGroupOfStudents();
-        this.studentsSet=newSession.getStudentsSet();
-
+        this.startDate=newSession.getStartDate();
+        this.seancesSet= newSession.getSeancesSet();
+        this.groupOfStudents=newSession.getGroupOfStudents();
+        this.studentSessionsSet= newSession.getStudentSessionsSet();
 
     }
 
+    public Set<StudentSession> getStudentSessionsSet() {
+        return studentSessionsSet;
+    }
+
+    public void setStudentSessionsSet(Set<StudentSession> studentSessionsSet) {
+        this.studentSessionsSet = studentSessionsSet;
+    }
+
+    public int getNumberOfSeances() {
+        return numberOfSeances;
+    }
+
+    public void setNumberOfSeances(int numberOfSeances) {
+        this.numberOfSeances = numberOfSeances;
+    }
 }

@@ -143,18 +143,26 @@
                             <!-- List of modules -->
                                     <tg:forEach begin="0" end="${groupsList.size() -1}" var="i">
                                         <div id="groupList${i}" style="display: none">
-                                            <label>Groups</label>
+                                            <label>Groups' sessions</label>
 
                                             <div class="form-group" id="groups${i}" >
 
                                                 <tg:forEach items="${groupsList.get(i)}" var="group">
+                                                    <label> <c:out value="${group.name}"/></label>
 
-                                                    <label>
-                                                        <input type="checkbox" onclick="isChecked(this)" name="group"
-                                                               id="group" value="${group.paymentType} ${group.fees} ${groupSalariesAbsentMap.get(group.id)} ${group.id}"/>
-                                                        <c:out value="${group.name}"/>,
-                                                    </label><br>
+                                                    <!--sessionsOfGroup is a list try size() -->
 
+                                                    <tg:forEach items="${group_sessionsMap.get(group.id)}" var="sessionsOfGroup">
+
+                                                        <label>
+                                                            <input type="checkbox" onclick="isChecked(this)"
+                                                                   name="group"
+                                                                   id="group"
+                                                                   value="${group.paymentType} ${group.fees} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id}"/>
+                                                            Session of: <c:out value="${sessionsOfGroup.startDate}"/>,
+                                                        </label><br>
+
+                                                    </tg:forEach>
                                                 </tg:forEach>
 
                                             </div>

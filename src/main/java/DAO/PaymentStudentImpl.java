@@ -59,10 +59,10 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
                 Hibernate.initialize(paymentStudent.getGroupPay());
-                Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getStudentSessionsSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
-                Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getSeancesSet());
 
             }
 
@@ -129,10 +129,10 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             paymentStudent= session.get(PaymentStudent.class, id);
             Hibernate.initialize(paymentStudent.getStudentPay());
             Hibernate.initialize(paymentStudent.getGroupPay());
-            Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+            Hibernate.initialize(paymentStudent.getStudentPay().getStudentSessionsSet());
             Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
             Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
-            Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+            Hibernate.initialize(paymentStudent.getStudentPay().getSeancesSet());
 
             tx.commit();
 
@@ -192,10 +192,10 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
                 total+=paymentStudent.getAmount();
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
-                Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getStudentSessionsSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
-                Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getSeancesSet());
 
                 Hibernate.initialize(paymentStudent.getGroupPay());
             }
@@ -234,10 +234,10 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
                 Hibernate.initialize(paymentStudent.getGroupPay());
-                Hibernate.initialize(paymentStudent.getStudentPay().getSessionsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getSeancesSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
-                Hibernate.initialize(paymentStudent.getStudentPay().getGroupsSet());
+                Hibernate.initialize(paymentStudent.getStudentPay().getStudentSessionsSet());
 
             }
 

@@ -55,9 +55,13 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             for (GroupOfStudents group : groupOfStudents){
                 Hibernate.initialize( group.getModule());
                 Hibernate.initialize (group.getTeacher());
-                Hibernate.initialize (group.getStudentsSet());
-                Hibernate.initialize(group.getSessionSet());
+                Hibernate.initialize (group.getSessionOfGroupsSet());
 
+                for (SessionOfGroup sessionOfGroup: group.getSessionOfGroupsSet()){
+                    Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
+                    Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
+                    Hibernate.initialize(sessionOfGroup.getSeancesSet());
+                }
                 Hibernate.initialize(group.getPaymentStudentSet());
             }
             tx.commit();
@@ -112,7 +116,8 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
         }
 
     }
-    @Override
+
+    /*@Override
     public void updateGroupStudentsList (int id, Set<Student> studentList) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -137,7 +142,9 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             session.close();
         }
 
-    }
+    }*/
+
+
     @Override
     public void updateGroupSessionsList (int id, Set<SessionOfGroup> sessionsList) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -147,7 +154,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             tx = session.beginTransaction();
 
             GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
-            groupOfStudents.setSessionSet(sessionsList);
+            groupOfStudents.setSessionOfGroupsSet(sessionsList);
             session.update(groupOfStudents);
 
             System.out.println("update");
@@ -176,8 +183,13 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             try{
                 Hibernate.initialize(groupOfStudents.getModule());
                 Hibernate.initialize(groupOfStudents.getTeacher());
-                Hibernate.initialize(groupOfStudents.getStudentsSet());
-                Hibernate.initialize(groupOfStudents.getSessionSet());
+                Hibernate.initialize (groupOfStudents.getSessionOfGroupsSet());
+
+                for (SessionOfGroup sessionOfGroup: groupOfStudents.getSessionOfGroupsSet()){
+                    Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
+                    Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
+                    Hibernate.initialize(sessionOfGroup.getSeancesSet());
+                }
                 Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
 
             } catch( SQLGrammarException ex){
@@ -250,8 +262,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
                 Hibernate.initialize(groupOfStudents.getModule());
                 Hibernate.initialize(groupOfStudents.getTeacher());
-                Hibernate.initialize(groupOfStudents.getStudentsSet());
-                Hibernate.initialize(groupOfStudents.getSessionSet());
+                Hibernate.initialize (groupOfStudents.getSessionOfGroupsSet());
                 Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
             }
 

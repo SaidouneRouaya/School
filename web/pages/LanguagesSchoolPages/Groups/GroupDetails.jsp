@@ -59,7 +59,6 @@
 </head>
 
 
-
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -81,195 +80,222 @@
             </ol>
         </section>
 
+
         <section class="content">
 
 
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-12">
-                    <div class="box  box-solid box-default ">
+                <div class="row">
+                    <div class="col-md-3"></div>
 
-                        <div class="box-header with-border">
-                            <div class="col-md-4">
-                                <h3 class="box-title">Group : <c:out value="${group.name}"/></h3>
-                                <p></p>
-                                <h5 class="box-title">Teacher : <c:out value="${group.teacher.name}"/>
-                                    <c:out value="${group.teacher.familyname}"/></h5>
-                                <p></p>
-                                <h5 class="box-title">Module : <c:out value="${group.module.name}"/></h5>
-                                <p></p>
-                            </div>
-                            <div class="col-md-4">
-                                <p>Start date : <c:out value="${group.getDate(group.startDate)}"/></p>
-                                <p>Timing : <c:out value="${group.getTime(group.startTime)}"/> - <c:out value="${group.getTime(group.endTime)}"/> </p>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                            class="fa fa-minus"></i>
-                                    </button>
+                    <div class="col-md-12">
+
+                        <div class="box  box-solid box-default ">
+
+                            <div class="box-header with-border">
+                                <div class="col-md-4">
+                                    <h3 class="box-title">Group : <c:out value="${group.name}"/></h3>
+                                    <p></p>
+                                    <h5 class="box-title">Teacher : <c:out value="${group.teacher.name}"/>
+                                        <c:out value="${group.teacher.familyname}"/></h5>
+                                    <p></p>
+                                    <h5 class="box-title">Module : <c:out value="${group.module.name}"/></h5>
+                                    <p></p>
                                 </div>
+                                <div class="col-md-4">
+                                    <p>Start date : <c:out value="${group.getDate(group.startDate)}"/></p>
+                                    <p>Timing : <c:out value="${group.getTime(group.startTime)}"/> - <c:out
+                                            value="${group.getTime(group.endTime)}"/></p>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
 
-                                <a id ="addModule" href="" class="btn btn-app bg-yellow pull-right" data-toggle="modal" data-target="#modal-default1">
-                                    <i class=" fa fa-edit"></i>Add student</a>
+                                    <a href="" class="btn btn-app bg-yellow pull-right"
+                                       data-toggle="modal"
+                                       data-target="#modal-default1">
+                                        <i class=" fa fa-edit"></i>Add student</a>
 
-                                <a id =" " href="" class="btn btn-app bg-teal pull-right" data-toggle="modal" data-target="#modal-default3">
-                                    <i class=" fa fa-calendar"></i>Add session</a>
+                                    <a  href="" class="btn btn-app bg-teal pull-right" data-toggle="modal"
+                                       data-target="#modal-default3">
+                                        <i class=" fa fa-calendar"></i>Add session</a>
 
-                                <a id="" href="updateGroup.j?query=${group.id}" class="btn btn-app bg-purple  pull-right" >
-                                    <i class=" fa fa-plus"></i>
-                                    Update group
-                                </a>
+                                    <a  href="updateGroup.j?query=${group.id}"
+                                       class="btn btn-app bg-purple  pull-right">
+                                        <i class=" fa fa-plus"></i>
+                                        Update group
+                                    </a>
 
 
+                                </div>
+                                <!-- /.box-tools -->
                             </div>
-                            <!-- /.box-tools -->
-                        </div>
 
+                            <!-- /.box-header -->
+                            <div class="box-body">
 
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="table-responsive mailbox-messages">
-                                <table class="table table-hover table-striped">
+                                <tg:forEach begin="0" end="${size-1}" var="i">
+                                    <div class="table-responsive mailbox-messages">
+                                        <table id="example1${i}" class="table table-hover table-striped">
+                                            <thead>
+                                            <h5>Session of : <c:out value="${sessions[i].startDate}"/></h5>
+                                            <br/>
+                                            <tr bgcolor="#deb887">
+                                                <th>#</th>
+                                                <th>N°</th>
+                                                <th>Full name</th>
+                                                <th>Phone number</th>
 
-                                    <tbody>
-                                    <form id="session_form" method="post" action="markPresence.j?id_group=${group.id}">
-
-                                        <tr>
-                                            <th>#</th>
-                                            <th>N°</th>
-                                            <th>Full name</th>
-                                            <th>Phone number</th>
-
-                                            <tg:forEach items="${group.sessionSet}" var="session">
-                                                <th>S:
-                                                    <c:choose>
-                                                        <c:when test="${session.date ne null}">
-                                                            <c:out value="${session.date}"/>
-                                                        </c:when>
-                                                        <c:otherwise>
+                                                <tg:forEach items="${sessions[i].seancesSet}" var="seance">
+                                                    <th>S:
+                                                        <c:choose>
+                                                            <c:when test="${seance.date ne null}">
+                                                                <c:out value="${seance.date}"/>
+                                                            </c:when>
+                                                            <c:otherwise>
                                                                 no date
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </th>
-                                            </tg:forEach>
-                                        </tr>
-                                        <c:set var="number" value="${0}"/>
-                                        <tg:forEach items="${group.studentsSet}" var="student">
-
-                                            <c:set var="number" value="${number+1}"/>
-                                            <tr
-                                                    <c:choose>
-                                                        <c:when test="${student.type eq 'free'}">
-                                                        class="bg-purple disabled"
-                                                        </c:when>
-
-                                                        <c:otherwise>
-                                                            <tg:forEach begin="0" end="${unpaidStudent.size()-1}" var="m">
-
-                                                                <c:if test="${unpaidStudent[m].id eq student.id}">
-                                                                    class="bg-red disabled"
-                                                                </c:if>
-
-                                                            </tg:forEach>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                            >
-                                                <td>
-                                                    <a class="btn  btn-box-tool  bg-red-active"
-                                                       href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
-                                                </td>
-                                                <td><c:out value="${number}"/></td>
-                                                <!-- nom du type de la stat  -->
-                                                <td><a class="text-black" href="Profile.j?query=${student.id}">
-                                                    <b><c:out value="${student.name}"/> <c:out
-                                                        value="${student.familyname}"/></b>
-                                                </a></td>
-
-
-                                                <td><c:out value="${student.phoneNumber1}"/></td>
-
-                                                <c:set var="contains" value="${false}"/>
-
-                                                <tg:forEach items="${group.sessionSet}" var="session">
-
-
-                                                    <td>
-                                                        <label>Present
-                                                            <input type="checkbox" name="sess" id="sess" value="${session.id} ${student.id}" onclick="isChecked(this)"
-
-                                                                <tg:forEach begin="0" end="${presences.get(student.id).size()-1}" var="k">
-
-                                                                    <c:choose>
-                                                                        <c:when test="${(presences.get(student.id).get(k).id_session eq session.id)
-                                                                        and (presences.get(student.id).get(k).isPresent()) and (session.date.toString() eq now)}">
-
-                                                                            checked disabled
-                                                                        </c:when>
-
-                                                                        <c:when test="${(presences.get(student.id).get(k).id_session eq session.id)
-                                                                        and (presences.get(student.id).get(k).isPresent())}">
-
-                                                                            checked
-                                                                        </c:when>
-                                                                        <c:otherwise>
-
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-
-                                                                </tg:forEach>
-
-                                                                    <c:if test="${(session.date ne null) and (session.date.toString() lt now) }">
-                                                                        disabled
-                                                                   </c:if>
-                                                            />
-
-                                                      </label>
-                                                    </td>
-
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </th>
                                                 </tg:forEach>
                                             </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <form id="session_form${i}" method="post">
 
 
-                                        </tg:forEach>
+                                                <c:set var="number" value="${0}"/>
 
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <tg:forEach begin="0" end="${group.numberSessions-1}" var="i">
-                                                <td>
-                                                    <button
+                                                <tg:forEach items="${students.get(sessions[i].id)}"
+                                                            var="student">
 
-                                                            type="submit" class="btn bg-olive">Submit
-                                                    </button>
-                                                </td>
-                                            </tg:forEach>
-                                        </tr>
-                                    </form>
-                                    </tbody>
+                                                    <c:set var="number" value="${number+1}"/>
+                                                    <tr
+                                                            <c:choose>
+                                                                <c:when test="${student.type eq 'free'}">
+                                                                    class="bg-purple disabled"
+                                                                </c:when>
 
-                                </table>
+                                                                <c:otherwise>
+                                                                    <tg:forEach begin="0"
+                                                                                end="${unpaidStudent.size()-1}"
+                                                                                var="m">
 
+                                                                        <c:if test="${unpaidStudent[m].id eq student.id}">
+                                                                            class="bg-red disabled"
+                                                                        </c:if>
+
+                                                                    </tg:forEach>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                    >
+                                                        <td>
+                                                            <a class="btn  btn-box-tool  bg-red-active"
+                                                               href="deleteStudentFromGroup.j?query=${student.id}&id_group=${group.id}">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td><c:out value="${number}"/></td>
+                                                        <!-- nom du type de la stat  -->
+                                                        <td><a class="text-black"
+                                                               href="Profile.j?query=${student.id}">
+                                                            <b><c:out value="${student.name}"/> <c:out
+                                                                    value="${student.familyname}"/></b>
+                                                        </a></td>
+
+
+                                                        <td><c:out value="${student.phoneNumber1}"/></td>
+
+                                                        <c:set var="contains" value="${false}"/>
+
+                                                        <tg:forEach items="${sessions[i].seancesSet}"
+                                                                    var="seance">
+
+                                                            <td>
+                                                                <label>Present
+                                                                    <input type="checkbox" name="sess" id="sess"
+                                                                           value="${seance.id} ${student.id}"
+                                                                           onclick="isChecked(this)"
+
+                                                                            <tg:forEach begin="0"
+                                                                                        end="${presences.get(student.id).size()-1}"
+                                                                                        var="k">
+
+                                                                                <c:choose>
+                                                                                    <c:when test="${(presences.get(student.id).get(k).id_session eq seance.id)
+                                                                            and (presences.get(student.id).get(k).isPresent()) and (seance.date.toString() eq now)}">
+
+                                                                                        checked disabled
+                                                                                    </c:when>
+
+                                                                                    <c:when test="${(presences.get(student.id).get(k).id_session eq seance.id)
+                                                                            and (presences.get(student.id).get(k).isPresent())}">
+
+                                                                                        checked
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
+
+                                                                            </tg:forEach>
+
+                                                                            <c:if test="${(seance.date ne null) and (seance.date.toString() lt now) }">
+                                                                                disabled
+                                                                            </c:if>
+                                                                    />
+
+                                                                </label>
+                                                            </td>
+
+                                                        </tg:forEach>
+                                                    </tr>
+
+                                                </tg:forEach>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <tg:forEach begin="0"
+                                                                end="${sessions.get(i).numberOfSeances-1}"
+                                                                var="p">
+                                                        <td>
+                                                            <button
+                                                                    type="submit" class="btn bg-olive"
+                                                                    onclick="markPresence(${group.id}, ${i})">Submit
+                                                            </button>
+                                                        </td>
+                                                    </tg:forEach>
+                                                </tr>
+                                            </form>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+
+
+                                </tg:forEach>
+                                <button type="submit" class="btn bg-danger-gradient  pull-right"
+                                        data-toggle="modal" data-target="#modal-default2">Delete Group
+                                </button>
                             </div>
-
-
-
-                            <button type="submit" class="btn bg-danger-gradient  pull-right"
-                                    data-toggle="modal" data-target="#modal-default2" >Delete Group</button>
-                            <!-- /.box-body -->
                         </div>
+
                     </div>
-                    <!-- /.box -->
+
+                    <div class="col-md-3"></div>
+
                 </div>
-                <div class="col-md-3"></div>
-            </div>
+                <!-- /.box-body -->
+
+
             <!-- The Modal -->
 
-            <form role="form" method="post" action="addStudentToGroup.j?query=${group.id}">
+            <form role="form" method="post" action="addStudentToSession.j?query=${sessions[0].id}&id_group=${group.id}">
                 <div class="modal fade" id="modal-default1">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -282,12 +308,14 @@
                                 <div id="Student" class="form-group">
                                     <label>Students</label>
 
-                                    <select  name="students" id="students" class="form-control select2" style="width: 100%;" >
+                                    <select name="students" id="students" class="form-control select2"
+                                            style="width: 100%;">
 
-                                        <tg:forEach begin="0" end="${students.size()-1}"  var="i">
+                                        <tg:forEach begin="0" end="${addStudents.size()-1}" var="j">
 
-                                            <option name="student" value="${students[i].id}"><c:out value="${students[i].name}"/>
-                                                <c:out value="${students[i].familyname}"/></option>
+                                            <option name="student" value="${addStudents[j].id}"><c:out
+                                                    value="${addStudents[j].name}"/>
+                                                <c:out value="${addStudents[j].familyname}"/></option>
 
                                         </tg:forEach>
 
@@ -303,7 +331,8 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="startDate" class="form-control pull-right" id="datepicker">
+                                        <input type="text" name="startDate" class="form-control pull-right"
+                                               id="datepicker">
                                     </div>
                                 </div>
 
@@ -347,7 +376,8 @@
 
                                 <div class="form-group">
                                     <label>Number of seances</label>
-                                    <input type="number" name="seancesNumber" class="form-control" placeholder="Enter number of seances ..." required>
+                                    <input type="number" name="seancesNumber" class="form-control"
+                                           placeholder="Enter number of seances ..." required>
                                 </div>
 
 
@@ -412,23 +442,19 @@
                     <!-- /.modal-dialog -->
                 </div>
             </form>
-
-
-
         </section>
+
+
+
+
     </div>
-
-
-
-
-
     <!-- footer  -->
     <%@ include file="../CommunFiles/footer.jsp" %>
 
     <!-- Control Sidebar -->
     <%@ include file="../CommunFiles/controlMenu.jsp" %>
-</div>
 
+</div>
 
 <!-- jQuery 3 -->
 <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
@@ -463,36 +489,34 @@
 <script>
 
 
-
-    function isChecked(event){
-        if(event.getAttribute('checked') === null){
-            event.setAttribute('checked','');
-        }
-        else{
-            event.removeAttribute('checked');
-        }
-    }
-
-    function isChecked2(event) {
-
-        var session_student_group = document.getElementById("sess").value.split(" ", 3);
-
+    function isChecked(event) {
         if (event.getAttribute('checked') === null) {
             event.setAttribute('checked', '');
-
-            var form = document.getElementById("session_form");
-
-            var action="markPresence.j";
-
-            form.setAttribute("action",action ) ;
-            form.submit();
         }
         else {
             event.removeAttribute('checked');
         }
     }
 
-    function  formatDate(date) {
+    function markPresence(id_group, i) {
+
+        var form = document.getElementById("session_form"+i.toString());
+
+        var action = "markPresence.j?id_group=" + id_group;
+
+        form.setAttribute("action", action);
+
+        console.log(document.getElementById("buttonSubmit"));
+        console.log(document.getElementById("buttonSubmit").disabled);
+
+        document.getElementById("buttonSubmit").disabled = true;
+
+        console.log(document.getElementById("buttonSubmit").disabled);
+
+        form.submit();
+    }
+
+    function formatDate(date) {
 
         var dd = date.getDate();
         var mm = date.getMonth() + 1;
@@ -507,6 +531,15 @@
         return dd + '/' + mm + '/' + yyyy;
     }
 
+    var button = $('#buttonSubmit');
+    //   $(button).attr('disabled', 'disabled');
+
+    $('.click').click(function () {
+        /*if ($(button).attr('disabled')) $(button).removeAttr('disabled');
+        else
+          */
+        $(button).attr('disabled', 'disabled');
+    });
 
     $(function () {
         //Initialize Select2 Elements

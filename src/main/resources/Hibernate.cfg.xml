@@ -28,7 +28,10 @@
         <!-- mapping class using annotation -->
         <mapping class="Entities.Profile"/>
         <mapping class="Entities.Student"/>
+        <mapping class="Entities.Seance"/>
         <mapping class="Entities.SessionOfGroup"/>
+        <mapping class="Entities.StudentSession"/>
+        <mapping class="Entities.StudentSessionID"/>
         <mapping class="Entities.Module"/>
         <mapping class="Entities.GroupOfStudents"/>
         <mapping class="Entities.Staff"/>

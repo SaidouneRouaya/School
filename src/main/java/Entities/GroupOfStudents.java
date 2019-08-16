@@ -1,12 +1,10 @@
 package Entities;
 
 import Util.utilities;
-import org.hibernate.Session;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.*;
 
 
@@ -52,12 +50,10 @@ public class GroupOfStudents implements Serializable {
     @JoinColumn(name="id_teacher", nullable=false)
     private Teacher teacher;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupsSet")
-    private Set<Student> studentsSet ;
 
-    @OrderBy("date Asc")
+    @OrderBy("startDate Asc")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupOfStudents")
-    private Set <SessionOfGroup> sessionSet;
+    private Set <SessionOfGroup> sessionOfGroupsSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupPay")
     private Set <PaymentStudent> paymentStudentSet;
@@ -71,23 +67,23 @@ public class GroupOfStudents implements Serializable {
         this.fees= fees;
         this.module = module;
         this.teacher = teacher;
-        this.studentsSet= new HashSet<>();
-        this.sessionSet= new HashSet<>();
+
+        this.sessionOfGroupsSet = new HashSet<>();
 
     }
 
-    public GroupOfStudents(String name, String startDate, String paymentType, float fees,  Module module, Teacher teacher, Set<Student> studentsSet) {
+    public GroupOfStudents(String name, String startDate, String paymentType, float fees,  Module module, Teacher teacher) {
         this.name = name;
         this.startDate = utilities.formatDate(startDate);
         this.paymentType = paymentType;
         this.fees= fees;
         this.module = module;
         this.teacher = teacher;
-        this.studentsSet = studentsSet;
-        this.sessionSet= new HashSet<>();
+
+        this.sessionOfGroupsSet = new HashSet<>();
     }
 
-    public GroupOfStudents(String name, Date startDate, String paymentType, int numberSessions, float fees,   Module module, Teacher teacher, Set<Student> studentsSet) {
+    public GroupOfStudents(String name, Date startDate, String paymentType, int numberSessions, float fees,   Module module, Teacher teacher) {
         this.name = name;
         this.startDate = startDate;
         this.paymentType = paymentType;
@@ -95,21 +91,21 @@ public class GroupOfStudents implements Serializable {
         this.fees= fees;
         this.module = module;
         this.teacher = teacher;
-        this.studentsSet = studentsSet;
-        this.sessionSet= new HashSet<>();
+
+        this.sessionOfGroupsSet = new HashSet<>();
     }
 
-    public GroupOfStudents(String name, String startDate, String paymentType, int numberSessions, String startTime, String endTime, float fees, Module module, Teacher teacher, Set<Student> studentsSet) {
+    public GroupOfStudents(String name, String startDate, String paymentType, String startTime, String endTime, float fees, Module module, Teacher teacher) {
         this.name = name;
         this.startDate = utilities.formatDate(startDate);
         this.paymentType = paymentType;
-        this.numberSessions = numberSessions;
+        this.numberSessions =1;
         this.startTime = utilities.formatTime(startTime);
         this.endTime = utilities.formatTime(endTime);
         this.module = module;
         this.teacher = teacher;
-        this.studentsSet = studentsSet;
-        this.sessionSet= new HashSet<>();
+
+        this.sessionOfGroupsSet = new HashSet<>();
         this.fees= fees;
     }
 
@@ -117,8 +113,8 @@ public class GroupOfStudents implements Serializable {
         this.name = name;
         this.paymentType = paymentType;
         this.numberSessions = numberSessions;
-        this.studentsSet= new HashSet<>();
-        this.sessionSet= new HashSet<>();
+
+        this.sessionOfGroupsSet = new HashSet<>();
     }
 
     public void updateGroup (GroupOfStudents groupOfStudentsNew){
@@ -128,13 +124,12 @@ public class GroupOfStudents implements Serializable {
     this.paymentType= groupOfStudentsNew.getPaymentType();
     }
 
-    public Set<SessionOfGroup> getSessionSet() {
-
-        return sessionSet;
+    public Set<SessionOfGroup> getSessionOfGroupsSet() {
+        return sessionOfGroupsSet;
     }
 
-    public void setSessionSet(Set<SessionOfGroup> sessionSet) {
-        this.sessionSet = sessionSet;
+    public void setSessionOfGroupsSet(Set<SessionOfGroup> sessionOfGroupsSet) {
+        this.sessionOfGroupsSet = sessionOfGroupsSet;
     }
 
     public Date getStartTime() {
@@ -185,13 +180,6 @@ public class GroupOfStudents implements Serializable {
         this.paymentType = paymentType;
     }
 
-    public Set<Student> getStudentsSet() {
-        return studentsSet;
-    }
-
-    public void setStudentsSet(Set<Student> studentsSet) {
-        this.studentsSet = studentsSet;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -232,7 +220,7 @@ public class GroupOfStudents implements Serializable {
     }
 
 
-    public boolean removeStudent(int id_student){
+    /*public boolean removeStudent(int id_student){
 
         Iterator<Student> it= this.studentsSet.iterator();
         boolean bool= false;
@@ -246,7 +234,7 @@ public class GroupOfStudents implements Serializable {
             }
         }
         return bool;
-    }
+    }*/
 
     public String getTime(Date time) {
 

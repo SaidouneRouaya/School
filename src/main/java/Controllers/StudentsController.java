@@ -34,7 +34,7 @@ public class StudentsController {
         model.addAttribute("unpaidStudent", unpaidStudent);
     }
 
-    private HashMap<Integer, List<GroupOfStudents>> groups = new HashMap<>();
+    private HashMap<Integer, List<SessionOfGroup>> sessions = new HashMap<>();
 
     private List<Student> unpaidStudent;
 
@@ -53,28 +53,31 @@ public class StudentsController {
         for (Student student: students){
 
 
+
             if (student.getPaymentSet().size() > 0) {
 
                 try {
-
-                    List<GroupOfStudents> groupOfStudent = new ArrayList<>();
-
                     if (student.getType().equalsIgnoreCase("payee")) {
 
                         if (student.getSubscriptionDate().before(today)) {
 
-                            for (GroupOfStudents group : student.getGroupsSet()) {
+                            List<SessionOfGroup> sessionsOfStudent= new ArrayList<>();
 
-                                if (!student.payedForGroup(group, today)) {
 
-                                    groupOfStudent.add(group);
-                                   unpaidStudent.add(student);
+                            for (StudentSession studentSession : student.getStudentSessionsSet()) {
+
+                                if (!student.payedForSession(studentSession.getSession().getGroupOfStudents(), today)) {
+
+                                    sessionsOfStudent.add(studentSession.getSession());
+
+                                    unpaidStudent.add(student);
+
                                     bool=true;
                                 }
 
                             }
 
-                            if (bool)  groups.put(student.getId(), groupOfStudent );
+                            if (bool)  sessions.put(student.getId(), sessionsOfStudent);
                         }
 
                     }
@@ -87,7 +90,12 @@ public class StudentsController {
 
             }else {
                 unpaidStudent.add(student);
-                groups.put(student.getId(), new ArrayList<>(student.getGroupsSet()) );
+                List<SessionOfGroup> sessionsOfStudent= new ArrayList<>();
+                for (StudentSession studentSession : student.getStudentSessionsSet()) {
+                    sessionsOfStudent.add(studentSession.getSession());
+
+                }
+                sessions.put(student.getId(),sessionsOfStudent );
             }
         }
       return unpaidStudent;
@@ -165,7 +173,7 @@ public class StudentsController {
         }
 */
         model.addAttribute("unpaidStudents", this.unpaidStudent);
-        model.addAttribute("groups", groups);
+        model.addAttribute("sessions", sessions);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/unpaidStudentsDataTable";
@@ -224,8 +232,10 @@ public class StudentsController {
         String error = "";
         Student student;
 
-        Set<GroupOfStudents> groups=new HashSet<>();
-        Set<SessionOfGroup> session= new HashSet<>();
+
+        Set<StudentSession> studentSessions = new HashSet<>();
+
+        Set<Seance> session= new HashSet<>();
         Set<Entities.Module> modules = new HashSet<>();
         Set<PaymentStudent> payments = new HashSet<>();
 
@@ -233,12 +243,12 @@ public class StudentsController {
             if(param.get("discount")!=null){
                 student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
                         Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
-                        Long.parseLong(param.get("discount")), param.get("picture").getBytes(), groups,  modules, session, payments);
+                        Long.parseLong(param.get("discount")), param.get("picture").getBytes(), studentSessions,  modules, session, payments);
             }else
             {
                         student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
                         Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes(),
-                         groups,modules,  session, payments);
+                                studentSessions,modules,  session, payments);
             }
 
             studentDAO.addStudent(student);

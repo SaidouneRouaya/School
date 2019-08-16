@@ -2,18 +2,18 @@ package DAO;
 
 
 import Entities.SessionOfGroup;
-import Entities.Student;
-
 import java.util.List;
-import java.util.Set;
+
 
 public interface SessionDAO {
+
+
     public void addSession(SessionOfGroup session);
     public List<SessionOfGroup> getAllSessions();
     public SessionOfGroup getSessionByID(int id);
-
+    List<SessionOfGroup> getSessionByGroup (int id_group);
     public void deleteSession(int id);
-    public void updateSession(int id, SessionOfGroup sessionOfGroup);
+    public void updateSession(int id, SessionOfGroup session);
 
-    public void updateSessionStudents(int id, Set<Student> studentList);
+
 }
