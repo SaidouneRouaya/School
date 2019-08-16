@@ -65,13 +65,6 @@
         .example-modal .modal {
             background: transparent !important;
         }
-
-        @media print {
-            html, body {
-                height: 99%;
-            }
-        }
-
     </style>
 </head>
 
@@ -89,6 +82,7 @@
         <!-- Main content -->
         <section class="content">
 
+
             <div class="row">
 
                 <div class="col-xs-12">
@@ -100,95 +94,32 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" id="form" method="post" >
+
+                            <form role="form" method="post" id="form" >
 
                                 <div id="printableArea">
-
                                     <div>
                                         <h3 id="date">${date}</h3>
                                     </div>
 
 
-                                    <div id="teacher" class="form-group">
-                                        <label>Teacher</label>
-                                        <select name="teachers" id="teachers"  class="form-control select2" style="width: 100%;">
+                                    <div id="student" class="form-group">
+                                        <label>Staff</label>
+                                        <select class="form-control select2" name="staffs"
+                                                id="staffs" style="width: 100%;">
 
-                                                <option name="teacher" selected >
-                                                    <c:out value="${teacher.name}"/>
-                                                    <c:out value="${teacher.familyname}"/></option>
-
+                                                <option name="staff" selected>
+                                                    <c:out value="${staff.name}"/>
+                                                    <c:out value="${staff.familyname}"/></option>
 
                                         </select>
                                     </div>
 
-                                    <!-- List of modules -->
-
-                                        <div id="groupList" >
-                                            <label>Groups' sessions</label>
-
-                                            <div class="form-group" id="groups" >
-
-                                                    <tg:forEach items="${groups}" var="group">
-                                                    <div class="row">
-
-                                                        <div class="col-xs-4">
-                                                            <label> <c:out value="${group.name}"/></label>
-
-                                                        </div>
-                                                        <div class="col-xs-8">
-
-                                                            <tg:forEach items="${group.sessionOfGroupsSet}" var="sessionsOfGroup">
-
-                                                                <label>
-                                                                    <input type="checkbox"
-                                                                           name="group" id="group"
-                                                                            <tg:forEach begin="0" end="${sessionPayed.size()-1}" var="i">
-                                                                                <c:if test="${sessionsOfGroup.id eq sessionPayed[i] }">
-                                                                                    checked
-                                                                                </c:if>
-                                                                            </tg:forEach>
-                                                                    />
-                                                                    Session of: <c:out value="${sessionsOfGroup.startDate}"/>
-
-                                                                </label><br>
-
-                                                            </tg:forEach>
-                                                        </div>
-                                                    </div>
-
-                                                </tg:forEach>
-
-                                            </div>
-
-                                        </div>
-
-
-
-                                    <div class="form-group" id="salaries">
-
-                                        <!--------------------------------------------------------------->
-
-                                        <ul class="list-group list-group-unbordered">
-                                            <div id="salary">
-                                                <li class="list-group-item">
-                                                    <b>Salary : </b>
-                                                    <span class=" btn bg-purple pull-right" id="salary_span">${payment.total}</span>
-                                                </li>
-                                            </div>
-
-                                            <!-- To pay -->
-                                            <div id="salaryDiv">
-                                                <li class="list-group-item">
-                                                    <b>Total payed : </b>
-                                                    <span class="btn bg-navy pull-right" id="total_span">${payment.amount}</span>
-                                                </li>
-                                            </div>
-
-                                        </ul>
-
+                                    <div id="salary">
+                                        <p class="pull-left">Salary : <c:out value="${payment.ammount}"/>0 DZD</p>
                                     </div>
-
                                 </div>
+
 
                             </form>
                         </div>
@@ -197,6 +128,7 @@
                 </div>
 
             </div>
+
 
         </section>
 

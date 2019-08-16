@@ -548,6 +548,24 @@ public class PaymentController {
         return "LanguagesSchoolPages/Payment/TeacherVoucher";
     }
 
+    @RequestMapping("/staffVoucher")
+    public String staffVoucher(Model model, @RequestParam String p) {
+
+        String error = "";
+        int id_payment= Integer.parseInt(p);
+
+      PaymentStaff  paymentStaff =paymentStaffDAO.getPayementStaffByID(id_payment);
+      Staff staff= staffDAO.getStaffByID(paymentStaff.getStaff().getId());
+
+        model.addAttribute("staff", staff);
+        model.addAttribute("date", paymentStaff.getDate());
+
+        model.addAttribute("payment", paymentStaff);
+
+        model.addAttribute("error", error);
+        return "LanguagesSchoolPages/Payment/StaffVoucher";
+    }
+
 
 
 

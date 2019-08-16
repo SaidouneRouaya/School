@@ -223,6 +223,7 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
 
             results= session.createCriteria(PaymentStaff.class)
                     .add(Restrictions.eq("staff.id", id_staff))
+                    .addOrder(Order.desc("date"))
                     .list();
 
 
