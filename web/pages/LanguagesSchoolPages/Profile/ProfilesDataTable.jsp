@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -6,9 +8,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -45,7 +44,6 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 <%@ include file="../CommunFiles/header.jsp"%>
-
     <c:if test="${profile.type eq 'Admin'}">
         <%@ include file="../CommunFiles/menu-side.jsp"%>
 
@@ -64,34 +62,32 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-          Students List
-            <small>all students</small>
+          Profiles List
+            <small>all profiles</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Students</a></li>
-            <li class="active">Students list</li>
+            <li><a href="#">Profile</a></li>
+            <li class="active">Profiles list</li>
         </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="col-xs-6">
-                    <div class="box box-primary">
-                        <a type="button"  href="addStudent.j" class="btn btn-block btn-primary btn-lg">Add new student</a>
-                    </div>
-                </div>
+        <c:if test="${profile.type eq 'Admin'}">
+            <div class="row">
+                <div class="col-xs-12">
 
-                <div class="col-xs-6">
-                    <div class="box box-danger">
-                        <a href="unpaidStudents.j" class="btn btn-block btn-danger btn-lg"> Unpaid student</a>
+                    <div class="box box-primary">
+                        <a type="button"  href="addProfile.j" class="btn btn-block btn-primary btn-lg">Add new profile</a>
                     </div>
+
+
                 </div>
             </div>
-        </div>
+        </c:if>
+
 
 
         <div class="row">
@@ -99,7 +95,6 @@
 
                 <!-- Add new student
                 <button type="button" class="btn-app .btn-lg"></button>-->
-
 
 
                 <!-- /.box -->
@@ -113,41 +108,28 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <td>#</td>
                                 <th>Full name</th>
-                                <th>Phone number</th>
-                                <th>Type of student</th>
+                                <th>Type</th>
+                                <th>Username</th>
+                                <th>Update</th>
                             </tr>
                             </thead>
                             <tbody>
 
-
-                            <tg:forEach begin="0" end="${studentsList.size() -1}" var="i">
-                                <tr
-                                        <c:choose>
-                                    <c:when test="${studentsList[i].type eq 'free'}">
-                                        class="bg-purple disabled"
-                                    </c:when>
-
-                                    <c:otherwise>
-                                        <tg:forEach begin="0" end="${unpaidStudent.size()-1}" var="m">
-
-                                            <c:if test="${unpaidStudent[m].id eq studentsList[i].id}">
-                                                class="bg-red disabled"
-                                            </c:if>
-
-                                        </tg:forEach>
-                                    </c:otherwise>
-                                </c:choose>
-
-                                >
-
-                                         <!-- nom du type de la stat  -->
-                                    <td><a class="text-black" href="Profile.j?query=${studentsList[i].id}" >
-                                         <b><c:out value="${studentsList[i].name}"/>  <c:out value="${studentsList[i].familyname}"/></b>
-                                     </a></td>
-
-                                    <td><c:out value ="${studentsList[i].phoneNumber1}"/></td>
-                                    <td><c:out value ="${studentsList[i].type}"/></td>
+                            <tg:forEach begin="0" end="${profilesList.size() -1}" var="i">
+                                <tr>
+                                    <!-- nom du type de la stat  -->
+                                    <td>
+                                        <a class="btn  btn-box-tool  bg-red-active"
+                                           href="deleteProfile.j?query=${profilesList[i].id}">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+                                    </td>
+                                    <td><c:out value="${profilesList[i].name}"/> <c:out value="${profilesList[i].familyname}"/></td>
+                                    <td><c:out value ="${profilesList[i].type}"/></td>
+                                    <td><c:out value ="${profilesList[i].username}"/></td>
+                                    <td><a href="updateUserProfile.j?query=${profilesList[i].id}" class="btn  bg-teal-gradient">Update</a></td>
 
                                 </tr>
 
@@ -156,9 +138,11 @@
                             </tbody>
                             <tfoot>
                             <tr>
+                                <td>#</td>
                                 <th>Full name</th>
-                                <th>Phone number</th>
-                                <th>Type of student</th>
+                                <th>Type</th>
+                                <th>Username</th>
+                                <th>Update</th>
                             </tr>
                             </tfoot>
                         </table>

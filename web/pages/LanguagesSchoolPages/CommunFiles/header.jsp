@@ -18,14 +18,7 @@
 <body>
 <header class="main-header" data-skin="skin-red">
     <!-- Logo -->
-    <a   <c:if test="${profile.type eq 'Admin'}">
-        href="index.j"
-
-        </c:if>
-
-            <c:if test="${profile.type eq 'Receptionist'}">
-                href="indexReceptionist.j"
-            </c:if>
+    <a
             class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>S</b></span>
@@ -61,23 +54,13 @@
 
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
+
+
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs"><c:out value="${profile.name }"/><c:out value="${profile.familyname }"/> </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header">
-                            <img src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                        </li>
 
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-right">
-                                <a href="deconnexion.j" class="btn btn-default btn-flat">Sign out</a>
-                            </div>
-                        </li>
-                    </ul>
+                    </a>
+
                 </li>
                 <!-- Control Sidebar Toggle Button -->
                 <li>

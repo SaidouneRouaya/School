@@ -68,7 +68,7 @@ public class StaffController {
         if (profile != null) {
             if (profile.getType().equals("Admin")) {
 
-                model.addAttribute("utilisateur", profile);
+                model.addAttribute("user", profile);
                 return "LanguagesSchoolPages/Staff/AddStaff";
 
             } else {

@@ -61,6 +61,14 @@ public class Profile  implements Serializable {
         this.username = username;
         this.password= password;
     }
+ public Profile(String name, String familyname, String type, byte[] picture, String username) {
+        this.name = name;
+        this.familyname = familyname;
+        this.type = type;
+        this.picture = picture;
+        this.username = username;
+        this.password=null;
+    }
 
     public void updateProfile(Profile newProfile){
         this.name = newProfile.getName();
@@ -68,7 +76,7 @@ public class Profile  implements Serializable {
         this.type = newProfile.getType();
         this.picture = newProfile.getPicture();
         this.username = newProfile.getUsername();
-        this.password= newProfile.getPassword();
+        if (newProfile.getPassword()!= null) this.password= newProfile.getPassword();
     }
 
     public String getPassword() {

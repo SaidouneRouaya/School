@@ -130,7 +130,7 @@
                 </ul>
             </li>
 
-
+            <li><a href="deconnexion.j"><i class="fa fa-circle-o text-red"></i> <span>Log out</span></a></li>
 
         </ul>
     </section>

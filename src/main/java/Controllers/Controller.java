@@ -2,6 +2,7 @@ package Controllers;
 
 import DAO.ProfileDAO;
 import Entities.Profile;
+import Util.utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,18 +37,21 @@ public class Controller {
     public String loginsucess(Model model, @RequestParam String username,
                               @RequestParam String password, @ModelAttribute ("sessionUser") Profile  profile)
     {
-        String pageretour = "";
-        System.out.println(username+" + "+password);
+        String pageretour = "redirect:/error.j";
+
 
         ModelAndView modelview = new ModelAndView();
 
         List<Profile> users= profileDAO.getProfileByEmail(username, password);
 
+
         if (users != null && users.size()!=0) {
             Profile user = users.get(0);
-            if (user.getUsername().equals(username)) {
-                if (user.getPassword().equals(password)) {
 
+            if (user.getUsername().equals(username)) {
+
+
+                if (user.getPassword().equals(utilities.hashPassword(password))) {
 
                    if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:index.j";
                    else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:indexReceptionist.j";
@@ -75,12 +79,13 @@ public class Controller {
 
     @RequestMapping("/deconnexion")
 
-    public String logout(Model model, @ModelAttribute("sessionUser") Profile profile,  SessionStatus status)
+    public String logout(Model model, @SessionAttribute("sessionUser") Profile profile,  SessionStatus status)
     {
+        profile=null;
         this.profile = null;
 
         status.setComplete();
-        return "login2";
+        return "redirect:/login2.j";
     }
 
     public  Boolean isConnected()
@@ -136,6 +141,7 @@ public class Controller {
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/404";
     }
+
 
 
 }

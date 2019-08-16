@@ -4,6 +4,7 @@ import Entities.Module;
 import Entities.Profile;
 import Entities.Student;
 import Util.HibernateUtil;
+import Util.utilities;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -25,7 +26,7 @@ public class ProfileImpl implements ProfileDAO {
         try {
             tx= session.beginTransaction();
             session.save(profile);
-            System.out.println("add done");
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -84,7 +85,7 @@ public class ProfileImpl implements ProfileDAO {
             Profile profile = session.get(Profile.class, id);
             profile.updateProfile(newProfile);
             session.update(profile);
-            System.out.println("add done");
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -128,12 +129,13 @@ public class ProfileImpl implements ProfileDAO {
             tx = session.beginTransaction();
             profiles= session.createCriteria(Profile.class)
                     .add(Restrictions.and(Restrictions.eq("username", email),
-                            Restrictions.eq("password", password)))
+                            Restrictions.eq("password", utilities.hashPassword(password))))
                     .list();
 
             tx.commit();
 
             System.out.println("get by email ");
+
             System.out.println(profiles.size());
 
 

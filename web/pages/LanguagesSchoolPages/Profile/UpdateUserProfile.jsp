@@ -62,11 +62,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Update Staff
+                Update Profile
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#" class="active">Update staff</a></li>
+                <li><a href="#" class="active">Update Profile</a></li>
             </ol>
         </section>
 
@@ -81,15 +81,15 @@
                     <!-- general form elements disabled -->
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Update staff</h3>
+                            <h3 class="box-title">Update profile</h3>
                         </div>
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <form role="form" method="post" action="PersistUpdateStaff.j?query=${staffProfile.id}">
+                            <form role="form" method="post" action="PersistUpdateProfile.j?query=${userProfile.id}">
 
                                 <div>
-                                    <img class="profile-user-img img-responsive img-circle" src="${staffProfile.picture}" alt="User profile picture">
+                                    <img class="profile-user-img img-responsive img-circle" src="${userProfile.picture}" alt="User profile picture">
                                     <input type="file" name= "picture" class="pull-right">
 
                                 </div>
@@ -98,86 +98,44 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="" value="<c:out value ="${staffProfile.name}"/>">
+                                    <input type="text" name="name" class="form-control" placeholder="" value="<c:out value ="${userProfile.name}"/>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text" name="familyName" class="form-control" placeholder="" value="<c:out value ="${staffProfile.familyname}"/>">
+                                    <input type="text" name="familyName" class="form-control" placeholder="" value="<c:out value ="${userProfile.familyname}"/>">
+                                </div>
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>UserName</label>
+                                    <input type="text" name="username" class="form-control" value="<c:out value ="${userProfile.username}"/>">
                                 </div>
 
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" name="password" class="form-control" placeholder="Enter new password ...">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="r3" value="Admin"
+                                            <c:if test="${userProfile.type eq 'Admin'}">
+                                                   checked
+                                            </c:if> >Administrator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="r3" value="Receptionist"
+                                            <c:if test="${userProfile.type eq 'Receptionist'}">
+                                                   checked
+                                            </c:if> >Receptionist
+                                        </label>
+                                    </div>
+                                </div>
                                 <!-- Phone number -->
 
-                                <div class="form-group">
-                                    <label>Phone number:</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-phone"></i>
-                                        </div>
-                                        <input type="text" class="form-control" name="phoneNumber"
-                                               placeholder="" value="<c:out value ="${staffProfile.phoneNumber}"/>">
-                                    </div>
-                                    <!-- /.input group -->
-                                </div>
-
-                                <!-- Employment date -->
-                                <div class="form-group">
-                                    <label>Employment date:</label>
-
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker" placeholder="" value="<c:out value ="${staffProfile.employmentDate}"/>">
-                                    </div>
-                                </div>
-
-                                <!-- select Module
-                                <div class="form-group">
-                                    <label>Job</label>
-                                    <select class="form-control">
-
-                                        <option name="job" value="administration" <c:if test="${staffProfile.job eq 'administration'}">
-                                            selected
-                                        </c:if> >Administration</option>
-
-                                        <option name="job" value="cleaner" <c:if test="${staffProfile.job eq 'cleaner'}">
-                                            selected
-                                        </c:if> >Cleaner</option>
-
-                                    </select>
-                                </div>-->
-
-                                <!-- radio -->
-                                <div class="form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" value="administration"
-                                            <c:if test="${staffProfile.job eq 'administration'}">
-                                                   checked
-                                            </c:if> >Administration
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" value="cleaner"
-                                            <c:if test="${staffProfile.job eq 'cleaner'}">
-                                                   checked
-                                            </c:if> >Cleaner
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <!-- Salary -->
-                                <div class="form-group">
-                                    <label>Salary</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">DZD</span>
-                                        <input name="salary" type="text" class="form-control" placeholder="" value="<c:out value ="${staffProfile.salary}"/>">
-                                        <span class="input-group-addon">.00</span>
-                                    </div>
-                                </div>
 
                                 <div>
                                     <button type="submit" class="btn  bg-green-gradient pull-right" >Update</button>
