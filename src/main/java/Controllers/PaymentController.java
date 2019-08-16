@@ -438,7 +438,7 @@ public class PaymentController {
 
     @RequestMapping("/addNewStudentPayment")
     public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String
-            payed,@RequestParam String T, @RequestParam String mod, @RequestParam String date_payment, @SessionAttribute ("sessionUser") Profile profile) {
+            payed,@RequestParam String T, @RequestParam String mod,  @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -458,8 +458,11 @@ public class PaymentController {
         Date now= new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        PaymentStudent paymentStudent = new PaymentStudent(dateFormat.format(now), Float.parseFloat(payed), Float.parseFloat(T),  modules.toString(),
-                 profile.getFamilyname()+" "+profile.getName(), student, groups);
+        float payedd=Float.parseFloat(payed);
+        float total=Float.parseFloat(T);
+
+        PaymentStudent paymentStudent = new PaymentStudent(dateFormat.format(now), payedd, total-payedd
+                , total,  modules.toString(), profile.getFamilyname()+" "+profile.getName(), student, groups);
 
         paymentStudentDAO.addPaymentStudent(paymentStudent);
 
@@ -468,15 +471,42 @@ public class PaymentController {
             groupOfStudentsDAO.updateGroup(group.getId(), group);
         }
 
-
-
-
         model.addAttribute("error", error);
 
         return "redirect:studentPayment.j";
 
     }
 
+
+    @RequestMapping("/studentVoucher")
+    public String studentVoucher(Model model, @RequestParam String p) {
+
+        String error = "";
+        int id_payment= Integer.parseInt(p);
+
+        PaymentStudent paymentStudent=paymentStudentDAO.getPayementStudentByID(id_payment);
+        Student student=studentDAO.getStudentByID(paymentStudent.getStudentPay().getId());
+
+        List<Integer> modulesPayed= new ArrayList<>();
+
+        for (GroupOfStudents group: paymentStudent.getGroupPay()){
+
+            modulesPayed.add(group.getModule().getId());
+        }
+
+
+        model.addAttribute("student", student);
+        model.addAttribute("modules", student.getModulesSet());
+
+        model.addAttribute("modulesPayed", modulesPayed);
+
+
+        model.addAttribute("payment", paymentStudent);
+        model.addAttribute("date", paymentStudent.getDate());
+
+        model.addAttribute("error", error);
+        return "LanguagesSchoolPages/Payment/StudentVoucher";
+    }
 
     @RequestMapping("/deleteStudentFromGroup")
     public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String
@@ -523,5 +553,10 @@ public class PaymentController {
 
     }
     */
+
+
+
+
+
 
 }

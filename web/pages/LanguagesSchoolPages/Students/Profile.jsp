@@ -219,6 +219,11 @@
                                                 <td><c:out value="${payments[i].module}"/></td>
                                                 <td><c:out value="${payments[i].date}"/></td>
                                                 <td><c:out value="${payments[i].amount}"/></td>
+                                                <td>
+                                                    <a type="submit" class="btn btn-default pull-right"
+                                                            href="studentVoucher.j?p=${payments[i].id}"
+                                                       target="_blank"><i class="fa fa-print"></i> print
+                                                </a></td>
                                             </tr>
 
                                         </tg:forEach>

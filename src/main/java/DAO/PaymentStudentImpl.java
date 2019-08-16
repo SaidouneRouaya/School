@@ -228,6 +228,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
             results= session.createCriteria(PaymentStudent.class)
                     .add(Restrictions.eq("studentPay.id", id_student))
+                    .addOrder(Order.desc("date"))
                     .list();
 
 

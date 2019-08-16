@@ -29,6 +29,9 @@ public class PaymentStudent implements Serializable {
     @Column(name = "total")
     private float total;
 
+    @Column(name = "discount")
+    private float discount;
+
     @Column(name = "module")
     private String module;
 
@@ -53,12 +56,13 @@ public class PaymentStudent implements Serializable {
     public PaymentStudent() {
     }
 
-    public PaymentStudent(String date, float amount, float total,String module, String receiver, Student studentPay,Set<GroupOfStudents> groupPay ) {
+    public PaymentStudent(String date, float amount,float discount, float total,String module, String receiver, Student studentPay,Set<GroupOfStudents> groupPay ) {
         this.date = utilities.formatDate(date);
         this.amount = amount;
         this.total=total;
         this.module = module;
         this.receiver = receiver;
+        this.discount= discount;
         this.studentPay = studentPay;
         this.groupPay= groupPay;
     }
@@ -146,5 +150,13 @@ public class PaymentStudent implements Serializable {
 
         }
         return false;
+    }
+
+    public float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(float discount) {
+        this.discount = discount;
     }
 }
