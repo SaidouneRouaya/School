@@ -31,8 +31,8 @@
           type='text/css'>
     <!-- /font files  -->
     <!-- css files -->
-    <link href="../dist/css/animate-custom.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="../dist/css/style.css" rel='stylesheet' type='text/css' media="all"/>
+    <link href="${pageContext.request.contextPath}/resources/dist/css/animate-custom.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${pageContext.request.contextPath}/resources/dist/css/style.css" rel='stylesheet' type='text/css' media="all"/>
     <!-- /css files -->
 </head>
 <body>
@@ -47,7 +47,7 @@
             <div id="wrapper">
                 <div id="login" class="animate form">
                     <div class="content-img">
-                        <img src="../dist/img/user1-128x128.jpg" alt="img" class="w3l-img">
+                        <img src="${pageContext.request.contextPath}/resources/dist/img/user1-128x128.jpg" alt="img" class="w3l-img">
                     </div>
                     <form action="loginprocess.j" autocomplete="on" method="post">
                         <h2>Login</h2>
@@ -71,7 +71,7 @@
                          </p>-->
                     </form>
                 </div>
-             
+
             </div>
         </div>
     </section>

@@ -31,6 +31,8 @@
         <url-pattern>*.j</url-pattern>
     </servlet-mapping>
 
+
+
     <!-- 5 eme  -->
     <welcome-file-list>
         <welcome-file>default.j</welcome-file>
