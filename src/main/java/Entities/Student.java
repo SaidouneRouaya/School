@@ -362,7 +362,7 @@ public class Student  implements Serializable {
 
         if (this.paymentSet.isEmpty()) return false;
         for (PaymentStudent paymentStudent: this.paymentSet){
-            if ( (paymentStudent.getGroupPay().getId()==group.getId()) &&
+            if  (paymentStudent.containsGroup(group) &&
                     (paymentStudent
                             .getDate()
                             .before(date))) return true;
@@ -384,6 +384,25 @@ public class Student  implements Serializable {
 
         return false;
 
+    }
+
+
+    public GroupOfStudents getGroupOfModule( Module module){
+
+        for (StudentSession aStudentSessionsSet : studentSessionsSet) {
+
+            System.out.println(module.getId());
+            GroupOfStudents g = aStudentSessionsSet.getSession().getGroupOfStudents();
+            System.out.println(g.getModule().getId());
+
+            if (g.getModule().getId() == module.getId()) {
+                System.out.println("egalité");
+                return g;
+
+            }
+
+        }
+        return new GroupOfStudents();
     }
 
 

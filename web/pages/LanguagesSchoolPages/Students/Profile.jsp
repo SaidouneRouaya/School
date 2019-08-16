@@ -173,7 +173,7 @@
 
                                 <div>
                                  <!--   <button type="submit" class="btn  bg-red-gradient pull-left">Delete</button>-->
-                                    <button type="submit" class="btn bg-danger-gradient pull-right"
+                                    <button type="submit" class="btn bg-red-active pull-right"
                                             data-toggle="modal" data-target="#modal-default1" >Delete</button>
 
                                 </div>

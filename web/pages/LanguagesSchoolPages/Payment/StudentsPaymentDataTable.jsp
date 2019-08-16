@@ -84,9 +84,6 @@ To change this template use File | Settings | File Templates.
                             <div id="printableArea">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
-                                    <h3>Date : ?? </h3>
-                                    <br/>
-
                                     <tr>
 
                                         <th>Full name</th>

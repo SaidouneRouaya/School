@@ -146,7 +146,7 @@
 
                                                         <label>
                                                             <input type="checkbox" onclick="isChecked(this)" name="mod"
-                                                                   id="mod" value="${module.name} ${module.fees}"> <c:out value="${module.name}"/>,
+                                                                   id="mod" value="${module.name} ${module.fees} ${groupsList.get(i).get(module.id)}"> <c:out value="${module.name}"/>,
                                                         </label><br>
 
                                                     </tg:forEach>
@@ -342,7 +342,7 @@
         document.getElementById("discountDiv").innerHTML= "   <li class='list-group-item'><b>Discount : </b>" +
             "<span class='btn bg-navy pull-right'>"+  document.getElementById("discount").value+"</span></li>"
 
-        document.getElementById("form").setAttribute("action", "addNewStudentPayment.j?id_student=" + id_discount_i[0]+"&payed="+payed);
+        document.getElementById("form").setAttribute("action", "addNewStudentPayment.j?id_student=" + id_discount_i[0]+"&payed="+payed+"&T="+total);
 
         var printContents = document.getElementById(divName).innerHTML;
 

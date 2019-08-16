@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Set;
 
 @Entity
 @Transactional
@@ -25,6 +26,9 @@ public class PaymentStudent implements Serializable {
     @Column(name = "amount")
     private float amount;
 
+    @Column(name = "total")
+    private float total;
+
     @Column(name = "module")
     private String module;
 
@@ -36,19 +40,27 @@ public class PaymentStudent implements Serializable {
     @JoinColumn(name="id_student")
     private Student studentPay;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_group")
-    private GroupOfStudents groupPay;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "paymentstudent_group",
+            joinColumns = {@JoinColumn(name = "id_payment_st") },
+            inverseJoinColumns = { @JoinColumn(name = "id_group") })
+    private Set<GroupOfStudents> groupPay;
+
+
+
 
     public PaymentStudent() {
     }
 
-    public PaymentStudent(String date, Long amount, String module, String receiver, Student studentPay) {
+    public PaymentStudent(String date, float amount, float total,String module, String receiver, Student studentPay,Set<GroupOfStudents> groupPay ) {
         this.date = utilities.formatDate(date);
         this.amount = amount;
+        this.total=total;
         this.module = module;
         this.receiver = receiver;
         this.studentPay = studentPay;
+        this.groupPay= groupPay;
     }
 
 
@@ -110,14 +122,29 @@ public class PaymentStudent implements Serializable {
         this.studentPay = studentPay;
     }
 
-    public GroupOfStudents getGroupPay() {
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public Set<GroupOfStudents> getGroupPay() {
         return groupPay;
     }
 
-    public void setGroupPay(GroupOfStudents groupPay) {
+    public void setGroupPay(Set<GroupOfStudents> groupPay) {
         this.groupPay = groupPay;
     }
 
 
+    public boolean containsGroup (GroupOfStudents group){
 
+        for (GroupOfStudents g:groupPay){
+            return (g.getId()==group.getId()) ;
+
+        }
+        return false;
+    }
 }

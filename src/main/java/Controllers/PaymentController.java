@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 import javax.swing.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.Thread.sleep;
@@ -23,6 +25,10 @@ public class PaymentController {
 
     @Autowired
     StaffDAO staffDAO;
+
+    @Autowired
+    StudentSessionDAO studentSessionDAO;
+
 
     @Autowired
     TeacherDAO teacherDAO;
@@ -186,18 +192,36 @@ public class PaymentController {
         String error = "";
 
         List<Student> studentList = studentDAO.getAllStudents();
+        studentSessionDAO.getAllStudentSessions();
 
-        model.addAttribute("studentsList", studentList);
+        List <Map<Integer, String>> groupsList = new ArrayList<>();
+
 
         List<HashSet<Module>> modulesList = new ArrayList<>();
 
-        for (Student student : studentList) {
+        for (Student student1 : studentList) {
 
-            HashSet<Module> module = new HashSet<>(student.getModulesSet());
+            Student student= studentDAO.getStudentByID(student1.getId());
 
-            modulesList.add(module);
+            Map<Integer, String> groups= new HashMap<>();
+            HashSet<Module> modules = new HashSet<>(student.getModulesSet());
+
+
+            for (Module module:modules){
+                groups.put(
+                        module.getId(),
+                        Integer.toString(
+                                student
+                                        .getGroupOfModule(module)
+                                        .getId()));
+            }
+
+            modulesList.add(modules);
+            groupsList.add(groups);
         }
 
+        model.addAttribute("studentsList", studentList);
+        model.addAttribute("groupsList", groupsList);
         model.addAttribute("modulesList", modulesList);
 
         model.addAttribute("error", error);
@@ -414,7 +438,7 @@ public class PaymentController {
 
     @RequestMapping("/addNewStudentPayment")
     public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String
-            payed, @RequestParam String mod, @RequestParam String date_payment, @SessionAttribute ("sessionUser") Profile profile) {
+            payed,@RequestParam String T, @RequestParam String mod, @RequestParam String date_payment, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -422,16 +446,30 @@ public class PaymentController {
 
         String[] modules_fees = mod.split(",");
         StringBuilder modules = new StringBuilder();
+        Set<GroupOfStudents> groups= new HashSet<>();
+
 
         for (String module_fee : modules_fees) {
-            modules.append(module_fee.split(" ", 2)[0]).append(", ");
+            modules.append(module_fee.split(" ", 3)[0]).append(", ");
+           groups.add(groupOfStudentsDAO.getGroupById(Integer.parseInt(module_fee.split(" ", 3)[2])));
         }
 
 
-        PaymentStudent paymentStudent = new PaymentStudent(date_payment, Long.parseLong(payed), modules.toString(),
-                profile.getFamilyname()+" "+profile.getName(), student);
+        Date now= new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        PaymentStudent paymentStudent = new PaymentStudent(dateFormat.format(now), Float.parseFloat(payed), Float.parseFloat(T),  modules.toString(),
+                 profile.getFamilyname()+" "+profile.getName(), student, groups);
 
         paymentStudentDAO.addPaymentStudent(paymentStudent);
+
+        for (GroupOfStudents group: groups){
+            group.getPaymentStudentSet().add(paymentStudent);
+            groupOfStudentsDAO.updateGroup(group.getId(), group);
+        }
+
+
+
 
         model.addAttribute("error", error);
 

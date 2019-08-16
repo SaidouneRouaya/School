@@ -192,6 +192,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
                 total+=paymentStudent.getAmount();
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
+
                 Hibernate.initialize(paymentStudent.getStudentPay().getStudentSessionsSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getModulesSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());
@@ -233,6 +234,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
             for(PaymentStudent paymentStudent:results){
 
                 Hibernate.initialize(paymentStudent.getStudentPay());
+
                 Hibernate.initialize(paymentStudent.getGroupPay());
                 Hibernate.initialize(paymentStudent.getStudentPay().getSeancesSet());
                 Hibernate.initialize(paymentStudent.getStudentPay().getPaymentSet());

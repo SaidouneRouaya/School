@@ -55,8 +55,10 @@ public class GroupOfStudents implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupOfStudents")
     private Set <SessionOfGroup> sessionOfGroupsSet;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupPay")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupPay")
     private Set <PaymentStudent> paymentStudentSet;
+
+
 
     public GroupOfStudents() {
     }
@@ -122,6 +124,7 @@ public class GroupOfStudents implements Serializable {
     this.name= groupOfStudentsNew.getName();
     this.numberSessions=groupOfStudentsNew.getNumberSessions();
     this.paymentType= groupOfStudentsNew.getPaymentType();
+    this.paymentStudentSet= groupOfStudentsNew.getPaymentStudentSet();
     }
 
     public Set<SessionOfGroup> getSessionOfGroupsSet() {
@@ -257,4 +260,6 @@ public class GroupOfStudents implements Serializable {
     public void setFees(float fees) {
         this.fees = fees;
     }
+
+
 }

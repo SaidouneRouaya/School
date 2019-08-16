@@ -1,11 +1,9 @@
 package DAO;
 
 
-import Entities.GroupOfStudents;
-import Entities.Seance;
-import Entities.Student;
-import Entities.Module;
+import Entities.*;
 
+import Entities.Module;
 import Util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -193,6 +191,18 @@ public class StudentImpl implements StudentDAO {
 
             try{
                 Hibernate.initialize(student.getStudentSessionsSet());
+
+                for (StudentSession studentSession:student.getStudentSessionsSet()){
+                    Hibernate.initialize(studentSession.getStudent());
+                    Hibernate.initialize(studentSession.getSession());
+                    Hibernate.initialize(studentSession.getSession().getStudentSessionsSet());
+                    Hibernate.initialize(studentSession.getSession().getGroupOfStudents());
+                    Hibernate.initialize(studentSession.getSession().getSeancesSet());
+                    Hibernate.initialize(studentSession.getStudent().getStudentSessionsSet());
+                    Hibernate.initialize(studentSession.getStudent().getPaymentSet());
+                    Hibernate.initialize(studentSession.getStudent().getModulesSet());
+                    Hibernate.initialize(studentSession.getStudent().getSeancesSet());
+                }
                 Hibernate.initialize(student.getModulesSet());
                 Hibernate.initialize(student.getPaymentSet());
                 Hibernate.initialize(student.getSeancesSet());

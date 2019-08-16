@@ -56,6 +56,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize( group.getModule());
                 Hibernate.initialize (group.getTeacher());
                 Hibernate.initialize (group.getSessionOfGroupsSet());
+                Hibernate.initialize((group.getPaymentStudentSet()));
 
                 for (SessionOfGroup sessionOfGroup: group.getSessionOfGroupsSet()){
                     Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
@@ -184,6 +185,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize(groupOfStudents.getModule());
                 Hibernate.initialize(groupOfStudents.getTeacher());
                 Hibernate.initialize (groupOfStudents.getSessionOfGroupsSet());
+                Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
 
                 for (SessionOfGroup sessionOfGroup: groupOfStudents.getSessionOfGroupsSet()){
                     Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
@@ -264,6 +266,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
                 Hibernate.initialize(groupOfStudents.getTeacher());
                 Hibernate.initialize (groupOfStudents.getSessionOfGroupsSet());
                 Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
+                Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
             }
 
             tx.commit();
