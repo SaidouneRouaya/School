@@ -148,21 +148,29 @@
                                             <div class="form-group" id="groups${i}" >
 
                                                 <tg:forEach items="${groupsList.get(i)}" var="group">
-                                                    <label> <c:out value="${group.name}"/></label>
 
-                                                    <!--sessionsOfGroup is a list try size() -->
+                                                    <div class="row">
 
-                                                    <tg:forEach items="${group_sessionsMap.get(group.id)}" var="sessionsOfGroup">
+                                                        <div class="col-xs-2">
+                                                            <label> <c:out value="${group.name}"/></label>
 
-                                                        <label>
-                                                            <input type="checkbox" onclick="isChecked(this)"
-                                                                   name="group"
-                                                                   id="group"
-                                                                   value="${group.paymentType} ${group.fees} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id}"/>
-                                                            Session of: <c:out value="${sessionsOfGroup.startDate}"/>,
-                                                        </label><br>
+                                                        </div>
+                                                        <div class="col-xs-4">
 
-                                                    </tg:forEach>
+                                                            <tg:forEach items="${group_sessionsMap.get(group.id)}" var="sessionsOfGroup">
+
+                                                            <label>
+                                                                <input type="checkbox" onclick="isChecked(this)"
+                                                                       name="group"
+                                                                       id="group"
+                                                                       value="${group.paymentType} ${group.fees} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id}"/>
+                                                                Session of: <c:out value="${sessionsOfGroup.startDate}"/>,
+                                                            </label><br>
+
+                                                        </tg:forEach>
+                                                        </div>
+                                                    </div>
+
                                                 </tg:forEach>
 
                                             </div>

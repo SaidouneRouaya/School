@@ -27,7 +27,7 @@ public class PaymentTeacher implements Serializable {
     private String receiver;
 
     @Column(name = "module")
-    private String module;
+    private String groups;
 
     @Column(name = "payment_type")
     private String paymentType;
@@ -47,7 +47,7 @@ public class PaymentTeacher implements Serializable {
         this.date = date;
         this.amount = amount;
         this.receiver = receiver;
-        this.module = module;
+        this.groups = module;
         this.paymentType = paymentType;
         this.teacherPayed = teacher;
     }
@@ -56,7 +56,7 @@ public class PaymentTeacher implements Serializable {
         this.date = paymentTeacher.getDate();
         this.amount = paymentTeacher.getAmount();
         this.receiver = paymentTeacher.getReceiver();
-        this.module= paymentTeacher.getModule();
+        this.groups= paymentTeacher.getModule();
         this.paymentType= paymentTeacher.getPaymentType();
         this.teacherPayed=paymentTeacher.getTeacher();
 
@@ -91,11 +91,11 @@ public class PaymentTeacher implements Serializable {
     }
 
     public String getModule() {
-        return module;
+        return groups;
     }
 
     public void setModule(String module) {
-        this.module = module;
+        this.groups = module;
     }
 
     public String getPaymentType() {

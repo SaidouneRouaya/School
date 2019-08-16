@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 
+import javax.swing.*;
 import java.util.*;
 
 import static java.lang.Thread.sleep;
@@ -225,7 +226,9 @@ public class PaymentController {
                     groupsList.add(groupOfStudents);
 
 
-                    for (GroupOfStudents group : teacher.getGroupsSet()) {
+                    for (GroupOfStudents groupp : teacher.getGroupsSet()) {
+
+                        GroupOfStudents group = groupOfStudentsDAO.getGroupById(groupp.getId());
 
                         group_sessions.put(group.getId(), new ArrayList<>(group.getSessionOfGroupsSet()));
 
@@ -234,8 +237,6 @@ public class PaymentController {
 
                          float salary=0f;
                          float salary_absent=0f;
-
-
 
                          if (group.getPaymentType().equalsIgnoreCase("Student")) {
 

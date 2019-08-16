@@ -87,7 +87,7 @@
                                     <tr>
 
                                         <th>Full name</th>
-                                        <th>Module</th>
+                                        <th>Groups</th>
                                         <th>Salary</th>
                                         <th>Receiver</th>
                                         <th>Date</th>
@@ -113,7 +113,7 @@
                                     <tfoot>
                                     <tr>
                                         <th>Full name</th>
-                                        <th>Module</th>
+                                        <th>Groups</th>
                                         <th>Salary</th>
                                         <th>Receiver</th>
                                         <th>Date</th>
@@ -184,7 +184,7 @@
 
                                                             <tr>
                                                                 <th>Full name</th>
-                                                                <th>Module</th>
+                                                                <th>Groups</th>
                                                                 <th>Payment type</th>
                                                                 <th>Salary</th>
                                                                 <th>Receiver</th>
@@ -214,7 +214,7 @@
                                                             <tfoot>
                                                             <tr>
                                                                 <th>Full name</th>
-                                                                <th>Module</th>
+                                                                <th>Groups</th>
                                                                 <th>Payment type</th>
                                                                 <th>Salary</th>
                                                                 <th>Receiver</th>
@@ -277,7 +277,7 @@
 
                                                             <tr>
                                                                 <th>Full name</th>
-                                                                <th>Module</th>
+                                                                <th>Groups</th>
                                                                 <th>Payment type</th>
                                                                 <th>Salary</th>
                                                                 <th>Receiver</th>
@@ -307,7 +307,7 @@
                                                             <tfoot>
                                                             <tr>
                                                                 <th>Full name</th>
-                                                                <th>Module</th>
+                                                                <th>Groups</th>
                                                                 <th>Payment type</th>
                                                                 <th>Salary</th>
                                                                 <th>Receiver</th>
