@@ -120,7 +120,9 @@
                                                 id="staffs" style="width: 100%;">
 
 
+                                            <option name="empty" value="${0}" selected>
 
+                                                Select a staff</option>
                                             <tg:forEach begin="0" end="${staffList.size() -1}" var="i">
 
                                                 <option name="staff" value="${staffList[i].id} ${staffList[i].salary}">

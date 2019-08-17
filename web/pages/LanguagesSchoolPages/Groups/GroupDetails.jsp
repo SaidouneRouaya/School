@@ -93,7 +93,6 @@
 
         <section class="content">
 
-
                 <div class="row">
                     <div class="col-md-3"></div>
 
@@ -320,6 +319,9 @@
 
                                     <select name="students" id="students" class="form-control select2"
                                             style="width: 100%;">
+
+                                        <option name="empty" value="${0}" selected>
+                                            Select a student</option>
 
                                         <tg:forEach begin="0" end="${addStudents.size()-1}" var="j">
 

@@ -112,6 +112,9 @@
                                         <select name="students" id="students" class="form-control select2"
                                                  style="width: 100%;">
 
+                                            <option name="empty" value="${0}" selected>
+
+                                                Select a student</option>
                                                 <option name="student" selected>
                                                     <c:out value="${student.name}"/>
                                                     <c:out value="${student.familyname}"/></option>

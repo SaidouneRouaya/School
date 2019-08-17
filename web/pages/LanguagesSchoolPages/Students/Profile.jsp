@@ -58,12 +58,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                User Profile
+                Student profile
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li><a href="#">Examples</a></li>
-                <li class="active">User profile</li>
+                <li class="active">Student profile</li>
             </ol>
         </section>
 
@@ -294,6 +294,9 @@
                         <c:if test="${modules.size() gt 0}">
                                     <select  name="modules" id="modules" class="form-control select2" style="width: 100%;" >
 
+                                        <option name="empty" value="${0}" selected>
+
+                                            Select a module</option>
                                         <tg:forEach begin="0" end="${modules.size()-1}"  var="i">
 
                                             <option name="module" value="${modules[i].id}"><c:out value="${modules[i].name}"/></option>

@@ -110,6 +110,9 @@
                                 <div class="form-group">
                                     <label>Module</label>
                                     <select name="modules" id="modules" class="form-control"  onchange="changeStudents()"  >
+                                        <option name="empty" value="${0}" selected>
+
+                                            Select a module</option>
 
                                         <tg:forEach begin="0" end="${modulesList.size() -1}" var="i">
 
@@ -125,6 +128,10 @@
                                 <div class="form-group">
                                     <label>Teacher</label>
                                     <select name="teachers" id="teacher" class="form-control" >
+                                        <option name="empty" value="${0}" selected>
+
+                                            Select a teacher</option>
+
                                         <tg:forEach begin="0" end="${teacherList.size() -1}" var="i">
 
                                         <option name="teacher"
@@ -220,6 +227,9 @@
                                         <tg:forEach var="entry" items="${studentList.entrySet()}">
                                             <select name="studentsList" id="studentsList${entry.key}" multiple=""
                                                     class="form-control" style="display: none" >
+                                                <option name="empty" value="${0}" selected>
+
+                                                    Select a student</option>
 
                                                 <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
 

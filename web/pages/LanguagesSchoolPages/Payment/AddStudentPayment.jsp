@@ -131,6 +131,10 @@
 
                                         <select name="students" id="students" class="form-control select2"
                                                 onchange="changeModules()" style="width: 100%;">
+                                            <option name="empty" value="${0}" selected>
+
+                                                Select a student</option>
+
                                             <tg:forEach begin="0" end="${studentsList.size() -1}" var="i">
 
                                                 <option name="student"

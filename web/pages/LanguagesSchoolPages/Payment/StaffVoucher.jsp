@@ -108,7 +108,10 @@
                                         <select class="form-control select2" name="staffs"
                                                 id="staffs" style="width: 100%;">
 
-                                                <option name="staff" selected>
+                                            <option name="empty" value="${0}" selected>
+                                                Select a staff</option>
+
+                                            <option name="staff" selected>
                                                     <c:out value="${staff.name}"/>
                                                     <c:out value="${staff.familyname}"/></option>
 

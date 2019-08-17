@@ -113,6 +113,9 @@
                                         <label>Teacher</label>
                                         <select name="teachers" id="teachers"  class="form-control select2" style="width: 100%;">
 
+                                            <option name="empty" value="${0}" selected>
+
+                                                Select a teacher</option>
                                                 <option name="teacher" selected >
                                                     <c:out value="${teacher.name}"/>
                                                     <c:out value="${teacher.familyname}"/></option>

@@ -143,6 +143,10 @@
                                     <select name="modules"  id="modules"  class="form-control">
                                         <tg:forEach begin="0" end="${modules.size() -1}" var="i">
 
+                                            <option name="empty" value="${0}" selected>
+
+                                                Select a module</option>
+
                                         <option name="module" value="${modules[i].id}">
                                                 <c:out value="${modules[i].name}"/>
                                             </tg:forEach>
