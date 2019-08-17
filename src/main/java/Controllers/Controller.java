@@ -48,20 +48,19 @@ public class Controller {
         if (users != null && users.size()!=0) {
             Profile user = users.get(0);
 
+            System.out.println(user.getType());
             if (user.getUsername().equals(username)) {
 
 
                 if (user.getPassword().equals(utilities.hashPassword(password))) {
-
-                   if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:index.j";
-                   else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:indexReceptionist.j";
-
                     this.profile = user;
-                    modelview.addObject("utilisateur", this.profile);
-                    model.addAttribute("utilisateur", this.profile);
-
-
+                    modelview.addObject("sessionUser", this.profile);
+                    model.addAttribute("sessionUser", this.profile);
                     model.addAttribute("profile", profile);
+
+                    if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:index.j";
+
+                    else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:indexReceptionist.j";
 
                 }
                 else {
@@ -103,7 +102,7 @@ public class Controller {
         String error = "";
 
         model.addAttribute("error", error);
-        return "login";
+        return "login2";
     }
 
     @RequestMapping("/login2")
@@ -116,9 +115,12 @@ public class Controller {
     }
 
     @RequestMapping("/index")
-    public String pageAccueil(Model model) {
+    public String pageAccueil(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
+
+        System.out.println("im an admin");
+        System.out.println(profile.getType());
 
         model.addAttribute("error", error);
 
@@ -126,15 +128,16 @@ public class Controller {
     }
 
     @RequestMapping("/indexReceptionist")
-    public String pageAccueil2(Model model) {
+    public String pageAccueil2(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
+        System.out.println("im a receptionsit");
         model.addAttribute("error", error);
         return "redirect:/addStudent.j";
     }
     @RequestMapping("/error")
-    public String error(Model model) {
+    public String error(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -142,7 +145,7 @@ public class Controller {
         return "LanguagesSchoolPages/404";
     }
     @RequestMapping("/empty")
-    public String empty(Model model) {
+    public String empty(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 

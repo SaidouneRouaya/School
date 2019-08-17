@@ -35,7 +35,7 @@ public class ProfileController {
             if (profile.getType().equals("Admin")) {
 
                 List<Profile> profiles= profileDAO.getAllProfiles();
-                if (profiles==null ||profiles.isEmpty()) return ("redirect:/empty.j");
+                if (profiles==null || profiles.isEmpty()) return ("redirect:/empty.j");
 
                 model.addAttribute("profilesList",profiles );
                 model.addAttribute("error", error);

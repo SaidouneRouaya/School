@@ -1,3 +1,5 @@
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -70,6 +72,7 @@
 
 <div class="wrapper">
     <%@ include file="../CommunFiles/header.jsp" %>
+
     <c:if test="${profile.type eq 'Admin'}">
         <%@ include file="../CommunFiles/menu-side.jsp"%>
 
