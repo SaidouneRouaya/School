@@ -32,6 +32,7 @@ public class ModulesController {
 
                 List<Module> modules = moduleDAO.getAllModules();
 
+                if (modules==null ||modules.isEmpty()) return ("redirect:/empty.j");
 
                 model.addAttribute("modulesList", modules);
                 List<HashSet<Teacher>> teachersList = new ArrayList<>();

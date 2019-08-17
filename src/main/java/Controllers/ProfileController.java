@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 @org.springframework.stereotype.Controller
@@ -33,7 +34,10 @@ public class ProfileController {
         if (profile != null) {
             if (profile.getType().equals("Admin")) {
 
-                model.addAttribute("profilesList", profileDAO.getAllProfiles());
+                List<Profile> profiles= profileDAO.getAllProfiles();
+                if (profiles==null ||profiles.isEmpty()) return ("redirect:/empty.j");
+
+                model.addAttribute("profilesList",profiles );
                 model.addAttribute("error", error);
                 model.addAttribute("profile", profile);
                 return "LanguagesSchoolPages/Profile/ProfilesDataTable";

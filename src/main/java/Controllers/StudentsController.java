@@ -4,6 +4,7 @@ import DAO.ModuleDAO;
 import DAO.PaymentStudentDAO;
 import DAO.StudentDAO;
 import Entities.*;
+import Entities.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,10 @@ public class StudentsController {
     @ModelAttribute("sessionUser")
     public void setUpUserForm(Model model) {
         unpaidStudent=fillUnpaidStudent();
+       while(unpaidStudent.isEmpty())
+       {
+           unpaidStudent=fillUnpaidStudent();
+       }
         model.addAttribute("unpaidStudent", unpaidStudent);
     }
 
@@ -40,6 +45,9 @@ public class StudentsController {
 
         List<Student> students= studentDAO.getAllStudents();
 
+        if (students==null || students.isEmpty()){
+            return new ArrayList<Student>();
+        }
 
         List<Student> unpaidStudent=new ArrayList<>();
 
@@ -105,6 +113,9 @@ public class StudentsController {
 
         String error = "";
         List<Student> studentsList=studentDAO.getAllStudents();
+
+        if (studentsList==null || studentsList.isEmpty()) return ("redirect:/empty.j");
+
         model.addAttribute("studentsList", studentsList);
 
 
@@ -157,7 +168,10 @@ public class StudentsController {
         model.addAttribute("total", total);
 
 
-        model.addAttribute("modules", moduleDAO.getAllModules());
+        List<Module> modules= moduleDAO.getAllModules();
+      if (modules==null || modules.isEmpty()) return ("redirect:/empty.j");
+
+      model.addAttribute("modules", modules);
 
         model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/Profile";

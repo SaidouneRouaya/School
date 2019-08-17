@@ -60,6 +60,11 @@ public class PaymentController {
         String error = "";
 
         List<PaymentStudent> studentPaymentList = paymentStudentDAO.getAllPaymentStudents();
+
+
+        if (studentPaymentList==null ||studentPaymentList.isEmpty()) return ("redirect:/empty.j");
+
+
         model.addAttribute("studentPaymentList", studentPaymentList);
 
         float total = 0f;
@@ -93,6 +98,8 @@ public class PaymentController {
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
                 List<PaymentTeacher> teacherSalariesList = paymentTeacherDAO.getAllPaymentTeachers();
+
+                if (teacherSalariesList==null ||teacherSalariesList.isEmpty()) return ("redirect:/empty.j");
 
                 model.addAttribute("teacherSalariesList", teacherSalariesList);
 
@@ -147,6 +154,7 @@ public class PaymentController {
             if (profile.getType().equalsIgnoreCase("Admin")) {
                 List<PaymentStaff> staffSalariesList = paymentStaffDAO.getAllPaymentStaffs();
 
+                if (staffSalariesList==null ||staffSalariesList.isEmpty()) return ("redirect:/empty.j");
                 model.addAttribute("staffSalariesList", staffSalariesList);
 
                 float total = 0;

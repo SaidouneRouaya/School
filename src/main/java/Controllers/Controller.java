@@ -122,7 +122,7 @@ public class Controller {
 
         model.addAttribute("error", error);
 
-        return "redirect:/Students.j";
+        return "redirect:/addStudent.j";
     }
 
     @RequestMapping("/indexReceptionist")
@@ -131,7 +131,7 @@ public class Controller {
         String error = "";
 
         model.addAttribute("error", error);
-        return "redirect:/Students.j";
+        return "redirect:/addStudent.j";
     }
     @RequestMapping("/error")
     public String error(Model model) {
@@ -140,6 +140,14 @@ public class Controller {
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/404";
+    }
+    @RequestMapping("/empty")
+    public String empty(Model model) {
+
+        String error = "";
+
+        model.addAttribute("error", error);
+        return "LanguagesSchoolPages/empty";
     }
 
 

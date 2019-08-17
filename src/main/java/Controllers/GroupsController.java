@@ -46,7 +46,11 @@ public class GroupsController {
 
         String error = "";
         model.addAttribute("profile", profile);
-        model.addAttribute("groupsList", groupOfStudentsDAO.getAllGroups());
+        List<GroupOfStudents> groups = groupOfStudentsDAO.getAllGroups();
+
+        if (groups==null ||groups.isEmpty()) return ("redirect:/empty.j");
+
+        model.addAttribute("groupsList", groups );
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupsList";
@@ -57,7 +61,12 @@ public class GroupsController {
 
         String error = "";
         model.addAttribute("profile", profile);
-        model.addAttribute("groupsListByModule", groupOfStudentsDAO.getAllGroupsByModules());
+
+        List<GroupOfStudents> groups = groupOfStudentsDAO.getAllGroups();
+
+        if (groups==null ||groups.isEmpty()) return ("redirect:/empty.j");
+
+        model.addAttribute("groupsListByModule", groups);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupsByModule";

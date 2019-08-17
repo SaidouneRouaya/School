@@ -43,7 +43,15 @@ public class StaffController {
         if (profile != null) {
             if (profile.getType().equals("Admin")|| profile.getType().equals("Receptionist")) {
 
-                model.addAttribute("staffList", staffDAO.getAllStaffs());
+               List<Staff> staff= staffDAO.getAllStaffs();
+
+                if (staff==null || staff.isEmpty()) return ("redirect:/empty.j");
+
+
+                model.addAttribute("staffList", staff );
+
+
+
                 model.addAttribute("error", error);
                 model.addAttribute("profile", profile);
                 return "LanguagesSchoolPages/Staff/StaffDataTable";
@@ -229,6 +237,10 @@ public class StaffController {
             if (profile.getType().equals("Admin") || profile.getType().equals("Receptionist")) {
 
                 List<Teacher> teachersList = teacherDAO.getAllTeachers();
+
+
+                if (teachersList==null ||teachersList.isEmpty()) return ("redirect:/empty.j");
+
                 model.addAttribute("teachersList", teachersList);
 
                 List<HashSet<Module>> modulesList = new ArrayList<>();
@@ -263,8 +275,13 @@ public class StaffController {
         if (profile != null) {
             if (profile.getType().equals("Admin")) {
 
+                List<Module> modules= moduleDAO.getAllModules();
 
-                model.addAttribute("modules", moduleDAO.getAllModules());
+
+                if (modules==null || modules.isEmpty()) return ("redirect:/empty.j");
+                model.addAttribute("modules",modules );
+
+
                 model.addAttribute("profile", profile); model.addAttribute("error", error);
                 return "LanguagesSchoolPages/Teachers/AddTeacher";
             } else {
