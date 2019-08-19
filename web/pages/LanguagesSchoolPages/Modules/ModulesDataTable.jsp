@@ -101,6 +101,12 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+
+                                <c:if test="${profile.type eq 'Admin'}">
+                                    <th>#</th>
+                                </c:if>
+
+
                                 <th>Module's name</th>
                                 <th>Teacher</th>
 
@@ -116,6 +122,15 @@
 
                             <tg:forEach items="${modulesList}" var="item">
                                 <tr>
+                                    <c:if test="${profile.type eq 'Admin'}">
+                                        <td>
+                                            <a class="btn  btn-box-tool  bg-red-active"
+                                               href="deleteModule.j?query=${item.id}">
+                                                <i class="fa fa-remove"></i>
+                                            </a>
+                                        </td>
+
+                                    </c:if>
 
                                     <!-- nom du type de la stat  -->
                                     <td><c:out value="${item.name}"/></td>
@@ -142,6 +157,10 @@
                             </tbody>
                             <tfoot>
                             <tr>
+                                <c:if test="${profile.type eq 'Admin'}">
+                                    <th>#</th>
+                                </c:if>
+
                                 <th>Module's name</th>
                                 <th>Teacher</th>
                                 <th>Fees</th>

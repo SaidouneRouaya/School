@@ -254,6 +254,25 @@ public class StudentsController {
 
         String error = "";
 
+        int id_student= Integer.parseInt(query);
+
+        Student student= studentDAO.getStudentByID(id_student);
+
+        Set<PaymentStudent> payments= student.getPaymentSet();
+
+        Set<Module> modules=    student.getModulesSet();
+
+        for (PaymentStudent pay: payments){
+
+            paymentStudentDAO.deletePaymentStudent(pay.getId());
+        }
+
+
+        for (Module module : modules){
+
+            moduleDAO.deleteModule(module.getId());
+        }
+
         studentDAO.deleteStudent(Integer.parseInt(query));
 
         model.addAttribute("profile", profile); model.addAttribute("error", error);

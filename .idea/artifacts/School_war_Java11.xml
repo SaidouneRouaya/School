@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="School:war exploded Last 1.5">
-    <output-path>$PROJECT_DIR$/out/artifacts/School_war_exploded_Last_1_5</output-path>
+  <artifact type="exploded-war" name="School:war_Java11">
+    <output-path>$PROJECT_DIR$/out/artifacts/School_war_Java11</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

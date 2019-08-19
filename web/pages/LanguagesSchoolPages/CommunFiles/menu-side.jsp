@@ -59,8 +59,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="Modules.j"><i class="fa fa-circle-o"></i>Modules list</a></li>
                     <li><a href="addModule.j"><i class="fa fa-circle-o"></i>Add new module</a></li>
+                    <li><a href="Modules.j"><i class="fa fa-circle-o"></i>Modules list</a></li>
+
                 </ul>
             </li>
 
@@ -73,8 +74,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="Students.j"><i class="fa fa-circle-o"></i>Students list</a></li>
                     <li><a href="addStudent.j"><i class="fa fa-circle-o"></i>Add new student</a></li>
+                    <li><a href="Students.j"><i class="fa fa-circle-o"></i>Students list</a></li>
+
                 </ul>
             </li>
 
@@ -87,8 +89,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="Teachers.j"><i class="fa fa-circle-o"></i>Teachers list</a></li>
                     <li><a href="addTeacher.j"><i class="fa fa-circle-o"></i>Add new teacher</a></li>
+                    <li><a href="Teachers.j"><i class="fa fa-circle-o"></i>Teachers list</a></li>
+
                 </ul>
             </li>
 
@@ -101,8 +104,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="Staff.j"><i class="fa fa-circle-o"></i>Staff list</a></li>
                     <li><a href="addStaff.j"><i class="fa fa-circle-o"></i>Add new member</a></li>
+                    <li><a href="Staff.j"><i class="fa fa-circle-o"></i>Staff list</a></li>
+
                 </ul>
             </li>
 
@@ -115,8 +119,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="Profiles.j"><i class="fa fa-circle-o"></i>Profiles list</a></li>
                     <li><a href="addProfile.j"><i class="fa fa-circle-o"></i>Add new profile</a></li>
+                    <li><a href="Profiles.j"><i class="fa fa-circle-o"></i>Profiles list</a></li>
+
                 </ul>
             </li>
 

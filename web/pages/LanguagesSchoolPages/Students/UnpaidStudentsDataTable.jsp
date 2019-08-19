@@ -5,9 +5,10 @@
   Time: 16:20
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
@@ -32,10 +33,7 @@
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 
     <!-- Google Font -->
     <link rel="stylesheet"
@@ -115,32 +113,31 @@
                                     </a></td>
                                     <td><c:out value="${unpaidStudents[i].phoneNumber1}"/></td>
 
-
-
-
                                     <c:choose>
                                         <c:when test="${sessions.get(unpaidStudents[i].id).size() eq 0 }">
-
-                                            <td>No group</td>
                                             <td>No module</td>
+                                            <td>No group</td>
+
                                         </c:when>
 
                                         <c:otherwise>
-                                            <td><tg:forEach begin="0" end="${sessions.get(unpaidStudents[i].id).size() -1}" var="k">
+                                            <td>
+                                                <tg:forEach begin="0" end="${sessions.get(unpaidStudents[i].id).size() -1}" var="k">
 
 
-                                                <c:out value="${sessions.get(unpaidStudents[i].id).get(k).groupOfStudents.module.name}"/>,
+                                                    <c:out value="${sessions.get(unpaidStudents[i].id).get(k).groupOfStudents.module.name}"/>,
 
 
-                                            </tg:forEach></td>
+                                                </tg:forEach>
+                                            </td>
 
                                             <td>
                                                 <tg:forEach begin="0" end="${sessions.get(unpaidStudents[i].id).size() -1}" var="k">
 
 
-                                                <c:out value="${sessions.get(unpaidStudents[i].id).get(k).name}"/>,
+                                                    <c:out value="${sessions.get(unpaidStudents[i].id).get(k).groupOfStudents.name}"/>,
 
-                                            </tg:forEach></td>
+                                                </tg:forEach></td>
                                         </c:otherwise>
                                     </c:choose>
 

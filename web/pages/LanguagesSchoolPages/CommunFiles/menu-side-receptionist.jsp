@@ -70,8 +70,9 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="Students.j"><i class="fa fa-circle-o"></i>Students list</a></li>
                     <li><a href="addStudent.j"><i class="fa fa-circle-o"></i>Add new student</a></li>
+                    <li><a href="Students.j"><i class="fa fa-circle-o"></i>Students list</a></li>
+
                 </ul>
             </li>
 

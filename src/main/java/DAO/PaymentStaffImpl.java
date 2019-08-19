@@ -140,7 +140,7 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
 
             results= session.createCriteria(PaymentStaff.class)
                     .setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
-                    .addOrder(Order.desc("date"))
+                    .addOrder(Order.asc("date"))
                     .list();
             tx.commit();
 
@@ -223,7 +223,7 @@ public class PaymentStaffImpl implements PaymentStaffDAO {
 
             results= session.createCriteria(PaymentStaff.class)
                     .add(Restrictions.eq("staff.id", id_staff))
-                    .addOrder(Order.desc("date"))
+                    .addOrder(Order.asc("date"))
                     .list();
 
 

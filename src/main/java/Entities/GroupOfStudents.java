@@ -52,7 +52,7 @@ public class GroupOfStudents implements Serializable {
     private Teacher teacher;
 
 
-    @OrderBy("startDate Asc")
+    @OrderBy("startDate desc")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupOfStudents")
     private Set <SessionOfGroup> sessionOfGroupsSet;
 

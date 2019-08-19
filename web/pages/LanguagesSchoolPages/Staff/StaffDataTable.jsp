@@ -108,6 +108,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Salary</th>
@@ -119,7 +120,12 @@
                             <tg:forEach begin="0" end="${staffList.size() -1}" var="i">
                                 <tr>
                                     <!-- nom du type de la stat  -->
-
+                                    <td>
+                                        <a class="btn  btn-box-tool  bg-red-active"
+                                           href="deleteStaff.j?query=${staffList[i].id}">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+                                    </td>
                                     <c:if test="${profile.type eq 'Admin'}">
                                             <td>  <a href="StaffProfile.j?query=${staffList[i].id}" >
                                                 <c:out value="${staffList[i].name}"/> <c:out value="${staffList[i].familyname}"/>
@@ -143,6 +149,7 @@
                             </tbody>
                             <tfoot>
                             <tr>
+                                <th>#</th>
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Salary</th>

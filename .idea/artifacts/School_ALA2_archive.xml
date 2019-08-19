@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="School:ALA2_archive">
-    <output-path>$PROJECT_DIR$/out/artifacts/School_ALA2_archive</output-path>
-    <root id="archive" name="School_ALA2_archive.war">
-      <element id="artifact" artifact-name="School:ALA3" />
-    </root>
-  </artifact>
-</component>

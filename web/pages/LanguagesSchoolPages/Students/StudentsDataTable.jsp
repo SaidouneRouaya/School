@@ -113,6 +113,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Type of student</th>
@@ -140,7 +141,12 @@
                                 </c:choose>
 
                                 >
-
+                                    <td>
+                                        <a class="btn  btn-box-tool  bg-red-active"
+                                           href="deleteStudent.j?query=${studentsList[i].id}">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+                                    </td>
                                          <!-- nom du type de la stat  -->
                                     <td><a class="text-black" href="Profile.j?query=${studentsList[i].id}" >
                                          <b><c:out value="${studentsList[i].name}"/>  <c:out value="${studentsList[i].familyname}"/></b>

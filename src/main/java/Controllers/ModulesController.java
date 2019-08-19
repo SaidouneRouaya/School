@@ -173,4 +173,16 @@ public class ModulesController {
     }
 
 
+    @RequestMapping("/deleteModule")
+    public String deleteModule(Model model,  @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
+
+        String error = "";
+
+        moduleDAO.deleteModule(Integer.parseInt(query));
+
+        model.addAttribute("profile", profile); model.addAttribute("error", error);
+        return "redirect:Modules.j";
+    }
+
+
 }

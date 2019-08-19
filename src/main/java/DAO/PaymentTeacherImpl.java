@@ -147,7 +147,7 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
 
                 results= session.createCriteria(PaymentTeacher.class)
                         .setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
-                        .addOrder(Order.desc("date"))
+                        .addOrder(Order.asc("date"))
                         .list();
                 tx.commit();
 
@@ -231,7 +231,7 @@ public class PaymentTeacherImpl implements PaymentTeacherDAO {
 
             results= session.createCriteria(PaymentTeacher.class)
                     .add(Restrictions.eq("teacherPayed.id", id_teacher))
-                    .addOrder(Order.desc("date"))
+                    .addOrder(Order.asc("date"))
                     .list();
 
 

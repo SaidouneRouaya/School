@@ -184,9 +184,9 @@
                                         <!--------------------------------------------------------------->
 
                                         <ul class="list-group list-group-unbordered">
-                                            <div id="salary">
+                                            <div id="salaryDiv">
                                                 <li class="list-group-item">
-                                                    <b>Salary : </b>
+                                                    <b>Salary (without absent students) : </b>
                                                     <span class=" btn bg-purple pull-right" id="salary_span"></span>
                                                 </li>
                                             </div>
@@ -204,7 +204,7 @@
                                             <!-- To pay -->
                                             <div id="salaryDiv">
                                                 <li class="list-group-item">
-                                                    <b>Total to pay : </b>
+                                                    <b>Salary : </b>
                                                     <input id="salaryOfGroup" type="text" name="totalToPay"
                                                            class="col-xs-4 btn bg-navy pull-right"
                                                            onchange="setValue(this)">
@@ -411,6 +411,8 @@
 
 
         document.getElementById("AbsentDiv").innerHTML="";
+        document.getElementById("salaryDiv").innerHTML="";
+
         var printContents = document.getElementById(divName).innerHTML;
         var form = document.getElementById("form");
 

@@ -105,6 +105,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Module</th>
@@ -116,6 +117,12 @@
                                 <tr>
                                     <!-- nom du type de la stat  -->
 
+                                    <td>
+                                        <a class="btn  btn-box-tool  bg-red-active"
+                                           href="deleteTeacher.j?query=${teachersList[i].id}">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+                                    </td>
                                     <c:if test="${profile.type eq 'Admin'}">
                                         <td><a href="TeacherProfile.j?query=${teachersList[i].id}" >
                                             <c:out value="${teachersList[i].name}"/>  <c:out value="${teachersList[i].familyname}"/>
@@ -141,6 +148,7 @@
                             </tbody>
                             <tfoot>
                             <tr>
+                                <th>#</th>
                                 <th>Full name</th>
                                 <th>Phone number</th>
                                 <th>Module</th>

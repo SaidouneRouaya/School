@@ -158,7 +158,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
             results= session.createCriteria(PaymentStudent.class).
                     setProjection(Projections.projectionList().add(Projections.groupProperty("date"), "date"))
-                    .addOrder(Order.desc("date"))
+                    .addOrder(Order.asc("date"))
                     .list();
 
             tx.commit();
@@ -228,7 +228,7 @@ public class PaymentStudentImpl implements PaymentStudentDAO {
 
             results= session.createCriteria(PaymentStudent.class)
                     .add(Restrictions.eq("studentPay.id", id_student))
-                    .addOrder(Order.desc("date"))
+                    .addOrder(Order.asc("date"))
                     .list();
 
 

@@ -180,10 +180,19 @@ public class StaffController {
         if (profile != null) {
             if (profile.getType().equals("Admin")) {
 
+                int id_staff= Integer.parseInt(query);
+                List<PaymentStaff> p= paymentStaffDAO.getPaymentsByStaff(id_staff);
 
-                staffDAO.deleteStaff(Integer.parseInt(query));
+                for (PaymentStaff pay:p){
+                    paymentStaffDAO.deletePaymentStaff(pay.getId());
 
-                model.addAttribute("profile", profile); model.addAttribute("error", error);
+                }
+
+                staffDAO.deleteStaff(id_staff);
+
+                model.addAttribute("profile", profile);
+                model.addAttribute("error", error);
+
                 return "redirect:Staff.j";
             } else {
 
@@ -394,6 +403,15 @@ public class StaffController {
         if (profile != null) {
             if (profile.getType().equals("Admin")) {
 
+                int id_teacher = Integer.parseInt(query);
+               // Teacher teacher= teacherDAO.getTeacherByID(Integer.parseInt(query));
+
+                List<PaymentTeacher> p= paymentTeacherDAO.getPaymentsByTreacher(id_teacher);
+
+                for (PaymentTeacher pay:p){
+                    paymentTeacherDAO.deletePaymentTeacher(pay.getId());
+
+                }
                 teacherDAO.deleteTeacher(Integer.parseInt(query));
 
                 model.addAttribute("profile", profile); model.addAttribute("error", error);

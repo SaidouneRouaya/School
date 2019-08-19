@@ -136,27 +136,7 @@ public class GroupsController {
 
             studentList.put(sessionOfGroup.getId(), students);
 
-            /** presence list **/
-            /*for (Student stud: students){
 
-                List<Presence> presences= new ArrayList<>();
-
-                for (Seance seance: sessionOfGroup.getSeancesSet()){
-
-                    System.out.println(seance.getId()+" "+seance.getDate());
-
-                    System.out.println("test : " + stud.present(seance));
-
-                    Presence presence=new Presence(seance.getId(), stud.present(seance) );
-
-                    presences.add(presence);
-
-                    System.out.println(presence.present);
-                }
-
-                presenceList.put(stud.getId(), presences);
-
-            }*/
 
         }
 
@@ -336,6 +316,62 @@ public class GroupsController {
 
         String error = "";
 
+
+        int numberOfSeances= Integer.parseInt(seancesNumber);
+        int id_group=Integer.parseInt(query);
+
+        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(Integer.parseInt(query));
+
+
+        // creation of session
+        SessionOfGroup sessionOfGroup= new SessionOfGroup(date);
+        sessionOfGroup.setNumberOfSeances(numberOfSeances);
+
+        // creation of seances
+        Set<Seance> seancesList= new HashSet<>();
+
+        for (int i=0; i<numberOfSeances; i++){
+
+           Seance seance;
+            seance=new Seance(null, sessionOfGroup);
+
+
+
+            seancesList.add(seance);
+
+        }
+
+
+
+        /** Add new session **/
+        groupOfStudents.getSessionOfGroupsSet().add(sessionOfGroup);
+        sessionOfGroup.setGroupOfStudents(groupOfStudents);
+
+        /* Persisting */
+        sessionOfGroup.setSeancesSet(seancesList);
+        sessionDAO.addSession(sessionOfGroup);
+
+        groupOfStudentsDAO.updateGroup(id_group, groupOfStudents);
+
+
+        for (Seance seance: seancesList){
+            seanceDAO.addSeance(seance);
+        }
+
+        sessionDAO.updateSession(sessionOfGroup.getId(), sessionOfGroup);
+
+        model.addAttribute("profile", profile);
+        model.addAttribute("error", error);
+
+        return "redirect:GroupDetails.j?id_group="+query;
+
+    }
+
+    @RequestMapping("/addSessionToGroup2")
+    public String addSessionToGroup2(Model model, @RequestParam String query, @RequestParam String date, @RequestParam String seancesNumber, @SessionAttribute ("sessionUser") Profile profile){
+
+        String error = "";
+
         int id_group=Integer.parseInt(query);
         int numberOfSeance = Integer.parseInt(seancesNumber);
 
@@ -398,7 +434,7 @@ public class GroupsController {
            sessionDAO.deleteSession(sessionOfGroup.getId());
         }
 
-       groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
+         groupOfStudentsDAO.deleteGroup(Integer.parseInt(query));
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
