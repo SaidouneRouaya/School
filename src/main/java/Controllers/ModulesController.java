@@ -1,6 +1,7 @@
 package Controllers;
 
 import DAO.ModuleDAO;
+import DAO.TeacherDAO;
 import Entities.*;
 import Entities.Module;
 import net.bytebuddy.agent.builder.AgentBuilder;
@@ -22,6 +23,9 @@ public class ModulesController {
     @Autowired
     private ModuleDAO moduleDAO;
 
+    @Autowired
+    TeacherDAO teacherDAO;
+
     @RequestMapping("/Modules")
     public String modulesList(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
@@ -30,25 +34,27 @@ public class ModulesController {
             if (profile.getType().equalsIgnoreCase("Admin")
                     || profile.getType().equalsIgnoreCase("Receptionist")) {
 
+
                 List<Module> modules = moduleDAO.getAllModules();
 
                 if (modules==null ||modules.isEmpty()) return ("redirect:/empty.j");
 
-                model.addAttribute("modulesList", modules);
-                List<HashSet<Teacher>> teachersList = new ArrayList<>();
+                 model.addAttribute("modulesList", modules);
+
+                 Map<Integer, List<Teacher>> moduleTeacherMap= new HashMap<>();
+
 
                 for (Module module : modules) {
 
-                    HashSet<Teacher> teacher = new HashSet<>(module.getModuleTeachersSet());
-                    teachersList.add(teacher);
+                    moduleTeacherMap.put(module.getId(), new ArrayList<>(module.getModuleTeachersSet()));
 
                 }
 
-                model.addAttribute("teachersList", teachersList);
+
+                model.addAttribute("modulesTeachersMap", moduleTeacherMap);
                 model.addAttribute("profile", profile);
 
                 model.addAttribute("error", error);
-                model.addAttribute("profile", profile);
 
                 return "LanguagesSchoolPages/Modules/ModulesDataTable";
             } else {
@@ -92,6 +98,7 @@ public class ModulesController {
         if (profile != null) {
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
+                model.addAttribute("teachers" , teacherDAO.getAllTeachers());
                 model.addAttribute("module", moduleDAO.getModuleByID(Integer.parseInt(query)));
 
                 model.addAttribute("error", error);
@@ -116,12 +123,29 @@ public class ModulesController {
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
                 Module module = new Module();
+                Teacher teacher;
+                int id_teacher = Integer.parseInt(param.get("teachers"));
+                int id_module = Integer.parseInt(query);
 
                 try {
 
-                    module = new Module(param.get("name"), Long.parseLong(param.get("fees")));
+                    if (id_teacher!=0){
+                        teacher = teacherDAO.getTeacherByID(id_teacher);
+                        module=new Module (param.get("name"), Long.parseLong(param.get("fees")), teacher);
 
-                    moduleDAO.updateModule(Integer.parseInt(query), module);
+                        moduleDAO.updateModule(id_module, module);
+
+                        teacher.getTeacherModulesSet().add(moduleDAO.getModuleByID(id_module));
+                        teacherDAO.updateTeacher(teacher.getId(), teacher);
+
+
+                    }else
+                    {
+                        module = new Module(param.get("name"), Long.parseLong(param.get("fees")));
+                        moduleDAO.updateModule(Integer.parseInt(query), module);
+                    }
+
+
 
                 } catch (Exception ex) {
                     error = ex.toString();

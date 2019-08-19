@@ -1,6 +1,7 @@
 package DAO;
 
 import Entities.GroupOfStudents;
+import Entities.Staff;
 import Entities.Student;
 import Entities.Teacher;
 import Util.HibernateUtil;
@@ -8,6 +9,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +47,13 @@ public class TeacherImpl implements TeacherDAO{
 
         try {
             tx = session.beginTransaction();
-            teachers = session.createQuery("from Teacher ").list();
+            //teachers = session.createQuery("from Teacher ").list();
+
+            teachers= session.createCriteria(Teacher.class)
+                    .add(Restrictions.eq("deleted", false))
+                    .list();
+
+
             for (Teacher teacher: teachers){
                 try{
                     Hibernate.initialize(teacher.getGroupsSet());
@@ -78,7 +86,13 @@ public class TeacherImpl implements TeacherDAO{
         try {
             tx = session.beginTransaction();
             Teacher teacher = session.get(Teacher.class, id);
-            session.delete(teacher);
+            teacher.setDeleted(true);
+            teacher.setGroupsSet(null);
+            teacher.setTeacherModulesSet(null);
+
+            session.update(teacher);
+
+            //session.delete(teacher);
             tx.commit();
 
         } catch (HibernateException e) {

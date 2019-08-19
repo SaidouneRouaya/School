@@ -44,11 +44,11 @@ public class GroupOfStudents implements Serializable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_module", nullable=false)
+    @JoinColumn(name="id_module")
     private Module module;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_teacher", nullable=false)
+    @JoinColumn(name="id_teacher")
     private Teacher teacher;
 
 
@@ -119,13 +119,21 @@ public class GroupOfStudents implements Serializable {
 
         this.sessionOfGroupsSet = new HashSet<>();
     }
+    public GroupOfStudents(String name, String paymentType, int numberSessions, Teacher teacher) {
+        this.name = name;
+        this.paymentType = paymentType;
+        this.numberSessions = numberSessions;
+        this.teacher = teacher;
+        this.sessionOfGroupsSet = new HashSet<>();
+    }
 
-    public void updateGroup (GroupOfStudents groupOfStudentsNew){
+    public void updateGroup(GroupOfStudents groupOfStudentsNew) {
 
-    this.name= groupOfStudentsNew.getName();
-    this.numberSessions=groupOfStudentsNew.getNumberSessions();
-    this.paymentType= groupOfStudentsNew.getPaymentType();
-    this.paymentStudentSet= groupOfStudentsNew.getPaymentStudentSet();
+        this.teacher = groupOfStudentsNew.getTeacher();
+        this.name = groupOfStudentsNew.getName();
+        this.numberSessions = groupOfStudentsNew.getNumberSessions();
+        this.paymentType = groupOfStudentsNew.getPaymentType();
+        this.paymentStudentSet = groupOfStudentsNew.getPaymentStudentSet();
     }
 
     public Set<SessionOfGroup> getSessionOfGroupsSet() {

@@ -29,7 +29,7 @@ public class PaymentStaff implements Serializable {
     private String receiver;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_staff", nullable=false)
+    @JoinColumn(name="id_staff")
     private Staff staff;
 
     public PaymentStaff(String date, Long amount, String receiver, Staff staff) {

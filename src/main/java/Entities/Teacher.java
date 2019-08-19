@@ -38,6 +38,9 @@ public class Teacher  implements Serializable {
     @Lob
     private byte[] picture;
 
+    @Column(name="deleted")
+    private boolean deleted;
+
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
     private Set<GroupOfStudents> groupsSet;
 
@@ -80,7 +83,7 @@ public class Teacher  implements Serializable {
         this.familyname = newTeacher.getFamilyname();
         this.employmentDate= newTeacher.getEmploymentDate();
         this.phoneNumber= newTeacher.getPhoneNumber();
-
+        this.teacherModulesSet= newTeacher.getTeacherModulesSet();
         this.picture = newTeacher.getPicture();
         this.groupsSet= new HashSet<>();
     }
@@ -169,6 +172,14 @@ public class Teacher  implements Serializable {
 
     public void setPaymentTeacherSet(Set<PaymentTeacher> paymentTeacherSet) {
         this.paymentTeacherSet = paymentTeacherSet;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

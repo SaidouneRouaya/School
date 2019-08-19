@@ -108,7 +108,7 @@
 
 
                                 <th>Module's name</th>
-                                <th>Teacher</th>
+                                <th>Teachers</th>
 
                                 <th>Fees</th>
                                 <c:if test="${profile.type eq 'Admin'}">
@@ -135,11 +135,24 @@
                                     <!-- nom du type de la stat  -->
                                     <td><c:out value="${item.name}"/></td>
 
-                                    <td><tg:forEach items="${teachersList}" var="teachers">
-                                        <tg:forEach items="${teachers}" var="teacher">
-                                            <c:out value="${teacher.name}"/>, <c:out value="${teacher.familyname}"/>
-                                        </tg:forEach>
-                                    </tg:forEach></td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${(modulesTeachersMap.get(item.id) eq null)
+                                    or (modulesTeachersMap.get(item.id).size() eq 0)}">
+                                                No teacher assigned to this module
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tg:forEach begin="0" end="${modulesTeachersMap.get(item.id).size()-1}"
+                                                            var="i">
+                                                    <c:out value="${modulesTeachersMap.get(item.id).get(i).name}"/>,
+                                                    <c:out value="${modulesTeachersMap.get(item.id).get(i).familyname}"/>
+                                                </tg:forEach>
+                                            </c:otherwise>
+                                        </c:choose>
+
+
+                                    </td>
+
                                     <td><c:out value="${item.fees}"/></td>
 
                                     <c:if test="${profile.type eq 'Admin'}">
@@ -162,7 +175,7 @@
                                 </c:if>
 
                                 <th>Module's name</th>
-                                <th>Teacher</th>
+                                <th>Teachers</th>
                                 <th>Fees</th>
                                 <c:if test="${profile.type eq 'Admin'}">
                                     <th>Update</th>

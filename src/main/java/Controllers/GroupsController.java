@@ -281,6 +281,7 @@ public class GroupsController {
     public String updateGroupsOfStudent(Model model,  @RequestParam String query, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
+        model.addAttribute("teachers" , teacherDAO.getAllTeachers());
         model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(query)));
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
@@ -293,10 +294,21 @@ public class GroupsController {
 
         String error = "";
         GroupOfStudents group= new GroupOfStudents();
+        Teacher teacher;
+        int id_teacher = Integer.parseInt(param.get("teachers"));
+
 
         try{
 
-            group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")));
+            if (id_teacher!=0){
+                teacher = teacherDAO.getTeacherByID(id_teacher);
+                group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")), teacher);
+
+            }else
+            {
+                group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")));
+
+            }
 
             groupOfStudentsDAO.updateGroup(Integer.parseInt(query), group);
 

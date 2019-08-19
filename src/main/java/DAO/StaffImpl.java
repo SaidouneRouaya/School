@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,9 +41,13 @@ public class StaffImpl implements StaffDAO {
         Transaction tx = null;
         List<Staff> staffs = null;
 
+
         try {
             tx = session.beginTransaction();
-            staffs = session.createQuery("from Staff ").list();
+
+            staffs= session.createCriteria(Staff.class)
+                    .add(Restrictions.eq("deleted", false))
+                    .list();
 
             for (Staff staff:staffs){
                 Hibernate.initialize(staff.getPaymentStaffSet());
@@ -68,7 +73,11 @@ public class StaffImpl implements StaffDAO {
         try {
             tx = session.beginTransaction();
             Staff staff = session.get(Staff.class, id);
-            session.delete(staff);
+
+            staff.setDeleted(true);
+            session.update(staff);
+            //session.delete(staff);
+
             tx.commit();
 
         } catch (HibernateException e) {

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tg" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pc
@@ -104,6 +105,23 @@
                                             <span class="input-group-addon">.00</span>
                                         </div>
                                     </div>
+                                <!-- select teacher -->
+                                <div class="form-group">
+                                    <label>Teacher</label>
+                                    <select name="teachers" id="teacher" class="form-control" >
+                                        <option name="empty" value="${0}" selected>
+
+                                            Select a teacher</option>
+
+                                        <tg:forEach begin="0" end="${teachers.size() -1}" var="i">
+
+                                        <option name="teacher"
+                                                value="${teachers[i].id}">
+                                            <c:out value="${teachers[i].name}"/><c:out value="${teachers[i].familyname}"/>
+                                            </tg:forEach>
+                                        </option>
+                                    </select>
+                                </div>
 
                                 <div>
                                     <button type="submit" class="btn  bg-green-gradient pull-right" >Update</button>

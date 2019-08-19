@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -41,6 +42,15 @@ public class Module implements Serializable {
         this.fees = fees;
         this.groupsSet= new HashSet<>();
         this.moduleTeachersSet = new HashSet<>();
+
+        this.studentsSet= new HashSet<>();
+    }
+ public Module(String name, long fees,  Teacher teacher) {
+        this.name = name;
+        this.fees = fees;
+        this.groupsSet= new HashSet<>();
+        this.moduleTeachersSet = new HashSet<>();
+     this.moduleTeachersSet.add(teacher);
         this.studentsSet= new HashSet<>();
     }
 
@@ -53,8 +63,10 @@ public class Module implements Serializable {
         this.studentsSet= new HashSet<>();
     }
 
+
     public void updateModule(Module newModule)  {
 
+        this.moduleTeachersSet = newModule.getModuleTeachersSet();
         this.name=newModule.getName();
         this.fees=newModule.getFees();
 
@@ -129,4 +141,23 @@ public class Module implements Serializable {
     public void setFees(long fees) {
         this.fees = fees;
     }
+
+    public boolean removeTeacher (Teacher teacher){
+
+        Iterator<Teacher> it= moduleTeachersSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            Teacher teacher1= it.next();
+            if(bool= (teacher1.getId()==teacher.getId())){
+
+                System.out.println("remove teacher from module");
+                this.getModuleTeachersSet().remove(teacher);
+            }
+        }
+        return bool;
+    }
+
+
 }

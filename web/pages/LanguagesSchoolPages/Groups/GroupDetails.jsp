@@ -112,8 +112,19 @@
                             <div class="col-md-4">
                                 <h3 class="box-title">Group : <c:out value="${group.name}"/></h3>
                                 <p></p>
-                                <h5 class="box-title">Teacher : <c:out value="${group.teacher.name}"/>
-                                    <c:out value="${group.teacher.familyname}"/></h5>
+
+                                <h5 class="box-title">Teacher :
+                                    <c:choose>
+                                        <c:when test="${group.teacher eq null}">
+                                            No teacher assigned to this group
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:out value="${group.teacher.name}"/>
+                                            <c:out value="${group.teacher.familyname}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h5>
+
                                 <p></p>
                                 <h5 class="box-title">Module : <c:out value="${group.module.name}"/></h5>
                                 <p></p>
@@ -312,6 +323,7 @@
 
                                             </tg:forEach>
                                             <tr>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <tg:forEach items="${sessions.get(i).seancesSet}"

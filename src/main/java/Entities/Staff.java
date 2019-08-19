@@ -45,6 +45,10 @@ public class Staff  implements Serializable {
     @Lob
     private byte[] picture;
 
+
+    @Column(name="deleted")
+    private boolean deleted;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<PaymentStaff> paymentStaffSet;
 
@@ -142,5 +146,13 @@ public class Staff  implements Serializable {
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

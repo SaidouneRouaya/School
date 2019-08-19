@@ -28,6 +28,9 @@ public class StaffController {
     ModuleDAO moduleDAO;
 
     @Autowired
+    GroupOfStudentsDAO groupsDAO;
+
+    @Autowired
     PaymentTeacherDAO paymentTeacherDAO;
     @Autowired
     PaymentStaffDAO paymentStaffDAO;
@@ -49,8 +52,6 @@ public class StaffController {
 
 
                 model.addAttribute("staffList", staff );
-
-
 
                 model.addAttribute("error", error);
                 model.addAttribute("profile", profile);
@@ -181,12 +182,6 @@ public class StaffController {
             if (profile.getType().equals("Admin")) {
 
                 int id_staff= Integer.parseInt(query);
-                List<PaymentStaff> p= paymentStaffDAO.getPaymentsByStaff(id_staff);
-
-                for (PaymentStaff pay:p){
-                    paymentStaffDAO.deletePaymentStaff(pay.getId());
-
-                }
 
                 staffDAO.deleteStaff(id_staff);
 
@@ -404,18 +399,31 @@ public class StaffController {
             if (profile.getType().equals("Admin")) {
 
                 int id_teacher = Integer.parseInt(query);
-               // Teacher teacher= teacherDAO.getTeacherByID(Integer.parseInt(query));
 
-                List<PaymentTeacher> p= paymentTeacherDAO.getPaymentsByTreacher(id_teacher);
+                Teacher teacher = teacherDAO.getTeacherByID(id_teacher);
 
-                for (PaymentTeacher pay:p){
-                    paymentTeacherDAO.deletePaymentTeacher(pay.getId());
+                Set<GroupOfStudents> groups = teacher.getGroupsSet();
+                Set<Module> modules = teacher.getTeacherModulesSet();
 
+
+                for (GroupOfStudents group : groups) {
+                    group.setTeacher(null);
+                    groupsDAO.updateGroup(group.getId(), group);
                 }
+
+                for (Module modulee: modules){
+                    Module module = moduleDAO.getModuleByID(modulee.getId());
+
+                    module.removeTeacher(teacher);
+                    moduleDAO.updateModule(module.getId(), module );
+                }
+
                 teacherDAO.deleteTeacher(Integer.parseInt(query));
 
-                model.addAttribute("profile", profile); model.addAttribute("error", error);
+                model.addAttribute("profile", profile);
+                model.addAttribute("error", error);
                 return "redirect:Teachers.j";
+
             } else {
 
                 return "redirect:/error.j";
