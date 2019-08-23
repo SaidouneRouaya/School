@@ -437,7 +437,7 @@ public class Student  implements Serializable {
 
             System.out.println(module.getId());
             GroupOfStudents g = aStudentSessionsSet.getSession().getGroupOfStudents();
-            System.out.println(g.getModule().getId());
+          //  System.out.println(g.getModule().getId());
 
             if (g.getModule().getId() == module.getId()) {
                 System.out.println("egalité");

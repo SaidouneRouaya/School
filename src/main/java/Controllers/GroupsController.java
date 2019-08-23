@@ -184,7 +184,6 @@ public class GroupsController {
 
         Set<Student> studentSet=new HashSet<>();
         int numberOfSeances= Integer.parseInt(param.get("seancesNumber"));
-        Set<StudentSession> studentSessionsSet= new HashSet<>();
 
 
         // creation of session
@@ -198,26 +197,21 @@ public class GroupsController {
 
             Date now = new Date();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
             Seance seance;
 
-            if (i==0){
+          /*  if (i==0){
                 seance=new Seance(dateFormat.format(now), sessionOfGroup);
             }else
             {
                 seance=new Seance(null, sessionOfGroup);
-            }
-
-        // creation of student list
-            for (String id_student: studentsList){
-            Student student=studentDAO.getStudentByID(Integer.parseInt(id_student));
+            }*/
 
 
-            if(seance.getDate()!=null){
-                seance.getStudentsSet().add(student);
 
-                student.getSeancesSet().add(seance);
+                seance=new Seance(null, sessionOfGroup);
 
-            }
+
 
                 // add seances to session
             sessionOfGroup
@@ -225,13 +219,16 @@ public class GroupsController {
                     .add(seance);
 
 
-                studentSet.add(student);
-                // studentSessionsSet.add(studentSession);
-            }
-
             seancesList.add(seance);
 
         }
+
+        // creation of student list
+        for (String id_student: studentsList){
+            Student student=studentDAO.getStudentByID(Integer.parseInt(id_student));
+            studentSet.add(student);
+        }
+
 
         GroupOfStudents groupOfStudents = new GroupOfStudents(
                 param.get("name"),
@@ -484,8 +481,6 @@ public class GroupsController {
         return "redirect:GroupDetails.j?id_group="+group;
 
     }
-
-
 
 
 

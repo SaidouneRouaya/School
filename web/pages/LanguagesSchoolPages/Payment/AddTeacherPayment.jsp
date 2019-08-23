@@ -163,7 +163,7 @@
                                                                 <input type="checkbox" onclick="isChecked(this)"
                                                                        name="group"
                                                                        id="group"
-                                                                       value="${group.paymentType} ${group.fees} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id}"/>
+                                                                       value="${group.paymentType} ${sessionSalariesMap.get(sessionsOfGroup.id)} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id}"/>
                                                                 Session of: <c:out value="${sessionsOfGroup.startDate}"/>,
                                                             </label><br>
 
@@ -202,7 +202,7 @@
 
 
                                             <!-- To pay -->
-                                            <div id="salaryDiv">
+                                            <div id="salaryDiv2">
                                                 <li class="list-group-item">
                                                     <b>Salary : </b>
                                                     <input id="salaryOfGroup" type="text" name="totalToPay"

@@ -235,8 +235,6 @@ public class ModulesController {
         for (Student student1: students){
             Student student = studentDAO.getStudentByID(student1.getId());
             student.removeModule(module.getId());
-           // studentDAO.updateStudentModules(student.getId(), student.getModulesSet());
-
             studentDAO.updateStudent(student.getId(), student);
             module.removeStudent(student);
 

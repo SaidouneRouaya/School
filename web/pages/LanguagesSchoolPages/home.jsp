@@ -1,8 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -30,6 +32,17 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
+    <%@ include file="CommunFiles/header.jsp"%>
+    <c:if test="${profile.type eq 'Admin'}">
+        <%@ include file="CommunFiles/menu-side.jsp"%>
+
+    </c:if>
+
+    <c:if test="${profile.type eq 'Receptionist'}">
+        <%@ include file="CommunFiles/menu-side-receptionist.jsp"%>
+    </c:if>
+
+
 
     <!-- Left side column. contains the logo and sidebar -->
 
@@ -39,22 +52,22 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                404 Error Page
+               Home page
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li><a href="#">Examples</a></li>
-                <li class="active">404 error</li>
+                <li class="active">Home</li>
             </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
             <div class="error-page">
-                <h2 class="headline text-yellow"> 404</h2>
+                <h2 class="headline text-aqua text-bold"> Home</h2>
 
                 <div class="error-content">
-                    <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
+                    <h3><i class="fa fa-home text-aqua"></i> Welcome.</h3>
                 </div>
                 <!-- /.error-content -->
             </div>
@@ -66,7 +79,8 @@
     <!-- footer  -->
     <%@ include file="CommunFiles/footer.jsp" %>
 
-
+    <!-- Control Sidebar -->
+    <%@ include file="CommunFiles/controlMenu.jsp"%>
 </div>
 <!-- ./wrapper -->
 

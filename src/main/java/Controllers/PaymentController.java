@@ -255,11 +255,17 @@ public class PaymentController {
 
 
 
-                     fee = group.getFees() * (numberSeances - numberSeancesOfStudent);
+                  //   fee = group.getFees() * (numberSeances - numberSeancesOfStudent);
+
+                    fee=(module.getFees()/(float) numberSeances)* (numberSeances - numberSeancesOfStudent);
 
                 System.out.println("########################################################");
                 System.out.println(group.getId());
                 System.out.println( " group fee = "+ group.getFees() );
+                System.out.println( " module fee = "+ module.getFees());
+
+                System.out.println(" number of seances of this session = "+ numberSeances);
+                System.out.println(" number of seances of this student = "+ numberSeancesOfStudent);
                 System.out.println( " number of seance = "+  (numberSeances - numberSeancesOfStudent) );
             }
                 fees.put(module.getId(), fee);
@@ -317,19 +323,30 @@ public class PaymentController {
 
                          if (group.getPaymentType().equalsIgnoreCase("Student")) {
 
+
+                             System.out.println("#################################\n\n group = "+group.getName());
                              // le nombre d'étudiants * le prix par etudiant (présent)
 
 
                              /** salary of all student with absent ones **/
-                             salary_absent = session.getStudentSessionsSet().size() * group.getFees();
+
+                             int numberOfSeances=  session.getSeancesSet().size();
+                             System.out.println("number of seances = "+numberOfSeances);
+
+                             salary_absent = session.getStudentSessionsSet().size() * group.getModule().getFees();
+                             System.out.println("salary total = "+salary_absent);
+
+                             float feeOfSeance= group.getModule().getFees()/(float) numberOfSeances;
+                             System.out.println("fee of seance = "+feeOfSeance);
 
                              /** salary of only present students **/
                              for (Seance seance : session.getSeancesSet()) {
                                  //number of student present
-                                 Seance sessionn = seanceDAO.getSeanceByID(seance.getId());
-                                 salary += sessionn.getStudentsSet().size() * group.getFees();
+                                 Seance seancee = seanceDAO.getSeanceByID(seance.getId());
+                                 salary += (float) seancee.getStudentsSet().size() * (feeOfSeance );
 
                              }
+                             System.out.println("salary without absent = "+salary);
 
                              session_salary_absent.put(session.getId(), salary_absent-salary);
                              session_salary.put(session.getId(), salary);
