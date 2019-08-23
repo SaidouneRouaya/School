@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -186,4 +187,24 @@ public class Teacher  implements Serializable {
     public boolean equals(Object obj) {
         return this.id== ((Teacher) obj).getId();
     }
+
+
+    public boolean removeModule (Module module){
+
+        Iterator<Module> it= teacherModulesSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            Module module1= it.next();
+            if(bool= (module1.getId()==module.getId())){
+
+                this.getTeacherModulesSet().remove(module1);
+
+            }
+        }
+        return bool;
+    }
+
+
 }

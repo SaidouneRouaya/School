@@ -37,6 +37,9 @@ public class Student  implements Serializable {
     @Column(name="type")
     private String type;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
     @Column(name="subscription_date")
     @Temporal(TemporalType.DATE)
     private Date subscriptionDate;
@@ -155,6 +158,7 @@ public class Student  implements Serializable {
         this.picture = newStudent.getPicture();
         this.paymentSet= newStudent.getPaymentSet();
         this.studentSessionsSet= newStudent.getStudentSessionsSet();
+
         this.modulesSet= newStudent.getModulesSet();
         this.seancesSet =newStudent.getSeancesSet();
 
@@ -265,6 +269,14 @@ public class Student  implements Serializable {
         this.picture = picture;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public void formatDate()
     {
 
@@ -316,7 +328,7 @@ public class Student  implements Serializable {
 
 
 
-    public boolean removeSeance(int id_session){
+    public boolean removeSeance(int id_seance){
 
         Iterator<Seance> it= this.seancesSet.iterator();
         boolean bool= false;
@@ -324,12 +336,26 @@ public class Student  implements Serializable {
         while (it.hasNext() && !bool)
         {
             Seance seance= it.next();
-            if(bool= (seance.getId()==id_session)){
+            if(bool= (seance.getId()==id_seance)){
                 this.getSeancesSet().remove(seance);
             }
         }
         return bool;
     }
+  /*  public boolean removeSession(int id_session){
+
+        Iterator<SessionOfGroup> it= this.getStudentSessionsSet().iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            SessionOfGroup session= it.next();
+            if(bool= (seance.getId()==id_session)){
+                this.getSeancesSet().remove(seance);
+            }
+        }
+        return bool;
+    }*/
 
     public boolean removePayment(int id_payment){
 
@@ -347,11 +373,23 @@ public class Student  implements Serializable {
         return bool;
     }
 
-    public boolean wasPresentinSession(Seance session){
+    public boolean removeModule(int id_module){
 
-        System.out.println(this.getSeancesSet().contains(session));
-        return this.getSeancesSet().contains(session);
+        Iterator<Module> it= this.modulesSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            Module module= it.next();
+
+            if(bool= (module.getId()==id_module)){
+                this.getModulesSet().remove(module);
+            }
+        }
+        return bool;
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

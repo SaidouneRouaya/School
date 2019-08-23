@@ -47,7 +47,11 @@ public class StudentImpl implements StudentDAO {
 
         try {
             tx = session.beginTransaction();
-            students = session.createQuery("from Student ").list();
+            students =session.createCriteria(Student.class)
+                    .add(Restrictions.eq("deleted", false))
+                    .list();
+
+
             for (Student student: students){
 
                 Hibernate.initialize(student.getStudentSessionsSet());
@@ -95,7 +99,14 @@ public class StudentImpl implements StudentDAO {
         try {
             tx = session.beginTransaction();
             Student student = session.get(Student.class, id);
-            session.delete(student);
+           // session.delete(student);
+            student.setDeleted (true);
+           student.setStudentSessionsSet(null);
+           student.setModulesSet(null);
+           student.setSeancesSet(null);
+
+            session.update(student);
+
             tx.commit();
 
         } catch (HibernateException e) {

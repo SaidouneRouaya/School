@@ -3,6 +3,7 @@ package Entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.security.acl.Group;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -67,6 +68,8 @@ public class Module implements Serializable {
     public void updateModule(Module newModule)  {
 
         this.moduleTeachersSet = newModule.getModuleTeachersSet();
+        this.studentsSet= newModule.getStudentsSet();
+        this.groupsSet= newModule.getGroupsSet();
         this.name=newModule.getName();
         this.fees=newModule.getFees();
 
@@ -154,6 +157,38 @@ public class Module implements Serializable {
 
                 System.out.println("remove teacher from module");
                 this.getModuleTeachersSet().remove(teacher);
+            }
+        }
+        return bool;
+    }
+    public boolean removeStudent (Student student){
+
+        Iterator<Student> it= studentsSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            Student student1= it.next();
+            if(bool= (student1.getId()==student.getId())){
+
+
+                this.getStudentsSet().remove(student);
+            }
+        }
+        return bool;
+    }
+ public boolean removeGroup (GroupOfStudents groupOfStudents){
+
+        Iterator<GroupOfStudents> it= groupsSet.iterator();
+        boolean bool= false;
+
+        while (it.hasNext() && !bool)
+        {
+            GroupOfStudents group= it.next();
+            if(bool= (group.getId()==groupOfStudents.getId())){
+
+
+                this.getGroupsSet().remove(group);
             }
         }
         return bool;

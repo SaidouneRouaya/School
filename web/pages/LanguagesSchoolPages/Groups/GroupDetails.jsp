@@ -126,7 +126,16 @@
                                 </h5>
 
                                 <p></p>
-                                <h5 class="box-title">Module : <c:out value="${group.module.name}"/></h5>
+                                <h5 class="box-title">Module :
+                                    <c:choose>
+                                        <c:when test="${group.module eq null}">
+                                            No module assigned to this group
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:out value="${group.module.name}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                   </h5>
                                 <p></p>
                             </div>
                             <div class="col-md-4">
@@ -207,6 +216,7 @@
                                         <tr bgcolor="#deb887">
                                           <!--  <th>#</th>-->
                                             <th>N°</th>
+                                            <th>#</th>
                                             <th>Full name</th>
                                             <th>Phone number</th>
 
@@ -254,12 +264,12 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                 >
-                                               <!--     <td>
+                                                    <td>
                                                         <a class="btn  btn-box-tool  bg-red-active"
                                                            href="deleteStudentFromSession.j?query=${student.id}&id_session=${sessions[i].id}&group=${group.id}">
                                                             <i class="fa fa-remove"></i>
                                                         </a>
-                                                    </td>-->
+                                                    </td>
                                                     <td><c:out value="${number}"/></td>
                                                     <!-- nom du type de la stat  -->
                                                     <td><a class="text-black"
@@ -326,6 +336,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
+                                                <td></td>
                                                 <tg:forEach items="${sessions.get(i).seancesSet}"
                                                             var="seance">
 
@@ -342,7 +353,7 @@
                                                                 </c:choose>
 
 
-                                                                onclick="markPresence(${group.id}, ${i})">Submit
+                                                                onclick="markPresence(${group.id}, ${i}, ${sessions[i].id})">Submit
                                                         </button>
                                                     </td>
 
@@ -577,11 +588,11 @@
         }
     }
 
-    function markPresence(id_group, i) {
+    function markPresence(id_group, i, id_session) {
 
         var form = document.getElementById("session_form" + i.toString());
 
-        var action = "markPresence.j?id_group=" + id_group;
+        var action = "markPresence.j?id_group=" + id_group+"&&id_session="+id_session;
 
         form.setAttribute("action", action);
 

@@ -1,7 +1,6 @@
 package Controllers;
 
-import DAO.ModuleDAO;
-import DAO.TeacherDAO;
+import DAO.*;
 import Entities.*;
 import Entities.Module;
 import net.bytebuddy.agent.builder.AgentBuilder;
@@ -25,6 +24,21 @@ public class ModulesController {
 
     @Autowired
     TeacherDAO teacherDAO;
+
+    @Autowired
+    StudentDAO studentDAO;
+
+    @Autowired
+    SessionDAO sessionDAO;
+
+    @Autowired
+    SeanceDAO seanceDAO;
+
+    @Autowired
+    StudentSessionDAO studentSessionDAO;
+
+    @Autowired
+    GroupOfStudentsDAO groupOfStudentsDAO;
 
     @RequestMapping("/Modules")
     public String modulesList(Model model, @SessionAttribute("sessionUser") Profile profile) {
@@ -202,10 +216,81 @@ public class ModulesController {
 
         String error = "";
 
-        moduleDAO.deleteModule(Integer.parseInt(query));
+        int id_module = Integer.parseInt(query);
+
+        Module module= moduleDAO.getModuleByID(id_module);
+
+        Set<Teacher> teachers= module.getModuleTeachersSet();
+        Set<Student> students= module.getStudentsSet();
+        Set<GroupOfStudents> groups=module.getGroupsSet();
+
+        for (Teacher teacher1: teachers){
+            Teacher teacher= teacherDAO.getTeacherByID(teacher1.getId());
+            teacher.removeModule(module);
+            teacherDAO.updateTeacher(teacher.getId(), teacher);
+            module.removeTeacher(teacher);
+
+        }
+
+        for (Student student1: students){
+            Student student = studentDAO.getStudentByID(student1.getId());
+            student.removeModule(module.getId());
+           // studentDAO.updateStudentModules(student.getId(), student.getModulesSet());
+
+            studentDAO.updateStudent(student.getId(), student);
+            module.removeStudent(student);
+
+
+        }
+
+        for (GroupOfStudents group: groups){
+
+            deleteGroup(group);
+
+        }
+
+        moduleDAO.updateModule(module.getId(), module);
+        moduleDAO.deleteModule(id_module);
 
         model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "redirect:Modules.j";
+    }
+
+
+
+    public void deleteGroup (GroupOfStudents group ){
+
+
+
+            GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(group.getId());
+
+            List<SessionOfGroup> sessionOfGroups= sessionDAO.getSessionByGroup(groupOfStudents.getId());
+
+            for (SessionOfGroup sessionOfGroup: sessionOfGroups){
+
+                for (Seance seance1: sessionOfGroup.getSeancesSet()){
+
+                    Seance seance=  seanceDAO.getSeanceByID(seance1.getId());
+
+                    for (Student student1: seance.getStudentsSet()){
+                        Student student= studentDAO.getStudentByID(student1.getId());
+                        student.removeSeance(seance.getId());
+                        studentDAO.updateStudent(student.getId(), student);
+                        seance.removeStudent(student);
+                    }
+
+                    seanceDAO.deleteSeance(seance.getId());
+                }
+                for (StudentSession studentSession: sessionOfGroup.getStudentSessionsSet()){
+                    studentSessionDAO.deleteStudentSession(studentSession);
+                }
+                sessionDAO.deleteSession(sessionOfGroup.getId());
+            }
+
+            groupOfStudentsDAO.deleteGroup(group.getId());
+
+
+
     }
 
 

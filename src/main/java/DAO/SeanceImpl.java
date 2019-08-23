@@ -8,9 +8,11 @@ import org.hibernate.HibernateException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -131,6 +133,36 @@ public class SeanceImpl implements SeanceDAO {
                 System.out.println( "exception in hibernate initialize");
                 ex.printStackTrace();
             }
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return seance;
+    }
+
+    public List <Seance> getSeanceByDate(Date date, int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List <Seance> seance = null;
+
+        try {
+            tx = session.beginTransaction();
+            seance =  session.createCriteria(Seance.class)
+
+                    .add(Restrictions.eq("date", date))
+                    .add(Restrictions.eq("sessionOfGroup.id", id))
+                    .list();
+
+            for (Seance seance1: seance){
+                Hibernate.initialize(seance1.getStudentsSet());
+                Hibernate.initialize(seance1.getSessionOfGroup());
+
+            }
+
             tx.commit();
 
         } catch (HibernateException e) {

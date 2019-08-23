@@ -1,10 +1,9 @@
 package Controllers;
 
-import DAO.ModuleDAO;
-import DAO.PaymentStudentDAO;
-import DAO.StudentDAO;
+import DAO.*;
 import Entities.*;
 import Entities.Module;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +21,12 @@ public class StudentsController {
 
     @Autowired
     private ModuleDAO moduleDAO;
+
+    @Autowired
+    private SeanceDAO seanceDAO;
+
+    @Autowired
+    private StudentSessionDAO studentSessionDAO;
 
     @Autowired
     private PaymentStudentDAO paymentStudentDAO;
@@ -258,19 +263,34 @@ public class StudentsController {
 
         Student student= studentDAO.getStudentByID(id_student);
 
-        Set<PaymentStudent> payments= student.getPaymentSet();
+      /*  Set<PaymentStudent> payments= student.getPaymentSet();
 
-        Set<Module> modules=    student.getModulesSet();
+
 
         for (PaymentStudent pay: payments){
 
             paymentStudentDAO.deletePaymentStudent(pay.getId());
+        }*/
+
+        Set<Module> modules=  student.getModulesSet();
+        for (Module modulee : modules){
+
+            Module module=moduleDAO.getModuleByID(modulee.getId());
+            module.removeStudent(student);
+            moduleDAO.updateModule(module.getId(), module);
         }
 
+        Set<Seance>  seances= student.getSeancesSet();
+        for (Seance seance: seances){
+            seance.removeStudent(student);
+            seanceDAO.updateSeance(seance.getId(), seance);
+        }
 
-        for (Module module : modules){
+        Set<StudentSession> sessions = student.getStudentSessionsSet();
 
-            moduleDAO.deleteModule(module.getId());
+        for (StudentSession studentSession: sessions){
+
+            studentSessionDAO.deleteStudentSession(studentSession);
         }
 
         studentDAO.deleteStudent(Integer.parseInt(query));

@@ -240,11 +240,13 @@ public class PaymentController {
 
                   if(session.getSession()!=null){
                       int numberSeances = session.getSession().getNumberOfSeances();
+
+                      // represents number of seances that this student won't have
                       int numberSeancesOfStudent = 0;
 
                       for (Seance seance : session.getSession().getSeancesSet()) {
 
-                          if (seance.getDate().before(session.getStartDate())) {
+                          if (seance.getDate()!=null && seance.getDate().before(session.getStartDate())) {
                               numberSeancesOfStudent++;
                           }
                       }

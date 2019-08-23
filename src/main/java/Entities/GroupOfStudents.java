@@ -126,10 +126,19 @@ public class GroupOfStudents implements Serializable {
         this.teacher = teacher;
         this.sessionOfGroupsSet = new HashSet<>();
     }
+    public GroupOfStudents(String name, String paymentType, int numberSessions, Teacher teacher, Module module) {
+        this.name = name;
+        this.paymentType = paymentType;
+        this.numberSessions = numberSessions;
+        this.teacher = teacher;
+        this.module=module;
+        this.sessionOfGroupsSet = new HashSet<>();
+    }
 
     public void updateGroup(GroupOfStudents groupOfStudentsNew) {
 
         this.teacher = groupOfStudentsNew.getTeacher();
+        this.module= groupOfStudentsNew.getModule();
         this.name = groupOfStudentsNew.getName();
         this.numberSessions = groupOfStudentsNew.getNumberSessions();
         this.paymentType = groupOfStudentsNew.getPaymentType();

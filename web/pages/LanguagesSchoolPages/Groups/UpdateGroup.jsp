@@ -133,6 +133,26 @@
                                         <label>Number of sessions</label>
                                         <input type="number" name="sessionNumber" class="form-control" value="${group.numberSessions}">
                                     </div>
+
+                                    <!-- select Module -->
+                                    <div class="form-group">
+                                        <label>Module</label>
+                                        <select name="modules" id="modules" class="form-control" >
+                                            <option name="empty" value="${0}" selected>
+
+                                                Select a module</option>
+
+                                            <tg:forEach begin="0" end="${modules.size() -1}" var="i">
+
+                                            <option name="module"
+                                                    value="${modules[i].id}">
+                                                    <c:out value="${modules[i].name}"/>
+                                                </tg:forEach>
+
+                                        </select>
+                                    </div>
+
+
                                     <!-- select teacher -->
                                     <div class="form-group">
                                         <label>Teacher</label>
@@ -150,6 +170,7 @@
                                             </option>
                                         </select>
                                     </div>
+
 
                                     <div>
                                         <button type="submit" class="btn bg-green-gradient pull-right" >Update</button>

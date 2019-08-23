@@ -281,7 +281,9 @@ public class GroupsController {
     public String updateGroupsOfStudent(Model model,  @RequestParam String query, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
+
         model.addAttribute("teachers" , teacherDAO.getAllTeachers());
+        model.addAttribute("modules" , moduleDAO.getAllModules());
         model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(query)));
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
@@ -295,15 +297,24 @@ public class GroupsController {
         String error = "";
         GroupOfStudents group= new GroupOfStudents();
         Teacher teacher;
+        Module module;
         int id_teacher = Integer.parseInt(param.get("teachers"));
+        int id_module = Integer.parseInt(param.get("modules"));
 
 
         try{
 
-            if (id_teacher!=0){
-                teacher = teacherDAO.getTeacherByID(id_teacher);
-                group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")), teacher);
+            if (id_teacher!=0 ){
+                if (id_module!=0 ){
+                    teacher = teacherDAO.getTeacherByID(id_teacher);
+                    module= moduleDAO.getModuleByID(id_module);
 
+                    group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")), teacher, module);
+
+                }else{
+                    teacher = teacherDAO.getTeacherByID(id_teacher);
+                    group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")), teacher);
+                }
             }else
             {
                 group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")));
@@ -480,28 +491,32 @@ public class GroupsController {
 
 
     @RequestMapping("/markPresence.j")
-    public String markPresence ( @RequestParam String sess, @RequestParam String id_group, @SessionAttribute ("sessionUser") Profile profile){
-
-//EntityExistsException
-
-        System.out.println("im in markpresence");
+    public String markPresence ( @RequestParam String sess, @RequestParam String id_group, @RequestParam String id_session, @SessionAttribute ("sessionUser") Profile profile){
 
 
-        System.out.println(sess);
+
+        int idSession = Integer.parseInt(id_session);
+        Date now = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
+
+        if (!seanceDAO.getSeanceByDate(now, idSession).isEmpty())   {
+            return "redirect:GroupDetails.j?id_group="+id_group;
+        }
+
+
+
 
         String[] ids=sess.split(",");
-
-
         for (String id :ids){
 
 
             Seance seance = seanceDAO.getSeanceByID(Integer.parseInt(id.split(" ", 2)[0]));
             Student student= studentDAO.getStudentByID(Integer.parseInt(id.split(" ", 2)[1]));
 
-            Date now = new Date();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
             try{
-                System.out.println(dateFormat.format(now));
                 seance.setDate(dateFormat.parse(dateFormat.format(now)));
 
             }
