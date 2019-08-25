@@ -44,7 +44,6 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Examples</a></li>
                 <li class="active">Emptiness error</li>
             </ol>
         </section>
@@ -55,7 +54,7 @@
                 <h2 class="headline text-yellow"> Emptiness </h2>
 
                 <div class="error-content">
-                    <h3><i class="fa fa-warning text-yellow"></i> No such element exists.</h3>
+                    <h3><i class="fa fa-warning text-yellow"></i> One or more of the required elements for this function is(are) not existing</h3>
                 </div>
                 <!-- /.error-content -->
             </div>

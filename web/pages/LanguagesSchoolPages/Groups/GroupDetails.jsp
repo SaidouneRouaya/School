@@ -234,6 +234,10 @@
                                                                                         var="k">
 
                                                                                 <c:choose>
+                                                                                    <c:when test="${(seance.date eq null)}">
+
+                                                                                    </c:when>
+
                                                                                     <c:when test="${(presences.get(student.id).get(k).id_session eq seance.id)
                                                                             and (presences.get(student.id).get(k).isPresent()) and (seance.date.toString() eq now)}">
 
@@ -269,15 +273,26 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <tg:forEach begin="0"
-                                                                end="${sessions.get(i).numberOfSeances-1}"
-                                                                var="p">
+                                                    <tg:forEach items="${sessions.get(i).seancesSet}"
+                                                                var="seance">
+
                                                         <td>
                                                             <button
                                                                     type="submit" class="btn bg-olive"
+                                                                    <c:choose>
+                                                                        <c:when test="${(seance.date ne null)}">
+                                                                            disabled
+                                                                        </c:when>
+                                                                        <c:otherwise>
+
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+
+
                                                                     onclick="markPresence(${group.id}, ${i})">Submit
                                                             </button>
                                                         </td>
+
                                                     </tg:forEach>
                                                 </tr>
                                             </form>

@@ -227,9 +227,6 @@
                                         <tg:forEach var="entry" items="${studentList.entrySet()}">
                                             <select name="studentsList" id="studentsList${entry.key}" multiple=""
                                                     class="form-control" style="display: none" >
-                                                <option name="empty" value="${0}" selected>
-
-                                                    Select a student</option>
 
                                                 <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
 
@@ -324,7 +321,8 @@
     function changeStudents() {
         var id= document.getElementById("modules").value;
 
-        document.getElementById(id_previous).style.display="none";
+        console.log("im here");
+        if (document.getElementById(id_previous) != null)  document.getElementById(id_previous).style.display="none";
 
         document.getElementById("studentsList"+id.toString()).style.display="block";
 

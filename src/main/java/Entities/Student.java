@@ -374,16 +374,21 @@ public class Student  implements Serializable {
     }
 
 
-    public boolean present(Seance session){
+    public boolean present(Seance seancee){
 
         if (this.seancesSet.isEmpty()) return false;
-        for (Seance seance : this.seancesSet){
-            if ( seance.getId()==session
-                    .getId() ) return true;
-            break;
+        if (seancee.getDate()==null) return false;
+
+        System.out.println("im in student.present");
+        Iterator<Seance> it = this.seancesSet.iterator();
+
+        Seance seance= it.next();
+        while (seance.getId()!=seancee.getId() && it.hasNext() ){
+            seance= it.next();
+            System.out.println("test seance "+seance.getId());
         }
 
-        return false;
+        return seance.getId() == seancee.getId();
 
     }
 

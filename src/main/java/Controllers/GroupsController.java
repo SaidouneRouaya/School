@@ -45,6 +45,8 @@ public class GroupsController {
     public String pageAccueil(Model model, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
+
+
         model.addAttribute("profile", profile);
         List<GroupOfStudents> groups = groupOfStudentsDAO.getAllGroups();
 
@@ -62,11 +64,12 @@ public class GroupsController {
         String error = "";
         model.addAttribute("profile", profile);
 
-        List<GroupOfStudents> groups = groupOfStudentsDAO.getAllGroups();
+        Map <String, List<GroupOfStudents>> groupsByModules =groupOfStudentsDAO.getAllGroupsByModules();
 
-        if (groups==null ||groups.isEmpty()) return ("redirect:/empty.j");
+        if (groupsByModules==null || groupsByModules.isEmpty()) return ("redirect:/empty.j");
 
-        model.addAttribute("groupsListByModule", groups);
+
+        model.addAttribute("groupsListByModule", groupsByModules);
 
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Groups/GroupsByModule";
@@ -91,20 +94,50 @@ public class GroupsController {
 
 
         /** students List by sessions of the group **/
+
         for (SessionOfGroup sessionOfGroup1 : group.getSessionOfGroupsSet()){
+            System.out.println("session ID: "+sessionOfGroup1.getId());
+
             SessionOfGroup  sessionOfGroup= sessionDAO.getSessionByID(sessionOfGroup1.getId());
             List<Student> students= new ArrayList<>();
 
             for (StudentSession studentSession: sessionOfGroup.getStudentSessionsSet())
             {
+
                 Student student= studentDAO.getStudentByID(studentSession.getStudent().getId());
+
+                System.out.println("seesion "+studentSession.getSession().getId()+" student "+student.getName()
+                        +" Id: " +studentSession.getStudent().getName());
+
+
+
+                List<Presence> presences= new ArrayList<>();
+                System.out.println("\n\nStudent seances size: "+student.getSeancesSet().size()+"\n");
+                for (Seance seance: sessionOfGroup.getSeancesSet()){
+
+                    System.out.println("Seance "+seance.getId()+" "+seance.getDate());
+
+
+                    System.out.println("was present? : " + student.present(seance));
+
+                    Presence presence=new Presence(seance.getId(), student.present(seance) );
+
+                    presences.add(presence);
+
+                    System.out.println(presence.present);
+                }
+
+                presenceList.put(student.getId(), presences);
+
+
                 students.add(student);
+
             }
 
             studentList.put(sessionOfGroup.getId(), students);
 
             /** presence list **/
-            for (Student stud: students){
+            /*for (Student stud: students){
 
                 List<Presence> presences= new ArrayList<>();
 
@@ -123,7 +156,7 @@ public class GroupsController {
 
                 presenceList.put(stud.getId(), presences);
 
-            }
+            }*/
 
         }
 
@@ -150,10 +183,14 @@ public class GroupsController {
 
         List<Module> modules= moduleDAO.getAllModules();
         HashMap<Integer, List<Student>> students= studentDAO.getStudentsByModules(modules);
+        List<Teacher> teachers= teacherDAO.getAllTeachers();
+
+
+        if(modules.isEmpty() || students.isEmpty() || teachers.isEmpty()) return ("redirect:/empty.j");
 
         model.addAttribute("modulesList", modules);
-        model.addAttribute("studentList",students);
-        model.addAttribute("teacherList", teacherDAO.getAllTeachers());
+        model.addAttribute("studentList", students);
+        model.addAttribute("teacherList", teachers );
         model.addAttribute("profile", profile);
 
         model.addAttribute("error", error);
@@ -194,8 +231,13 @@ public class GroupsController {
             for (String id_student: studentsList){
             Student student=studentDAO.getStudentByID(Integer.parseInt(id_student));
 
-            seance.getStudentsSet().add(student);
-            student.getSeancesSet().add(seance);
+
+            if(seance.getDate()!=null){
+                seance.getStudentsSet().add(student);
+
+                student.getSeancesSet().add(seance);
+
+            }
 
                 // add seances to session
             sessionOfGroup
@@ -303,6 +345,10 @@ public class GroupsController {
 
         SessionOfGroup session= new SessionOfGroup(date, seances,groupOfStudents );
 
+        groupOfStudents.getSessionOfGroupsSet().add(session);
+
+        sessionDAO.addSession(session);
+
         for (int i=0; i<numberOfSeance; i++){
             Seance seance= new Seance(date, session);
             seanceDAO.addSeance(seance);
@@ -310,9 +356,7 @@ public class GroupsController {
         }
 
         session.setSeancesSet(seances);
-        groupOfStudents.getSessionOfGroupsSet().add(session);
-
-        sessionDAO.addSession(session);
+        sessionDAO.updateSession(session.getId(), session);
         groupOfStudentsDAO.updateGroup(id_group, groupOfStudents);
 
         model.addAttribute("profile", profile);
@@ -394,6 +438,7 @@ public class GroupsController {
 
         System.out.println("im in markpresence");
 
+
         System.out.println(sess);
 
         String[] ids=sess.split(",");
@@ -408,6 +453,7 @@ public class GroupsController {
             Date now = new Date();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try{
+                System.out.println(dateFormat.format(now));
                 seance.setDate(dateFormat.parse(dateFormat.format(now)));
 
             }
@@ -417,6 +463,7 @@ public class GroupsController {
 
             seance.getStudentsSet().add(student);
             student.getSeancesSet().add(seance);
+
 
             studentDAO.updateStudentSessions(student.getId(), student.getSeancesSet());
 

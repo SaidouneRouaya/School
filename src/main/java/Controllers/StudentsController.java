@@ -29,10 +29,7 @@ public class StudentsController {
     @ModelAttribute("sessionUser")
     public void setUpUserForm(Model model) {
         unpaidStudent=fillUnpaidStudent();
-       while(unpaidStudent.isEmpty())
-       {
-           unpaidStudent=fillUnpaidStudent();
-       }
+
         model.addAttribute("unpaidStudent", unpaidStudent);
     }
 
@@ -116,6 +113,10 @@ public class StudentsController {
 
         if (studentsList==null || studentsList.isEmpty()) return ("redirect:/empty.j");
 
+        unpaidStudent=fillUnpaidStudent();
+
+        model.addAttribute("unpaidStudents", this.unpaidStudent);
+
         model.addAttribute("studentsList", studentsList);
 
 
@@ -130,6 +131,27 @@ public class StudentsController {
 
         String error = "";
 
+
+        unpaidStudent=fillUnpaidStudent();
+
+        if(unpaidStudent.isEmpty() || sessions.isEmpty()) return ("redirect:/empty.j");
+
+        for (Student student: unpaidStudent) System.out.println(student.getName());
+
+        Set<Integer> kies= sessions.keySet();
+
+
+        for (int key : kies ){
+
+            List<SessionOfGroup> list= sessions.get(key);
+
+            for (SessionOfGroup s: list){
+                System.out.println("session "+s.getId());
+            }
+
+
+        }
+
         model.addAttribute("unpaidStudents", this.unpaidStudent);
         model.addAttribute("sessions", sessions);
 
@@ -141,7 +163,9 @@ public class StudentsController {
     public String addStudent(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
-
+        unpaidStudent=fillUnpaidStudent();
+      System.out.println();
+        model.addAttribute("unpaidStudents", this.unpaidStudent);
         model.addAttribute("profile", profile); model.addAttribute("error", error);
         return "LanguagesSchoolPages/Students/AddStudent";
     }
@@ -181,6 +205,7 @@ public class StudentsController {
     public String updateProfile(Model model,  @RequestParam String query, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
+
         model.addAttribute("studentProfile", studentDAO.getStudentByID(Integer.parseInt(query)));
 
         model.addAttribute("profile", profile); model.addAttribute("error", error);
