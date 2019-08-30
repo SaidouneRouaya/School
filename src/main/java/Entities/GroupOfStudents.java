@@ -137,12 +137,12 @@ public class GroupOfStudents implements Serializable {
 
     public void updateGroup(GroupOfStudents groupOfStudentsNew) {
 
-        this.teacher = groupOfStudentsNew.getTeacher();
-        this.module= groupOfStudentsNew.getModule();
-        this.name = groupOfStudentsNew.getName();
-        this.numberSessions = groupOfStudentsNew.getNumberSessions();
-        this.paymentType = groupOfStudentsNew.getPaymentType();
-        this.paymentStudentSet = groupOfStudentsNew.getPaymentStudentSet();
+        if(groupOfStudentsNew.getTeacher()!=null){ this.teacher = groupOfStudentsNew.getTeacher(); }
+        if(groupOfStudentsNew.getModule()!=null) this.module= groupOfStudentsNew.getModule();
+        if(groupOfStudentsNew.getName()!=null) this.name = groupOfStudentsNew.getName();
+        if(groupOfStudentsNew.getNumberSessions()!=0) this.numberSessions = groupOfStudentsNew.getNumberSessions();
+        if(groupOfStudentsNew.getPaymentType ()!=null) this.paymentType = groupOfStudentsNew.getPaymentType();
+        if(groupOfStudentsNew.getPaymentStudentSet ()!=null) this.paymentStudentSet = groupOfStudentsNew.getPaymentStudentSet();
     }
 
     public Set<SessionOfGroup> getSessionOfGroupsSet() {

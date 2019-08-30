@@ -16,18 +16,22 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/dist/css/skins/_all-skins.min.css">
     <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <!-- demo style -->
     <style>
         /* FROM HTTP://WWW.GETBOOTSTRAP.COM
@@ -85,20 +89,19 @@
     <![endif]-->
 </head>
 
-<body  class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
     <%@ include file="../CommunFiles/header.jsp" %>
 
     <c:if test="${profile.type eq 'Admin'}">
-        <%@ include file="../CommunFiles/menu-side.jsp"%>
+        <%@ include file="../CommunFiles/menu-side.jsp" %>
 
     </c:if>
 
     <c:if test="${profile.type eq 'Receptionist'}">
-        <%@ include file="../CommunFiles/menu-side-receptionist.jsp"%>
+        <%@ include file="../CommunFiles/menu-side-receptionist.jsp" %>
     </c:if>
-
 
 
     <!-- Content Wrapper. Contains page content -->
@@ -122,7 +125,8 @@
                 <div class="col-xs-12">
 
                     <div class="box box-default">
-                        <a type="button"  href="addGroup.j" class="btn btn-block btn-primary btn-lg">Add new group of students</a>
+                        <a type="button" href="addGroup.j" class="btn btn-block btn-primary btn-lg">Add new group of
+                            students</a>
                     </div>
 
 
@@ -130,23 +134,22 @@
             </div>
 
 
+            <c:set var="Number" value="${0}"/>
 
 
+            <tg:forEach var="entry" items="${groupsListByModule.entrySet()}">
 
-                <c:set var="Number" value="${0}"/>
+                <div class="row">
+                    <div class="col-md-12">
 
-
-                <tg:forEach var="entry" items="${groupsListByModule.entrySet()}">
-
-                    <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="box">
-                               <div class="box-header">
-                                      <h3 class="box-title"><c:out value="${entry.key}" /></h3>
-                               </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">
+                                    <c:out value="${entry.key}"/>
+                                </h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
 
                                         <tg:forEach begin="0" end="${entry.value.size()-1}" var="i">
 
@@ -213,30 +216,31 @@
                                                     <div class="inner">
 
 
-                                                        <h3><c:out value="${entry.value.get(i).name}" /></h3>
-                                                        <p><c:out value="${entry.value.get(i).module.name}" /></p>
+                                                        <h3><c:out value="${entry.value.get(i).name}"/></h3>
+                                                        <p><c:out value="${entry.value.get(i).module.name}"/></p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="ion ion-person-add"></i>
                                                     </div>
-                                                    <a href="GroupDetails.j?id_group=${entry.value.get(i).id}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                                    <a href="GroupDetails.j?id_group=${entry.value.get(i).id}"
+                                                       class="small-box-footer">More info <i
+                                                            class="fa fa-arrow-circle-right"></i></a>
                                                 </div>
                                             </div>
 
                                         </tg:forEach>
 
                                         <c:set var="Number" value="${Number+1}"/>
-
-                                    </div>
                             </div>
-
                         </div>
+
                     </div>
+                </div>
 
-                </tg:forEach>
+            </tg:forEach>
 
 
-                <!-- ./col -->
+            <!-- ./col -->
 
             <!-- /.row -->
         </section>

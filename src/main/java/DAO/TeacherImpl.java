@@ -1,9 +1,6 @@
 package DAO;
 
-import Entities.GroupOfStudents;
-import Entities.Staff;
-import Entities.Student;
-import Entities.Teacher;
+import Entities.*;
 import Util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -13,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -159,5 +157,48 @@ public class TeacherImpl implements TeacherDAO{
         }
         return teacher;
     }
+
+
+    public List<Teacher> getTeachersByModule(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<Teacher> results=null;
+
+        try {
+            tx = session.beginTransaction();
+
+            results= session.createCriteria(Teacher.class)
+                    .createAlias("teacherModulesSet", "module")
+                    .add(Restrictions.eq("module.id", id))
+                    .list();
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+
+        return results;
+    }
+
+
+    @Override
+    public HashMap<Integer, List<Teacher>> getTeachersByModules(List<Module> modules){
+
+
+        HashMap<Integer, List<Teacher>> results =new HashMap<>();
+
+        for (Module module: modules){
+
+            results.put(module.getId(), getTeachersByModule(module.getId()));
+        }
+
+        return results;
+    }
+
 
 }

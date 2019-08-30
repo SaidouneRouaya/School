@@ -176,24 +176,26 @@
                                     </tr>
 
                                     <c:set var="number" value="0"/>
-                                    <tg:forEach begin="0" end="${payments.size()-1}"  var="i">
-                                        <c:set var="number" value="${number+1}"/>
+                                    <c:if test="${payments.size() gt 0}">
 
-                                        <tr>
+                                        <tg:forEach begin="0" end="${payments.size()-1}" var="i">
+                                            <c:set var="number" value="${number+1}"/>
 
-                                            <td><c:out value="${number}"/></td>
-                                            <td><c:out value="${payments[i].date}"/></td>
-                                            <td><c:out value="${payments[i].amount}"/>0 DZD</td>
-                                            <td>
-                                                <a type="submit" class="btn btn-default pull-right"
-                                                   href="teacherVoucher.j?p=${payments[i].id}"
-                                                   target="_blank"><i class="fa fa-print"></i> print
-                                                </a></td>
-                                        </tr>
+                                            <tr>
 
-                                    </tg:forEach>
+                                                <td><c:out value="${number}"/></td>
+                                                <td><c:out value="${payments[i].date}"/></td>
+                                                <td><c:out value="${payments[i].amount}"/>0 DZD</td>
+                                                <td>
+                                                    <a type="submit" class="btn btn-default pull-right"
+                                                       href="teacherVoucher.j?p=${payments[i].id}"
+                                                       target="_blank"><i class="fa fa-print"></i> print
+                                                    </a></td>
+                                            </tr>
 
+                                        </tg:forEach>
 
+                                    </c:if>
                                     </tbody>
                                     <h4 class="pull-right">Total :${total}0 DZD</h4>
 
@@ -219,7 +221,7 @@
                                 <h4 class="modal-title">Warning </h4>
                             </div>
                             <div class="modal-body">
-                                <p>Do you really want to delete this student ?</p>
+                                <p>Do you really want to delete this teacher ?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel

@@ -149,25 +149,14 @@
                                     </select>
                                 </div>-->
 
-                                <!-- radio -->
+
+
+                                <!-- job -->
                                 <div class="form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" value="administration"
-                                            <c:if test="${staffProfile.job eq 'administration'}">
-                                                   checked
-                                            </c:if> >Administration
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" value="cleaner"
-                                            <c:if test="${staffProfile.job eq 'cleaner'}">
-                                                   checked
-                                            </c:if> >Cleaner
-                                        </label>
-                                    </div>
+                                    <label>Job</label>
+                                    <input type="text" name="job" class="form-control" value="<c:out value ="${staffProfile.job}"/>" placeholder="">
                                 </div>
+
 
                                 <!-- Salary -->
                                 <div class="form-group">

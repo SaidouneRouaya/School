@@ -58,9 +58,9 @@ public class Controller {
                     model.addAttribute("sessionUser", this.profile);
                     model.addAttribute("profile", profile);
 
-                    if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:Home.j";
+                    if (user.getType().equalsIgnoreCase("Admin"))   pageretour = "redirect:index.j";
 
-                    else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:Home.j";
+                    else if (user.getType().equalsIgnoreCase("Receptionist")) pageretour = "redirect:index.j";
 
                 }
                 else {
@@ -119,12 +119,11 @@ public class Controller {
 
         String error = "";
 
-        System.out.println("im an admin");
-        System.out.println(profile.getType());
+        model.addAttribute("profile", profile);
 
         model.addAttribute("error", error);
 
-        return "redirect:/addStudent.j";
+        return "redirect:/Students.j?home=true";
     }
     @RequestMapping("/Home")
     public String Home(Model model, @SessionAttribute("sessionUser") Profile profile) {

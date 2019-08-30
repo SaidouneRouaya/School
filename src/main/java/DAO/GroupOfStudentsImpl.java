@@ -21,7 +21,8 @@ import java.util.TreeMap;
 @Component
 public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
-    public void init(){}
+    public void init() {
+    }
 
     @Override
     public void addGroup(GroupOfStudents groupOfStudents) {
@@ -52,13 +53,13 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             tx = session.beginTransaction();
             groupOfStudents = session.createQuery("from GroupOfStudents ").list();
 
-            for (GroupOfStudents group : groupOfStudents){
-                Hibernate.initialize( group.getModule());
-                Hibernate.initialize (group.getTeacher());
-                Hibernate.initialize (group.getSessionOfGroupsSet());
+            for (GroupOfStudents group : groupOfStudents) {
+                Hibernate.initialize(group.getModule());
+                Hibernate.initialize(group.getTeacher());
+                Hibernate.initialize(group.getSessionOfGroupsSet());
                 Hibernate.initialize((group.getPaymentStudentSet()));
 
-                for (SessionOfGroup sessionOfGroup: group.getSessionOfGroupsSet()){
+                for (SessionOfGroup sessionOfGroup : group.getSessionOfGroupsSet()) {
                     Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
                     Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
                     Hibernate.initialize(sessionOfGroup.getSeancesSet());
@@ -102,7 +103,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
         try {
             tx = session.beginTransaction();
-           GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
+            GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
 
             groupOfStudents.updateGroup(groupOfStudentsNew);
 
@@ -147,7 +148,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
 
     @Override
-    public void updateGroupSessionsList (int id, Set<SessionOfGroup> sessionsList) {
+    public void updateGroupSessionsList(int id, Set<SessionOfGroup> sessionsList) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
@@ -179,23 +180,23 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
         try {
             tx = session.beginTransaction();
-            groupOfStudents =  session.get(GroupOfStudents.class, id);
+            groupOfStudents = session.get(GroupOfStudents.class, id);
 
-            try{
+            try {
                 Hibernate.initialize(groupOfStudents.getModule());
                 Hibernate.initialize(groupOfStudents.getTeacher());
-                Hibernate.initialize (groupOfStudents.getSessionOfGroupsSet());
+                Hibernate.initialize(groupOfStudents.getSessionOfGroupsSet());
                 Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
 
-                for (SessionOfGroup sessionOfGroup: groupOfStudents.getSessionOfGroupsSet()){
+                for (SessionOfGroup sessionOfGroup : groupOfStudents.getSessionOfGroupsSet()) {
                     Hibernate.initialize(sessionOfGroup.getStudentSessionsSet());
                     Hibernate.initialize(sessionOfGroup.getGroupOfStudents());
                     Hibernate.initialize(sessionOfGroup.getSeancesSet());
                 }
                 Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
 
-            } catch( SQLGrammarException ex){
-                System.out.println( "exception in hibernate initialize");
+            } catch (SQLGrammarException ex) {
+                System.out.println("exception in hibernate initialize");
                 ex.printStackTrace();
             }
             tx.commit();
@@ -211,27 +212,30 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
     }
 
 
-
-    public List<Module> getModulesOfGroupsOfStudents ()
-    {
+    public List<Module> getModulesOfGroupsOfStudents() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        List<Module> results=null;
+        List<Module> results = null;
 
 
         try {
             tx = session.beginTransaction();
 
-            results= session.createCriteria(GroupOfStudents.class)
+            results = session.createCriteria(GroupOfStudents.class)
                     .setProjection(Projections.projectionList().add(Projections.groupProperty("module"), "module"))
-                   // .addOrder(Order.desc("module.name"))
+                    // .addOrder(Order.desc("module.name"))
                     .list();
 
-            for (Module module: results){
-                Hibernate.initialize(module.getModuleTeachersSet());
+            if (results == null || results.isEmpty()) return results;
 
-                Hibernate.initialize(module.getStudentsSet());
-                Hibernate.initialize(module.getGroupsSet());
+            for (Module module : results) {
+                if (module != null) {
+                    Hibernate.initialize(module.getModuleTeachersSet());
+
+                    Hibernate.initialize(module.getStudentsSet());
+                    Hibernate.initialize(module.getGroupsSet());
+                }
+
             }
 
             tx.commit();
@@ -246,27 +250,70 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
         return results;
     }
 
-    public List<GroupOfStudents> getGroupsOfStudentsByModule (int  id_module)
-    {
+    public List<GroupOfStudents> getGroupsOfStudentsByModule(int id_module) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        List<GroupOfStudents> results=null;
+        List<GroupOfStudents> results = null;
 
 
         try {
             tx = session.beginTransaction();
 
-            results= session.createCriteria(GroupOfStudents.class)
+            results = session.createCriteria(GroupOfStudents.class)
                     .add(Restrictions.eq("module.id", id_module))
                     .list();
 
-            for(GroupOfStudents groupOfStudents:results){
 
-                Hibernate.initialize(groupOfStudents.getModule());
-                Hibernate.initialize(groupOfStudents.getTeacher());
-                Hibernate.initialize (groupOfStudents.getSessionOfGroupsSet());
-                Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
-                Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
+            if (results == null || results.isEmpty()) return results;
+
+            for (GroupOfStudents groupOfStudents : results) {
+                if (groupOfStudents != null) {
+                    Hibernate.initialize(groupOfStudents.getModule());
+                    Hibernate.initialize(groupOfStudents.getTeacher());
+                    Hibernate.initialize(groupOfStudents.getSessionOfGroupsSet());
+                    Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
+                    Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
+                }
+
+            }
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+    public List<GroupOfStudents> getGroupsOfNullModules() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<GroupOfStudents> results = null;
+
+
+        try {
+            tx = session.beginTransaction();
+
+            results = session.createCriteria(GroupOfStudents.class)
+                    .add(Restrictions.eq("module.id", null))
+                    .list();
+
+
+            if (results == null || results.isEmpty()) return results;
+
+            for (GroupOfStudents groupOfStudents : results) {
+                if (groupOfStudents != null) {
+
+                    Hibernate.initialize(groupOfStudents.getTeacher());
+                    Hibernate.initialize(groupOfStudents.getSessionOfGroupsSet());
+                    Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
+                    Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
+                }
+
             }
 
             tx.commit();
@@ -283,25 +330,26 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
 
     @Override
-    public SortedMap<String, List<GroupOfStudents>> getAllGroupsByModules()
-    {
-        List<Module> modules=getModulesOfGroupsOfStudents();
+    public SortedMap<String, List<GroupOfStudents>> getAllGroupsByModules() {
+        List<Module> modules = getModulesOfGroupsOfStudents();
 
-        SortedMap<String, List<GroupOfStudents>> results= new TreeMap<>();
+        SortedMap<String, List<GroupOfStudents>> results = new TreeMap<>();
 
-        for (Module module:modules){
-            try{
+        for (Module module : modules) {
+            try {
+            if(module!=null){
+                results.put( module.getName(), getGroupsOfStudentsByModule(module.getId()));
+            }
 
-                results.put(module.getName(), getGroupsOfStudentsByModule(module.getId()));
-
-            }catch (Exception e){
+            } catch (Exception e) {
 
                 e.printStackTrace();
             }
         }
+
+
         return results;
     }
-
 
 
 }

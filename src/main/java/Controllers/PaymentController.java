@@ -205,7 +205,7 @@ public class PaymentController {
         List<Student> studentList = studentDAO.getAllStudents();
         studentSessionDAO.getAllStudentSessions();
 
-        List <Map<Integer, String>> groupsList = new ArrayList<>();
+
         List < Map<Integer, Float>> feesList = new ArrayList<>();
 
 
@@ -216,7 +216,7 @@ public class PaymentController {
             Student student= studentDAO.getStudentByID(student1.getId());
 
 
-            Map<Integer, String> groups= new HashMap<>();
+
             Map<Integer, Float> fees= new HashMap<>();
 
 
@@ -224,61 +224,52 @@ public class PaymentController {
 
 
             for (Module module:modules) {
-
-                GroupOfStudents group = student.getGroupOfModule(module);
-                groups.put(module.getId(), Integer.toString(group.getId()));
-
-                 float fee = 0;
-               /*  Iterator<StudentSession> it=student.getStudentSessionsSet().iterator();
-
-                StudentSession session=  it.next();
-
-                while (it.hasNext() && session.getSession().getId()!= group.getLatestSession().getId()){
-                   session= it.next();
-                }*/
-                StudentSession session= student.getLatestSession();
-
-                  if(session.getSession()!=null){
-                      int numberSeances = session.getSession().getNumberOfSeances();
-
-                      // represents number of seances that this student won't have
-                      int numberSeancesOfStudent = 0;
-
-                      for (Seance seance : session.getSession().getSeancesSet()) {
-
-                          if (seance.getDate()!=null && seance.getDate().before(session.getStartDate())) {
-                              numberSeancesOfStudent++;
-                          }
-                      }
-
-                      // fees * number of seances that this student will have starting from his start date in this session
+                float fee = 0;
+               GroupOfStudents groupp = student.getGroupOfModule(module);
 
 
+               if(groupp != null){
+                   // StudentSession session= student.getLatestSession();
 
-                  //   fee = group.getFees() * (numberSeances - numberSeancesOfStudent);
 
-                    fee=(module.getFees()/(float) numberSeances)* (numberSeances - numberSeancesOfStudent);
+                   GroupOfStudents group= groupOfStudentsDAO.getGroupById(groupp.getId());
 
-                System.out.println("########################################################");
-                System.out.println(group.getId());
-                System.out.println( " group fee = "+ group.getFees() );
-                System.out.println( " module fee = "+ module.getFees());
+                   SessionOfGroup session= group.getLatestSession();
 
-                System.out.println(" number of seances of this session = "+ numberSeances);
-                System.out.println(" number of seances of this student = "+ numberSeancesOfStudent);
-                System.out.println( " number of seance = "+  (numberSeances - numberSeancesOfStudent) );
-            }
+
+                       int numberSeances = session.getNumberOfSeances();
+
+                       // represents number of seances that this student won't have
+                       int numberSeancesOfStudent = 0;
+
+                       for (Seance seance : session.getSeancesSet()) {
+
+                           if (seance.getDate()!=null && session.getStartDate().before(seance.getDate())) {
+                               numberSeancesOfStudent++;
+                           }
+                       }
+
+                       // fees * number of seances that this student will have starting from his start date in this session
+
+                       fee=(module.getFees()/(float) numberSeances)* (numberSeances - numberSeancesOfStudent);
+
+
+
+            }else {
+
+                   fee=module.getFees();
+               }
                 fees.put(module.getId(), fee);
             }
 
 
             modulesList.add(modules);
-            groupsList.add(groups);
+           // groupsList.add(groups);
             feesList.add(fees);
         }
 
         model.addAttribute("studentsList", studentList);
-        model.addAttribute("groupsList", groupsList);
+      //  model.addAttribute("groupsList", groupsList);
         model.addAttribute("modulesList", modulesList);
         model.addAttribute("feesList", feesList);
 
@@ -324,29 +315,28 @@ public class PaymentController {
                          if (group.getPaymentType().equalsIgnoreCase("Student")) {
 
 
-                             System.out.println("#################################\n\n group = "+group.getName());
                              // le nombre d'étudiants * le prix par etudiant (présent)
 
 
                              /** salary of all student with absent ones **/
 
                              int numberOfSeances=  session.getSeancesSet().size();
-                             System.out.println("number of seances = "+numberOfSeances);
 
-                             salary_absent = session.getStudentSessionsSet().size() * group.getModule().getFees();
-                             System.out.println("salary total = "+salary_absent);
+                             //salary_absent = session.getStudentSessionsSet().size() * group.getModule().getFees();
 
-                             float feeOfSeance= group.getModule().getFees()/(float) numberOfSeances;
-                             System.out.println("fee of seance = "+feeOfSeance);
+                             /* number of student * number of seances * fees of this group */
+                             salary_absent = session.getStudentSessionsSet().size() *session.getSeancesSet().size() * group.getFees();
+
+                           //  float feeOfSeance= group.getModule().getFees()/(float) numberOfSeances;
 
                              /** salary of only present students **/
                              for (Seance seance : session.getSeancesSet()) {
                                  //number of student present
                                  Seance seancee = seanceDAO.getSeanceByID(seance.getId());
-                                 salary += (float) seancee.getStudentsSet().size() * (feeOfSeance );
+                              //   salary += (float) seancee.getStudentsSet().size() * (feeOfSeance );
+                                 salary += (float) seancee.getStudentsSet().size() * (group.getFees() );
 
                              }
-                             System.out.println("salary without absent = "+salary);
 
                              session_salary_absent.put(session.getId(), salary_absent-salary);
                              session_salary.put(session.getId(), salary);

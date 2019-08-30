@@ -67,11 +67,11 @@ public class Module implements Serializable {
 
     public void updateModule(Module newModule)  {
 
-        this.moduleTeachersSet = newModule.getModuleTeachersSet();
-        this.studentsSet= newModule.getStudentsSet();
-        this.groupsSet= newModule.getGroupsSet();
-        this.name=newModule.getName();
-        this.fees=newModule.getFees();
+        if (newModule.getModuleTeachersSet()!=null) this.moduleTeachersSet = newModule.getModuleTeachersSet();
+        if (newModule.getStudentsSet()!=null) this.studentsSet= newModule.getStudentsSet();
+        if (newModule.getGroupsSet()!=null) this.groupsSet= newModule.getGroupsSet();
+        if (newModule.getName()!=null) this.name=newModule.getName();
+        if (newModule.getFees()!=0) this.fees=newModule.getFees();
 
     }
 

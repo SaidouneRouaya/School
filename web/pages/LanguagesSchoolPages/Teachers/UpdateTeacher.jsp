@@ -133,16 +133,6 @@
                                 </div>
 
 
-                                <!-- Salary -->
-                                <div class="form-group">
-                                    <label>Salary</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">DZD</span>
-                                        <input name="salary" type="text" class="form-control" placeholder="" value="<c:out value ="${teacherProfile.salary}"/>">
-                                        <span class="input-group-addon">.00</span>
-                                    </div>
-                                </div>
-
                                 <div>
                                     <button type="submit" class="btn  bg-green-gradient pull-right" >Update</button>
                                 </div>

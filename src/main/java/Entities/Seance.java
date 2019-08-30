@@ -92,11 +92,10 @@ public class Seance implements Serializable, Comparable<Seance>{
 
 
     public void updateSeance(Seance newSeance){
-        this.date=newSeance.getDate();
-        this.sessionOfGroup= newSeance.getSessionOfGroup();
-        this.studentsSet=newSeance.getStudentsSet();
 
-
+        if(newSeance.getDate()!=null) this.date=newSeance.getDate();
+        if(newSeance.getSessionOfGroup()!=null) this.sessionOfGroup= newSeance.getSessionOfGroup();
+        if(newSeance.getStudentsSet()!=null) this.studentsSet=newSeance.getStudentsSet();
     }
 
     public boolean removeStudent (Student student){

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="School:ALA2308">
+    <output-path>$PROJECT_DIR$/out/artifacts/School_ALA2308</output-path>
+    <root id="archive" name="School_ALA2308.war">
+      <element id="artifact" artifact-name="School:war exploded2308" />
+    </root>
+  </artifact>
+</component>

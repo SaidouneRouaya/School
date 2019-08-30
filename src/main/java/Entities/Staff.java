@@ -67,13 +67,13 @@ public class Staff  implements Serializable {
         this.paymentStaffSet= new HashSet<>();
     }
     public void updateStaff(Staff newStaff ) {
-        this.name = newStaff.getName();
-        this.familyname = newStaff.getFamilyname();
-        this.employmentDate= newStaff.getEmploymentDate();
-        this.phoneNumber= newStaff.getPhoneNumber();
-        this.salary= newStaff.getSalary();
-        this.job= newStaff.getJob();
-        this.picture = newStaff.getPicture();
+        if(newStaff.getName()!=null) this.name = newStaff.getName();
+        if(newStaff.getFamilyname()!=null)  this.familyname = newStaff.getFamilyname();
+        if(newStaff.getEmploymentDate()!=null) this.employmentDate= newStaff.getEmploymentDate();
+        if(newStaff.getPhoneNumber()!=0) this.phoneNumber= newStaff.getPhoneNumber();
+        if(newStaff.getSalary()!=0) this.salary= newStaff.getSalary();
+        if(newStaff.getJob()!=null)  this.job= newStaff.getJob();
+        if(newStaff.getPicture ()!=null) this.picture = newStaff.getPicture();
     }
 
     public Set<PaymentStaff> getPaymentStaffSet() {

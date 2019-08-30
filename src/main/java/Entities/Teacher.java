@@ -80,13 +80,14 @@ public class Teacher  implements Serializable {
     }
 
     public void updateTeacher(Teacher newTeacher ) {
-        this.name = newTeacher.getName();
-        this.familyname = newTeacher.getFamilyname();
-        this.employmentDate= newTeacher.getEmploymentDate();
-        this.phoneNumber= newTeacher.getPhoneNumber();
-        this.teacherModulesSet= newTeacher.getTeacherModulesSet();
-        this.picture = newTeacher.getPicture();
-        this.groupsSet= new HashSet<>();
+        if(newTeacher.getName()!=null) this.name = newTeacher.getName();
+        if(newTeacher.getFamilyname()!=null) this.familyname = newTeacher.getFamilyname();
+        if(newTeacher.getEmploymentDate()!=null) this.employmentDate= newTeacher.getEmploymentDate();
+        if(newTeacher.getPhoneNumber()!=0) this.phoneNumber= newTeacher.getPhoneNumber();
+        if(newTeacher.getTeacherModulesSet()!=null) this.teacherModulesSet= newTeacher.getTeacherModulesSet();
+        if(newTeacher.getPicture()!=null) this.picture = newTeacher.getPicture();
+        if(newTeacher.getGroupsSet()==null) this.groupsSet= new HashSet<>();
+            else this.groupsSet=newTeacher.getGroupsSet();
     }
 
     public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture, Set<GroupOfStudents> groupsSet, Set<PaymentTeacher> paymentTeacherSet, Set<Module> teacherModulesSet) {

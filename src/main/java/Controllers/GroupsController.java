@@ -76,7 +76,9 @@ public class GroupsController {
     }
 
     @RequestMapping("/GroupDetails")
-    public String groupDetails(Model model, @RequestParam String id_group, @SessionAttribute ("unpaidStudent") List<Student> unpaidStudent, @SessionAttribute ("sessionUser") Profile profile) {
+    public String groupDetails(Model model, @RequestParam String id_group,@SessionAttribute ("unpaidStudent") List<Student> unpaidStudent, @SessionAttribute ("sessionUser") Profile profile) {
+
+
 
         String error = "";
 
@@ -162,11 +164,27 @@ public class GroupsController {
         String error = "";
 
         List<Module> modules= moduleDAO.getAllModules();
-        HashMap<Integer, List<Student>> students= studentDAO.getStudentsByModules(modules);
-        List<Teacher> teachers= teacherDAO.getAllTeachers();
 
+        HashMap<Integer, List<Student>> students= studentDAO.getStudentsByModules(modules);
+        HashMap<Integer, List<Teacher>> teachers= teacherDAO.getTeachersByModules(modules);
 
         if(modules.isEmpty() || students.isEmpty() || teachers.isEmpty()) return ("redirect:/empty.j");
+
+        List<Module> modules2Remove= new ArrayList<>();
+
+        for (Module module:modules){
+
+           int key= module.getId();
+
+            if (students.get(key).isEmpty() || teachers.get(key).isEmpty()){
+                students.remove(key, students.get(key));
+                teachers.remove(key, teachers.get(key));
+                modules2Remove.add(module);
+            }
+        }
+
+
+        modules.removeAll(modules2Remove);
 
         model.addAttribute("modulesList", modules);
         model.addAttribute("studentList", students);
@@ -178,7 +196,7 @@ public class GroupsController {
     }
 
     @RequestMapping("/addNewGroup")
-    public String addNewGroup(Model model , @RequestParam Map<String, String> param, @RequestParam List<String> studentsList, @SessionAttribute ("sessionUser") Profile profile) {
+    public String addNewGroup(Model model , @RequestParam Map<String, String> param,  @RequestParam List<String> studentsList, @SessionAttribute ("sessionUser") Profile profile) {
 
         String error = "";
 
@@ -195,19 +213,8 @@ public class GroupsController {
 
         for (int i=0; i<numberOfSeances; i++){
 
-            Date now = new Date();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             Seance seance;
-
-          /*  if (i==0){
-                seance=new Seance(dateFormat.format(now), sessionOfGroup);
-            }else
-            {
-                seance=new Seance(null, sessionOfGroup);
-            }*/
-
-
 
                 seance=new Seance(null, sessionOfGroup);
 

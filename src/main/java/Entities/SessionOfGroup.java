@@ -99,10 +99,10 @@ public class SessionOfGroup  implements Serializable {
     }
 
     public void updateSession(SessionOfGroup newSession){
-        this.startDate=newSession.getStartDate();
-        this.seancesSet= newSession.getSeancesSet();
-        this.groupOfStudents=newSession.getGroupOfStudents();
-        this.studentSessionsSet= newSession.getStudentSessionsSet();
+        if (newSession.getStartDate()!=null ) this.startDate=newSession.getStartDate();
+        if (newSession.getSeancesSet()!=null )  this.seancesSet= newSession.getSeancesSet();
+        if (newSession.getGroupOfStudents()!=null ) this.groupOfStudents=newSession.getGroupOfStudents();
+        if (newSession.getStudentSessionsSet()!=null ) this.studentSessionsSet= newSession.getStudentSessionsSet();
 
     }
 

@@ -148,19 +148,19 @@ public class Student  implements Serializable {
     }
 
     public void updateStudent(Student newStudent ) {
-        this.name = newStudent.getName();
-        this.familyname = newStudent.getFamilyname();
-        this.phoneNumber1 = newStudent.getPhoneNumber1();
-        this.phoneNumber2 = newStudent.getPhoneNumber2();
-        this.type = newStudent.getType();
-        this.subscriptionDate = newStudent.getSubscriptionDate();
-        this.discount=newStudent.getDiscount();
-        this.picture = newStudent.getPicture();
-        this.paymentSet= newStudent.getPaymentSet();
-        this.studentSessionsSet= newStudent.getStudentSessionsSet();
 
-        this.modulesSet= newStudent.getModulesSet();
-        this.seancesSet =newStudent.getSeancesSet();
+        if (newStudent.getName()!=null) this.name = newStudent.getName();
+        if (newStudent.getFamilyname()!=null) this.familyname = newStudent.getFamilyname();
+        if (newStudent.getPhoneNumber1()!=0) this.phoneNumber1 = newStudent.getPhoneNumber1();
+        if (newStudent.getPhoneNumber2()!=0) this.phoneNumber2 = newStudent.getPhoneNumber2();
+        if (newStudent.getType()!=null)this.type = newStudent.getType();
+        if (newStudent.getSubscriptionDate()!=null) this.subscriptionDate = newStudent.getSubscriptionDate();
+        if (newStudent.getDiscount()!=0) this.discount=newStudent.getDiscount();
+        if (newStudent.getPicture()!=null) this.picture = newStudent.getPicture();
+        if (newStudent.getPaymentSet()!=null) this.paymentSet= newStudent.getPaymentSet();
+        if (newStudent.getStudentSessionsSet()!=null) this.studentSessionsSet= newStudent.getStudentSessionsSet();
+        if (newStudent.getModulesSet()!=null)this.modulesSet= newStudent.getModulesSet();
+        if (newStudent.getSeancesSet()!=null)this.seancesSet =newStudent.getSeancesSet();
 
 
     }
@@ -435,18 +435,17 @@ public class Student  implements Serializable {
 
         for (StudentSession aStudentSessionsSet : studentSessionsSet) {
 
-            System.out.println(module.getId());
             GroupOfStudents g = aStudentSessionsSet.getSession().getGroupOfStudents();
           //  System.out.println(g.getModule().getId());
 
-            if (g.getModule().getId() == module.getId()) {
+            if (g.getModule()!=null && g.getModule().getId() == module.getId()) {
                 System.out.println("egalité");
                 return g;
 
             }
 
         }
-        return new GroupOfStudents();
+        return null;
     }
 
 

@@ -43,21 +43,4 @@ public class StudentSessionID implements Serializable {
         this.session = session;
     }
 
-/*    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        StudentSessionID that = (StudentSessionID) o;
-        return Objects.equals(student.getId(), that.getStudent().getId()) &&
-                Objects.equals(session.getId(), that.getSession().getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(student.getId(), session.getId());
-    }
-*/
-
 }

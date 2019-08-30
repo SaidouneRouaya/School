@@ -61,15 +61,13 @@ public class StudentsController {
 
 
 
-            if (student.getPaymentSet().size() > 0) {
+            if (student.getType().equalsIgnoreCase("payee")) {
 
+                List<SessionOfGroup> sessionsOfStudent = new ArrayList<>();
                 try {
-                    if (student.getType().equalsIgnoreCase("payee")) {
+                    if (student.getPaymentSet().size() > 0) {
 
                         if (student.getSubscriptionDate().before(today)) {
-
-                            List<SessionOfGroup> sessionsOfStudent= new ArrayList<>();
-
 
                             for (StudentSession studentSession : student.getStudentSessionsSet()) {
 
@@ -88,22 +86,21 @@ public class StudentsController {
                             if (bool)  sessions.put(student.getId(), sessionsOfStudent);
                         }
 
-                    }
+                    }else {
+                        unpaidStudent.add(student);
 
+                        for (StudentSession studentSession : student.getStudentSessionsSet()) {
+                            sessionsOfStudent.add(studentSession.getSession());
+
+                        }
+                    }
 
                 }
                 catch (Exception e){
                     e.printStackTrace();
                 }
 
-            }else {
-                unpaidStudent.add(student);
-                List<SessionOfGroup> sessionsOfStudent= new ArrayList<>();
-                for (StudentSession studentSession : student.getStudentSessionsSet()) {
-                    sessionsOfStudent.add(studentSession.getSession());
-
-                }
-                sessions.put(student.getId(),sessionsOfStudent );
+                sessions.put(student.getId(), sessionsOfStudent );
             }
         }
       return unpaidStudent;
@@ -111,9 +108,14 @@ public class StudentsController {
 
 
     @RequestMapping("/Students")
-    public String studentsList(Model model, @SessionAttribute("sessionUser") Profile profile) {
+    public String studentsList(Model model, @SessionAttribute("sessionUser") Profile profile, @RequestParam String home)  {
 
         String error = "";
+
+        if (home.equals("true")){
+            return ("redirect:Home.j");
+        }
+
         List<Student> studentsList=studentDAO.getAllStudents();
 
         if (studentsList==null || studentsList.isEmpty()) return ("redirect:/empty.j");
@@ -251,7 +253,7 @@ public class StudentsController {
         }
 
         model.addAttribute("profile", profile); model.addAttribute("error", error);
-        return "redirect:Students.j";
+        return "redirect:Students.j?home=1";
     }
 
     @RequestMapping("/deleteStudent")
@@ -296,7 +298,7 @@ public class StudentsController {
         studentDAO.deleteStudent(Integer.parseInt(query));
 
         model.addAttribute("profile", profile); model.addAttribute("error", error);
-        return "redirect:Students.j";
+        return "redirect:Students.j?home=1";
     }
 
     @RequestMapping("/PersistUpdate")

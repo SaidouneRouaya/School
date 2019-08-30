@@ -127,18 +127,25 @@
                                 <!-- select teacher -->
                                 <div class="form-group">
                                     <label>Teacher</label>
-                                    <select name="teachers" id="teacher" class="form-control" >
-                                        <option name="empty" value="${0}" selected>
 
-                                            Select a teacher</option>
 
-                                        <tg:forEach begin="0" end="${teacherList.size() -1}" var="i">
+                                    <tg:forEach var="entry" items="${teacherList.entrySet()}">
+                                        <select name="teachers" id="teacherList${entry.key}"
+                                                class="form-control" style="display: none" >
 
-                                        <option name="teacher"
-                                                value="${teacherList[i].id}">
-                                                <c:out value="${teacherList[i].name}"/><c:out value="${teacherList[i].familyname}"/>
+
+                                            <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
+
+                                                <option name="teacher" value="${entry.value.get(i).id}">
+                                                    <c:out value="${entry.value.get(i).name}"/>
+                                                    <c:out value="${entry.value.get(i).familyname}"/>
+                                                </option>
+
                                             </tg:forEach>
-                                    </select>
+
+
+                                        </select>
+                                    </tg:forEach>
                                 </div>
                                 <div class="form-group">
                                     <label>Fees (unit price) </label>
@@ -316,19 +323,24 @@
 <script src="${pageContext.request.contextPath}/resources/dist/js/demo.js"></script>
 <!-- Page script -->
 <script>
-    var id_previous="studentsList1";
+    var id_previous="";
+    var id_previousT="";
 
     function changeStudents() {
         var id= document.getElementById("modules").value;
 
         console.log("im here");
+
+
         if (document.getElementById(id_previous) != null)  document.getElementById(id_previous).style.display="none";
+        if (document.getElementById(id_previousT) != null)  document.getElementById(id_previousT).style.display="none";
 
         document.getElementById("studentsList"+id.toString()).style.display="block";
+        document.getElementById("teacherList"+id.toString()).style.display="block";
 
         id_previous="studentsList"+id.toString();
+        id_previousT="teacherList"+id.toString();
     }
-
 
 
 

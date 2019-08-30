@@ -135,10 +135,9 @@
 
                                     <td><c:out value ="${teachersList[i].phoneNumber}"/></td>
 
-                                    <td><tg:forEach items="${modulesList}" var="modules">
-                                        <tg:forEach items="${modules}" var="module">
-                                            <c:out value="${module.name}"/>,
-                                        </tg:forEach>
+                                    <td><tg:forEach begin="0" end="${modulesList.get(teachersList[i].id).size()-1}" var="k">
+
+                                            <c:out value="${modulesList.get(teachersList[i].id).get(k).name}"/>,
                                     </tg:forEach></td>
 
                                 </tr>

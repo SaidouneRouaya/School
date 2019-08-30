@@ -210,7 +210,7 @@ public class StaffController {
             if (profile.getType().equals("Admin")) {
 
                 Staff staff = new Staff(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
-                        param.get("r3"), param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
+                        param.get("job"), param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
 
                 staffDAO.updateStaff(Integer.parseInt(query), staff);
 
@@ -247,13 +247,11 @@ public class StaffController {
 
                 model.addAttribute("teachersList", teachersList);
 
-                List<HashSet<Module>> modulesList = new ArrayList<>();
+                HashMap<Integer,List<Module>> modulesList= new HashMap<>() ;
 
                 for (Teacher teacher : teachersList) {
 
-                    HashSet<Module> modules = new HashSet<>(teacher.getTeacherModulesSet());
-
-                    modulesList.add(modules);
+                    modulesList.put(teacher.getId(), new ArrayList<>(teacher.getTeacherModulesSet()));
                 }
 
                 model.addAttribute("modulesList", modulesList);
