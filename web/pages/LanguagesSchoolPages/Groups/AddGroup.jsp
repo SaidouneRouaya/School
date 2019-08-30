@@ -147,6 +147,8 @@
                                         </select>
                                     </tg:forEach>
                                 </div>
+
+
                                 <div class="form-group">
                                     <label>Fees (unit price) </label>
                                     <div class="input-group">

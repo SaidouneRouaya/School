@@ -137,7 +137,7 @@
                                     <!-- select Module -->
                                     <div class="form-group">
                                         <label>Module</label>
-                                        <select name="modules" id="modules" class="form-control" >
+                                        <select name="modules" id="modules" class="form-control"  onchange="changeTeachers()">
                                             <option name="empty" value="${0}" selected>
 
                                                 Select a module</option>
@@ -154,22 +154,30 @@
 
 
                                     <!-- select teacher -->
+
                                     <div class="form-group">
                                         <label>Teacher</label>
-                                        <select name="teachers" id="teacher" class="form-control" >
-                                            <option name="empty" value="${0}" selected>
 
-                                                Select a teacher</option>
 
-                                            <tg:forEach begin="0" end="${teachers.size() -1}" var="i">
+                                        <tg:forEach var="entry" items="${teachers.entrySet()}">
+                                            <select name="teachers" id="teacherList${entry.key}"
+                                                    class="form-control" style="display: none" >
 
-                                            <option name="teacher"
-                                                    value="${teachers[i].id}">
-                                                    <c:out value="${teachers[i].name}"/><c:out value="${teachers[i].familyname}"/>
+
+                                                <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
+
+                                                    <option name="teacher" value="${entry.value.get(i).id}">
+                                                        <c:out value="${entry.value.get(i).name}"/>
+                                                        <c:out value="${entry.value.get(i).familyname}"/>
+                                                    </option>
+
                                                 </tg:forEach>
-                                            </option>
-                                        </select>
+
+
+                                            </select>
+                                        </tg:forEach>
                                     </div>
+
 
 
                                     <div>
@@ -227,8 +235,25 @@
 <script src="${pageContext.request.contextPath}/resources/dist/js/demo.js"></script>
 <!-- Page script -->
 <script>
-    function enable(){ document.getElementById("discount").disabled = false;}
-    function disable(){ document.getElementById("discount").disabled = true;}
+
+
+    var id_previousT="";
+
+    function changeTeachers() {
+        var id= document.getElementById("modules").value;
+
+        if (document.getElementById(id_previousT) != null)  document.getElementById(id_previousT).style.display="none";
+
+
+        document.getElementById("teacherList"+id.toString()).style.display="block";
+
+
+        id_previousT="teacherList"+id.toString();
+    }
+
+
+
+
 
     $(function () {
 

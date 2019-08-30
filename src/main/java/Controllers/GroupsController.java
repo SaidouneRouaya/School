@@ -286,8 +286,32 @@ public class GroupsController {
 
         String error = "";
 
-        model.addAttribute("teachers" , teacherDAO.getAllTeachers());
-        model.addAttribute("modules" , moduleDAO.getAllModules());
+        List<Module> modules= moduleDAO.getAllModules();
+
+
+        HashMap<Integer, List<Teacher>> teachers= teacherDAO.getTeachersByModules(modules);
+
+        if(modules.isEmpty() ||  teachers.isEmpty()) return ("redirect:/empty.j");
+
+        List<Module> modules2Remove= new ArrayList<>();
+
+        for (Module module:modules){
+
+            int key= module.getId();
+
+            if ( teachers.get(key).isEmpty()){
+
+                teachers.remove(key, teachers.get(key));
+                modules2Remove.add(module);
+            }
+        }
+
+
+        modules.removeAll(modules2Remove);
+
+
+        model.addAttribute("teachers" , teachers);
+        model.addAttribute("modules" , modules);
         model.addAttribute("group", groupOfStudentsDAO.getGroupById(Integer.parseInt(query)));
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
