@@ -471,10 +471,12 @@ public class GroupsController {
              Seance seance=  seanceDAO.getSeanceByID(seance1.getId());
 
                for (Student student1: seance.getStudentsSet()){
+
                    Student student= studentDAO.getStudentByID(student1.getId());
                    student.removeSeance(seance.getId());
                    studentDAO.updateStudent(student.getId(), student);
                    seance.removeStudent(student);
+
                }
 
                seanceDAO.deleteSeance(seance.getId());

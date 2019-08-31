@@ -90,7 +90,7 @@
                             <form role="form" method="post" action="addNewStaff.j">
 
                                 <div>
-                                    <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/user4-128x128.jpg" alt="User profile picture">
+                                    <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/avatar.png" alt="Add Staff picture">
                                     <input type="file" name="picture"  class="pull-right">
 
                                 </div>

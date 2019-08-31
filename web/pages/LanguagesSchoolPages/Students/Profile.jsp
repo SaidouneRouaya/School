@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle"  src="${studentProfile.picture}"  alt="User Avatar">
+                            <img class="img-circle" src="${pageContext.request.contextPath}/resources/dist/img/user6-128x128.jpg"  alt="Student Avatar">
                         </div>
                         <div class="box-footer">
                             <div class="row">

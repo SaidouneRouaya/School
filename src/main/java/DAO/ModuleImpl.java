@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import Entities.Module;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +46,9 @@ public class ModuleImpl implements  ModuleDAO{
 
         try {
             tx = session.beginTransaction();
-            modules = session.createQuery("from Module ").list();
+            modules = session.createCriteria(Module.class)
+                    .add(Restrictions.eq("deleted", false))
+                    .list();
 
             for (Module module:modules){
 
@@ -84,7 +87,10 @@ public class ModuleImpl implements  ModuleDAO{
         try {
             tx = session.beginTransaction();
             Module module = session.get(Module.class, id);
-            session.delete(module);
+
+            module.setDeleted(true);
+
+            session.update(module);
             tx.commit();
 
         } catch (HibernateException e) {

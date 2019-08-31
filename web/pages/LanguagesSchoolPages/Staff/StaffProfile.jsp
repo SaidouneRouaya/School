@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle"  src="${staffProfile.picture}"  alt="User Avatar">
+                            <img class="img-circle"  src="${pageContext.request.contextPath}/resources/dist/img/avatar.png"  alt="Staff Avatar">
                         </div>
                         <div class="box-footer">
                             <div class="row">

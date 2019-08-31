@@ -89,7 +89,7 @@
                             <form role="form" method="post" action="PersistUpdateProfile.j?query=${userProfile.id}">
 
                                 <div>
-                                    <img class="profile-user-img img-responsive img-circle" src="${userProfile.picture}" alt="User profile picture">
+                                    <img class="profile-user-img img-responsive img-circle" ="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" alt="User profile picture">
                                     <input type="file" name= "picture" class="pull-right">
 
                                 </div>

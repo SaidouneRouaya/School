@@ -21,7 +21,7 @@
                 <img src="${pageContext.request.contextPath}/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p><c:out value="${profile.name }"/><c:out value="${profile.familyname }"/></p>
+                <p><c:out value="${profile.name }"/> <c:out value="${profile.familyname }"/></p>
             </div>
         </div>
         <!-- search form
@@ -39,10 +39,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MENU</li>
 
-                <a href="Home.j">
-                    <i class="fa fa-home"></i> <span>Home</span>
-
-                </a>
+            <li><a href="Home.j"><i class="fa fa-circle-o text-blue"></i> <span>Home</span></a></li>
 
             <li class="treeview">
                 <a href="#">

@@ -71,6 +71,10 @@
                 </div>
                 <!-- /.error-content -->
             </div>
+
+            <div class="content-img">
+                <img src="${pageContext.request.contextPath}/resources/dist/img/photo2.png" alt="img" class="w3l-img">
+            </div>
             <!-- /.error-page -->
         </section>
         <!-- /.content -->

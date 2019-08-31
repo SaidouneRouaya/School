@@ -51,7 +51,9 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
 
         try {
             tx = session.beginTransaction();
-            groupOfStudents = session.createQuery("from GroupOfStudents ").list();
+            groupOfStudents = session.createCriteria(GroupOfStudents.class)
+                    .add(Restrictions.eq("deleted", false))
+                    .list();
 
             for (GroupOfStudents group : groupOfStudents) {
                 Hibernate.initialize(group.getModule());
@@ -85,7 +87,9 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
         try {
             tx = session.beginTransaction();
             GroupOfStudents groupOfStudents = session.get(GroupOfStudents.class, id);
-            session.delete(groupOfStudents);
+            groupOfStudents.setDeleted(true);
+            session.update(groupOfStudents);
+
             tx.commit();
 
         } catch (HibernateException e) {
@@ -159,8 +163,6 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             groupOfStudents.setSessionOfGroupsSet(sessionsList);
             session.update(groupOfStudents);
 
-            System.out.println("update");
-
             tx.commit();
 
         } catch (HibernateException e) {
@@ -222,6 +224,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             tx = session.beginTransaction();
 
             results = session.createCriteria(GroupOfStudents.class)
+                    .add(Restrictions.eq("deleted", false))
                     .setProjection(Projections.projectionList().add(Projections.groupProperty("module"), "module"))
                     // .addOrder(Order.desc("module.name"))
                     .list();
@@ -260,6 +263,7 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
             tx = session.beginTransaction();
 
             results = session.createCriteria(GroupOfStudents.class)
+                    .add(Restrictions.eq("deleted", false))
                     .add(Restrictions.eq("module.id", id_module))
                     .list();
 

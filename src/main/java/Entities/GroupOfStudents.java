@@ -42,6 +42,8 @@ public class GroupOfStudents implements Serializable {
     @Column(name = "fees")
     private float fees;
 
+    @Column(name= "deleted")
+    private  boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_module")
@@ -232,6 +234,14 @@ public class GroupOfStudents implements Serializable {
 
     public void setPaymentStudentSet(Set<PaymentStudent> paymentStudentSet) {
         this.paymentStudentSet = paymentStudentSet;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

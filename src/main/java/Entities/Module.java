@@ -26,6 +26,9 @@ public class Module implements Serializable {
     @Column(name = "fees")
     private long fees;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module")
     private Set<GroupOfStudents> groupsSet;
 
@@ -139,6 +142,14 @@ public class Module implements Serializable {
 
     public long getFees() {
         return fees;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public void setFees(long fees) {

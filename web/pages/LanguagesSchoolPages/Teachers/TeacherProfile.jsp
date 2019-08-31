@@ -85,11 +85,11 @@
                             </div>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle"  src="${teacherProfile.picture}"  alt="User Avatar">
+                            <img class="img-circle"  src="${pageContext.request.contextPath}/resources/dist/img/avatar04.png"   alt="Teacher Avatar">
                         </div>
                         <div class="box-footer">
                             <div class="row">
-                                <div class="col-sm-6 border-right">
+                                <div class="col-sm-12 border-right">
                                     <div class="description-block">
                                         <h5 class="description-header">Employment Date</h5>
                                         <span class="description-text">${teacherProfile.employmentDate}</span>
