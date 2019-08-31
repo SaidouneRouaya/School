@@ -123,6 +123,7 @@
                                             <option name="empty" value="${0}" selected>
 
                                                 Select a staff</option>
+
                                             <tg:forEach begin="0" end="${staffList.size() -1}" var="i">
 
                                                 <option name="staff" value="${staffList[i].id} ${staffList[i].salary}">
@@ -135,7 +136,7 @@
                                     </div>
 
                                         <div id="salary">
-                                            <p class="pull-left">Salary : <c:out value="${staffList[0].salary}"/>0 DZD</p>
+                                            <p class="pull-left">Salary : <c:out value="${staffList[0].salary}"/>.00 DZD</p>
                                         </div>
                                 </div>
 

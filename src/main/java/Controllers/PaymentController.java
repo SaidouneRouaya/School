@@ -202,7 +202,10 @@ public class PaymentController {
         String error = "";
 
         List<Student> studentList = studentDAO.getAllStudents();
-        //studentSessionDAO.getAllStudentSessions();
+        if (studentList==null || studentList.isEmpty()) return ("redirect:/empty.j");
+
+
+
         List<Map<Integer, Float>> feesList = new ArrayList<>();
         List<Map<Integer, Integer>> groupsList = new ArrayList<>();
         List<HashSet<Module>> modulesList = new ArrayList<>();
@@ -330,6 +333,9 @@ public class PaymentController {
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
                 List<Teacher> teachersList = teacherDAO.getAllTeachers();
+                if (teachersList==null || teachersList.isEmpty()) return ("redirect:/empty.j");
+
+
                 List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
                 Map<Integer, List<SessionOfGroup>> group_sessions = new HashMap<>();
                 Map<Integer, Float> session_salary = new HashMap<>();
@@ -347,55 +353,49 @@ public class PaymentController {
 
                         group_sessions.put(group.getId(), new ArrayList<>(group.getSessionOfGroupsSet()));
 
-                     for (SessionOfGroup session: group.getSessionOfGroupsSet()){
+                        for (SessionOfGroup session : group.getSessionOfGroupsSet()) {
 
 
-                         float salary=0f;
-                         float salary_absent=0f;
+                            float salary = 0f;
+                            float salary_absent = 0f;
 
-                         if (group.getPaymentType().equalsIgnoreCase("Student")) {
-
-
-                             // le nombre d'étudiants * le prix par etudiant (présent)
+                            if (group.getPaymentType().equalsIgnoreCase("Student")) {
 
 
-                             /** salary of all student with absent ones **/
-
-                             int numberOfSeances=  session.getSeancesSet().size();
-
-                             //salary_absent = session.getStudentSessionsSet().size() * group.getModule().getFees();
-
-                             /* number of student * number of seances * fees of this group */
-                             salary_absent = session.getStudentSessionsSet().size() *session.getSeancesSet().size() * group.getFees();
-
-                           //  float feeOfSeance= group.getModule().getFees()/(float) numberOfSeances;
-
-                             /** salary of only present students **/
-                             for (Seance seance : session.getSeancesSet()) {
-                                 //number of student present
-                                 Seance seancee = seanceDAO.getSeanceByID(seance.getId());
-                              //   salary += (float) seancee.getStudentsSet().size() * (feeOfSeance );
-                                 salary += (float) seancee.getStudentsSet().size() * (group.getFees() );
-
-                             }
-
-                             session_salary_absent.put(session.getId(), salary_absent-salary);
-                             session_salary.put(session.getId(), salary);
-
-                         } else if (group.getPaymentType().equalsIgnoreCase("Hour")) {
-                             // salary= number of hours (in one session) * number of sessions * fees
-
-                             Date d1 = group.getStartTime();
-                             Date d2 = group.getEndTime();
-
-                             float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
-
-                             salary = (timeDiff) * group.getNumberSessions() * group.getFees();
-                             session_salary.put(session.getId(), salary);
-                         }
-                     }
+                                // le nombre d'étudiants * le prix par etudiant (présent)
 
 
+                                /** salary of all student with absent ones **/
+
+
+                                /* number of student * number of seances * fees of this group */
+                                salary_absent = session.getStudentSessionsSet().size() * session.getSeancesSet().size() * group.getFees();
+
+
+                                /** salary of only present students **/
+                                for (Seance seance : session.getSeancesSet()) {
+                                    //number of student present
+                                    Seance seancee = seanceDAO.getSeanceByID(seance.getId());
+
+                                    salary += (float) seancee.getStudentsSet().size() * (group.getFees());
+
+                                }
+
+                                session_salary_absent.put(session.getId(), salary_absent - salary);
+                                session_salary.put(session.getId(), salary);
+
+                            } else if (group.getPaymentType().equalsIgnoreCase("Hour")) {
+                                // salary= number of hours (in one session) * number of sessions * fees
+
+                                Date d1 = group.getStartTime();
+                                Date d2 = group.getEndTime();
+
+                                float timeDiff = ((float) d2.getTime() - (float) d1.getTime()) / 3600000;
+
+                                salary = (timeDiff) * group.getNumberSessions() * group.getFees();
+                                session_salary.put(session.getId(), salary);
+                            }
+                        }
 
                     }
 
@@ -413,14 +413,12 @@ public class PaymentController {
                 return "LanguagesSchoolPages/Payment/AddTeacherPayment";
 
            } else {
-                System.out.println("im here");
 
                 return "redirect:/error.j";
             }
 
         } else {
 
-            System.out.println("je suis la");
             return "redirect:/error.j";
         }
     }
@@ -430,17 +428,19 @@ public class PaymentController {
 
         String error = "";
 
-
         if (profile != null) {
 
-            System.out.println("*******"+profile.getType());
 
             if (profile.getType().equalsIgnoreCase("Admin")) {
 
-                model.addAttribute("staffList", staffDAO.getAllStaffs());
 
+                List<Staff> staff= staffDAO.getAllStaffs();
+                if (staff==null || staff.isEmpty()) return ("redirect:/empty.j");
 
-             model.addAttribute("profile", profile); model.addAttribute("error", error);
+                model.addAttribute("staffList",staff );
+                model.addAttribute("profile", profile);
+                model.addAttribute("error", error);
+
                 return "LanguagesSchoolPages/Payment/AddStaffPayment";
 
             } else {
