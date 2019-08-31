@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -43,67 +45,75 @@ public class StudentsController {
     private List<Student> unpaidStudent;
 
 
-    public List<Student> fillUnpaidStudent(){
+    public List<Student> fillUnpaidStudent() {
 
-        List<Student> students= studentDAO.getAllStudents();
+        List<Student> students = studentDAO.getAllStudents();
 
-        if (students==null || students.isEmpty()){
-            return new ArrayList<Student>();
-        }
-
-        List<Student> unpaidStudent=new ArrayList<>();
+        if (students == null || students.isEmpty()) return new ArrayList<>();
 
 
-        Date today= new Date();
+        List<Student> unpaidStudent = new ArrayList<>();
+        Date now = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        boolean bool= false;
-        for (Student student: students){
+        try {
+            Date today = dateFormat.parse(dateFormat.format(now));
+
+            for (Student student : students) {
+
+                boolean bool = false;
+
+                if (student.getType().equalsIgnoreCase("payee")) {
+
+                    List<SessionOfGroup> sessionsOfStudent = new ArrayList<>();
+                    try {
+                        if (student.getPaymentSet().size() > 0) {
+
+                            if (student.getSubscriptionDate().before(today)) {
+
+                                if (student.getStudentSessionsSet() != null && !student.getStudentSessionsSet().isEmpty()) {
+
+                                    for (StudentSession studentSession : student.getStudentSessionsSet()) {
 
 
 
-            if (student.getType().equalsIgnoreCase("payee")) {
+                                        if (!student.payedForSession(studentSession.getSession().getGroupOfStudents(), today)) {
 
-                List<SessionOfGroup> sessionsOfStudent = new ArrayList<>();
-                try {
-                    if (student.getPaymentSet().size() > 0) {
+                                            sessionsOfStudent.add(studentSession.getSession());
+                                            unpaidStudent.add(student);
 
-                        if (student.getSubscriptionDate().before(today)) {
+                                            bool = true;
+                                        }
+                                    }
 
-                            for (StudentSession studentSession : student.getStudentSessionsSet()) {
-
-
-                                if (!student.payedForSession(studentSession.getSession().getGroupOfStudents(), today)) {
-
-                                    sessionsOfStudent.add(studentSession.getSession());
-
-                                    unpaidStudent.add(student);
-
-                                    bool=true;
+                                    if (bool) sessions.put(student.getId(), sessionsOfStudent);
                                 }
 
                             }
 
-                            if (bool)  sessions.put(student.getId(), sessionsOfStudent);
+                        } else {
+
+                            unpaidStudent.add(student);
+
+                            for (StudentSession studentSession : student.getStudentSessionsSet()) {
+                                sessionsOfStudent.add(studentSession.getSession());
+
+                            }
+
+                            sessions.put(student.getId(), sessionsOfStudent);
                         }
 
-                    }else {
-                        unpaidStudent.add(student);
-
-                        for (StudentSession studentSession : student.getStudentSessionsSet()) {
-                            sessionsOfStudent.add(studentSession.getSession());
-
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
 
-                sessions.put(student.getId(), sessionsOfStudent );
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-      return unpaidStudent;
+        return unpaidStudent;
     }
 
 

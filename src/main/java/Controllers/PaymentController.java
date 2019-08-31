@@ -146,7 +146,6 @@ public class PaymentController {
 
     }
 
-
     @RequestMapping("/staffSalaries")
     public String staffSalaries(Model model, @SessionAttribute ("sessionUser") Profile profile) {
         String error = "";
@@ -198,84 +197,126 @@ public class PaymentController {
     }
 
     @RequestMapping("/addStudentPayment")
-    public String addStudentPayment(Model model, @SessionAttribute ("sessionUser") Profile profile) {
+    public String addStudentPayment(Model model, @SessionAttribute("sessionUser") Profile profile) {
 
         String error = "";
 
         List<Student> studentList = studentDAO.getAllStudents();
-        studentSessionDAO.getAllStudentSessions();
-
-
-        List < Map<Integer, Float>> feesList = new ArrayList<>();
-
-
+        //studentSessionDAO.getAllStudentSessions();
+        List<Map<Integer, Float>> feesList = new ArrayList<>();
+        List<Map<Integer, Integer>> groupsList = new ArrayList<>();
         List<HashSet<Module>> modulesList = new ArrayList<>();
 
         for (Student student1 : studentList) {
 
-            Student student= studentDAO.getStudentByID(student1.getId());
+            Student student = studentDAO.getStudentByID(student1.getId());
 
-
-
-            Map<Integer, Float> fees= new HashMap<>();
-
-
+            Map<Integer, Float> fees = new HashMap<>();
+            Map<Integer, Integer> groups = new HashMap<>();
             HashSet<Module> modules = new HashSet<>(student.getModulesSet());
 
 
-            for (Module module:modules) {
+            for (Module module : modules) {
                 float fee = 0;
-               GroupOfStudents groupp = student.getGroupOfModule(module);
+                GroupOfStudents groupp = student.getGroupOfModule(module);
 
 
-               if(groupp != null){
-                   // StudentSession session= student.getLatestSession();
+                if (groupp != null) {
+
+                    GroupOfStudents group = groupOfStudentsDAO.getGroupById(groupp.getId());
+                    SessionOfGroup session = group.getLatestSession();
+                    int numberSeances = session.getNumberOfSeances();
+
+                    // represents number of seances that this student won't have
+                    int numberSeancesOfStudent = 0;
+
+                    for (Seance seance : session.getSeancesSet()) {
+
+                        if (seance.getDate() != null && session.getStartDate().before(seance.getDate())) {
+                            numberSeancesOfStudent++;
+                        }
+                    }
+
+                    // fees * number of seances that this student will have starting from his start date in this session
+
+                    fee = (module.getFees() / (float) numberSeances) * (numberSeances - numberSeancesOfStudent);
+
+                    groups.put(module.getId(), group.getId());
 
 
-                   GroupOfStudents group= groupOfStudentsDAO.getGroupById(groupp.getId());
+                } else {
 
-                   SessionOfGroup session= group.getLatestSession();
-
-
-                       int numberSeances = session.getNumberOfSeances();
-
-                       // represents number of seances that this student won't have
-                       int numberSeancesOfStudent = 0;
-
-                       for (Seance seance : session.getSeancesSet()) {
-
-                           if (seance.getDate()!=null && session.getStartDate().before(seance.getDate())) {
-                               numberSeancesOfStudent++;
-                           }
-                       }
-
-                       // fees * number of seances that this student will have starting from his start date in this session
-
-                       fee=(module.getFees()/(float) numberSeances)* (numberSeances - numberSeancesOfStudent);
-
-
-
-            }else {
-
-                   fee=module.getFees();
-               }
+                    fee = module.getFees();
+                }
                 fees.put(module.getId(), fee);
             }
 
-
             modulesList.add(modules);
-           // groupsList.add(groups);
+            groupsList.add(groups);
             feesList.add(fees);
         }
 
         model.addAttribute("studentsList", studentList);
-      //  model.addAttribute("groupsList", groupsList);
+         model.addAttribute("groupsList", groupsList);
         model.addAttribute("modulesList", modulesList);
         model.addAttribute("feesList", feesList);
 
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
         return "LanguagesSchoolPages/Payment/AddStudentPayment";
+    }
+
+
+    @RequestMapping("/addNewStudentPayment")
+    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String
+            payed,@RequestParam String T, @RequestParam String mod,  @SessionAttribute ("sessionUser") Profile profile) {
+
+        String error = "";
+
+        Student student = studentDAO.getStudentByID(Integer.parseInt(id_student));
+
+        String[] modules_fees = mod.split(",");
+        StringBuilder modules = new StringBuilder();
+        Set<GroupOfStudents> groups= new HashSet<>();
+
+
+        for (String module_fee : modules_fees) {
+            modules.append(module_fee.split(" ", 3)[0]).append(", ");
+            groups.add(groupOfStudentsDAO.getGroupById(Integer.parseInt(module_fee.split(" ", 3)[2])));
+        }
+
+        Date now= new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        float payedd=Float.parseFloat(payed);
+        float total=Float.parseFloat(T);
+
+
+        try {
+
+            PaymentStudent paymentStudent = new PaymentStudent(dateFormat.parse(dateFormat.format(now)), payedd, total - payedd
+                    , total, modules.toString(), profile.getFamilyname() + " " + profile.getName(), student, groups);
+            paymentStudentDAO.addPaymentStudent(paymentStudent);
+
+
+            for (GroupOfStudents group: groups){
+                group.getPaymentStudentSet().add(paymentStudent);
+                groupOfStudentsDAO.updateGroup(group.getId(), group);
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+
+
+        model.addAttribute("profile", profile);
+        model.addAttribute("error", error);
+
+        return "redirect:studentPayment.j";
+
     }
 
     @RequestMapping("/addTeacherPayment")
@@ -503,51 +544,6 @@ public class PaymentController {
     }
 
 
-    @RequestMapping("/addNewStudentPayment")
-    public String addNewStudentPayment(Model model, @RequestParam String id_student, @RequestParam String
-            payed,@RequestParam String T, @RequestParam String mod,  @SessionAttribute ("sessionUser") Profile profile) {
-
-        String error = "";
-
-        Student student = studentDAO.getStudentByID(Integer.parseInt(id_student));
-
-        String[] modules_fees = mod.split(",");
-        StringBuilder modules = new StringBuilder();
-        Set<GroupOfStudents> groups= new HashSet<>();
-
-
-        for (String module_fee : modules_fees) {
-            modules.append(module_fee.split(" ", 3)[0]).append(", ");
-           groups.add(groupOfStudentsDAO.getGroupById(Integer.parseInt(module_fee.split(" ", 3)[2])));
-
-
-        }
-
-        Date now= new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        float payedd=Float.parseFloat(payed);
-        float total=Float.parseFloat(T);
-
-        System.out.println("groups"+groups.toString());
-        System.out.println("to pay"+total);
-
-        PaymentStudent paymentStudent = new PaymentStudent(dateFormat.format(now), payedd, total-payedd
-                , total,  modules.toString(), profile.getFamilyname()+" "+profile.getName(), student, groups);
-
-        paymentStudentDAO.addPaymentStudent(paymentStudent);
-
-        for (GroupOfStudents group: groups){
-            group.getPaymentStudentSet().add(paymentStudent);
-            groupOfStudentsDAO.updateGroup(group.getId(), group);
-        }
-
-        model.addAttribute("profile", profile); model.addAttribute("error", error);
-
-        return "redirect:studentPayment.j";
-
-    }
-
 
     @RequestMapping("/studentVoucher")
     public String studentVoucher(Model model, @RequestParam String p , @SessionAttribute ("sessionUser") Profile profile) {
@@ -631,53 +627,6 @@ public class PaymentController {
         return "LanguagesSchoolPages/Payment/StaffVoucher";
     }
 
-
-
-
-    @RequestMapping("/deleteStudentFromGroup")
-    public String deleteStudentFromGroup(Model model, @RequestParam String query, @RequestParam String id_student, @SessionAttribute("sessionUser") Profile profile) {
-
-        String error = "";
-
-        Student student = studentDAO.getStudentByID(Integer.parseInt(id_student));
-
-        PaymentStudent paymentStudent = paymentStudentDAO.getPayementStudentByID(Integer.parseInt(query));
-
-        student.removePayment(paymentStudent.getId());
-
-
-        studentDAO.updateStudent(student.getId(), student);
-
-        paymentStudentDAO.deletePaymentStudent(paymentStudent.getId());
-
-        model.addAttribute("profile", profile); model.addAttribute("error", error);
-
-        return "redirect:studentPayment";
-
-    }
-
-
-   /* @RequestMapping("/deletePaymentStudent")
-    public String deletePaymentStudent(Model model, @RequestParam String query, @RequestParam String id_group){
-
-        String error = "";
-
-        Student student=studentDAO.getStudentByID(Integer.parseInt(query));
-
-        GroupOfStudents groupOfStudents= groupOfStudentsDAO.getGroupById(Integer.parseInt(id_group));
-
-        student.removeGroup(groupOfStudents.getId());
-        groupOfStudents.removeStudent(student.getId());
-
-        studentDAO.updateStudentGroups(Integer.parseInt(query), student.getGroupsSet());
-        groupOfStudentsDAO.updateGroupStudentsList(Integer.parseInt(id_group), groupOfStudents.getStudentsSet());
-
-        model.addAttribute("profile", profile); model.addAttribute("error", error);
-
-        return "redirect:GroupDetails.j?id_group="+id_group;
-
-    }
-    */
 
 
 

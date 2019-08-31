@@ -399,12 +399,14 @@ public class Student  implements Serializable {
 
     public boolean payedForSession (GroupOfStudents group, Date date){
 
+
+
+
         if (this.paymentSet.isEmpty()) return false;
+
         for (PaymentStudent paymentStudent: this.paymentSet){
-            if  (paymentStudent.containsGroup(group) &&
-                    (paymentStudent
-                            .getDate()
-                            .before(date))) return true;
+
+            if  (paymentStudent.containsGroup(group) && paymentStudent.getDate().before(date)) return true;
             break;
         }
 
@@ -417,7 +419,7 @@ public class Student  implements Serializable {
         if (this.seancesSet.isEmpty()) return false;
         if (seancee.getDate()==null) return false;
 
-        System.out.println("im in student.present");
+
         Iterator<Seance> it = this.seancesSet.iterator();
 
         Seance seance= it.next();

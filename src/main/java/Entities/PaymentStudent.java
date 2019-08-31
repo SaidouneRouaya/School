@@ -56,8 +56,22 @@ public class PaymentStudent implements Serializable {
     public PaymentStudent() {
     }
 
-    public PaymentStudent(String date, float amount,float discount, float total,String module, String receiver, Student studentPay,Set<GroupOfStudents> groupPay ) {
+    public PaymentStudent(String date, float amount,float discount, float total,String module, String receiver, Student studentPay/*,Set<GroupOfStudents> groupPay*/ ) {
+
+
         this.date = utilities.formatDate(date);
+        this.amount = amount;
+        this.total=total;
+        this.module = module;
+        this.receiver = receiver;
+        this.discount= discount;
+        this.studentPay = studentPay;
+       // this.groupPay= groupPay;
+    }
+    public PaymentStudent(Date date, float amount,float discount, float total,String module, String receiver, Student studentPay ,Set<GroupOfStudents> groupPay) {
+
+
+        this.date =date;
         this.amount = amount;
         this.total=total;
         this.module = module;
@@ -145,7 +159,11 @@ public class PaymentStudent implements Serializable {
 
     public boolean containsGroup (GroupOfStudents group){
 
-        for (GroupOfStudents g:groupPay){
+      Iterator<GroupOfStudents> it= groupPay.iterator();
+
+        while (it.hasNext()){
+            GroupOfStudents g=it.next();
+
             return (g.getId()==group.getId()) ;
 
         }
