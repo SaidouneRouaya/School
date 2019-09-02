@@ -27,9 +27,7 @@ public class Profile  implements Serializable {
     @Column(name="type")
     private String type="";
 
-    @Column(name="picture")
-    @Lob
-    private byte[] picture;
+
 
     @Column(name= "username")
     private String username ;
@@ -46,26 +44,21 @@ public class Profile  implements Serializable {
         this.type = type;
     }
 
-    public Profile(String name, String familyname, String type, byte[] picture) {
-        this.name = name;
-        this.familyname = familyname;
-        this.type = type;
-        this.picture = picture;
-    }
 
-    public Profile(String name, String familyname, String type, byte[] picture, String username, String password) {
+
+    public Profile(String name, String familyname, String type, String username, String password) {
         this.name = name;
         this.familyname = familyname;
         this.type = type;
-        this.picture = picture;
+
         this.username = username;
         this.password= password;
     }
- public Profile(String name, String familyname, String type, byte[] picture, String username) {
+ public Profile(String name, String familyname, String type,  String username) {
         this.name = name;
         this.familyname = familyname;
         this.type = type;
-        this.picture = picture;
+
         this.username = username;
         this.password=null;
     }
@@ -74,7 +67,7 @@ public class Profile  implements Serializable {
         this.name = newProfile.getName();
         this.familyname = newProfile.getFamilyname();
         this.type = newProfile.getType();
-        this.picture = newProfile.getPicture();
+
         this.username = newProfile.getUsername();
         if (newProfile.getPassword()!= null) this.password= newProfile.getPassword();
     }
@@ -127,11 +120,4 @@ public class Profile  implements Serializable {
         this.type = type;
     }
 
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
 }

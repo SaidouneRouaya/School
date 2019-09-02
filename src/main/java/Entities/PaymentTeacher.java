@@ -66,6 +66,17 @@ public class PaymentTeacher implements Serializable {
         this.teacherPayed = teacher;
     }
 
+    public PaymentTeacher(Date date, float total, float amount, String receiver, String groups, String paymentType, Teacher teacherPayed, Set<SessionOfGroup> sessionPay) {
+        this.date = date;
+        this.total = total;
+        this.amount = amount;
+        this.receiver = receiver;
+        this.groups = groups;
+        this.paymentType = paymentType;
+        this.teacherPayed = teacherPayed;
+        this.sessionPay = sessionPay;
+    }
+
     public void updatePaymentTeacher(PaymentTeacher paymentTeacher) {
         this.date = paymentTeacher.getDate();
         this.amount = paymentTeacher.getAmount();

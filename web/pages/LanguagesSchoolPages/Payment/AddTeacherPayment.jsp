@@ -163,7 +163,7 @@
                                                                 <input type="checkbox" onclick="isChecked(this)"
                                                                        name="group"
                                                                        id="group"
-                                                                       value="${group.paymentType} ${sessionSalariesMap.get(sessionsOfGroup.id)} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id}"/>
+                                                                       value="${group.paymentType} ${sessionSalariesMap.get(sessionsOfGroup.id)} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id} ${sessionsOfGroup.id}"/>
                                                                 Session of: <c:out value="${sessionsOfGroup.startDate}"/>,
                                                             </label><br>
 
@@ -321,10 +321,10 @@
     }
 
     function setValue(event){
-            console.log("je suis set value "+event.value);
+          //  console.log("je suis set value "+event.value);
 
            document.getElementById("salaryOfGroup").setAttribute("value",event.value);
-           console.log("je suis set value 2 "+ document.getElementById("salaryOfGroup").value);
+        //   console.log("je suis set value 2 "+ document.getElementById("salaryOfGroup").value);
 
 
     }
@@ -342,7 +342,7 @@
 
     function isChecked(event) {
 
-        var idGroup_fees_absentFees = event.value.split(" ", 4);
+        var idGroup_fees_absentFees = event.value.split(" ", 5);
         var id_group = idGroup_fees_absentFees[3];
         var id_salary = document.getElementById("teachers").value.split(" ",2);
 
@@ -377,35 +377,6 @@
         document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&T="+total) ;
 
     }
-   function changeSalary() {
-
-        var id_salary = document.getElementById("teachers").value.split(" ",2);
-
-        var id_group = document.getElementById("groups"+id_salary[1]).value;
-
-
-        if (document.getElementById(id_previous_salary) !=null) document.getElementById(id_previous_salary).style.display = 'none';
-        if (document.getElementById(id_previous_absent) !=null) document.getElementById(id_previous_absent).style.display = 'none';
-        if (document.getElementById(id_previous_toPay) !=null) document.getElementById(id_previous_toPay).style.display = 'none';
-
-
-        document.getElementById("salary"+id_group).style.display = 'block';
-        document.getElementById("AbsentDiv"+id_group).style.display = 'block';
-        document.getElementById("salaryDiv").style.display = 'block';
-
-        console.log(document.getElementById("salaryOfGroup"));
-        console.log(document.getElementById("salaryOfGroup").value);
-
-        var salary= document.getElementById("salaryOfGroup").value;
-
-
-        document.getElementById("form").setAttribute("action", "addNewTeacherPayment.j?id_teacher="+id_salary[0]+"&id_group="+id_group+"&value="+salary) ;
-        id_previous_salary="salary"+id_group;
-        id_previous_absent="AbsentDiv"+id_group;
-        id_previous_toPay="salaryDiv";
-    }
-
-
 
     function printDiv(divName) {
 

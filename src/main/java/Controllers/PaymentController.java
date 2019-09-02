@@ -107,7 +107,7 @@ public class PaymentController {
 
 
                 for (PaymentTeacher paymentTeacher : teacherSalariesList) {
-                    total += paymentTeacher.getAmount();
+                    total += paymentTeacher.getTotal();
                 }
 
                 model.addAttribute("totalPayTeacher", total);
@@ -508,16 +508,20 @@ public class PaymentController {
 
                 for (String groupp : groups) {
 
-                    String id= groupp.split(" ", 4)[3];
+                    String id= groupp.split(" ", 5)[3];
+                    String id_session= groupp.split(" ", 5)[4];
+
                     if(id.isEmpty()) id= groupp.split(" ", 3)[2];
 
                     groupsList.append( groupOfStudentsDAO.getGroupById(Integer.parseInt(id)).getName()).append(", ");
+
+                    sessions.add(sessionDAO.getSessionByID(Integer.parseInt(id_session)));
                 }
 
 
                 PaymentTeacher paymentTeacher = new PaymentTeacher(new Date(), Float.parseFloat(totalToPay),salary,
                         profile.getFamilyname()+" "+profile.getName(),
-                        groupsList.toString(), "test", teacher);
+                        groupsList.toString(), "test", teacher, sessions);
 
                 paymentTeacherDAO.addPaymentTeacher(paymentTeacher);
 
@@ -531,12 +535,12 @@ public class PaymentController {
 
                 return "redirect:teachersSalaries.j";
             } else {
-                System.out.println("je suis la 2");
+
                 return "redirect:/error.j";
             }
 
         } else {
-            System.out.println("je suis la");
+
             return "redirect:/error.j";
         }
 

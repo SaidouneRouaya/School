@@ -41,9 +41,6 @@ public class Staff  implements Serializable {
     @Column(name="salary")
     private long salary;
 
-    @Column(name="picture")
-    @Lob
-    private byte[] picture;
 
 
     @Column(name="deleted")
@@ -56,14 +53,14 @@ public class Staff  implements Serializable {
     public Staff() {
     }
 
-    public Staff(String name, String familyname, int phoneNumber, String job, String employmentDate, long salary, byte[] picture) {
+    public Staff(String name, String familyname, int phoneNumber, String job, String employmentDate, long salary) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.job = job;
         this.employmentDate = utilities.formatDate(employmentDate);
         this.salary = salary;
-        this.picture = picture;
+
         this.paymentStaffSet= new HashSet<>();
     }
     public void updateStaff(Staff newStaff ) {
@@ -73,7 +70,7 @@ public class Staff  implements Serializable {
         if(newStaff.getPhoneNumber()!=0) this.phoneNumber= newStaff.getPhoneNumber();
         if(newStaff.getSalary()!=0) this.salary= newStaff.getSalary();
         if(newStaff.getJob()!=null)  this.job= newStaff.getJob();
-        if(newStaff.getPicture ()!=null) this.picture = newStaff.getPicture();
+
     }
 
     public Set<PaymentStaff> getPaymentStaffSet() {
@@ -140,13 +137,6 @@ public class Staff  implements Serializable {
         this.salary = salary;
     }
 
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
 
     public boolean isDeleted() {
         return deleted;

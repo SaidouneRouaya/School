@@ -35,10 +35,6 @@ public class Teacher  implements Serializable {
     private Date employmentDate;
 
 
-    @Column(name="picture")
-    @Lob
-    private byte[] picture;
-
     @Column(name="deleted")
     private boolean deleted;
 
@@ -58,22 +54,21 @@ public class Teacher  implements Serializable {
     public Teacher() {
     }
 
-    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture) {
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.groupsSet= new HashSet<>();
         this.employmentDate = utilities.formatDate(employmentDate);
-        this.picture = picture;
+
     }
 
-    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture,  Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate,  Set<PaymentTeacher> paymentsSet, Set<Module> teacherModulesSet) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.employmentDate = utilities.formatDate(employmentDate);
 
-        this.picture = picture;
         this.groupsSet= new HashSet<>();
         this.paymentTeacherSet= paymentsSet;
         this.teacherModulesSet = teacherModulesSet;
@@ -85,18 +80,18 @@ public class Teacher  implements Serializable {
         if(newTeacher.getEmploymentDate()!=null) this.employmentDate= newTeacher.getEmploymentDate();
         if(newTeacher.getPhoneNumber()!=0) this.phoneNumber= newTeacher.getPhoneNumber();
         if(newTeacher.getTeacherModulesSet()!=null) this.teacherModulesSet= newTeacher.getTeacherModulesSet();
-        if(newTeacher.getPicture()!=null) this.picture = newTeacher.getPicture();
+
         if(newTeacher.getGroupsSet()==null) this.groupsSet= new HashSet<>();
             else this.groupsSet=newTeacher.getGroupsSet();
     }
 
-    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, byte[] picture, Set<GroupOfStudents> groupsSet, Set<PaymentTeacher> paymentTeacherSet, Set<Module> teacherModulesSet) {
+    public Teacher(String name, String familyname, int phoneNumber, String employmentDate, Set<GroupOfStudents> groupsSet, Set<PaymentTeacher> paymentTeacherSet, Set<Module> teacherModulesSet) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber = phoneNumber;
         this.employmentDate =utilities.formatDate(employmentDate);
 
-        this.picture = picture;
+
         this.groupsSet = groupsSet;
         this.paymentTeacherSet = paymentTeacherSet;
         this.teacherModulesSet = teacherModulesSet;
@@ -158,15 +153,6 @@ public class Teacher  implements Serializable {
         this.employmentDate = employmentDate;
     }
 
-
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
 
     public Set<PaymentTeacher> getPaymentTeacherSet() {
         return paymentTeacherSet;

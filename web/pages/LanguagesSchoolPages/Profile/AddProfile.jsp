@@ -89,7 +89,6 @@
 
                                 <div>
                                     <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/user4-128x128.jpg" alt="User profile picture">
-                                    <input type="file" name="picture"  class="pull-right">
 
                                 </div>
 

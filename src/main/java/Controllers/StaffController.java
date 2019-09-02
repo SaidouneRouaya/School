@@ -157,7 +157,7 @@ public class StaffController {
 
 
                 Staff staff = new Staff(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
-                        param.get("job"), param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
+                        param.get("job"), param.get("employmentDate"), Long.parseLong(param.get("salary")));
 
                 staffDAO.addStaff(staff);
 
@@ -210,7 +210,7 @@ public class StaffController {
             if (profile.getType().equals("Admin")) {
 
                 Staff staff = new Staff(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
-                        param.get("job"), param.get("employmentDate"), Long.parseLong(param.get("salary")), param.get("picture").getBytes());
+                        param.get("job"), param.get("employmentDate"), Long.parseLong(param.get("salary")));
 
                 staffDAO.updateStaff(Integer.parseInt(query), staff);
 
@@ -333,7 +333,7 @@ public class StaffController {
 
                 for (PaymentTeacher paymentTeacher : paymentTeachers) {
 
-                    total += paymentTeacher.getAmount();
+                    total += paymentTeacher.getTotal();
                 }
 
                 model.addAttribute("teacherProfile", teacher);
@@ -367,8 +367,7 @@ public class StaffController {
                 Module module = moduleDAO.getModuleByID(Integer.parseInt(param.get("modules")));
 
                 Teacher teacher = new Teacher(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
-                        param.get("employmentDate"), param.get("picture").getBytes(),
-                        groupOfStudents, paymentTeachers, modules);
+                        param.get("employmentDate"), groupOfStudents, paymentTeachers, modules);
 
 
                 modules.add(module);
@@ -441,7 +440,7 @@ public class StaffController {
             if (profile.getType().equals("Admin")) {
 
                 Teacher teacher = new Teacher(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber")),
-                        param.get("employmentDate"), param.get("picture").getBytes());
+                        param.get("employmentDate"));
 
                 teacherDAO.updateTeacher(Integer.parseInt(query), teacher);
 

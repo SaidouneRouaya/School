@@ -179,14 +179,6 @@
                                                 </li>
                                             </div>
 
-                                            <!-- To pay -->
-                                            <div id="salaryDiv">
-                                                <li class="list-group-item">
-                                                    <b>Total payed : </b>
-                                                    <span class="btn bg-navy pull-right" id="total_span">${payment.amount}</span>
-                                                </li>
-                                            </div>
-
                                         </ul>
 
                                     </div>

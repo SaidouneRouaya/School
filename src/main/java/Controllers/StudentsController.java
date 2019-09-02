@@ -246,11 +246,11 @@ public class StudentsController {
             if(param.get("discount")!=null){
                 student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
                         Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
-                        Long.parseLong(param.get("discount")), param.get("picture").getBytes(), studentSessions,  modules, session, payments);
+                        Long.parseLong(param.get("discount")),  studentSessions,  modules, session, payments);
             }else
             {
                         student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
-                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes(),
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
                                 studentSessions,modules,  session, payments);
             }
 
@@ -324,12 +324,12 @@ public class StudentsController {
             if(param.get("discount")!=null){
                 student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
                         Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"),
-                        Long.parseLong(param.get("discount")), param.get("picture").getBytes());
+                        Long.parseLong(param.get("discount")));
 
             }else
             {
                 student=new Student(param.get("name"), param.get("familyName"), Integer.parseInt(param.get("phoneNumber1")),
-                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"), param.get("picture").getBytes());
+                        Integer.parseInt(param.get("phoneNumber2")),param.get("r3"), param.get("subscriptionDate"));
             }
 
             student.setSeancesSet(student1.getSeancesSet());

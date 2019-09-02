@@ -119,8 +119,8 @@
 
                                 <div>
                                    <!-- <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/user4-128x128.jpg" alt="User profile picture">-->
-                                    <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/user6-128x128.jpg" alt="Student picture">
-                                    <input type="file" id="picture" name="picture" class="pull-right">
+                                    <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/avatar5.png" alt="Student picture">
+
 
                                 </div>
 

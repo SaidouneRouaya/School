@@ -103,7 +103,7 @@
                                             <td># <c:out value="${item.teacher.name}"/> <c:out
                                                     value="${item.teacher.familyname}"/></td>
                                             <td><c:out value="${item.module}"/></td>
-                                            <td><c:out value="${item.amount.toString()}"/></td>
+                                            <td><c:out value="${item.total.toString()}"/></td>
                                             <td><c:out value="${item.receiver}"/></td>
                                             <td><c:out value="${item.date}"/></td>
                                         </tr>

@@ -47,17 +47,7 @@ public class Student  implements Serializable {
     @Column(name="discount")
     private long discount=0;
 
-    @Column(name="picture")
-    @Lob
-    private byte[] picture;
 
-
-   /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "student_session",
-            joinColumns = {@JoinColumn(name = "id_student") },
-            inverseJoinColumns = { @JoinColumn(name = "id_group") })
-    private Set<GroupOfStudents> groupsSet;
-*/
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "primaryKey.student")
     @OrderBy("startDate Asc")
@@ -85,7 +75,7 @@ public class Student  implements Serializable {
     public Student() {
     }
 
-    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long disocunt,  byte[] picture) {
+    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long disocunt) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber1 = phoneNumber1;
@@ -94,29 +84,27 @@ public class Student  implements Serializable {
 
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
         if(disocunt!=0) this.discount=disocunt;
-       // this.picture = uploadImage(picture);
-        this.picture = picture;
+
         this.studentSessionsSet = new HashSet<>();
         this.modulesSet = new HashSet<>();
         this.seancesSet = new HashSet<>();
         this.paymentSet = new HashSet<>();
     }
-    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture) {
+    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate) {
         this.name = name;
         this.familyname = familyname;
         this.phoneNumber1 = phoneNumber1;
         this.phoneNumber2 = phoneNumber2;
         this.type = type;
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
-        //this.picture = uploadImage(picture);
-        this.picture = picture;
+
         this.studentSessionsSet = new HashSet<>();
         this.modulesSet = new HashSet<>();
         this.seancesSet = new HashSet<>();
         this.paymentSet = new HashSet<>();
     }
 
-    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long discount, byte[] picture,
+    public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, long discount,
                    Set<StudentSession> studentSessionsSet, Set<Module> modulesSet, Set<Seance> seancesSet, Set<PaymentStudent> paymentSet) {
         this.name = name;
         this.familyname = familyname;
@@ -125,13 +113,13 @@ public class Student  implements Serializable {
         this.type = type;
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
         this.discount = discount;
-        this.picture = picture;
+
         this.studentSessionsSet = studentSessionsSet;
         this.modulesSet = modulesSet;
         this.seancesSet = seancesSet;
         this.paymentSet = paymentSet;
     }
-   public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate, byte[] picture,
+   public Student(String name, String familyname, int phoneNumber1, int phoneNumber2, String type, String subscriptionDate,
                   Set<StudentSession> studentSessionsSet, Set<Module> modulesSet, Set<Seance> seancesSet, Set<PaymentStudent> paymentSet) {
         this.name = name;
         this.familyname = familyname;
@@ -140,7 +128,7 @@ public class Student  implements Serializable {
         this.type = type;
         this.subscriptionDate = utilities.formatDate(subscriptionDate);
 
-        this.picture = picture;
+
         this.studentSessionsSet = studentSessionsSet;
         this.modulesSet = modulesSet;
         this.seancesSet = seancesSet;
@@ -156,7 +144,7 @@ public class Student  implements Serializable {
         if (newStudent.getType()!=null)this.type = newStudent.getType();
         if (newStudent.getSubscriptionDate()!=null) this.subscriptionDate = newStudent.getSubscriptionDate();
         if (newStudent.getDiscount()!=0) this.discount=newStudent.getDiscount();
-        if (newStudent.getPicture()!=null) this.picture = newStudent.getPicture();
+
         if (newStudent.getPaymentSet()!=null) this.paymentSet= newStudent.getPaymentSet();
         if (newStudent.getStudentSessionsSet()!=null) this.studentSessionsSet= newStudent.getStudentSessionsSet();
         if (newStudent.getModulesSet()!=null)this.modulesSet= newStudent.getModulesSet();
@@ -261,13 +249,7 @@ public class Student  implements Serializable {
         this.discount = discount;
     }
 
-    public  byte[] getPicture() {
-        return picture;
-    }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
 
     public boolean isDeleted() {
         return deleted;
@@ -290,42 +272,6 @@ public class Student  implements Serializable {
 
     }
 
-    public byte[] uploadImage(String picture){
-
-        byte[] imageInBytes=null;
-
-        try {
-            File imagePath = new File(picture); //here we given fully specified image path.
-
-            imageInBytes = new byte[(int)imagePath.length()]; //image convert in byte form
-
-            FileInputStream inputStream = new FileInputStream(imagePath);  //input stream object create to read the file
-
-            inputStream.read(imageInBytes); // here inputstream object read the file
-            inputStream.close();
-
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
-        return imageInBytes;
-    }
-
-    public void loadImage(){
-
-
-
-        try{
-
-            File imageFile = new File("profilePicture"); // we can put any name of file (just name of new file created).
-            FileOutputStream outputStream = new FileOutputStream(imageFile); // it will create new file (same location of class)
-            outputStream.write(this.picture); // image write in "myImage.jpg" file
-            outputStream.close(); // close the output stream
-
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
-    }
-
 
 
     public boolean removeSeance(int id_seance){
@@ -342,36 +288,8 @@ public class Student  implements Serializable {
         }
         return bool;
     }
-  /*  public boolean removeSession(int id_session){
 
-        Iterator<SessionOfGroup> it= this.getStudentSessionsSet().iterator();
-        boolean bool= false;
 
-        while (it.hasNext() && !bool)
-        {
-            SessionOfGroup session= it.next();
-            if(bool= (seance.getId()==id_session)){
-                this.getSeancesSet().remove(seance);
-            }
-        }
-        return bool;
-    }*/
-
-    public boolean removePayment(int id_payment){
-
-        Iterator<PaymentStudent> it= this.paymentSet.iterator();
-        boolean bool= false;
-
-        while (it.hasNext() && !bool)
-        {
-            PaymentStudent paymentStudent= it.next();
-
-            if(bool= (paymentStudent.getId()==id_payment)){
-                this.getPaymentSet().remove(paymentStudent);
-            }
-        }
-        return bool;
-    }
 
     public boolean removeModule(int id_module){
 

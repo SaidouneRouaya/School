@@ -91,7 +91,6 @@
 
                                 <div>
                                     <img class="profile-user-img img-responsive img-circle" src="${pageContext.request.contextPath}/resources/dist/img/avatar04.png" alt="Teacher picture">
-                                    <input type="file" name="picture" class="pull-right">
 
                                 </div>
 

@@ -109,7 +109,7 @@ public class ProfileController {
 
                 String password= utilities.hashPassword(param.get("password") );
 
-                Profile userProfile = new Profile(param.get("name"), param.get("familyName"),param.get("r3"),param.get("picture").getBytes(),
+                Profile userProfile = new Profile(param.get("name"), param.get("familyName"),param.get("r3"),
                         param.get("username"),password );
 
                 profileDAO.addProfile(userProfile);
@@ -166,11 +166,11 @@ public class ProfileController {
 
                     String password= utilities.hashPassword(param.get("password") );
 
-                    userProfile   = new Profile(param.get("name"), param.get("familyName"),param.get("r3"),param.get("picture").getBytes(),
+                    userProfile   = new Profile(param.get("name"), param.get("familyName"),param.get("r3"),
                             param.get("username"), password );
                 }
                 else{
-                  userProfile = new Profile(param.get("name"), param.get("familyName"),param.get("r3"),param.get("picture").getBytes(),
+                  userProfile = new Profile(param.get("name"), param.get("familyName"),param.get("r3"),
                             param.get("username"));
                 }
 
