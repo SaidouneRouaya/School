@@ -98,12 +98,12 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name"  class="form-control" placeholder="Enter ...">
+                                    <input type="text" name="name"  required="required" class="form-control" placeholder="Enter ...">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text"  name="familyName" class="form-control" placeholder="Enter ...">
+                                    <input type="text"  name="familyName" required="required" class="form-control" placeholder="Enter ...">
                                 </div>
 
                                 <!-- Phone number -->
@@ -116,7 +116,7 @@
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="number" class="form-control"
-                                             name="phoneNumber">
+                                               required="required" name="phoneNumber">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -129,7 +129,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker">
+                                        <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker" required="required">
                                     </div>
                                 </div>
 
@@ -139,8 +139,8 @@
                                     <label>Module</label>
 
 
-                                    <select name="modules"  id="modules"  class="form-control">
-                                        <option name="empty" value="${0}" selected>
+                                    <select name="modules"  id="modules"  class="form-control" required>
+                                        <option name="empty" value="" selected>
 
                                             Select a module</option>
                                         <tg:forEach begin="0" end="${modules.size() -1}" var="i">

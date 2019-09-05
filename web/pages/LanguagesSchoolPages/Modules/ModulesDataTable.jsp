@@ -144,8 +144,8 @@
                                             <c:otherwise>
                                                 <tg:forEach begin="0" end="${modulesTeachersMap.get(item.id).size()-1}"
                                                             var="i">
-                                                    <c:out value="${modulesTeachersMap.get(item.id).get(i).name}"/>,
-                                                    <c:out value="${modulesTeachersMap.get(item.id).get(i).familyname}"/>
+                                                    <c:out value="${modulesTeachersMap.get(item.id).get(i).name}"/>
+                                                    <c:out value="${modulesTeachersMap.get(item.id).get(i).familyname}"/>,
                                                 </tg:forEach>
                                             </c:otherwise>
                                         </c:choose>

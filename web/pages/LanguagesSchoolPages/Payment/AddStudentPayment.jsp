@@ -130,15 +130,15 @@
                                         <label>Student</label>
 
                                         <select name="students" id="students" class="form-control select2"
-                                                onchange="changeModules()" style="width: 100%;">
-                                            <option name="empty" value="${0}" selected>
+                                                onchange="changeModules()" style="width: 100%;" required>
+                                            <option name="empty" value="" selected>
 
                                                 Select a student</option>
 
                                             <tg:forEach begin="0" end="${studentsList.size() -1}" var="i">
 
                                                 <option name="student"
-                                                        value="${studentsList[i].id} ${studentsList[i].discount} ${i}">
+                                                        value="${studentsList[i].id}#${studentsList[i].discount}#${i}">
                                                     <c:out value="${studentsList[i].name}"/>
                                                     <c:out value="${studentsList[i].familyname}"/></option>
 
@@ -159,7 +159,7 @@
 
                                                         <label>
                                                             <input type="checkbox" onclick="isChecked(this)" name="mod" id="mod"
-                                                                   value="${module.name} ${feesList.get(i).get(module.id)} ${groupsList.get(i).get(module.id)}">
+                                                                   value="${module.name}#${feesList.get(i).get(module.id)}#${groupsList.get(i).get(module.id)}">
                                                             <c:out value="${module.name}"/>,
 
                                                         </label><br>
@@ -304,7 +304,7 @@
     }
 
     function changeModules() {
-        id_discount_i = document.getElementById("students").value.split(" ", 3);
+        id_discount_i = document.getElementById("students").value.split("#", 3);
         total=0;
         payed=0;
 
@@ -331,7 +331,8 @@
 
     function isChecked(event) {
 
-        var name_fees = event.value.split(" ", 2);
+        var name_fees = event.value.split("#", 2);
+
 
         if (event.getAttribute('checked') === null) {
             event.setAttribute('checked', '');
@@ -367,7 +368,6 @@
         var originalContents = document.body.innerHTML;
 
 
-        console.log("im in print");
         document.body.innerHTML = printContents;
 
         window.print();

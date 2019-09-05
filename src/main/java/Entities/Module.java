@@ -24,7 +24,7 @@ public class Module implements Serializable {
 
 
     @Column(name = "fees")
-    private long fees;
+    private float fees;
 
     @Column(name = "deleted")
     private boolean deleted;
@@ -140,7 +140,7 @@ public class Module implements Serializable {
         this.name = name;
     }
 
-    public long getFees() {
+    public float getFees() {
         return fees;
     }
 

@@ -135,7 +135,7 @@
                                             <c:out value="${group.module.name}"/>
                                         </c:otherwise>
                                     </c:choose>
-                                   </h5>
+                                </h5>
                                 <p></p>
                             </div>
                             <div class="col-md-4">
@@ -214,7 +214,7 @@
 
 
                                         <tr bgcolor="#deb887">
-                                          <!--  <th>#</th>-->
+                                            <!--  <th>#</th>-->
                                             <th>N°</th>
                                             <th>#</th>
                                             <th>Full name</th>
@@ -353,7 +353,8 @@
                                                                 </c:choose>
 
 
-                                                                onclick="markPresence(${group.id}, ${i}, ${sessions[i].id})">Submit
+                                                                onclick="markPresence(${group.id}, ${i}, ${sessions[i].id})">
+                                                            Submit
                                                         </button>
                                                     </td>
 
@@ -394,9 +395,9 @@
                                         <label>Students</label>
 
                                         <select name="students" id="students" class="form-control select2"
-                                                style="width: 100%;">
+                                                style="width: 100%;" required>
 
-                                            <option name="empty" value="${0}" selected>
+                                            <option name="empty" value="" selected>
                                                 Select a student
                                             </option>
 
@@ -421,7 +422,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="text" name="startDate" class="form-control pull-right"
-                                                   id="datepicker">
+                                                   id="datepicker" required="required">
                                         </div>
                                     </div>
 
@@ -440,8 +441,7 @@
             </tg:forEach>
 
 
-
-                    <form role="form" method="post" action="addSessionToGroup.j?query=${group.id}">
+            <form role="form" method="post" action="addSessionToGroup.j?query=${group.id}">
 
                 <div class="modal fade" id="modal-default3">
                     <div class="modal-dialog">
@@ -462,7 +462,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="date" class="form-control pull-right" id="datepicker2">
+                                        <input type="text" name="date" class="form-control pull-right" id="datepicker2" required="required">
                                     </div>
                                 </div>
 
@@ -592,7 +592,7 @@
 
         var form = document.getElementById("session_form" + i.toString());
 
-        var action = "markPresence.j?id_group=" + id_group+"&&id_session="+id_session;
+        var action = "markPresence.j?id_group=" + id_group + "&&id_session=" + id_session;
 
         form.setAttribute("action", action);
 

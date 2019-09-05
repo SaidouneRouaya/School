@@ -292,9 +292,9 @@
                                 <div id="Student" class="form-group">
                                     <label>Modules</label>
                         <c:if test="${modules.size() gt 0}">
-                                    <select  name="modules" id="modules" class="form-control select2" style="width: 100%;" >
+                                    <select  name="modules" id="modules" class="form-control select2" style="width: 100%;" required >
 
-                                        <option name="empty" value="${0}" selected>
+                                        <option name="empty" value="" selected>
 
                                             Select a module</option>
                                         <tg:forEach begin="0" end="${modules.size()-1}"  var="i">

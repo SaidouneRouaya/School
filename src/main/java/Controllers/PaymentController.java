@@ -284,8 +284,8 @@ public class PaymentController {
 
 
         for (String module_fee : modules_fees) {
-            modules.append(module_fee.split(" ", 3)[0]).append(", ");
-            groups.add(groupOfStudentsDAO.getGroupById(Integer.parseInt(module_fee.split(" ", 3)[2])));
+            modules.append(module_fee.split("#", 3)[0]).append(", ");
+            groups.add(groupOfStudentsDAO.getGroupById(Integer.parseInt(module_fee.split("#", 3)[2])));
         }
 
         Date now= new Date();
@@ -465,7 +465,7 @@ public class PaymentController {
 
                 Staff staff = staffDAO.getStaffByID(Integer.parseInt(id_staff));
 
-                //todo the one connected
+
 
                 PaymentStaff paymentStaff = new PaymentStaff(new Date(), staff.getSalary(),
                         profile.getFamilyname()+" "+profile.getName(), staff);
@@ -482,7 +482,7 @@ public class PaymentController {
             }
 
         } else {
-            System.out.println("je suis la");
+
             return "redirect:/error.j";
         }
 
@@ -508,10 +508,10 @@ public class PaymentController {
 
                 for (String groupp : groups) {
 
-                    String id= groupp.split(" ", 5)[3];
-                    String id_session= groupp.split(" ", 5)[4];
+                    String id= groupp.split("#", 5)[3];
+                    String id_session= groupp.split("#", 5)[4];
 
-                    if(id.isEmpty()) id= groupp.split(" ", 3)[2];
+                    if(id.isEmpty()) id= groupp.split("#", 3)[2];
 
                     groupsList.append( groupOfStudentsDAO.getGroupById(Integer.parseInt(id)).getName()).append(", ");
 

@@ -123,15 +123,15 @@
                                     <div id="teacher" class="form-group">
                                         <label>Teacher</label>
                                         <select name="teachers" id="teachers"  class="form-control select2" style="width: 100%;"
-                                                onchange="changeGroup()">
-                                            <option name="empty" value="${0}" selected>
+                                                onchange="changeGroup()" required>
+                                            <option name="empty" value="" selected>
 
                                                 Select a teacher</option>
 
 
                                             <tg:forEach begin="0" end="${teachersList.size() -1}" var="i">
 
-                                                <option name="teacher" value="${teachersList[i].id} ${i}">
+                                                <option name="teacher" value="${teachersList[i].id}#${i}">
                                                     <c:out value="${teachersList[i].name}"/>
                                                     <c:out value="${teachersList[i].familyname}"/></option>
 
@@ -163,7 +163,7 @@
                                                                 <input type="checkbox" onclick="isChecked(this)"
                                                                        name="group"
                                                                        id="group"
-                                                                       value="${group.paymentType} ${sessionSalariesMap.get(sessionsOfGroup.id)} ${sessionSalariesAbsentMap.get(sessionsOfGroup.id)} ${group.id} ${sessionsOfGroup.id}"/>
+                                                                       value="${group.paymentType}#${sessionSalariesMap.get(sessionsOfGroup.id)}#${sessionSalariesAbsentMap.get(sessionsOfGroup.id)}#${group.id}#${sessionsOfGroup.id}"/>
                                                                 Session of: <c:out value="${sessionsOfGroup.startDate}"/>,
                                                             </label><br>
 
@@ -207,7 +207,7 @@
                                                     <b>Salary : </b>
                                                     <input id="salaryOfGroup" type="text" name="totalToPay"
                                                            class="col-xs-4 btn bg-navy pull-right"
-                                                           onchange="setValue(this)">
+                                                           onchange="setValue(this)" required="required">
                                                 </li>
                                             </div>
 
@@ -300,9 +300,7 @@
     var total=0 ;
     var absentTotal=0;
     var id_previous_group="groupList0";
-    var id_previous_salary="";
-    var id_previous_absent="";
-    var id_previous_toPay="salaryDiv";
+
 
 
     function  formatDate() {
@@ -331,7 +329,7 @@
 
     function changeGroup() {
 
-        var id_salary = document.getElementById("teachers").value.split(" ",2);
+        var id_salary = document.getElementById("teachers").value.split("#",2);
 
         document.getElementById(id_previous_group).style.display = 'none';
         document.getElementById("groupList"+id_salary[1]).style.display = 'block';
@@ -342,9 +340,9 @@
 
     function isChecked(event) {
 
-        var idGroup_fees_absentFees = event.value.split(" ", 5);
+        var idGroup_fees_absentFees = event.value.split("#", 5);
         var id_group = idGroup_fees_absentFees[3];
-        var id_salary = document.getElementById("teachers").value.split(" ",2);
+        var id_salary = document.getElementById("teachers").value.split("#",2);
 
         var salary= document.getElementById("salaryOfGroup").value;
 

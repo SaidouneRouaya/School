@@ -90,7 +90,7 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name of the module </label>
-                                    <input type="text"  name="name"  class="form-control" placeholder="Enter ...">
+                                    <input type="text"  name="name"  class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
 
@@ -100,13 +100,13 @@
                                     <label>Fees</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">DZD</span>
-                                        <input type="number" name="fees" class="form-control">
+                                        <input type="number" name="fees" class="form-control" required="required">
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn bg-green-gradient pull-right"   data-toggle="modal" data-target="#modal-default" >Add</button>
+                                    <button type="submit" class="btn bg-green-gradient pull-right" >Add</button>
 
                                 </div>
 

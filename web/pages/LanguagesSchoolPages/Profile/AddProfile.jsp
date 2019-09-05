@@ -96,29 +96,29 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter ...">
+                                    <input type="text" name="name" class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text" name="familyName" class="form-control" placeholder="Enter ...">
+                                    <input type="text" name="familyName" class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>UserName</label>
-                                    <input type="text" name="username" class="form-control" placeholder="Enter ...">
+                                    <input type="text" name="username" class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" name="password" class="form-control" placeholder="Enter ...">
+                                    <input type="password" name="password" class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
                                 <div class="form-group">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="Admin" >Admin
+                                            <input type="radio" name="r3" value="Admin" required="required" >Admin
                                         </label>
                                         <label>
                                             <input type="radio" name="r3"  value="Receptionist" >Receptionist

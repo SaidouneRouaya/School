@@ -98,12 +98,12 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter ...">
+                                    <input type="text" name="name" class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text" name="familyName" class="form-control" placeholder="Enter ...">
+                                    <input type="text" name="familyName" class="form-control" placeholder="Enter ..." required="required">
                                 </div>
 
                                 <!-- Phone number -->
@@ -116,7 +116,7 @@
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <input type="number" class="form-control"
-                                                name="phoneNumber">
+                                                name="phoneNumber" required="required">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -129,14 +129,14 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker">
+                                        <input type="text" name="employmentDate" class="form-control pull-right" id="datepicker" required="required">
                                     </div>
                                 </div>
 
                                 <!-- job -->
                                        <div class="form-group">
                                         <label>Job</label>
-                                        <input type="text" name="job" class="form-control" placeholder="Enter the job name ...">
+                                        <input type="text" name="job" class="form-control" placeholder="Enter the job name ..." required="required">
                                     </div>
 
 
@@ -146,7 +146,7 @@
                                     <label>Salary</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">DZD</span>
-                                        <input name="salary" type="text" class="form-control">
+                                        <input name="salary" type="text" class="form-control" required="required">
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                 </div>

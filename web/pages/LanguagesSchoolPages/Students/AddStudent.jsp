@@ -128,12 +128,12 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="name"  placeholder="Enter name ...">
+                                    <input type="text" class="form-control" name="name"  placeholder="Enter name ..." required="required">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Family name</label>
-                                    <input type="text" class="form-control" name="familyName" placeholder="Enter family name ...">
+                                    <input type="text" class="form-control" name="familyName" placeholder="Enter family name ..." required="required">
                                 </div>
 
                                 <!-- Phone number -->
@@ -147,7 +147,7 @@
                                         </div>
 
                                             <input type="number" class="form-control"
-                                                    name="phoneNumber1">
+                                                    name="phoneNumber1" required="required">
 
                                     </div>
 
@@ -160,7 +160,7 @@
                                         </div>
 
                                             <input type="number" class="form-control"
-                                                  name="phoneNumber2">
+                                                  name="phoneNumber2" required="required">
 
                                     </div>
 
@@ -174,7 +174,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <label for="datepicker"></label><input type="text" class="form-control pull-right" name="subscriptionDate" id="datepicker">
+                                        <label for="datepicker"></label><input type="text" class="form-control pull-right" name="subscriptionDate" id="datepicker" required="required">
                                     </div>
                                 </div>
 
@@ -182,7 +182,7 @@
                                 <div class="form-group">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="free" >Free
+                                            <input type="radio" name="r3" value="free" required="required">Free
                                         </label>
                                         <label>
                                             <input type="radio" name="r3"  value="payee" >Payee

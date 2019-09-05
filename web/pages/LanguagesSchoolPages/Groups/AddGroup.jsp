@@ -109,8 +109,8 @@
                                 <!-- select Module -->
                                 <div class="form-group">
                                     <label>Module</label>
-                                    <select name="modules" id="modules" class="form-control"  onchange="changeStudents()"  >
-                                        <option name="empty" value="${0}" selected>
+                                    <select name="modules" id="modules" class="form-control"  onchange="changeStudents()" required >
+                                        <option name="empty" value="" selected>
 
                                             Select a module</option>
 
@@ -131,7 +131,7 @@
 
                                     <tg:forEach var="entry" items="${teacherList.entrySet()}">
                                         <select name="teachers" id="teacherList${entry.key}"
-                                                class="form-control" style="display: none" >
+                                                class="form-control" style="display: none" required>
 
 
                                             <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
@@ -153,7 +153,7 @@
                                     <label>Fees (unit price) </label>
                                     <div class="input-group">
                                         <span class="input-group-addon">DZD</span>
-                                        <input type="number" name="fees" class="form-control">
+                                        <input type="number" name="fees" class="form-control" required="required">
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@
 
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="r3" value="Hour"  >Per hour
+                                            <input type="radio" name="r3" value="Hour" required="required" >Per hour
                                         </label>
                                     </div>
                                     <div class="radio">
@@ -235,7 +235,7 @@
 
                                         <tg:forEach var="entry" items="${studentList.entrySet()}">
                                             <select name="studentsList" id="studentsList${entry.key}" multiple=""
-                                                    class="form-control" style="display: none" >
+                                                    class="form-control" style="display: none" required>
 
                                                 <tg:forEach begin="0" end="${entry.value.size() -1}" var="i">
 

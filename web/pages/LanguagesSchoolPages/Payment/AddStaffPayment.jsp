@@ -117,16 +117,16 @@
                                     <div id="student" class="form-group">
                                         <label>Staff</label>
                                         <select class="form-control select2" name="staffs"  onchange="changeSalary()"
-                                                id="staffs" style="width: 100%;">
+                                                id="staffs" style="width: 100%;" required>
 
 
-                                            <option name="empty" value="${0}" selected>
+                                            <option name="empty" value="" selected>
 
                                                 Select a staff</option>
 
                                             <tg:forEach begin="0" end="${staffList.size() -1}" var="i">
 
-                                                <option name="staff" value="${staffList[i].id} ${staffList[i].salary}">
+                                                <option name="staff" value="${staffList[i].id}#${staffList[i].salary}">
                                                     <c:out value="${staffList[i].name}"/>
                                                     <c:out value="${staffList[i].familyname}"/></option>
 
@@ -236,7 +236,7 @@
 
     function changeSalary() {
 
-        var id_salary = document.getElementById("staffs").value.split(" ",2);
+        var id_salary = document.getElementById("staffs").value.split("#",2);
 
 
         document.getElementById("salary").innerHTML = "Salary : "+ id_salary[1] + " 0 DZD";
@@ -255,7 +255,7 @@
         var originalContents = document.body.innerHTML;
 
 
-        console.log("im in print");
+
         document.body.innerHTML = printContents;
 
         window.print();
