@@ -103,6 +103,7 @@ public class GroupOfStudents implements Serializable {
     public GroupOfStudents(String name, String startDate, String paymentType, String startTime, String endTime, float fees, Module module, Teacher teacher) {
         this.name = name;
         this.startDate = utilities.formatDate(startDate);
+        System.out.println( this.startDate );
         this.paymentType = paymentType;
         this.numberSessions =1;
         this.startTime = utilities.formatTime(startTime);
@@ -140,6 +141,15 @@ public class GroupOfStudents implements Serializable {
     public void updateGroup(GroupOfStudents groupOfStudentsNew) {
 
         if(groupOfStudentsNew.getTeacher()!=null){ this.teacher = groupOfStudentsNew.getTeacher(); }
+        if(groupOfStudentsNew.getModule()!=null) this.module= groupOfStudentsNew.getModule();
+        if(groupOfStudentsNew.getName()!=null) this.name = groupOfStudentsNew.getName();
+        if(groupOfStudentsNew.getNumberSessions()!=0) this.numberSessions = groupOfStudentsNew.getNumberSessions();
+        if(groupOfStudentsNew.getPaymentType ()!=null) this.paymentType = groupOfStudentsNew.getPaymentType();
+        if(groupOfStudentsNew.getPaymentStudentSet ()!=null) this.paymentStudentSet = groupOfStudentsNew.getPaymentStudentSet();
+    }
+  public void updateGroupTeacher(GroupOfStudents groupOfStudentsNew) {
+
+       this.teacher = groupOfStudentsNew.getTeacher();
         if(groupOfStudentsNew.getModule()!=null) this.module= groupOfStudentsNew.getModule();
         if(groupOfStudentsNew.getName()!=null) this.name = groupOfStudentsNew.getName();
         if(groupOfStudentsNew.getNumberSessions()!=0) this.numberSessions = groupOfStudentsNew.getNumberSessions();
@@ -251,21 +261,6 @@ public class GroupOfStudents implements Serializable {
     }
 
 
-    /*public boolean removeStudent(int id_student){
-
-        Iterator<Student> it= this.studentsSet.iterator();
-        boolean bool= false;
-
-        while (it.hasNext() && !bool)
-        {
-            Student student= it.next();
-
-            if(bool= (student.getId()==id_student)){
-                this.getStudentsSet().remove(student);
-            }
-        }
-        return bool;
-    }*/
 
     public String getTime(Date time) {
 
@@ -297,5 +292,19 @@ public class GroupOfStudents implements Serializable {
 
     }
 
+
+
+    public boolean started (){
+
+      SessionOfGroup sessionOfGroup=  this.getLatestSession();
+
+      if( sessionOfGroup==null || sessionOfGroup.getSeancesSet()==null || sessionOfGroup.getSeancesSet().size()==0) return false;
+
+      for (Seance seance: sessionOfGroup.getSeancesSet()){
+
+          if (seance.getDate()!=null) return false;
+      }
+        return true;
+    }
 
 }

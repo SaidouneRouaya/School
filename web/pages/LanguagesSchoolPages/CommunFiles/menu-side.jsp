@@ -41,7 +41,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="addGroup.j"><i class="fa fa-circle-o"></i>Add new group</a></li>
-                    <li><a href="Groups.j"><i class="fa fa-circle-o"></i>Groups list</a></li>
+                    <li><a href="Groups.j?home=1"><i class="fa fa-circle-o"></i>Groups list</a></li>
                     <li><a href="GroupsByModule.j"><i class="fa fa-circle-o"></i>Groups by module</a></li>
                 </ul>
             </li>

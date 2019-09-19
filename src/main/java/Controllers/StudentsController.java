@@ -122,8 +122,9 @@ public class StudentsController {
 
         String error = "";
 
-        if (home.equals("true")){
-            return ("redirect:Home.j");
+        if (home.equals("group")){
+            return ("redirect:/Groups.j?home=true");
+
         }
 
         List<Student> studentsList=studentDAO.getAllStudents();

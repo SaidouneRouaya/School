@@ -377,5 +377,18 @@ public class Student  implements Serializable {
        else return new StudentSession();
 
     }
+    public StudentSession getSessionByID (SessionOfGroup session){
+
+        Iterator<StudentSession> it= studentSessionsSet.iterator();
+
+       if (it.hasNext()) {
+           StudentSession s=it.next();
+
+           if (s.getSession().getId()==session.getId())  return s ;
+           else return null;
+       }
+       else return null;
+
+    }
 
 }

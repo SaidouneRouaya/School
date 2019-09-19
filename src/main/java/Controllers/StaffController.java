@@ -405,7 +405,7 @@ public class StaffController {
 
                 for (GroupOfStudents group : groups) {
                     group.setTeacher(null);
-                    groupsDAO.updateGroup(group.getId(), group);
+                    groupsDAO.updateGroupTeacher(group.getId(), group);
                 }
 
                 for (Module modulee: modules){

@@ -135,7 +135,7 @@ public class TeacherImpl implements TeacherDAO{
 
              Hibernate.initialize(teacher.getTeacherModulesSet());
              Hibernate.initialize(teacher.getPaymentTeacherSet());
-           Hibernate.initialize(teacher.getGroupsSet());
+             Hibernate.initialize(teacher.getGroupsSet());
 
            for (GroupOfStudents group:teacher.getGroupsSet() ){
 

@@ -17,16 +17,16 @@ public class utilities {
 
         if (date==null ) return null;
         Map<Pattern, DateFormat> dateFormatPatterns = new HashMap<Pattern, DateFormat>();
-        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})-((0|1|2)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("MM-dd-yyyy"));
-        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})/((0|1|2)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("MM/dd/yyyy"));
+        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})-((0|1|2|3)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("MM-dd-yyyy"));
+        dateFormatPatterns.put(Pattern.compile("^((0|1)\\d{1})/((0|1|2|3)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("MM/dd/yyyy"));
 
-        dateFormatPatterns.put(Pattern.compile("^((0|1|2)\\d{1})-((0|1)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("dd-MM-yyyy"));
-        dateFormatPatterns.put(Pattern.compile("^((0|1|2)\\d{1})/((0|1)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("dd/MM/yyyy"));
+        dateFormatPatterns.put(Pattern.compile("^((0|1|2|3)\\d{1})-((0|1)\\d{1})-((20)\\d{2})"), new SimpleDateFormat("dd-MM-yyyy"));
+        dateFormatPatterns.put(Pattern.compile("^((0|1|2|3)\\d{1})/((0|1)\\d{1})/((20)\\d{2})"), new SimpleDateFormat("dd/MM/yyyy"));
 
-        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy-MM-dd"));
-        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})/((0|1)\\d{1})/((0|1|2)\\d{1})"), new SimpleDateFormat("yyyy/MM/dd"));
+        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2|3)\\d{1})"), new SimpleDateFormat("yyyy-MM-dd"));
+        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})/((0|1)\\d{1})/((0|1|2|3)\\d{1})"), new SimpleDateFormat("yyyy/MM/dd"));
 
-        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2)\\d{1}) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9]).([0-9])$"),  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"));
+        dateFormatPatterns.put(Pattern.compile("^((20)\\d{2})-((0|1)\\d{1})-((0|1|2|3)\\d{1}) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9]).([0-9])$"),  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"));
 
         Date finalDate=null;
         try{

@@ -5,9 +5,7 @@ import Entities.*;
 import Entities.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.text.DateFormat;
@@ -17,6 +15,7 @@ import java.util.*;
 
 @org.springframework.stereotype.Controller
 
+@SessionAttributes("groupOfStudentsList")
 public class GroupsController {
 
 
@@ -41,14 +40,49 @@ public class GroupsController {
     @Autowired
     SeanceDAO seanceDAO;
 
+
+
+
+    @ModelAttribute("sessionUser")
+    public void setUpUserForm(Model model) {
+        groupOfStudentsList=groupsMoreThen5();
+
+        model.addAttribute("groupOfStudentsList", groupOfStudentsList);
+    }
+
+
+    private List<GroupOfStudents> groupOfStudentsList;
+
+    public List<GroupOfStudents>  groupsMoreThen5(){
+
+        List<GroupOfStudents> groups=groupOfStudentsDAO.getAllGroups();
+
+        List<GroupOfStudents> groupsMoreThen5 = new ArrayList<>();
+
+        for (GroupOfStudents group:groups){
+
+            if ( (group.getLatestSession().getStudentSessionsSet().size()>=5) &&
+                    ( group.started()) ){
+
+                groupsMoreThen5.add(group);
+            }
+        }
+        return groupsMoreThen5;
+    }
+
+
     @RequestMapping("/Groups")
-    public String pageAccueil(Model model, @SessionAttribute ("sessionUser") Profile profile) {
+    public String pageAccueil(Model model, @SessionAttribute ("sessionUser") Profile profile, @RequestParam String home) {
 
         String error = "";
 
+        if (home.equals("true")){
+            return ("redirect:Home.j");
+        }
 
         model.addAttribute("profile", profile);
         List<GroupOfStudents> groups = groupOfStudentsDAO.getAllGroups();
+
 
         if (groups==null ||groups.isEmpty()) return ("redirect:/empty.j");
 
@@ -213,19 +247,11 @@ public class GroupsController {
 
         for (int i=0; i<numberOfSeances; i++){
 
-
             Seance seance;
+            seance=new Seance(null, sessionOfGroup);
 
-                seance=new Seance(null, sessionOfGroup);
-
-
-
-                // add seances to session
-            sessionOfGroup
-                    .getSeancesSet()
-                    .add(seance);
-
-
+            // add seances to session
+            sessionOfGroup.getSeancesSet().add(seance);
             seancesList.add(seance);
 
         }
@@ -236,13 +262,26 @@ public class GroupsController {
             studentSet.add(student);
         }
 
+        // Group creation
+        GroupOfStudents groupOfStudents;
+        if ( param.get("r3") ==null ){
 
-        GroupOfStudents groupOfStudents = new GroupOfStudents(
-                param.get("name"),
-                param.get("startDate"),
-                param.get("r3"), param.get("startTime"), param.get("endTime"),
-                Float.parseFloat(param.get("fees")), moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
-                teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))));
+            System.out.println( param.get("startDate"));
+                 groupOfStudents = new GroupOfStudents(
+                        param.get("name"),
+                        param.get("startDate"),
+                        param.get("r3"), param.get("startTime"), param.get("endTime"),
+                        0, moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
+                        teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))));
+
+            }else {
+             groupOfStudents  = new GroupOfStudents(
+                        param.get("name"),
+                        param.get("startDate"),
+                        param.get("r3"), param.get("startTime"), param.get("endTime"),
+                        Float.parseFloat(param.get("fees")), moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
+                        teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))));
+            }
 
 
         // creation de la relation session student
@@ -278,7 +317,7 @@ public class GroupsController {
 
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
-        return "redirect:Groups.j";
+        return "redirect:Groups.j?home=1";
     }
 
     @RequestMapping("/updateGroup")
@@ -360,7 +399,6 @@ public class GroupsController {
         model.addAttribute("error", error);
         return "redirect:GroupDetails.j?id_group="+query;
     }
-
 
     @RequestMapping("/addSessionToGroup")
     public String addSessionToGroup(Model model, @RequestParam String query, @RequestParam String date, @RequestParam String seancesNumber, @SessionAttribute ("sessionUser") Profile profile){
@@ -452,8 +490,6 @@ public class GroupsController {
         return "redirect:GroupDetails.j?id_group="+query;
     }
 
-
-
     @RequestMapping("/deleteGroup")
     public String deleteGroup(Model model, @RequestParam String query, @SessionAttribute ("sessionUser") Profile profile){
 
@@ -491,10 +527,9 @@ public class GroupsController {
         model.addAttribute("profile", profile);
         model.addAttribute("error", error);
 
-        return "redirect:Groups.j";
+        return "redirect:Groups.j?home=1";
 
     }
-
 
     @RequestMapping("/deleteStudentFromSession")
     public String deleteStudentFromSession(Model model, @RequestParam String query, @RequestParam String id_session,  @RequestParam String group,@SessionAttribute("sessionUser") Profile profile) {
@@ -514,9 +549,6 @@ public class GroupsController {
         return "redirect:GroupDetails.j?id_group="+group;
 
     }
-
-
-
 
     @RequestMapping("/markPresence.j")
     public String markPresence ( @RequestParam String sess, @RequestParam String id_group, @RequestParam String id_session, @SessionAttribute ("sessionUser") Profile profile){

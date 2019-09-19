@@ -149,28 +149,42 @@
                                 </div>
 
 
-                                <div class="form-group">
-                                    <label>Fees (unit price) </label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">DZD</span>
-                                        <input type="number" name="fees" class="form-control" required="required">
-                                        <span class="input-group-addon">.00</span>
-                                    </div>
-                                </div>
-                                <!-- radio -->
-                                <div class="form-group" >
 
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" value="Hour" required="required" >Per hour
-                                        </label>
+
+                                <c:if test="${profile.type eq 'Admin'}">
+
+                                    <div class="form-group">
+                                        <label>Fees (unit price) </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">DZD</span>
+                                            <input type="number" name="fees" class="form-control" required="required">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
                                     </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="r3" value="Student" >Per student present
-                                        </label>
+                                    <!-- radio -->
+                                    <div class="form-group" >
+
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="r3" value="Hour" required="required" >Per hour
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="r3" value="Student" >Per student present
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
+
+                                </c:if>
+
+                                <c:if test="${profile.type eq 'Receptionist'}">
+
+                                </c:if>
+
+
+
+
 
                                 <!-- Subscritption date -->
                                 <div class="form-group">
@@ -278,7 +292,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <a href="Groups.j" class="btn bg-green  pull-right">Save changes</a>
+                            <a href="Groups.j?home=1" class="btn bg-green  pull-right">Save changes</a>
                         </div>
                     </div>
                     <!-- /.modal-content -->

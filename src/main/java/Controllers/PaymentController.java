@@ -222,10 +222,9 @@ public class PaymentController {
             for (Module module : modules) {
                 float fee = 0;
                 GroupOfStudents groupp = student.getGroupOfModule(module);
-
+                System.out.println("module : "+module.getName());
 
                 if (groupp != null) {
-
                     GroupOfStudents group = groupOfStudentsDAO.getGroupById(groupp.getId());
                     SessionOfGroup session = group.getLatestSession();
                     int numberSeances = session.getNumberOfSeances();
@@ -233,22 +232,27 @@ public class PaymentController {
                     // represents number of seances that this student won't have
                     int numberSeancesOfStudent = 0;
 
+                    //for (Seance seance : session.getSeancesSet()) {
+
                     for (Seance seance : session.getSeancesSet()) {
 
-                        if (seance.getDate() != null && session.getStartDate().before(seance.getDate())) {
+                      //  System.out.println("etudiant "+student.getName()+ " date de debut dans la session "+ student.getSessionByID(session).getStartDate());
+                        if (seance.getDate() != null &&
+                                seance.getDate().before(student.getSessionByID(session).getStartDate()))
+
+                        {
+
                             numberSeancesOfStudent++;
                         }
                     }
+                    //System.out.println("number of seances "+numberSeancesOfStudent);
+                   // System.out.println("number of seances that student will pay for "+(numberSeances-numberSeancesOfStudent));
 
                     // fees * number of seances that this student will have starting from his start date in this session
-
                     fee = (module.getFees() / (float) numberSeances) * (numberSeances - numberSeancesOfStudent);
-
                     groups.put(module.getId(), group.getId());
 
-
                 } else {
-
                     fee = module.getFees();
                 }
                 fees.put(module.getId(), fee);

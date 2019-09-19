@@ -123,7 +123,8 @@ public class Controller {
 
         model.addAttribute("error", error);
 
-        return "redirect:/Students.j?home=true";
+      //  return "redirect:/Students.j?home=group";
+        return "redirect:/Students.j?home=group";
     }
     @RequestMapping("/Home")
     public String Home(Model model, @SessionAttribute("sessionUser") Profile profile) {

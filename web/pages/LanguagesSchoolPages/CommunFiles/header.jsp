@@ -40,13 +40,29 @@
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
+                        <span class="label label-warning"><c:out value="${groupOfStudentsList.size()}"/></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
-                        <li>
-                            <!-- inner menu: contains the actual data -->
-                        </li>
+                        <li class="header">You have <c:out value="${groupOfStudentsList.size()}"/> notifications</li>
+
+                        <c:if test="${groupOfStudentsList.size() gt 0}">
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+
+                                    <tg:forEach begin="0" end="${groupOfStudentsList.size() -1}" var="i">
+
+                                        <li>
+                                            <a href="GroupDetails.j?id_group=${groupOfStudentsList[i].id}">
+                                                <i class="fa fa-users text-aqua"></i> <c:out
+                                                    value="${groupOfStudentsList[i].name}"/>
+                                            </a>
+                                        </li>
+
+                                    </tg:forEach>
+                                </ul>
+                            </li>
+                        </c:if>
                         <li class="footer"><a href="#">View all</a></li>
                     </ul>
                 </li>
