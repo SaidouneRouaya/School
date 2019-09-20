@@ -166,6 +166,16 @@ public class Controller {
         return "LanguagesSchoolPages/empty";
     }
 
+    @RequestMapping("/groupFees")
+    public String groupFees(Model model, @SessionAttribute("sessionUser") Profile profile) {
+
+        String error = "";
+        System.out.println("im in group fees");
+
+        model.addAttribute("error", error);
+        return "LanguagesSchoolPages/groupFees";
+    }
+
 
 
 }

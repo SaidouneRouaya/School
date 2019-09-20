@@ -266,12 +266,12 @@ public class GroupsController {
         GroupOfStudents groupOfStudents;
         if ( param.get("r3") ==null ){
 
-            System.out.println( param.get("startDate"));
+
                  groupOfStudents = new GroupOfStudents(
                         param.get("name"),
                         param.get("startDate"),
                         param.get("r3"), param.get("startTime"), param.get("endTime"),
-                        0, moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
+                        0f, moduleDAO.getModuleByID(Integer.parseInt(param.get("modules"))),
                         teacherDAO.getTeacherByID(Integer.parseInt(param.get("teachers"))));
 
             }else {
@@ -376,16 +376,16 @@ public class GroupsController {
                     teacher = teacherDAO.getTeacherByID(id_teacher);
                     module= moduleDAO.getModuleByID(id_module);
 
-                    group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")), teacher, module);
+                    group=new GroupOfStudents(param.get("name"), param.get("r3"), Float.parseFloat(param.get("fees")), Integer.parseInt(param.get("sessionNumber")), teacher, module);
 
                 }else{
                     teacher = teacherDAO.getTeacherByID(id_teacher);
-                    group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")), teacher);
+
+                    group=new GroupOfStudents(param.get("name"), param.get("r3"), Float.parseFloat(param.get("fees")),  Integer.parseInt(param.get("sessionNumber")), teacher);
                 }
             }else
             {
-                group=new GroupOfStudents(param.get("name"), param.get("r3"), Integer.parseInt(param.get("sessionNumber")));
-
+                group=new GroupOfStudents(param.get("name"), param.get("r3"), Float.parseFloat(param.get("fees")),  Integer.parseInt(param.get("sessionNumber")));
             }
 
             groupOfStudentsDAO.updateGroup(Integer.parseInt(query), group);

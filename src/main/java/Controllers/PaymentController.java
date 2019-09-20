@@ -339,6 +339,14 @@ public class PaymentController {
                 List<Teacher> teachersList = teacherDAO.getAllTeachers();
                 if (teachersList==null || teachersList.isEmpty()) return ("redirect:/empty.j");
 
+                // return to group list
+                ArrayList<GroupOfStudents> g= (ArrayList<GroupOfStudents>) groupOfStudentsDAO.getGroupsWithoutFees ();
+                System.out.println(g.size());
+                if (g.size()>0){
+
+                    return ("redirect:/groupFees.j");
+                }
+
 
                 List<HashSet<GroupOfStudents>> groupsList = new ArrayList<>();
                 Map<Integer, List<SessionOfGroup>> group_sessions = new HashMap<>();

@@ -115,23 +115,26 @@ public class GroupOfStudents implements Serializable {
         this.fees= fees;
     }
 
-    public GroupOfStudents(String name, String paymentType, int numberSessions) {
+    public GroupOfStudents(String name, String paymentType,float fees , int numberSessions) {
         this.name = name;
         this.paymentType = paymentType;
+        this.fees=fees;
         this.numberSessions = numberSessions;
 
         this.sessionOfGroupsSet = new HashSet<>();
     }
-    public GroupOfStudents(String name, String paymentType, int numberSessions, Teacher teacher) {
+    public GroupOfStudents(String name, String paymentType, float fees ,int numberSessions, Teacher teacher) {
         this.name = name;
         this.paymentType = paymentType;
+        this.fees=fees;
         this.numberSessions = numberSessions;
         this.teacher = teacher;
         this.sessionOfGroupsSet = new HashSet<>();
     }
-    public GroupOfStudents(String name, String paymentType, int numberSessions, Teacher teacher, Module module) {
+    public GroupOfStudents(String name, String paymentType,float fees , int numberSessions, Teacher teacher, Module module) {
         this.name = name;
         this.paymentType = paymentType;
+        this.fees=fees;
         this.numberSessions = numberSessions;
         this.teacher = teacher;
         this.module=module;
@@ -143,6 +146,7 @@ public class GroupOfStudents implements Serializable {
         if(groupOfStudentsNew.getTeacher()!=null){ this.teacher = groupOfStudentsNew.getTeacher(); }
         if(groupOfStudentsNew.getModule()!=null) this.module= groupOfStudentsNew.getModule();
         if(groupOfStudentsNew.getName()!=null) this.name = groupOfStudentsNew.getName();
+        if(groupOfStudentsNew.getFees()!=0f) this.fees = groupOfStudentsNew.getFees();
         if(groupOfStudentsNew.getNumberSessions()!=0) this.numberSessions = groupOfStudentsNew.getNumberSessions();
         if(groupOfStudentsNew.getPaymentType ()!=null) this.paymentType = groupOfStudentsNew.getPaymentType();
         if(groupOfStudentsNew.getPaymentStudentSet ()!=null) this.paymentStudentSet = groupOfStudentsNew.getPaymentStudentSet();
@@ -152,6 +156,7 @@ public class GroupOfStudents implements Serializable {
        this.teacher = groupOfStudentsNew.getTeacher();
         if(groupOfStudentsNew.getModule()!=null) this.module= groupOfStudentsNew.getModule();
         if(groupOfStudentsNew.getName()!=null) this.name = groupOfStudentsNew.getName();
+      if(groupOfStudentsNew.getFees()!=0f) this.fees = groupOfStudentsNew.getFees();
         if(groupOfStudentsNew.getNumberSessions()!=0) this.numberSessions = groupOfStudentsNew.getNumberSessions();
         if(groupOfStudentsNew.getPaymentType ()!=null) this.paymentType = groupOfStudentsNew.getPaymentType();
         if(groupOfStudentsNew.getPaymentStudentSet ()!=null) this.paymentStudentSet = groupOfStudentsNew.getPaymentStudentSet();

@@ -315,6 +315,53 @@ public class GroupOfStudentsImpl implements GroupOfStudentsDAO {
         return results;
     }
 
+
+
+        @Override
+    public List<GroupOfStudents> getGroupsWithoutFees () {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<GroupOfStudents> results = null;
+
+
+        try {
+            tx = session.beginTransaction();
+
+            results = session.createCriteria(GroupOfStudents.class)
+                    .add(Restrictions.eq("deleted", false))
+                 //   .add(Restrictions.eq("paymentType", null))
+                   .add(Restrictions.eq("fees", 0f))
+
+                    .list();
+
+
+            if (results == null || results.isEmpty()) return results;
+
+        /*  for (GroupOfStudents groupOfStudents : results) {
+                if (groupOfStudents != null) {
+                    Hibernate.initialize(groupOfStudents.getModule());
+                    Hibernate.initialize(groupOfStudents.getTeacher());
+                    Hibernate.initialize(groupOfStudents.getSessionOfGroupsSet());
+                    Hibernate.initialize(groupOfStudents.getPaymentStudentSet());
+                    Hibernate.initialize((groupOfStudents.getPaymentStudentSet()));
+                }
+
+            }*/
+
+            tx.commit();
+
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return results;
+    }
+
+
+
     public List<GroupOfStudents> getGroupsOfNullModules() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;

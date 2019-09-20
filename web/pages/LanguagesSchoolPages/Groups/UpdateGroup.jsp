@@ -108,25 +108,41 @@
                                         <input type="text"  name="name"  id="name"  value="${group.name}" class="form-control">
                                     </div>
 
+                                    <c:if test="${profile.type eq 'Admin'}">
 
-                                    <!-- radio -->
-                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Fees (unit price) </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">DZD</span>
+                                                <input type="number" name="fees" class="form-control" value="${group.fees}">
+                                                <span class="input-group-addon">.00</span>
+                                            </div>
+                                        </div>
+                                        <!-- radio -->
+                                        <div class="form-group">
 
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="r3" value="Hour" <c:if test="${group.paymentType eq 'Hour'}">
-                                                       checked
-                                                </c:if>>Per hours
-                                            </label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="r3" value="Hour" <c:if test="${group.paymentType eq 'Hour'}">
+                                                           checked
+                                                    </c:if>>Per hours
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="r3" value="Student"  <c:if test="${group.paymentType eq 'Student'}">
+                                                           checked
+                                                    </c:if>>Per student present
+                                                </label>
+                                            </div>
                                         </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="r3" value="Student"  <c:if test="${group.paymentType eq 'Student'}">
-                                                       checked
-                                                </c:if>>Per student present
-                                            </label>
-                                        </div>
-                                    </div>
+
+                                    </c:if>
+
+                                    <c:if test="${profile.type eq 'Receptionist'}">
+
+                                    </c:if>
+
 
                                     <!-- Session -->
                                     <div class="form-group">
